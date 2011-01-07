@@ -1,0 +1,86 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;}
+body{line-height:1;font-family:Georgia;}
+ol,ul{list-style: none;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+:focus{outline:0;}
+ins{text-decoration:none;}
+del{text-decoration: line-through;}
+table{border-collapse:collapse;border-spacing:0;}
+
+#wrapper {
+margin: 10px;
+}
+
+#secluded-login, #secluded-invite {
+width: 223px;
+}
+
+#secluded-register {
+width: 249px !important;
+}
+
+#secluded-register label {
+width: 100px;
+}
+
+#secluded-login, #secluded-invite, #secluded-register {
+margin: 0 10px 10px 0;
+border: solid 1px #AAAAAA;
+background: #DDDDDD;
+padding: 5px;
+font-size: 14px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+}
+
+#secluded-login h4, #secluded-invite h4, #secluded-register h4 {
+margin-bottom: 3px;
+padding-bottom: 3px;
+border-bottom: solid 1px #AAAAAA;
+}
+
+#secluded-invite p {
+margin-bottom: 10px;
+padding-left: 5px;
+}
+
+.secluded-input {
+margin: 2px 0;
+padding: 2px 0;
+}
+
+.secluded-input label {
+float: left;
+display: block;
+width: 74px;
+line-height: 18px;
+padding: 0 10px 0 0;
+text-align: right;
+}
+
+.secluded-input input {
+width: 130px;
+border: solid 1px #AAAAAA;
+}
+
+.secluded-submit {
+text-align: right;
+padding: 5px;
+}
+
+#error {
+background: #FFEEEE;
+font-size: 12px;
+padding: 10px;
+margin-bottom: 10px;
+color: #AA4444;
+}
+
+#confirmation {
+background: #EEFFEE;
+font-size: 12px;
+padding: 10px;
+margin-bottom: 10px;
+color: #44AA44;
+}

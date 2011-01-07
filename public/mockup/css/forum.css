@@ -1,0 +1,135 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;}
+body{line-height:1;font-family:Georgia;}
+ol,ul{list-style: none;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+:focus{outline:0;}
+ins{text-decoration:none;}
+del{text-decoration: line-through;}
+table{border-collapse:collapse;border-spacing:0;}
+
+#wrapper {
+width: 99%;
+margin: 0 auto;
+}
+
+#top {
+padding: 20px 0 2px 0;
+margin: 0 0 10px 0;
+}
+
+#middle {}
+
+#left-column {
+float: left;
+width: 200px;
+min-height: 200px;
+}
+
+#left-column .lc-node {
+margin: 0 0 2px 0;
+padding: 4px;
+border: solid 1px #EEEEEE;
+font-size: 12px;
+}
+
+#left-column ul li {
+padding: 2px 0 2px 3px;
+font-size: 11px;
+}
+
+#new-thread {
+padding: 4px !important;
+text-align: center;
+}
+
+#buddy-list div {padding: 0 0 0 2px;}
+#buddy-list div span {font-size: 11px;}
+
+#right-column {
+margin: 0 0 0 210px;
+}
+
+#main-title {
+font-size: 24px;
+padding: 23px 0 6px 0;
+/*border-bottom: solid 1px #999999;*/
+}
+
+.pagination {
+border-style: solid;
+border-color: #EEEEEE;
+border-width: 1px 0;
+padding: 2px;
+font-size: 11px;
+line-height: 22px;
+}
+
+.pagination.top {margin-bottom: 7px;}
+
+.pagination ul li {
+display: inline;
+background: #EEEEEE;
+padding: 2px 3px;
+}
+
+.thread {
+background: #CCC;
+margin-bottom: 3px;
+min-height: 36px;
+}
+
+.thread .one, .thread .two, .thread .three, .thread .four, .thread .five{
+float: left;
+}
+
+.thread .one, .thread .two, .thread .three {
+padding: 6px 0 0 0;
+}
+
+.thread .one {
+width: 52%;
+}
+
+.thread .two, .thread .three {
+width: 15%;
+}
+
+.thread .four {
+width: 12%;
+text-align: center;
+}
+
+.thread .five {
+width: 6%;
+text-align: right;
+}
+
+.thread .five span {
+margin-right: 8px;
+}
+
+.thread .subject, .thread .category {
+margin-left: 5px;
+}
+
+.thread .subject, .thread .username {
+font-size: 14px;
+}
+
+.thread .time, .thread .category {
+font-size: 10px;
+color: #888888;
+}
+
+.thread .four, .thread .five {
+line-height: 36px;
+/*padding: 0 10px;*/
+}
+
+#bottom {
+text-align: center;
+padding: 30px 0 10px 0;
+font-size: 11px;
+color: #999999;
+}
