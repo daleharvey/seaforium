@@ -2,7 +2,8 @@
 SQLyog Enterprise - MySQL GUI v7.02 
 MySQL - 5.1.46-community : Database - forum
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -56,10 +57,6 @@ CREATE TABLE `sessions` (
   PRIMARY KEY (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-/*Data for the table `sessions` */
-
-insert  into `sessions`(`session_id`,`ip_address`,`user_agent`,`last_activity`,`user_data`) values ('db7cb39e957acd0ae628cc3a47a1ebe0','127.0.0.1','Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) Ap',1294336849,'a:5:{s:7:\"user_id\";s:1:\"1\";s:8:\"username\";s:6:\"Castis\";s:6:\"status\";s:1:\"1\";s:13:\"threads_shown\";s:3:\"100\";s:14:\"comments_shown\";s:2:\"50\";}');
-
 /*Table structure for table `threads` */
 
 DROP TABLE IF EXISTS `threads`;
@@ -91,7 +88,7 @@ CREATE TABLE `titles` (
 
 /*Data for the table `titles` */
 
-insert  into `titles`(`title_id`,`title_text`,`author_id`) values (1,'Testing!',1),(2,'Another Test!',1);
+insert  into `titles`(`title_id`,`title_text`,`author_id`) values (1,'Title',1);
 
 /*Table structure for table `user_autologin` */
 
@@ -105,10 +102,6 @@ CREATE TABLE `user_autologin` (
   `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`key_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
-/*Data for the table `user_autologin` */
-
-insert  into `user_autologin`(`key_id`,`user_id`,`user_agent`,`last_ip`,`last_login`) values ('82bdb273d41af96b30d7182780a8738f',1,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.13) Gecko/20101203 Firefox/3.6.13','127.0.0.1','2011-01-05 23:50:40'),('87822038be3ac981709e03fabb33adc2',1,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.13 (KHTML, like Gecko) Chrome/9.0.597.19 Safari/534.13','127.0.0.1','2011-01-06 12:52:38'),('a646143e7cec6213ac2f2a0f746f08ce',34,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.13 (KHTML, like Gecko) Chrome/9.0.597.19 Safari/534.13','127.0.0.1','2011-01-05 21:56:40'),('d5a7301111371181f8c7b04aa5d6a4d6',0,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.13 (KHTML, like Gecko) Chrome/9.0.597.19 Safari/534.13','127.0.0.1','2011-01-05 21:38:52');
 
 /*Table structure for table `user_profiles` */
 
@@ -168,10 +161,6 @@ CREATE TABLE `yh_invites` (
   `used` enum('0','1') DEFAULT '0',
   PRIMARY KEY (`invite_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `yh_invites` */
-
-insert  into `yh_invites`(`invite_id`,`yh_username`,`created`,`used`) values ('FqlEaVJQkuH1weTGrWTdgRqqsbsRvQxD','castis','2011-01-05 22:32:21','1'),('I6Ye5gZhrFBGMa5xK31fPPBzwgvuGdMK','dh','2011-01-06 12:50:38','0');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
