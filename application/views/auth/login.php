@@ -1,53 +1,70 @@
 <?php
-$login = array(
-	'name'	=> 'login',
-	'id'	=> 'login',
-	'value' => set_value('login'),
-	'maxlength'	=> 80,
-	'size'	=> 30,
-	'label' => 'Login'
-);
 
-$login_label = 'Login';
+$username = array(
+	'name'	=> 'username',
+	'id'	=> 'username',
+	'value' => set_value('username'),
+	'maxlength'	=> 80,
+	'size'	=> 30
+);
 
 $password = array(
 	'name'	=> 'password',
 	'id'	=> 'password',
 	'size'	=> 30
 );
-$remember = array(
-	'name'	=> 'remember',
-	'id'	=> 'remember',
-	'value'	=> 1,
-	'checked'	=> set_value('remember'),
-	'style' => 'margin:0;padding:0'
+
+$yh_username = array(
+	'name'	=> 'yhuser',
+	'id'	=> 'yhuser',
+	'value' => set_value('yhuser'),
+	'maxlength'	=> 80,
+	'size'	=> 30
 );
-$captcha = array(
-	'name'	=> 'captcha',
-	'id'	=> 'captcha',
-	'maxlength'	=> 8
-);
+	
 ?>
-<?php echo form_open($this->uri->uri_string()); ?>
-<table>
-	<tr>
-		<td><?php echo form_label($login_label, $login['id']); ?></td>
-		<td><?php echo form_input($login); ?></td>
-		<td style="color: red;"><?php echo form_error($login['name']); ?><?php echo isset($errors[$login['name']])?$errors[$login['name']]:''; ?></td>
-	</tr>
-	<tr>
-		<td><?php echo form_label('Password', $password['id']); ?></td>
-		<td><?php echo form_password($password); ?></td>
-		<td style="color: red;"><?php echo form_error($password['name']); ?><?php echo isset($errors[$password['name']])?$errors[$password['name']]:''; ?></td>
-	</tr>
-	<tr>
-		<td colspan="3">
-			<?php echo form_checkbox($remember); ?>
-			<?php echo form_label('Remember me', $remember['id']); ?>
-			<?php echo anchor('/auth/forgot_password/', 'Forgot password'); ?>
-			<?php if ($this->config->item('allow_registration', 'tank_auth')) echo anchor('/auth/register/', 'Register'); ?>
-		</td>
-	</tr>
-</table>
-<?php echo form_submit('submit', 'Let me in'); ?>
-<?php echo form_close(); ?>
+
+		<?php if (count($errors)): ?> 
+			<div id="messages"><div id="error"><ul><?php foreach($errors as $error) echo '<li>'. $error .'</li>'; ?></ul></div></div>
+		<?php endif; ?> 
+
+		<div id="secluded-login">
+			<?php echo form_open('/auth/login'); ?> 
+				
+				<h4>Login</h4>
+				
+				<div class="secluded-input">
+					<?php echo form_label('Username', $username['id']); ?> 
+					<?php echo form_input($username); ?> 
+				</div>
+				
+				<div class="secluded-input">
+					<?php echo form_label('Password', $password['id']); ?> 
+					<?php echo form_password($password); ?> 
+				</div>
+				
+				<div class="secluded-submit">
+					<?php echo form_submit('submit', 'Login'); ?> 
+				</div>
+			<?php echo form_close(); ?> 
+		</div>
+		
+		<div id="secluded-invite">
+			
+			<h4>Get an invite</h4>
+			
+			<p>Input your YayHooray username and an invite will be sent to you.</p>
+			
+			<?php echo form_open('/auth/invite'); ?> 
+				
+				<div class="secluded-input">
+					<?php echo form_label('Username', $yh_username['id']); ?> 
+					<?php echo form_input($yh_username); ?> 
+				</div>
+				
+				<div class="secluded-submit">
+					<?php echo form_submit('submit', 'Send me an invite'); ?> 
+				</div>
+			<?php echo form_close(); ?> 
+			
+		</div>

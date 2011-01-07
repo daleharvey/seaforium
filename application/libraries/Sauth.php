@@ -18,6 +18,13 @@ class Sauth
 		$this->autologin();
 	}
 	
+	/**
+	 * Log the user in
+	 *
+	 * @param	string
+	 * @param	string
+	 * @return	bool
+	 */
 	function login($username, $password)
 	{
 		if (!is_null($user = $this->ci->users->get_user_by_username($username)))
@@ -56,9 +63,10 @@ class Sauth
 			else
 			{
 				$this->increase_login_attempt($username);
-				$this->error = array('login' => 'auth_incorrect_login');
 			}
 		}
+		
+		$this->error = array('login' => "Login incorrect");
 		
 		return FALSE;
 	}
@@ -97,54 +105,51 @@ class Sauth
 	}
 	
 	/**
-	 * Create new user on the site and return some data about it:
-	 * user_id, username, password, email, new_email_key (if any).
+	 * Create new user on the site
 	 *
 	 * @param	string
 	 * @param	string
 	 * @param	string
-	 * @param	bool
-	 * @return	array
+	 * @param	string
+	 * @return	bool
 	 */
 	function create_user($username, $email, $password, $key)
 	{
+		// submitted username is already in use
 		if ((strlen($username) > 0) AND !$this->ci->users->is_username_available($username)) {
-			$this->error = array('username' => 'auth_username_in_use');
+			$this->error = array('username' => 'That username is already in use');
 
+		// submitted email address is already in use
 		} elseif (!$this->ci->users->is_email_available($email)) {
-			$this->error = array('email' => 'auth_email_in_use');
+			$this->error = array('email' => 'That email address is already in use');
 
 		} else {
 			
+			// if the invite key is valid
 			if (!$this->ci->users->is_yh_invite_used($key))
 			{
 				// hash password using phpass
 				$hasher = new PasswordHash(8, FALSE);
 				
-				$data = array(
-					'username'	=> $username,
-					'password'	=> $hasher->HashPassword($password),
-					'email'		=> $email,
-					'last_ip'	=> $this->ci->input->ip_address(),
-					'yh_username' => $this->ci->users->get_yh_username_by_invite($key)
-				);
+				// insert the user into the database
+				$user_id = $this->ci->users->create_user(
+					array(
+						'username'	=> $username,
+						'password'	=> $hasher->HashPassword($password),
+						'email'		=> $email,
+						'last_ip'	=> $this->ci->input->ip_address(),
+						'yh_username' => $this->ci->users->get_yh_username_by_invite($key)
+					), $key);
 				
-				$user_id = $this->ci->users->create_user($data, $key);
+				return TRUE;
 				
-				unset($data['last_ip']);
-				
-				$this->login($username, $password);
-				
-				redirect('');
 			} else {
 				
-				$this->error = array('register' => 'That invite key is no longer valid.');
-				
-				return FALSE;
+				$this->error = array('register' => 'That invite key is no longer valid');
 			}
 		}
 		
-		return TRUE;
+		return FALSE;
 	}
 	
 	/**
@@ -188,7 +193,7 @@ class Sauth
 	private function create_autologin($user_id)
 	{
 		$this->ci->load->helper('cookie');
-		$key = substr(md5(uniqid(rand().get_cookie($this->ci->config->item('sess_cookie_name')))), 0, 16);
+		$key = substr(md5(uniqid(rand().get_cookie('session'))), 0, 16);
 		
 		$this->ci->load->model('auth/user_autologin');
 		$this->ci->user_autologin->purge($user_id);
@@ -226,7 +231,7 @@ class Sauth
 	/**
 	 * Login user automatically if he/she provides correct autologin verification
 	 *
-	 * @return	void
+	 * @return	bool
 	 */
 	private function autologin()
 	{
@@ -276,7 +281,7 @@ class Sauth
 	 */
 	function is_max_login_attempts_exceeded($login)
 	{
-		$this->ci->load->model('tank_auth/login_attempts');
+		$this->ci->load->model('auth/login_attempts');
 		return $this->ci->login_attempts->get_attempts_num($this->ci->input->ip_address(), $login)
 				>= $this->ci->config->item('login_max_attempts', 'auth');
 	}
@@ -312,3 +317,6 @@ class Sauth
 				$this->ci->config->item('login_attempt_expire', 'auth'));
 	}	
 }
+
+/* End of file sauth.php */
+/* Location: ./application/libraries/auth.php */

@@ -12,7 +12,7 @@ class Auth extends Controller
 
 	function index()
 	{
-		redirect('/auth/login/');
+		redirect('/auth/login');
 	}
 
 	/**
@@ -34,7 +34,6 @@ class Auth extends Controller
 			$data['errors'] = array();
 			
 			if ($this->form_validation->run()) {
-				
 				if ($this->sauth->login(
 					$this->form_validation->set_value('username'),
 					$this->form_validation->set_value('password')))
@@ -43,22 +42,12 @@ class Auth extends Controller
 				}
 				else
 				{
-					$errors = $this->sauth->get_error_message();
-					
-					if (isset($errors['banned']))
-					{
-						return;
-					}
-					else
-					{
-						foreach ($errors as $k => $v)	$data['errors'][$k] = $this->lang->line($v);
-					}
+					$data['errors'] = $this->sauth->get_error_message();
 				}
-				
 			}
 			
 			$this->load->view('shared/secluded_header');
-			$this->load->view('entry/entry');
+			$this->load->view('auth/login', $data);
 			$this->load->view('shared/secluded_footer');
 		}
 	}
@@ -105,6 +94,9 @@ class Auth extends Controller
 						$this->form_validation->set_value('key')))
 				{
 					
+					$this->sauth->login($this->form_validation->set_value('username'), $this->form_validation->set_value('password'));
+					
+					redirect('');
 				}
 				else
 				{
@@ -115,7 +107,7 @@ class Auth extends Controller
 			$data['key'] = $key;
 			
 			$this->load->view('shared/secluded_header');
-			$this->load->view('entry/register', $data);
+			$this->load->view('auth/register', $data);
 			$this->load->view('shared/secluded_footer');
 		}
 	}
@@ -128,17 +120,16 @@ class Auth extends Controller
 	function invite()
 	{
 		if ($this->sauth->is_logged_in())
-			redirect('');
-	
-		$this->form_validation->set_rules('yhuser', 'Username', 'trim|required|xss_clean|min_length[2]|max_length[18]');
-		
-		$data['errors'] = array();
-		
-		$whitelist = array('dh');
-		
-		if ($this->form_validation->run())
 		{
-			if (in_array($this->form_validation->set_value('yhuser'), $whitelist))
+			redirect('');
+		}
+		else
+		{
+			$this->form_validation->set_rules('yhuser', 'Username', 'trim|required|xss_clean|min_length[2]|max_length[18]');
+			
+			$data['errors'] = array();
+			
+			if ($this->form_validation->run())
 			{
 				$invite_id = random_string('alnum', 32);
 				
@@ -146,7 +137,7 @@ class Auth extends Controller
 					$this->form_validation->set_value('yhuser'),
 					$invite_id))
 				{
-					$message = <<<EOT
+						$message = <<<EOT
 Hey {$this->form_validation->set_value('yhuser')},
 
 Heres a link for you to register at the new board we've got!
@@ -155,7 +146,7 @@ http://sparklebacon.net/auth/register/{$invite_id}
 
 castis
 EOT;
-					$this->yayhooray->login('castis', '0ranges!');
+					$this->yayhooray->login('castis', '');
 					$this->yayhooray->send_message($this->form_validation->set_value('yhuser'), 'Your invite to the new board', $message);
 					
 					$data['confirmation'] = "Invitation sent!";
@@ -165,11 +156,11 @@ EOT;
 					$data['errors'] = $this->sauth->get_error_message();
 				}
 			}
+			
+			$this->load->view('shared/secluded_header');
+			$this->load->view('auth/login', $data);
+			$this->load->view('shared/secluded_footer');
 		}
-		
-		$this->load->view('shared/secluded_header');
-		$this->load->view('entry/entry', $data);
-		$this->load->view('shared/secluded_footer');
 	}
 
 }

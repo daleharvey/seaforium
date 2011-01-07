@@ -163,6 +163,12 @@ class Users extends Model
 		return FALSE;
 	}
 	
+	/**
+	 * Set yh invite key as used
+	 *
+	 * @param	string
+	 * @return	void
+	 */
 	private function set_yh_invite_used($invite_id)
 	{
 		$this->db->where('invite_id', $invite_id);
