@@ -27,24 +27,11 @@ $email_address = array(
 	'size'	=> 30
 );
 
-if (isset($confirmation))
-{
-	echo '<div id="confirmation">'. $confirmation .'</div>';
-}
-elseif (isset($errors) && is_array($errors) && count($errors) > 0)
-{
-	echo '<div id="error"><ul>';
-	
-	foreach($errors as $error)
-	{
-		echo "<li>". $error ."</li>";
-	}
-	
-	echo '</ul></div>';
-}
-
 ?>
-
+		<?php if (count($errors)): ?> 
+			<div id="messages"><div id="error"><ul><?php foreach($errors as $error) echo '<li>'. $error .'</li>'; ?></ul></div></div>
+		<?php endif; ?> 
+		
 		<div id="secluded-register">
 			<?php echo form_open('/auth/register/'. $key); ?> 
 				

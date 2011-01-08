@@ -16,9 +16,7 @@ class Users extends Model
 	 */
 	function get_user_by_id($user_id)
 	{
-		$this->db->where('id', $user_id);
-		
-		$query = $this->db->get('users');
+		$query = $this->db->query("SELECT * FROM users WHERE id = ?", $user_id);
 		
 		if ($query->num_rows() == 1)
 			return $query->row();
@@ -34,9 +32,8 @@ class Users extends Model
 	 */
 	function get_user_by_username($username)
 	{
-		$this->db->where('LOWER(username)=', strtolower($username));
-
-		$query = $this->db->get('users');
+		$query = $this->db->query("SELECT * FROM users WHERE LOWER(username) = ?", strtolower($username));
+		
 		if ($query->num_rows() == 1) return $query->row();
 		return NULL;
 	}
@@ -49,9 +46,7 @@ class Users extends Model
 	 */
 	function get_yh_username_by_invite($invite_id)
 	{
-		$this->db->where('invite_id', $invite_id);
-
-		$query = $this->db->get('yh_invites');
+		$query = $this->db->query("SELECT yh_username FROM yh_invites WHERE invite_id = ?", $invite_id);
 		
 		if ($query->num_rows() == 1) return $query->row()->yh_username;
 		return NULL;
@@ -65,10 +60,8 @@ class Users extends Model
 	 */
 	function is_username_available($username)
 	{
-		$this->db->select('1', FALSE);
-		$this->db->where('LOWER(username)=', strtolower($username));
-
-		$query = $this->db->get('users');
+		$query = $this->db->query("SELECT 1 FROM users WHERE LOWER(username) = ?", strtolower($username));
+		
 		return $query->num_rows() == 0;
 	}
 	
@@ -80,11 +73,8 @@ class Users extends Model
 	 */
 	function is_email_available($email)
 	{
-		$this->db->select('1', FALSE);
-		$this->db->where('LOWER(email)=', strtolower($email));
-		$this->db->or_where('LOWER(new_email)=', strtolower($email));
-
-		$query = $this->db->get('users');
+		$query = $this->db->query("SELECT 1 FROM users WHERE LOWER(email) = ?", strtolower($email));
+		
 		return $query->num_rows() == 0;
 	}
 	
@@ -96,10 +86,7 @@ class Users extends Model
 	 */
 	function is_yh_username_available($username)
 	{
-		$this->db->select('1', FALSE);
-		$this->db->where('LOWER(yh_username)=', strtolower($username));
-		
-		$query = $this->db->get('yh_invites');
+		$query = $this->db->query("SELECT 1 FROM yh_invites WHERE LOWER(yh_username) = ?", strtolower($username));
 		
 		return $query->num_rows() == 0;
 	}
@@ -112,11 +99,7 @@ class Users extends Model
 	 */
 	function is_yh_invite_used($key)
 	{
-		$this->db->select('1', FALSE);
-		$this->db->where('invite_id', $key);
-		$this->db->where('used', '0');
-		
-		$query = $this->db->get('yh_invites');
+		$query = $this->db->query("SELECT 1 FROM yh_invites WHERE invite_id = ? AND used = 0", $key);
 		
 		return $query->num_rows() == 0;
 	}
@@ -130,14 +113,12 @@ class Users extends Model
 	 */
 	function create_yh_invite($username, $invite_id)
 	{
-		$data['invite_id'] = $invite_id;
-		$data['yh_username'] = $username;
-		$data['created'] = date('Y-m-d H:i:s');
+		$this->db->query("INSERT INTO yh_invites (invite_id, yh_username, created) VALUES (?, ?, NOW())", array(
+			$invite_id,
+			$username
+		));
 		
-		if ($this->db->insert('yh_invites', $data))
-		{
-			return array('confirmation' => '');
-		}
+		return $this->db->insert_id() != 0;
 	}
 	
 	/**
@@ -147,18 +128,37 @@ class Users extends Model
 	 * @param	bool
 	 * @return	array
 	 */
+	 
+	 // username email password last_ip key
 	function create_user($data, $invite_id)
 	{
-		$data['created'] = date('Y-m-d H:i:s');
-		$data['activated'] = 1;
-
-		if ($this->db->insert('users', $data))
+		
+		$sql = "
+			INSERT INTO users (
+				username,
+				email,
+				password,
+				last_ip,
+				yh_username,
+				created,
+				activated
+			) VALUES (
+				?, ?, ?, ?, ?, NOW(), 1
+			)";
+		
+		$this->db->query($sql, array(
+			$data['username'],
+			$data['email'],
+			$data['password'],
+			$data['last_ip'],
+			$data['yh_username']
+		));
+		
+		if ($user_id = $this->db->insert_id())
 		{
 			$this->set_yh_invite_used($invite_id);
-			
-			$user_id = $this->db->insert_id();
 			$this->create_profile($user_id);
-			return $user_id;
+			return TRUE;
 		}
 		return FALSE;
 	}
@@ -171,8 +171,7 @@ class Users extends Model
 	 */
 	private function set_yh_invite_used($invite_id)
 	{
-		$this->db->where('invite_id', $invite_id);
-		$this->db->update('yh_invites', array('used' => '1'));
+		$this->db->query("UPDATE yh_invites SET used = 1 WHERE invite_id = ?", $invite_id);
 	}
 	
 	/**
@@ -183,8 +182,7 @@ class Users extends Model
 	 */
 	private function create_profile($user_id)
 	{
-		$this->db->set('user_id', $user_id);
-		return $this->db->insert('user_profiles');
+		return $this->db->query("INSERT INTO user_profiles (user_id) VALUES (?)", $user_id);
 	}
 	
 	/**
@@ -195,27 +193,7 @@ class Users extends Model
 	 */
 	function purge_na($expire_period = 172800)
 	{
-		$this->db->where('activated', 0);
-		$this->db->where('UNIX_TIMESTAMP(created) <', time() - $expire_period);
-		$this->db->delete('users');
-	}
-	
-	/**
-	 * Delete user record
-	 *
-	 * @param	int
-	 * @return	bool
-	 */
-	function delete_user($user_id)
-	{
-		$this->db->where('id', $user_id);
-		$this->db->delete('users');
-		if ($this->db->affected_rows() > 0)
-		{
-			$this->delete_profile($user_id);
-			return TRUE;
-		}
-		return FALSE;
+		$this->db->query("DELETE FROM users WHERE UNIX_TIMESTAMP(created) < ?", time() - $expire_period);
 	}
 	
 	/**
@@ -229,14 +207,19 @@ class Users extends Model
 	 */
 	function update_login_info($user_id)
 	{
-		$this->db->set('new_password_key', NULL);
-		$this->db->set('new_password_requested', NULL);
-
-		$this->db->set('last_ip', $this->input->ip_address());
-		$this->db->set('last_login', date('Y-m-d H:i:s'));
-
-		$this->db->where('id', $user_id);
-		$this->db->update('users');
+		$sql = "
+			UPDATE users
+			SET
+				new_password_key = NULL,
+				new_password_key = NULL,
+				last_ip = ?,
+				last_login = NOW()
+			WHERE id = ?";
+		
+		$this->db->query($sql, array(
+			$this->input->ip_address(),
+			$user_id
+		));
 	}
 	
 }
