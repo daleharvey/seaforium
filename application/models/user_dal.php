@@ -1,8 +1,8 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Users extends Model
+class User_dal extends Model
 {
-	function Users()
+	function User_dal()
 	{
 		parent::__construct();
 	}
@@ -201,8 +201,6 @@ class Users extends Model
 	 * clear previously generated (but not activated) passwords.
 	 *
 	 * @param	int
-	 * @param	bool
-	 * @param	bool
 	 * @return	void
 	 */
 	function update_login_info($user_id)
@@ -222,4 +220,22 @@ class Users extends Model
 		));
 	}
 	
+	function get_profile_information($username)
+	{
+		$sql = "
+			SELECT 
+				users.id, 
+				users.username, 
+				users.created, 
+				users.last_login,
+				count(DISTINCT comments.comment_id) AS comment_count,
+				count(DISTINCT threads.thread_id) AS thread_count
+			FROM users
+			LEFT JOIN comments ON comments.user_id = users.id
+			LEFT JOIN threads ON threads.user_id = users.id
+			WHERE LOWER(username) = ?";
+		
+		return $this->db->query($sql, $username);
+		
+	}
 }

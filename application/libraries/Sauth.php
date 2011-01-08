@@ -12,7 +12,7 @@ class Sauth
 		
 		$this->ci->load->library('session');
 		$this->ci->load->database();
-		$this->ci->load->model('auth/users');
+		$this->ci->load->model('user_dal');
 		
 		// try to autologin
 		$this->autologin();
@@ -27,7 +27,7 @@ class Sauth
 	 */
 	function login($username, $password)
 	{
-		if (!is_null($user = $this->ci->users->get_user_by_username($username)))
+		if (!is_null($user = $this->ci->user_dal->get_user_by_username($username)))
 		{
 			
 			$hasher = new PasswordHash(8, FALSE);
@@ -51,7 +51,7 @@ class Sauth
 					
 					$this->clear_login_attempts($username);
 					
-					$this->ci->users->update_login_info(
+					$this->ci->user_dal->update_login_info(
 							$user->id,
 							$this->ci->config->item('login_record_ip', 'auth'),
 							$this->ci->config->item('login_record_time', 'auth'));
@@ -92,9 +92,9 @@ class Sauth
 	 */
 	function yh_invite($username, $invite_id)
 	{
-		if ($this->ci->users->is_yh_username_available($username))
+		if ($this->ci->user_dal->is_yh_username_available($username))
 		{
-			$this->ci->users->create_yh_invite($username, $invite_id);
+			$this->ci->user_dal->create_yh_invite($username, $invite_id);
 			
 			return TRUE;
 		}
@@ -116,29 +116,29 @@ class Sauth
 	function create_user($username, $email, $password, $key)
 	{
 		// submitted username is already in use
-		if ((strlen($username) > 0) AND !$this->ci->users->is_username_available($username)) {
+		if ((strlen($username) > 0) AND !$this->ci->user_dal->is_username_available($username)) {
 			$this->error = array('username' => 'That username is already in use');
 
 		// submitted email address is already in use
-		} elseif (!$this->ci->users->is_email_available($email)) {
+		} elseif (!$this->ci->user_dal->is_email_available($email)) {
 			$this->error = array('email' => 'That email address is already in use');
 
 		} else {
 			
 			// if the invite key is valid
-			if (!$this->ci->users->is_yh_invite_used($key))
+			if (!$this->ci->user_dal->is_yh_invite_used($key))
 			{
 				// hash password using phpass
 				$hasher = new PasswordHash(8, FALSE);
 				
 				// insert the user into the database
-				$user_id = $this->ci->users->create_user(
+				$user_id = $this->ci->user_dal->create_user(
 					array(
 						'username'	=> $username,
 						'password'	=> $hasher->HashPassword($password),
 						'email'		=> $email,
 						'last_ip'	=> $this->ci->input->ip_address(),
-						'yh_username' => $this->ci->users->get_yh_username_by_invite($key)
+						'yh_username' => $this->ci->user_dal->get_yh_username_by_invite($key)
 					), $key);
 				
 				return TRUE;
@@ -260,7 +260,7 @@ class Sauth
 								'expire'	=> $this->ci->config->item('autologin_cookie_life', 'auth'),
 						));
 
-						$this->ci->users->update_login_info(
+						$this->ci->user_dal->update_login_info(
 								$user->id,
 								$this->ci->config->item('login_record_ip', 'auth'),
 								$this->ci->config->item('login_record_time', 'auth'));

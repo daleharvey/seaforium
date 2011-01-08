@@ -7,6 +7,7 @@ class User extends Controller {
 		parent::Controller();
 
 		$this->load->helper(array('url', 'number'));
+		$this->load->model('user_dal');
 	}
 	
 	function index()
@@ -16,27 +17,20 @@ class User extends Controller {
 	
 	function load($username)
 	{
-		$username = str_replace('-', ' ', $username);
-		
-		$query = $this->db->query('
-			SELECT 
-				users.id, 
-				users.username, 
-				users.created, 
-				users.last_login,
-				count(DISTINCT comments.comment_id) AS comment_count,
-				count(DISTINCT threads.thread_id) AS thread_count
-			FROM users
-			LEFT JOIN comments ON comments.user_id = users.id
-			LEFT JOIN threads ON threads.user_id = users.id
-			WHERE LOWER(username) = '. strtolower($this->db->escape($username)) .'
-		');
+		$query = $this->user_dal->get_profile_information(str_replace('-', ' ', $username));
 		
 		if ($query->result_id->num_rows === 0)
 			redirect('/');
 		
 		$data['user_data'] = $query->row();
-		$data['user_data']->average_posts = number_format(($data['user_data']->thread_count + $data['user_data']->comment_count) / (floor((time() - strtotime($data['user_data']->created))) / 86400), 2);
+		
+		$total_posts = $data['user_data']->thread_count + $data['user_data']->comment_count;
+		
+		$elapsed_seconds = time() - strtotime($data['user_data']->created);
+		
+		$days = floor($elapsed_seconds) / 86400;
+		
+		$data['user_data']->average_posts = number_format($total_posts / $days, 2);
 		
 		$data['user_data']->last_login_text = (strtotime($data['user_data']->last_login) == null)
 			? " hasn't logged in yet."
