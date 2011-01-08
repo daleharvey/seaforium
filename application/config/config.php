@@ -11,7 +11,7 @@
 |	http://example.com/
 |
 */
-$config['base_url']	= "http://profiler.com/";
+$config['base_url']	= "http://localhost/";
 
 /*
 |--------------------------------------------------------------------------
@@ -217,7 +217,7 @@ $config['cache_path'] = '';
 | enabled you MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = "_BE_TuR-KQf>-Hm8::5-&9k-igJ10P)>";
+$config['encryption_key'] = "";
 
 /*
 |--------------------------------------------------------------------------
