@@ -54,7 +54,7 @@ class Thread extends Controller {
 			redirect(uri_string());
 		}
 		
-		$display = $this->session->userdata('comments_shown') == false ? 50 : $this->session->userdata('comments_shown');
+		$display = $this->session->userdata('comments_shown') == false ? 50 : (int)$this->session->userdata('comments_shown');
 		
 		$pseg = 0;
 		$base_url = '';

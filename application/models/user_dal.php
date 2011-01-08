@@ -220,6 +220,12 @@ class User_dal extends Model
 		));
 	}
 	
+	/**
+	 * Pretty self-explanatory
+	 *
+	 * @param	string
+	 * @return	object
+	 */
 	function get_profile_information($username)
 	{
 		$sql = "

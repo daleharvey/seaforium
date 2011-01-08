@@ -24,13 +24,10 @@ class User extends Controller {
 		
 		$data['user_data'] = $query->row();
 		
-		$total_posts = $data['user_data']->thread_count + $data['user_data']->comment_count;
-		
-		$elapsed_seconds = time() - strtotime($data['user_data']->created);
-		
-		$days = floor($elapsed_seconds) / 86400;
-		
-		$data['user_data']->average_posts = number_format($total_posts / $days, 2);
+		$data['user_data']->average_posts = number_format(
+			$data['user_data']->thread_count + $data['user_data']->comment_count / // total posts, divided by
+			(ceil((time() - strtotime($data['user_data']->created)) / 86400)) // days
+			, 2);
 		
 		$data['user_data']->last_login_text = (strtotime($data['user_data']->last_login) == null)
 			? " hasn't logged in yet."
