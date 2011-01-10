@@ -21,7 +21,6 @@ class Thread_dal extends Model
 		return $this->db->query($sql, $thread_id);
 	}
 	
-	
 	/**
 	 * Insert a new comment into the database
 	 *
@@ -30,8 +29,7 @@ class Thread_dal extends Model
 	 */
 	function new_comment($data)
 	{
-		
-		$sql = "UPDATE comments SET thread_id = ?, user_id = ?, content = ?, created = NOW()";
+		$sql = "INSERT INTO comments (thread_id, user_id, content, created) VALUES (?, ?, ?, NOW())";
 		
 		$this->db->query($sql, array(
 			$data['thread_id'],
@@ -45,13 +43,15 @@ class Thread_dal extends Model
 			$this->db->insert_id(),
 			$data['thread_id']
 		));
+		
+		
 	}
 	
 	/**
 	 * Get a count of all the comments for a given thread id
 	 *
 	 * @param	string
-	 * @return	void
+	 * @return	object
 	 */
 	function comment_count($thread_id)
 	{
@@ -60,6 +60,12 @@ class Thread_dal extends Model
 		return $this->db->query($sql, $thread_id)->row()->max_rows;
 	}
 	
+	/**
+	 * Get a count of all the comments for a given thread id
+	 *
+	 * @param	string
+	 * @return	void
+	 */
 	function get_comments($thread_id, $limit_start, $limit_end)
 	{
 		
@@ -69,6 +75,7 @@ class Thread_dal extends Model
 				comments.content,
 				comments.created,
 				comments.deleted,
+				comments.user_id,
 				users.username
 			FROM comments
 			LEFT JOIN users
@@ -81,6 +88,13 @@ class Thread_dal extends Model
 			$thread_id,
 			$limit_start,
 			$limit_end
+		));
+	}
+	
+	function get_comment_with_user($comment_id, $user_id)
+	{
+		return $this->db->query("SELECT content FROM comments WHERE comment_id = ? AND user_id = ?", array(
+			$comment_id, $user_id
 		));
 	}
 	

@@ -8,6 +8,7 @@ class Auth extends Controller
 
 		$this->load->helper(array('form', 'url', 'string'));
 		$this->load->library(array('form_validation', 'sauth', 'yayhooray'));
+		$this->load->model('user_dal');
 	}
 
 	function index()
@@ -146,10 +147,13 @@ http://sparklebacon.net/auth/register/{$invite_id}
 
 castis
 EOT;
+					
+					//exit($message);
+					
 					$this->yayhooray->login('castis', '');
 					$this->yayhooray->send_message($this->form_validation->set_value('yhuser'), 'Your invite to the new board', $message);
 					
-					$data['confirmation'] = "Invitation sent!";
+					$data['errors'] = $this->sauth->get_confirmation_message();
 				}
 				else
 				{

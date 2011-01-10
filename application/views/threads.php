@@ -18,10 +18,6 @@ foreach($thread_result->result() as $row) {
 ?>
 
 				<div class="thread<?php echo $alt === false ? '' : ' alt'; ?>">
-					<?php /* <div class="points">
-						<span><a href="#">u</a></span>
-						<span><a href="#">d</a></span>
-					</div> */ ?> 
 					<div class="one">
 						<div class="subject"><?php echo anchor($link_text, $row->subject).' '. anchor($link_text.'/p/'.$last_page.'#bottom', '#', array('class' => 'end-link')); ?></div>
 						<div class="category"><?php echo $row->category ?></div>

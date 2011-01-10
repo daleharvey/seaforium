@@ -107,9 +107,9 @@ class User_dal extends Model
 	/**
 	 * Create new invite for yh user
 	 *
-	 * @param	array
-	 * @param	bool
-	 * @return	array
+	 * @param	string
+	 * @param	string
+	 * @return	bool
 	 */
 	function create_yh_invite($username, $invite_id)
 	{
@@ -119,6 +119,23 @@ class User_dal extends Model
 		));
 		
 		return $this->db->insert_id() != 0;
+	}
+	
+	/**
+	 * Get the whitelist from the database
+	 *
+	 * @return	array
+	 */
+	function get_yh_whitelist()
+	{
+		$list = array();
+		
+		foreach($this->db->query("SELECT * FROM yh_whitelist")->result() as $row)
+		{
+			$list[] = strtolower($row->username);
+		}
+		
+		return $list;
 	}
 	
 	/**
@@ -243,5 +260,24 @@ class User_dal extends Model
 		
 		return $this->db->query($sql, $username);
 		
+	}
+	
+	/**
+	 * Pretty self-explanatory
+	 *
+	 * @return	object
+	 */
+	function get_active_users()
+	{
+		$sql = "
+			SELECT DISTINCT
+				users.username,
+				sessions.user_id
+			FROM users
+			RIGHT JOIN sessions ON users.id = sessions.user_id
+			WHERE sessions.user_id != 0 AND sessions.last_activity > (UNIX_TIMESTAMP() - 300)
+			ORDER BY users.username";
+			
+		return $this->db->query($sql);
 	}
 }

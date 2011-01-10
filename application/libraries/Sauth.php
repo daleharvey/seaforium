@@ -5,6 +5,7 @@ require_once('phpass-0.1/PasswordHash.php');
 class Sauth
 {
 	public $error = array();
+	public $confirmation = array();
 	
 	function __construct()
 	{
@@ -93,14 +94,25 @@ class Sauth
 	{
 		if ($this->ci->user_dal->is_yh_username_available($username))
 		{
-			$this->ci->user_dal->create_yh_invite($username, $invite_id);
-			
-			return TRUE;
+			if (in_array(strtolower($username), $this->ci->user_dal->get_yh_whitelist()))
+			{
+				$this->ci->user_dal->create_yh_invite($username, $invite_id);
+				
+				$this->confirmation = array('invite' => "Invitation sent. Please let us know if you don't get one.");
+				
+				return TRUE;
+			}
+			else
+			{
+				$this->error = array('invite' => 'There was a problem sending an invite');
+			}
 		}
 		else
 		{
-			$this->error = array('invite' => 'An invitation has already been sent to that username.');
+			$this->error = array('invite' => 'An invitation has already been sent to that username');
 		}
+		
+		return FALSE;
 	}
 	
 	/**
@@ -181,6 +193,16 @@ class Sauth
 	function get_error_message()
 	{
 		return $this->error;
+	}
+	
+	/**
+	 * Get confirmation message.
+	 *
+	 * @return	string
+	 */
+	function get_confirmation_message()
+	{
+		return $this->confirmation;
 	}
 	
 	/**

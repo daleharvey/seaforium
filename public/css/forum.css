@@ -89,22 +89,12 @@ background: #F0F0F0;
 color: #0F0F0F;
 }
 
-.thread .points, .thread .one, .thread .two, .thread .three, .thread .four, .thread .five{
+.thread .one, .thread .two, .thread .three, .thread .four, .thread .five{
 float: left;
 }
 
 .thread .one, .thread .two, .thread .three {
 padding: 6px 0 0 0;
-}
-
-.thread .points {
-width: 2%;
-text-align: center;
-}
-
-.thread .points span {
-display: block;
-line-height: 19px;
 }
 
 .thread .one {
@@ -161,10 +151,22 @@ clear: both;
 }
 
 .comment {
-padding: 8px 8px 12px 2px;
+padding: 0 8px 20px 2px;
 margin-bottom: 2px;
 border-bottom: solid 1px #CCCCCC;
-min-height: 40px;
+min-height: 45px;
+}
+
+.comment .cmd-bar {
+text-align: right;
+font-size: 10px;
+padding-bottom: 3px;
+}
+
+.comment .cmd-bar a {
+color: #CCCCCC;
+text-decoration: none;
+margin-left: 10px;
 }
 
 .comment.deleted {
@@ -238,4 +240,16 @@ float: left;
 border: solid 1px #CCCCCC;
 padding: 5px;
 font-size: 12px;
+}
+
+#notifier {
+position: fixed;
+bottom: 4px;
+left: 4px;
+width: 198px;
+border: solid 1px #EEEEEE;
+text-align: center;
+padding: 7px 0;
+font-size: 11px;
+background: #FFFFFF;
 }

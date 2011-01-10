@@ -32,8 +32,11 @@ class Thread extends Controller {
 		if ($query->num_rows === 0)
 			redirect('/');
 		
-		// alright we're clear, make note of the subject for the view
-		$data['title'] = $query->row()->subject;
+		// alright we're clear, set some data for the view
+		$data = array(
+			'title' => $query->row()->subject,
+			'thread_id' => $thread_id
+		);
 		
 		// we're going to go ahead and do the form processing for the reply now
 		// if they're submitting data, we're going to refresh the page anyways
@@ -80,9 +83,11 @@ class Thread extends Controller {
 		
 		$data['comment_result'] = $this->thread_dal->get_comments($thread_id, $limit_start, $display);
 		
+		$data['total_comments'] = $this->thread_dal->comment_count($thread_id);
+		
 		$this->pagination->initialize(array(
 			'base_url' => $base_url,
-			'total_rows' => $this->thread_dal->comment_count($thread_id),
+			'total_rows' => $data['total_comments'],
 			'uri_segment' => $pseg,
 			'per_page' => $display
 		)); 
@@ -98,7 +103,6 @@ class Thread extends Controller {
 	
 	function _ready_content($content)
 	{
-		
 		$content = nl2br($content);
 		
 		return $content;

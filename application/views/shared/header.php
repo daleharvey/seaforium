@@ -1,4 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<?php
+
+$this->load->model('user_dal');
+
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -49,21 +53,16 @@
 				</div>
 				<?php } ?> 
 				
-				<div class="lc-node" id="buddy-list" style="display: none;">
-					<h3>Buddies</h3>
+				<div class="lc-node" id="buddy-list">
+					<h3 title="within the last 5 minutes">Online Users</h3>
 					<div>
-						<span>castis</span>
-						<span>castes</span>
-						<span>coolerranch</span>
-						<span>funtimesteve</span>
-						<span>castis</span>
-						<span>castes</span>
-						<span>coolerranch</span>
-						<span>funtimesteve</span>
-						<span>castis</span>
-						<span>castes</span>
-						<span>coolerranch</span>
-						<span>funtimesteve</span>
+						<?php 
+							$active_record = $this->user_dal->get_active_users();
+							
+							foreach($active_record->result() as $user)
+							{ ?> 
+						<span><?php echo anchor('/user/'.url_title($user->username, 'dash', TRUE), $user->username); ?></span>
+						<?php } ?> 
 					</div>
 				</div>
 				
