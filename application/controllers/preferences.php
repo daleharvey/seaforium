@@ -8,7 +8,7 @@ class Preferences extends Controller {
 		
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
-		$this->load->model('auth/users');
+		$this->load->model('auth/user_dal');
 		
 		if (!$this->sauth->is_logged_in())
 			redirect('/');

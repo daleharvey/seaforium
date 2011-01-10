@@ -23,7 +23,7 @@ CREATE TABLE `comments` (
   `created` datetime NOT NULL,
   `deleted` enum('0','1') DEFAULT '0',
   PRIMARY KEY (`comment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=419 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Table structure for table `login_attempts` */
 
@@ -62,7 +62,7 @@ CREATE TABLE `threads` (
   `created` datetime NOT NULL,
   `last_comment_id` int(7) NOT NULL DEFAULT '0',
   PRIMARY KEY (`thread_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Table structure for table `titles` */
 
@@ -73,7 +73,7 @@ CREATE TABLE `titles` (
   `title_text` varchar(32) NOT NULL,
   `author_id` int(7) NOT NULL,
   PRIMARY KEY (`title_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Table structure for table `user_autologin` */
 
@@ -98,7 +98,7 @@ CREATE TABLE `user_profiles` (
   `country` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `website` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Table structure for table `users` */
 
@@ -125,7 +125,7 @@ CREATE TABLE `users` (
   `comments_shown` int(3) DEFAULT '100',
   `yh_username` varchar(19) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Table structure for table `yh_invites` */
 
@@ -135,7 +135,7 @@ CREATE TABLE `yh_invites` (
   `invite_id` varchar(32) NOT NULL,
   `yh_username` varchar(18) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
-  `used` enum('0','1') DEFAULT '0',
+  `used` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`invite_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

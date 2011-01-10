@@ -10,7 +10,6 @@ class Sauth
 	{
 		$this->ci =& get_instance();
 		
-		$this->ci->load->library('session');
 		$this->ci->load->database();
 		$this->ci->load->model('user_dal');
 		
@@ -255,9 +254,9 @@ class Sauth
 
 						// Renew users cookie to prevent it from expiring
 						set_cookie(array(
-								'name' 		=> $this->ci->config->item('autologin_cookie_name', 'auth'),
+								'name' 		=> 'autologin',
 								'value'		=> $cookie,
-								'expire'	=> $this->ci->config->item('autologin_cookie_life', 'auth'),
+								'expire'	=> 5356800,
 						));
 
 						$this->ci->user_dal->update_login_info(
@@ -282,8 +281,7 @@ class Sauth
 	function is_max_login_attempts_exceeded($login)
 	{
 		$this->ci->load->model('auth/login_attempts');
-		return $this->ci->login_attempts->get_attempts_num($this->ci->input->ip_address(), $login)
-				>= $this->ci->config->item('login_max_attempts', 'auth');
+		return $this->ci->login_attempts->get_attempts_num($this->ci->input->ip_address(), $login) >= 5;
 	}
 	
 	/**
@@ -311,10 +309,7 @@ class Sauth
 	private function clear_login_attempts($login)
 	{
 		$this->ci->load->model('auth/login_attempts');
-		$this->ci->login_attempts->clear_attempts(
-				$this->ci->input->ip_address(),
-				$login,
-				$this->ci->config->item('login_attempt_expire', 'auth'));
+		$this->ci->login_attempts->clear_attempts($this->ci->input->ip_address(), $login, 86400);
 	}	
 }
 
