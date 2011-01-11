@@ -6,7 +6,7 @@ class Ajax extends Controller
 	{
 		parent::__construct();
 		
-		$this->load->helper('url');
+		$this->load->helper(array('url', 'content_render'));
 		$this->load->library('form_validation');
 		$this->load->model('thread_dal');
 	}
@@ -33,25 +33,43 @@ class Ajax extends Controller
 		}
 	}
 	
-	function comment_souce($comment_id = 0)
+	function comment_source($comment_id = 0, $display = 0)
 	{
 		$comment_id = (int)$comment_id;
 		
 		if ($comment_id === 0)
 			return;
 		
-		$comment = $this->thread_dal->get_comment($comment_id, $this->session->userdata('user_id'));
+		$comment = $this->thread_dal->get_comment($comment_id)->row();
 		
-		if ($comment->num_rows())
-		{
-			echo $comment->row()->content;
-		}
-		else
-		{
-			echo 0;
-		}
+		$data = array(
+			'content' => $display === 0 ? $comment->content : nl2br($comment->content),
+			'owner' => ($comment->user_id == $this->session->userdata('user_id') && strtotime($comment->created) > (time() - 3600))
+		);
+		
+		echo '('. json_encode($data) .')';
 	}
 	
+	function comment_save()
+	{
+		$comment_id = (int)$_POST['comment_id'];
+		
+		if ($comment_id === 0)
+			return;
+		
+		$existing = $this->thread_dal->get_comment($comment_id)->row();
+		
+		if ($existing->user_id === $this->session->userdata('user_id'))
+		{
+			$content = _ready_for_save($this->input->xss_clean($_POST['content']));
+			
+			if ($this->thread_dal->update_comment($comment_id, $content, $this->session->userdata('user_id')))
+			{
+				echo $content;
+			}
+		}
+		
+	}
 }
 
 /* End of file ajax.php */

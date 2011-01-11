@@ -268,6 +268,43 @@ if ( ! function_exists('repeater'))
 	} 
 }
 
+// ------------------------------------------------------------------------
+
+/**
+ * Starts with
+ *
+ * @access	public
+ * @param	string
+ * @param	string
+ * @param	bool
+ * @return	bool
+ */	
+function startsWith($haystack, $needle, $case = TRUE)
+{
+    if($case)
+		return (strcmp(substr($haystack, 0, strlen($needle)),$needle)===0);
+    
+	return (strcasecmp(substr($haystack, 0, strlen($needle)),$needle)===0);
+}
+
+// ------------------------------------------------------------------------
+
+/**
+ * Ends with
+ *
+ * @access	public
+ * @param	string
+ * @param	string
+ * @param	bool
+ * @return	bool
+ */
+function endsWith($haystack, $needle, $case = TRUE)
+{
+    if($case)
+		return (strcmp(substr($haystack, strlen($haystack) - strlen($needle)),$needle)===0);
+	
+    return (strcasecmp(substr($haystack, strlen($haystack) - strlen($needle)),$needle)===0);
+}
 
 /* End of file string_helper.php */
 /* Location: ./system/helpers/string_helper.php */

@@ -193,6 +193,49 @@ line-height: 18px;
 font-size: 14px;
 }
 
+.comment .content-block code {
+white-space: pre;
+background: #FFFFEE;
+display: block;
+padding: 10px 0;
+}
+
+.comment .content-block code br {
+display: none;
+}
+
+.comment .content-block, #thread .comment textarea {
+font-size: 14px;
+line-height:1;
+font-family:Georgia;
+}
+
+#thread .comment textarea {
+display: block;
+height: 140px;
+width: 100%;
+border: solid 1px #EEEEEE;
+position: relative;
+top: -2px;
+left: -2px;
+}
+
+#thread .comment button {
+margin-right: 2px;
+}
+
+#notifier {
+position: fixed;
+bottom: 4px;
+left: 4px;
+width: 198px;
+border: solid 1px #EEEEEE;
+text-align: center;
+padding: 7px 0;
+font-size: 11px;
+background: #FFFFFF;
+}
+
 form {text-align: left;}
 
 form .input {
@@ -242,14 +285,19 @@ padding: 5px;
 font-size: 12px;
 }
 
-#notifier {
-position: fixed;
-bottom: 4px;
-left: 4px;
-width: 198px;
+div.tquote {
+background: #FAFAFA;
+padding: 5px 5px 7px 6px;
+font-size: 12px;
+-moz-border-radius: 3px;
+border-radius: 3px;
 border: solid 1px #EEEEEE;
-text-align: center;
-padding: 7px 0;
-font-size: 11px;
-background: #FFFFFF;
+color: #555555;
+width: auto;
+}
+
+div.tquote div.tqname {
+font-size: 10px;
+margin-bottom: 3px;
+font-style: italic;
 }

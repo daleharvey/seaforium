@@ -41,12 +41,11 @@ class Thread extends Controller {
 		// we're going to go ahead and do the form processing for the reply now
 		// if they're submitting data, we're going to refresh the page anyways
 		// so theres no point in running the query below the form validation
-		$this->form_validation->set_rules('content', 'Content', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('content', 'Content', 'required');
 		
 		// if a comment was submitted
 		if ($this->form_validation->run())
 		{
-			
 			$content = _ready_for_save($this->form_validation->set_value('content'));
 			
 			$this->thread_dal->new_comment(array(

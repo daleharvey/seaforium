@@ -27,14 +27,13 @@ foreach($comment_result->result() as $row) {
 	// alternating comment colors!!!
 	$alt = (!isset($alt) || $alt === false ? true : false);
 	
-	$edit_source = $row->user_id == $this->session->userdata('user_id') ? 'edit' : 'show source';
+	$edit_source = ($row->user_id == $this->session->userdata('user_id') && strtotime($row->created) > time() - 3600) ? 'edit' : 'show source';
 	
 ?>
 
-					<div class="comment<?php echo $alt === false ? '' : ' alt'; ?>">
+					<div id="comment-<?php echo $row->comment_id; ?>" class="comment<?php echo $alt === false ? '' : ' alt'; ?>">
 						<div class="cmd-bar">
-							<span><a href="#">quote</a></span>
-							<span><a href="/ajax/show_comment_source/<?php echo $row->comment_id; ?>"><?php echo $edit_source; ?></a></span>
+							<span><a href="#" class="view-source" onclick="thread.view_source(<?php echo $row->comment_id; ?>); return false;"><?php echo $edit_source; ?></a></span>
 						</div>
 						<div class="user-block">
 							<div class="username"><?php echo anchor('/user/'.url_title($row->username, 'dash', TRUE), $row->username); ?></div>
@@ -74,10 +73,11 @@ $content = array(
 					<?php echo form_close(); ?> 
 
 <?php } ?> 
+					<script type="text/javascript" src="/js/thread.js"></script>
 					<script type="text/javascript">
 						thread_id = <?php echo $thread_id; ?> 
 						total_comments = <?php echo $total_comments; ?> 
+						setInterval("thread_notifier()",10000);
 					</script>
-					<script type="text/javascript" src="/js/thread.js"></script>
 					
 				</div>

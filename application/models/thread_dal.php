@@ -63,8 +63,10 @@ class Thread_dal extends Model
 	/**
 	 * Get a count of all the comments for a given thread id
 	 *
-	 * @param	string
-	 * @return	void
+	 * @param	int
+	 * @param	int
+	 * @param	int
+	 * @return	object
 	 */
 	function get_comments($thread_id, $limit_start, $limit_end)
 	{
@@ -91,11 +93,25 @@ class Thread_dal extends Model
 		));
 	}
 	
-	function get_comment_with_user($comment_id, $user_id)
+	/**
+	 * Get the content and author of a comment
+	 *
+	 * @param	int
+	 * @return	object
+	 */
+	function get_comment($comment_id)
 	{
-		return $this->db->query("SELECT content FROM comments WHERE comment_id = ? AND user_id = ?", array(
-			$comment_id, $user_id
-		));
+		return $this->db->query("SELECT content, user_id, created FROM comments WHERE comment_id = ?", $comment_id);
 	}
 	
+	function update_comment($comment_id, $content, $user_id)
+	{
+		$this->db->query("UPDATE comments SET content = ? WHERE comment_id = ? AND user_id = ?", array(
+			$content,
+			$comment_id,
+			$user_id
+		));
+		
+		return $this->db->affected_rows() === 1;
+	}
 }
