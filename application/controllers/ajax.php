@@ -25,7 +25,10 @@ class Ajax extends Controller
 		{
 			$new_posts = $db_count - $current_count;
 			
-			$goto = ceil($db_count / $this->session->userdata('comments_shown'));
+      print_r($this->session->userdata('comments_shown'));
+			$goto = $this->session->userdata('comments_shown') == 0 
+        ? 0 
+        : ceil($db_count / $this->session->userdata('comments_shown'));
 			
 			$page = $goto > 0 ? '/p/'.(($goto-1)*$this->session->userdata('comments_shown')) : '';
 			
