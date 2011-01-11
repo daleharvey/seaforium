@@ -22,7 +22,12 @@ class Welcome extends Controller {
 			ORDER BY titles.title_id DESC
 			LIMIT 1
 		')->row();
-		
+
+    if (count($data["title"]) == 0) { 
+      $data["title"] = (object) array("title_text" => "Change Me, Please", 
+                                      "username" => "anon");
+    }
+      
 		$row_count = $this->db->query('SELECT count(threads.thread_id) AS max_rows FROM threads')->row();
 		
 		$display = $this->session->userdata('threads_shown') == false ? 50 : $this->session->userdata('threads_shown');
