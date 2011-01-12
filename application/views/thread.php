@@ -33,7 +33,8 @@ foreach($comment_result->result() as $row) {
 
 					<div id="comment-<?php echo $row->comment_id; ?>" class="comment<?php echo $alt === false ? '' : ' alt'; ?>">
 						<div class="cmd-bar">
-							<span><a href="#" class="view-source" onclick="thread.view_source(<?php echo $row->comment_id; ?>); return false;"><?php echo $edit_source; ?></a></span>
+ 							<span><a href="#" class="view-source" onclick="thread.view_source(<?php echo $row->comment_id; ?>); return false;"><?php echo $edit_source; ?></a></span>
+             <a class="quote">quote</a>
 						</div>
 						<div class="user-block">
 							<div class="username"><?php echo anchor('/user/'.url_title($row->username, 'dash', TRUE), $row->username); ?></div>
@@ -42,6 +43,7 @@ foreach($comment_result->result() as $row) {
 						<div class="content-block">
 							<div class="content"><?php echo _ready_for_display($row->content); ?></div>
 						</div>
+  
 						<div style="clear: right;"></div>
 					</div>
 <?php } ?>
