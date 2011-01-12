@@ -1,0 +1,303 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;}
+body{line-height:1;font-family:sans-serif;}
+ol,ul{list-style: none;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+:focus{outline:0;}
+ins{text-decoration:none;}
+del{text-decoration: line-through;}
+table{border-collapse:collapse;border-spacing:0;}
+
+#wrapper {
+width: 99%;
+margin: 0 auto;
+}
+
+#top {
+padding: 20px 0 2px 0;
+margin: 0 0 10px 0;
+}
+
+#middle {}
+
+#left-column {
+float: left;
+width: 200px;
+min-height: 200px;
+}
+
+#left-column .lc-node {
+margin: 0 0 2px 0;
+padding: 4px;
+border: solid 1px #EEEEEE;
+font-size: 12px;
+}
+
+#left-column ul li {
+padding: 2px 0 2px 3px;
+font-size: 11px;
+}
+
+#new-thread {
+padding: 4px !important;
+text-align: center;
+}
+
+#buddy-list div {padding: 0 0 0 2px;}
+#buddy-list div span {font-size: 11px;}
+
+#right-column {
+margin: 0 0 0 210px;
+}
+
+#main-title {
+font-size: 24px;
+padding: 5px 0 6px 0;
+border-bottom: solid 1px #999999;
+}
+
+.pagination {
+border-style: solid;
+border-color: #EEEEEE;
+border-width: 1px 0;
+padding: 2px;
+font-size: 11px;
+line-height: 22px;
+}
+
+#thread .pagination.bottom {border: 0;}
+
+.pagination.top {margin-bottom: 2px; border-top: 0;}
+
+.pagination ul li {
+display: inline;
+background: #EEEEEE;
+padding: 2px 3px;
+}
+
+.thread {
+background: #FAFAFA;
+margin-bottom: 3px;
+min-height: 42px;
+}
+
+.thread.alt {
+background: #F0F0F0;
+}
+
+.thread a {
+color: #0F0F0F;
+}
+
+.thread .one, .thread .two, .thread .three, .thread .four, .thread .five{
+float: left;
+}
+
+.thread .one, .thread .two, .thread .three {
+padding: 6px 0 0 0;
+}
+
+.thread .one {
+width: 50%;
+}
+
+.thread .two, .thread .three {
+width: 15%;
+}
+
+.thread .four {
+width: 12%;
+text-align: center;
+}
+
+.thread .five {
+width: 6%;
+text-align: right;
+}
+
+.thread .five span {
+margin-right: 8px;
+}
+
+.thread .end-link {
+font-size: 10px;
+}
+
+.thread .subject, .thread .category {
+margin-left: 5px;
+}
+
+.thread .subject, .thread .username {
+font-size: 14px;
+padding-bottom: 3px;
+}
+
+.thread .time, .thread .category {
+font-size: 10px;
+color: #888888;
+}
+
+.thread .four, .thread .five {
+line-height: 40px;
+/*padding: 0 10px;*/
+}
+
+#bottom {
+text-align: center;
+padding: 30px 0 10px 0;
+font-size: 11px;
+color: #999999;
+clear: both;
+}
+
+.comment {
+padding: 0 8px 20px 2px;
+margin-bottom: 2px;
+border-bottom: solid 1px #CCCCCC;
+min-height: 45px;
+}
+
+.comment .cmd-bar {
+text-align: right;
+font-size: 10px;
+padding-bottom: 3px;
+}
+
+.comment .cmd-bar a {
+color: #CCCCCC;
+text-decoration: none;
+margin-left: 10px;
+}
+
+.comment.deleted {
+min-height: 0;
+text-align: center;
+font-size: 10px;
+padding: 2px 0 4px 0;
+}
+
+.comment .user-block {
+float: left;
+width: 120px;
+}
+
+.comment .user-block .time {
+font-size: 10px;
+color: #888888;
+padding-top: 7px;
+}
+
+.comment .content-block {
+margin-left: 125px;
+line-height: 18px;
+font-size: 14px;
+}
+
+.comment .content-block code {
+white-space: pre;
+background: #FFFFEE;
+display: block;
+padding: 10px 0;
+}
+
+.comment .content-block code br {
+display: none;
+}
+
+.comment .content-block, #thread .comment textarea {
+font-size: 14px;
+line-height:1;
+font-family:Georgia;
+}
+
+#thread .comment textarea {
+display: block;
+height: 140px;
+width: 100%;
+border: solid 1px #EEEEEE;
+position: relative;
+top: -2px;
+left: -2px;
+}
+
+#thread .comment button {
+margin-right: 2px;
+}
+
+#notifier {
+position: fixed;
+bottom: 4px;
+left: 4px;
+width: 198px;
+border: solid 1px #EEEEEE;
+text-align: center;
+padding: 7px 0;
+font-size: 11px;
+background: #FFFFFF;
+}
+
+form {text-align: left;}
+
+form .input {
+margin-bottom: 4px;
+min-height: 24px;
+}
+
+form .input label {
+float: left;
+width: 100px;
+line-height: 24px;
+}
+
+form .input.text input {
+padding: 3px;
+}
+
+form .input.textarea textarea {
+line-height: 24px;
+padding: 3px;
+}
+
+form .input.text input, form .input.textarea textarea {
+border: solid 1px #999999;
+font: normal 14px Georgia;
+}
+
+#thread-content-input {
+width: 400px;
+}
+
+#preferences form {
+margin-top: 10px;
+}
+
+#preferences .input label {
+width: 150px;
+}
+
+#user #information {
+width: 200px;
+line-height: 20px;
+margin-top: 8px;
+float: left;
+border: solid 1px #CCCCCC;
+padding: 5px;
+font-size: 12px;
+}
+
+div.tquote {
+background: #FAFAFA;
+padding: 5px 5px 7px 6px;
+font-size: 12px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+border: solid 1px #EEEEEE;
+color: #555555;
+width: auto;
+}
+
+div.tquote div.tqname {
+font-size: 10px;
+margin-bottom: 3px;
+font-style: italic;
+}
