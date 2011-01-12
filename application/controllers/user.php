@@ -19,6 +19,7 @@ class User extends Controller {
 	{
 		$query = $this->user_dal->get_profile_information(str_replace('-', ' ', $username));
 		
+		
 		if ($query->result_id->num_rows === 0)
 			redirect('/');
 		
@@ -32,6 +33,8 @@ class User extends Controller {
 		$data['user_data']->last_login_text = (strtotime($data['user_data']->last_login) == null)
 			? " hasn't logged in yet."
 			: ' last logged in on '. date('F jS Y \a\t g:i a', strtotime($data['user_data']->last_login)) .'.';
+			
+			$data['recent_posts'] = $this->user_dal->get_user_recent_posts($data['user_data']->id);
 		
 		$this->load->view('shared/header');
 		$this->load->view('user', $data);

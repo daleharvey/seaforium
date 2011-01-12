@@ -24,6 +24,7 @@ class User_dal extends Model
 		return NULL;
 	}
 	
+	
 	/**
 	 * Get user record by username
 	 *
@@ -261,7 +262,33 @@ class User_dal extends Model
 		return $this->db->query($sql, $username);
 		
 	}
-	
+	function get_user_recent_posts($user_id)
+	{
+		$query = $this->db->query("
+			SELECT 
+				
+				threads.subject, 
+				threads.thread_id, 
+				comments.comment_id, 
+				comments.thread_id, 
+				comments.user_id, 
+				comments.created,
+				comments.deleted,
+				comments.content
+				
+				FROM comments 
+				
+				LEFT JOIN threads ON
+				comments.thread_id = threads.thread_id
+			WHERE comments.user_id = $user_id
+		AND deleted != 0
+		ORDER BY comment_id DESC");
+		
+		if ($query->num_rows() > 0)
+			return $query->result_array();
+		
+		return NULL;
+	}
 	/**
 	 * Pretty self-explanatory
 	 *

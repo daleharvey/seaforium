@@ -11,8 +11,26 @@
 					</div>
 					
 					<div id="latest-posts">
+					<?php if(!$recent_posts): ?>
+						<h1>This user has posted absolutely nothing on __FORUM__</h1>
+					<?php else: 
+						foreach($recent_posts as $post):
+					?>
+						<div class="post-block">POST</div>
+						<h3 class="recent-thread-title"><?=$post['subject']?></h3>
+						<div class="clear"></div>
+						<div class="recent-post-content">
+							<?=$post['content'];?>
+						</div>
+						<div class="clear"></div>	
+						<hr/>
+						
 					
+					<?php
+						endforeach; 
+					 endif; ?>
+					 <div class="clear"></div>
 					</div>
 					
 				</div>
-				
+				<div class="clear"></div>

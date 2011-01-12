@@ -301,3 +301,43 @@ font-size: 10px;
 margin-bottom: 3px;
 font-style: italic;
 }
+
+/*---- utility ---*/
+.clear { 
+	clear: both;
+}
+/*---- Other User Profile ---*/
+
+#latest-posts { 
+	float: left;
+	position: relative;
+	width: 70%;
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	
+}
+#latest-posts hr {
+	border: none;
+	border-bottom: solid 1px #CCC;
+} 
+.post-block {
+	background: #CCC;
+	color: #545454;
+	text-transform: uppercase;
+	display: block;
+	float: left;
+	margin: 3px;
+	margin-top: 0px;
+	padding: 3px;
+	font-family: Arial;
+	font-size: 10px;
+}
+.recent-thread-title {
+	display: block;
+} 
+.recent-post-content {
+	margin: 3px;
+}
+
