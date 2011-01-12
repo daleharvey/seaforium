@@ -1,7 +1,5 @@
 <?php
 
-// probably not the best place for this
-$this->load->library('user_agent');
 $this->load->model('user_dal');
 
 $css = $this->agent->is_mobile() ? "mobile.css" : "forum.css";
