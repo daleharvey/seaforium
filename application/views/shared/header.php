@@ -11,7 +11,9 @@ $css = $this->agent->is_mobile() ? "mobile.css" : "forum.css";
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<title>New Forum</title>
-	<link rel="stylesheet" type="text/css" href="/css/<?php echo $css; ?>" />	
+	<link rel="stylesheet" type="text/css" href="/css/<?php echo $css; ?>" />
+	<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
+	
 	<base href="<?php echo site_url(); ?>" />
 </head>
 <body>
