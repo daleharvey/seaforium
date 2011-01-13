@@ -43,7 +43,7 @@ function _ready_for_save($content)
 		}
 		else
 		{
-			$final .= $content[$i];
+			$final .= $content[$i] ."\n";
 		}
 	}
 	
