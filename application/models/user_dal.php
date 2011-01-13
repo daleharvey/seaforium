@@ -252,6 +252,7 @@ class User_dal extends Model
 				users.username, 
 				users.created, 
 				users.last_login,
+				users.comments_shown,
 				count(DISTINCT comments.comment_id) AS comment_count,
 				count(DISTINCT threads.thread_id) AS thread_count
 			FROM users
@@ -262,7 +263,13 @@ class User_dal extends Model
 		return $this->db->query($sql, $username);
 		
 	}
-	function get_user_recent_posts($user_id)
+	/**
+	 * Pretty self-explanatory get user recent posts. also concactenate a link in sql
+	 *
+	 * @param	string
+	 * @return	object
+	 */
+	function get_user_recent_posts($user_id, $start=0, $limit)
 	{
 		$query = $this->db->query("
 			SELECT 
@@ -274,7 +281,8 @@ class User_dal extends Model
 				comments.user_id, 
 				comments.created,
 				comments.deleted,
-				comments.content
+				comments.content,
+				concat('/thread/', threads.thread_id, '/', threads.subject) as thread_rel_url
 				
 				FROM comments 
 				
@@ -282,7 +290,8 @@ class User_dal extends Model
 				comments.thread_id = threads.thread_id
 			WHERE comments.user_id = $user_id
 		AND deleted != 0
-		ORDER BY comment_id DESC");
+		ORDER BY comment_id DESC
+		LIMIT $start, $limit");
 		
 		if ($query->num_rows() > 0)
 			return $query->result_array();
