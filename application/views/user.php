@@ -17,10 +17,10 @@
 						foreach($recent_posts as $post):
 					?>
 						<div class="post-block">POST</div>
-						<h3 class="recent-thread-title"><?=$post['subject']?></h3>
+						<h3 class="recent-thread-title"><?php echo $post['subject'] ?></h3>
 						<div class="clear"></div>
 						<div class="recent-post-content">
-							<?=$post['content'];?>
+							<?php echo $post['content']; ?>
 						</div>
 						<div class="clear"></div>	
 						<hr/>

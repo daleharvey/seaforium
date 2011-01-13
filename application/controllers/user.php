@@ -34,7 +34,7 @@ class User extends Controller {
 			? " hasn't logged in yet."
 			: ' last logged in on '. date('F jS Y \a\t g:i a', strtotime($data['user_data']->last_login)) .'.';
 			
-			$data['recent_posts'] = $this->user_dal->get_user_recent_posts($data['user_data']->id);
+		$data['recent_posts'] = $this->user_dal->get_user_recent_posts($data['user_data']->id);
 		
 		$this->load->view('shared/header');
 		$this->load->view('user', $data);
