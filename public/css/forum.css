@@ -341,3 +341,22 @@ font-style: italic;
 	margin: 3px;
 }
 
+#pm-inbox .message {
+	margin-bottom: 2px;
+	line-height: 30px;
+	height: 32px;
+	border-bottom: solid 1px #EEEEEE;
+}
+
+#pm-inbox .message div {
+	float: left;
+}
+
+#pm-inbox .message .subject {
+	width: 60%;
+	padding-left: 6px;
+}
+
+#pm-inbox .message .sender {
+	width: 20%;
+}
