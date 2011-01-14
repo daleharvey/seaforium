@@ -69,7 +69,6 @@ $css = $this->agent->is_mobile() ? "mobile.css" : "forum.css";
 						<?php } ?> 
 					</div>
 				</div>
-				
 			</div>
 			
 			<div id="right-column">
