@@ -251,22 +251,18 @@ padding-bottom: 3px;
 }
 
 #notifier {
-	position: fixed;
-	bottom: 10px;
+	position:fixed;
+  bottom: 10px;
 	left: 10px;
 	width: 198px;
-	border: solid 1px #CCC;
+	border: solid 3px #FFF;
 	text-align: center;
 	padding: 7px 0;
 	font-size: 11px;
-	
-	background: #f8f8f8;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+  background: none repeat scroll 0% 0% rgb(254, 246, 234); 
 }
 #notifier a { 
 	color: #545454;
-	font-weight: bold;
 	font-size: 12px;
 }
 
