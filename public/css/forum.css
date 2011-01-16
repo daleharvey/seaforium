@@ -88,7 +88,6 @@ code {
     margin-right:4px;
 }
 
-
 .lc-node { 
     padding:10px;
     margin-bottom:15px;
@@ -265,9 +264,9 @@ margin: 0 0 10px 0;
 .pagination.top {margin-bottom: 2px; border-top: 0;}
 
 .pagination ul li {
-display: inline;
-background: #EEEEEE;
-padding: 2px 3px;
+	display: inline;
+	background: #EEEEEE;
+	padding: 2px 3px;
 }
 
 .thread {
@@ -325,15 +324,15 @@ line-height: 40px;
 }
 
 #bottom {
-text-align: center;
-padding: 30px 0 10px 0;
-font-size: 11px;
-color: #999999;
-clear: both;
+	text-align: center;
+	padding: 30px 0 10px 0;
+	font-size: 11px;
+	color: #999999;
+	clear: both;
 }
 
 .comment {
-padding: 8px 8px 20px 2px;
+padding: 15px 8px 20px 2px;
 margin-bottom: 2px;
 border-bottom: solid 1px #CCCCCC;
 min-height: 45px;
@@ -353,15 +352,15 @@ margin-left: 10px;
 }
 
 .comment.deleted {
-min-height: 0;
-text-align: center;
-font-size: 10px;
-padding: 2px 0 4px 0;
+	min-height: 0;
+	text-align: center;
+	font-size: 10px;
+	padding: 2px 0 4px 0;
 }
 
 .comment .user-block {
-float: left;
-width: 120px;
+	float: left;
+	width: 120px;
 }
 
 .comment .user-block .time {
@@ -370,116 +369,246 @@ color: #888888;
 }
 
 .comment .content-block {
-margin-left: 125px;
-line-height: 18px;
-font-size: 14px;
+	margin-left: 125px;
+	line-height: 18px;
+	font-size: 14px;
 }
 
 .comment .content-block code {
-white-space: pre;
-background: #FFFFEE;
-display: block;
-padding: 10px 0;
+	white-space: pre;
+	background: #FFFFEE;
+	display: block;
+	padding: 10px 0;
 }
 
 .comment .content-block code br {
-display: none;
+	display: none;
 }
 
 .comment .content-block, #thread .comment textarea {
-font-size: 14px;
-line-height:1;
-font-family:Georgia;
+	font-size: 14px;
+	line-height:1;
+	font-family:Georgia;
 }
 
 #thread .comment textarea {
-display: block;
-height: 140px;
-width: 100%;
-border: solid 1px #EEEEEE;
-position: relative;
-top: -2px;
-left: -2px;
+	display: block;
+	height: 140px;
+	width: 100%;
+	border: solid 1px #EEEEEE;
+	position: relative;
+	top: -2px;
+	left: -2px;
 }
 
 #thread .comment button {
-margin-right: 2px;
+	margin-right: 2px;
 }
 
 #notifier {
-position: fixed;
-bottom: 4px;
-left: 4px;
-width: 198px;
-border: solid 1px #EEEEEE;
-text-align: center;
-padding: 7px 0;
-font-size: 11px;
-background: #FFFFFF;
+	position: fixed;
+	bottom: 10px;
+	left: 10px;
+	width: 198px;
+	border: solid 1px #CCC;
+	text-align: center;
+	padding: 7px 0;
+	font-size: 11px;
+	
+	background: #f8f8f8;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+#notifier a { 
+	color: #545454;
+	font-weight: bold;
+	font-size: 12px;
 }
 
 form {text-align: left;}
 
 form .input {
-margin-bottom: 4px;
-min-height: 24px;
+	margin-bottom: 4px;
+	min-height: 24px;
 }
 
 form .input label {
-float: left;
-width: 100px;
-line-height: 24px;
+	float: left;
+	width: 100px;
+	line-height: 24px;
 }
 
 form .input.text input {
-padding: 3px;
+	padding: 3px;
 }
 
 form .input.textarea textarea {
-line-height: 24px;
-padding: 3px;
+	line-height: 24px;
+	padding: 3px;
 }
 
 form .input.text input, form .input.textarea textarea {
-border: solid 1px #999999;
-font: normal 14px Georgia;
+	border: solid 1px #999999;
+	font: normal 14px Georgia;
 }
 
 #thread-content-input {
-width: 400px;
+	width: 400px;
 }
 
 #preferences form {
-margin-top: 10px;
+	margin-top: 10px;
 }
 
 #preferences .input label {
-width: 150px;
+	width: 150px;
 }
 
+#user { 
+	width: 100%;
+
+}
 #user #information {
-width: 200px;
-line-height: 20px;
-margin-top: 8px;
-float: left;
-border: solid 1px #CCCCCC;
-padding: 5px;
-font-size: 12px;
+	width: 200px;
+	line-height: 20px;
+	border: dotted 1px #CCCCCC;
+	padding: 5px;
+	font-size: 12px;
+	
 }
+#information-bio, #information-desc, #information-widget {
+	width: 200px;
+	line-height: 20px;
+	border: solid 1px #CCCCCC;
+	padding: 5px;
+	font-size: 10px;
+	margin-top: 10px;
+	background: #f7f7f7;
+	color: #545454;
+	
+}
+.personal_info_box h3 { 
+	border-bottom: dotted 1px #545454;
+	margin-bottom: 5px;
+	font-size: 14px;
+}
+#information-desc { 
 
+}
 div.tquote {
-background: #FAFAFA;
-padding: 5px 5px 7px 6px;
-font-size: 12px;
--moz-border-radius: 3px;
-border-radius: 3px;
-border: solid 1px #EEEEEE;
-color: #555555;
-width: auto;
+	background: #FAFAFA;
+	padding: 5px 5px 7px 6px;
+	font-size: 12px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border: solid 1px #EEEEEE;
+	color: #555555;
+	width: auto;
 }
 
 div.tquote div.tqname {
-font-size: 10px;
-margin-bottom: 3px;
-font-style: italic;
+	font-size: 10px;
+	margin-bottom: 3px;
+	font-style: italic;
 }
+
+/*---- utility ---*/
+.clear { 
+	clear: both;
+}
+/*---- Other User Profile ---*/
+.main-pagination { 
+	margin-bottom: 20px;
+	margin-top: 10px;
+}
+.main-pagination .selected-page { 
+	border: 1px solid #7E7E7E;
+    color: #FFF !important;
+    display: inline;
+    font-size: 9px;
+    height: 9px;
+    line-height: 9px;
+    margin-right: 2px;
+    padding: 2px 4px;
+    text-align: center;
+    text-decoration: none;
+	font-family: arial;
+	background: #545454;
+}
+.main-pagination a { 
+	 border: 1px solid #7E7E7E;
+    color: #494949 !important;
+    display: inline;
+    font-size: 9px;
+    height: 9px;
+    line-height: 9px;
+    margin-right: 2px;
+    padding: 2px 4px;
+    text-align: center;
+    text-decoration: none;
+    font-family: arial;
+}
+
+#latest-posts { 
+	margin-left: 230px;
+	margin-top: 10px;
+	padding: 0px;
+}
+.personal_info_box { 
+	float: left;
+	padding: 0px;
+	margin: 0px;
+	
+}
+#this-is-you { 
+	background: #545454;
+	color: #FFF;
+	width: 200px;
+	padding: 6px;
+	margin-bottom: 10px;	
+	font-family: Arial;
+	font-size: 16px;
+	font-weight: bold;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#this-is-you a, #this-is-you a:visited, #this-is-you a:active { 
+	color: #f076ff !important;
+}
+.post-container { 
+	
+}
+#latest-posts hr {
+	border: none;
+	border-bottom: solid 1px #CCC;
+} 
+#bio-info { 
+	
+}
+.post-block {
+	background: #CCC;
+	color: #545454;
+	text-transform: uppercase;
+	display: block;
+	float: left;
+	width: 28px;
+	margin: 3px;
+	margin-top: 0px;
+	padding: 3px;
+	font-family: Arial;
+	font-size: 10px;
+}
+.post-block a {
+	text-decoration: none;
+	color: #545454;
+}
+.recent-thread-title {
+	display: block;
+} 
+.recent-post-content {
+	margin: 3px;
+	font-size: 12px;
+	margin-top: 10px;
+}
+

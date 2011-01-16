@@ -54,7 +54,7 @@ class Ajax extends Controller
 	
 	function comment_save()
 	{
-		$comment_id = (int)$_POST['comment_id'];
+		$comment_id = (int)$this->input->post('comment_id');
 		
 		if ($comment_id === 0)
 			return;
@@ -63,11 +63,11 @@ class Ajax extends Controller
 		
 		if ($existing->user_id === $this->session->userdata('user_id'))
 		{
-			$content = _ready_for_save($this->input->xss_clean($_POST['content']));
+			$content = _ready_for_save($this->input->post('content'));
 			
 			if ($this->thread_dal->update_comment($comment_id, $content, $this->session->userdata('user_id')))
 			{
-				echo $content;
+				echo _ready_for_display($content);
 			}
 		}
 		

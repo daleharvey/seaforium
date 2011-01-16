@@ -1,10 +1,11 @@
 <?php
 
+// probably not the best place for this
+$this->load->library('user_agent');
 $this->load->model('user_dal');
 
 $css = $this->agent->is_mobile() ? "mobile.css" : "forum.css";
 $username = $this->session->userdata('username');
-
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -83,7 +84,6 @@ $username = $this->session->userdata('username');
 						<?php } ?> 
 					</div>
 				</div>
-				
 			</div>
 			
 			<div id="right-column">

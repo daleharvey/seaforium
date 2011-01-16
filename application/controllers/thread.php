@@ -88,7 +88,14 @@ class Thread extends Controller {
 			'base_url' => $base_url,
 			'total_rows' => $data['total_comments'],
 			'uri_segment' => $pseg,
-			'per_page' => $display
+			'per_page' => $display,
+			'full_tag_open' => '<div class="main-pagination">',
+			'full_tag_close' => '</div>',
+			'cur_tag_open' => '<div class="selected-page">',
+			'cur_tag_close' => '</div>',
+			'num_tag_open' => '',
+			'num_tag_close' => ''
+			
 		)); 
 		
 		$data['pagination'] = $this->pagination->create_links();
