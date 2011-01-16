@@ -44,7 +44,7 @@ $username = $this->session->userdata('username');
              </a>
           
 					<ul>
-						<li><a href="/preferences">Prefences</a></li>
+						<li><a href="/preferences">Preferences</a></li>
 						<li><a href="/auth/logout" class="logout">Logout</a></li>
 						<?php //<li><a href="/mail/inbox">8 unread messages</a></li> ?> 
 					</ul>
