@@ -1,13 +1,244 @@
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;}
-body{line-height:1;font-family:Georgia;}
-ol,ul{list-style: none;}
-blockquote,q{quotes:none;}
-blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
-:focus{outline:0;}
-ins{text-decoration:none;}
-del{text-decoration: line-through;}
-table{border-collapse:collapse;border-spacing:0;}
-a { cursor:pointer; }
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;background:transparent;}
+
+body {	
+    margin:0px;
+    padding:0px;
+    border:0px;
+    background-color:#ffffff;
+}
+
+form {
+    margin:0px;
+    padding:0px;
+}
+
+img {
+    border:0px;
+}
+
+body,div,td,input,select,textarea{
+    font-family:Arial;
+    font-size:12px;
+    color:#494949;
+}
+
+a {
+    text-decoration:underline;
+    cursor:pointer;
+    color:#494949;
+}
+
+a:hover{
+    color:#ffffff;
+    background-color:#494949;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+code {
+	font-family: 'Courier New',monospace;
+	font-size: 9pt;
+	color: #000000;
+	white-space: pre;
+}
+
+/********************************************************
+   MAIN LAYOUT
+ ********************************************************/
+
+#header { 
+    display:block;
+    text-indent:-9999px;
+    width:80px;
+    height:14px;
+    background:url(/img/logo.gif);
+    margin-bottom:15px;
+}
+
+#left-column {
+    position:absolute;
+    top:25px;
+    left:25px;
+    width: 200px;
+}
+
+.welcome { 
+    border: 1px dotted #959595;
+    padding:10px;
+    margin-bottom:15px;
+}
+
+.welcome li a { 
+    text-transform:uppercase;
+    font-size: 9px;
+}
+
+.logout { 
+    color: #ED135A;
+}
+
+.main_avatar {
+    display:block;
+    width:16px;
+    height:16px;
+    float:left; 
+    padding:4px;
+    margin-right:4px;
+}
+
+
+.lc-node { 
+    padding:10px;
+    margin-bottom:15px;
+}
+
+#threads h3, #buddy-list h3 { 
+    font-size:20px;
+}
+
+#threads { 
+    background-color: #E9F8FE;
+}
+
+#buddy-list { 
+    background-color: #EDF5E1;
+}
+
+#threads ul { 
+    padding-bottom: 7px;
+    margin-top:7px;
+}
+#threads ul a { 
+    font-size:10px; 
+}
+#thread-categories { 
+    text-transform:uppercase;
+    border-bottom:1px dotted #959595;
+}
+#special-threads a { 
+    color: #959595;
+}
+
+/*************************************************************
+   MAIN THREADS PAGE
+*************************************************************/
+#main-title {
+    border-bottom: 1px dotted #959595;
+    font-size: 24px;
+    font-weight: bold;
+    height: 40px;
+    line-height: 40px;
+    margin-bottom: 15px;
+    padding-top: 53px;
+}
+
+#post-thread { 
+    background-color: #E6F7FE;
+    float: right;
+    padding: 4px 4px;
+    text-transform:uppercase;
+    font-size:9px; 
+}
+
+.pagination { 
+    height:29px;
+    overflow:auto; 
+    border-bottom: 1px dotted #959595;    
+}
+
+.pagination.bottom { 
+    padding-top:15px; 
+}
+
+#thread-headers { 
+    min-height:0px;
+    overflow:auto;
+    background:transparent; 
+    border-bottom: 1px solid #BBBBBB;
+}
+#thread-headers div { 
+    padding:0px;
+    color: #7E7E7E;
+    font-size: 9px;
+    line-height: 27px;
+}
+
+.subject, .username {
+    line-height:16px;
+    font-size:12px; 
+    font-weight:bold; 
+}
+
+.time, .category { 
+    font-size:9px;
+    color: #959595;
+}
+
+.blueline {
+    background-color: #ACE1F9;
+    height: 1px;
+    overflow: hidden;
+}
+
+.favourite {
+    margin-top:12px;
+    display:block;
+    width:12px;
+    height:16px;
+    background:url(/img/b-add.gif);
+}
+
+/*************************************************************
+   New Thread
+*************************************************************/
+#new-thread label {
+    display:block;
+    font-size:16px;
+    margin-top:12px;
+    font-weight:bold;
+    margin-bottom: 6px;
+}
+
+.inp {
+    margin-bottom:15px;
+    padding-bottom:12px;
+    border-bottom: 1px dotted #959595;
+}
+
+#subject { 
+    width:350px;
+    padding:4px;
+    font-size: 16px;
+}
+
+/*************************************************************
+   MAIN THREADS PAGE
+*************************************************************/
+
+/* #left-column .lc-node { */
+/* margin: 0 0 2px 0; */
+/* padding: 4px; */
+/* border: solid 1px #EEEEEE; */
+/* font-size: 12px; */
+/* } */
+
+/* #left-column ul li { */
+/* padding: 2px 0 2px 3px; */
+/* font-size: 11px; */
+/* } */
+
+
+/* body{line-height:1;font-family:Georgia;} */
+/* ol,ul{list-style: none;} */
+/* blockquote,q{quotes:none;} */
+/* blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;} */
+/* :focus{outline:0;} */
+/* ins{text-decoration:none;} */
+/* del{text-decoration: line-through;} */
+/* table{border-collapse:collapse;border-spacing:0;} */
+/* a { cursor:pointer; } */
 #wrapper {
 width: 99%;
 margin: 0 auto;
@@ -20,49 +251,13 @@ margin: 0 0 10px 0;
 
 #middle {}
 
-#left-column {
-float: left;
-width: 200px;
-min-height: 200px;
-}
-
-#left-column .lc-node {
-margin: 0 0 2px 0;
-padding: 4px;
-border: solid 1px #EEEEEE;
-font-size: 12px;
-}
-
-#left-column ul li {
-padding: 2px 0 2px 3px;
-font-size: 11px;
-}
-
-#new-thread {
-padding: 4px !important;
-text-align: center;
-}
 
 #buddy-list div {padding: 0 0 0 2px;}
 #buddy-list div span {font-size: 11px;}
 
 #right-column {
-margin: 0 0 0 210px;
-}
-
-#main-title {
-font-size: 24px;
-padding: 5px 0 6px 0;
-border-bottom: solid 1px #999999;
-}
-
-.pagination {
-border-style: solid;
-border-color: #EEEEEE;
-border-width: 1px 0;
-padding: 2px;
-font-size: 11px;
-line-height: 22px;
+    margin: 25px 0 0 240px;
+    padding: 0 25px 50px 0;
 }
 
 #thread .pagination.bottom {border: 0;}
@@ -76,17 +271,14 @@ padding: 2px 3px;
 }
 
 .thread {
-background: #FAFAFA;
-margin-bottom: 3px;
+background-color: #F5FBFE;
+margin:2px 0 2px 0;
 min-height: 42px;
+overflow:auto; 
 }
 
 .thread.alt {
-background: #F0F0F0;
-}
-
-.thread a {
-color: #0F0F0F;
+background-color: #F9FCFE;
 }
 
 .thread .one, .thread .two, .thread .three, .thread .four, .thread .five{
@@ -127,17 +319,7 @@ font-size: 10px;
 margin-left: 5px;
 }
 
-.thread .subject, .thread .username {
-font-size: 14px;
-padding-bottom: 3px;
-}
-
-.thread .time, .thread .category {
-font-size: 10px;
-color: #888888;
-}
-
-.thread .four, .thread .five {
+.thread .four {
 line-height: 40px;
 /*padding: 0 10px;*/
 }
@@ -151,21 +333,22 @@ clear: both;
 }
 
 .comment {
-padding: 0 8px 20px 2px;
+padding: 8px 8px 20px 2px;
 margin-bottom: 2px;
 border-bottom: solid 1px #CCCCCC;
 min-height: 45px;
+position:relative; 
 }
 
 .comment .cmd-bar {
-text-align: right;
-font-size: 10px;
-padding-bottom: 3px;
+    position:absolute;
+    top:0px;
+    right:0px;
+font-size: 9px;
 }
 
 .comment .cmd-bar a {
 color: #CCCCCC;
-text-decoration: none;
 margin-left: 10px;
 }
 
@@ -184,7 +367,6 @@ width: 120px;
 .comment .user-block .time {
 font-size: 10px;
 color: #888888;
-padding-top: 7px;
 }
 
 .comment .content-block {

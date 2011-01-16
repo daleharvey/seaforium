@@ -1,10 +1,19 @@
 
 				<div id="main-title" title="<?php echo $title->username ?>"><?php echo $title->title_text ?></div>
 				
-				<div class="pagination top">
+				<div id="thread-navigation" class="pagination top">
+          <a href="/newthread" id="post-thread">Post Thread</a>
 					<?php echo $pagination; ?>
 				</div>
-				
+	
+
+			<div class="thread" id="thread-headers">
+					<div class="one">Thread Title & Category</div>
+					<div class="two">Started By</div>
+					<div class="three">Last Post</div>
+					<div class="four">Posts</div>
+				</div>
+			
 <?php 
 
 $display = $this->session->userdata('threads_shown') == false ? 50 : $this->session->userdata('threads_shown');
@@ -32,11 +41,13 @@ foreach($thread_result->result() as $row) {
 					</div>
 					<div class="four">
 						<span><?php echo $row->response_count ?></span>
-					</div>
-					<div class="five"><span>F</span></div>
+					</div> 
+          <div class="five"><a class="favourite">&nbsp;</a></div>
 				</div>
+        <div class="blueline">&nbsp;</div>
 <?php } ?>
 
 				<div class="pagination bottom">
+          <a href="/newthread" id="post-thread">Post Thread</a>
 					<?php echo $pagination; ?>
 				</div>

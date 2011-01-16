@@ -3,6 +3,7 @@
 $this->load->model('user_dal');
 
 $css = $this->agent->is_mobile() ? "mobile.css" : "forum.css";
+$username = $this->session->userdata('username');
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -20,39 +21,54 @@ $css = $this->agent->is_mobile() ? "mobile.css" : "forum.css";
 	
 	<div id="wrapper">
 		
-		<div id="top">
-			
-			<a href="/">New Forum</a>
-			
-		</div>
-		
 		<div id="middle">
 			
 			<div id="left-column">
 			
-				<div class="lc-node">
+			  <a href="/" id="header">New Yay</a>
+
+				<div class="lc-node welcome">
 					<?php if (!$this->sauth->is_logged_in()) { ?> 
 					<ul>
 						<li><a href="/auth/login">Login</a></li>
 					</ul>
 					<?php } else { ?> 
-					Welcome back, <?php echo $this->session->userdata('username'); ?>
+					<h4>
+            Hi, <a href="/user/<?php echo $username; ?>">
+             <?php echo $this->session->userdata('username'); ?>
+             </a>
+          </h4>
+
+            <a href="/user/<?php echo $username; ?>">
+             <img src="/img/pinkies/11.gif" class="main_avatar" />
+             </a>
+          
 					<ul>
-						<li><a href="/preferences">Your account</a></li>
-						<li><a href="/auth/logout">Logout</a></li>
+						<li><a href="/preferences">Prefences</a></li>
+						<li><a href="/auth/logout" class="logout">Logout</a></li>
 						<?php //<li><a href="/mail/inbox">8 unread messages</a></li> ?> 
 					</ul>
+
 					<?php } ?> 
 				</div>
 				
 				<?php if ($this->sauth->is_logged_in()) { ?> 
-				<div class="lc-node">
-					<h3>Threads</h3>
+				<div class="lc-node" id="threads">
+					<h3><a href="/">Threads</a></h3>
+           <ul id="thread-categories">
+             <li><a href="#">Discussions</a></li>
+             <li><a href="#">Projects</a></li>
+             <li><a href="#">Advice</a></li>
+             <li><a href="#">Meaningless</a></li>
+           </ul>
+           <ul id="special-threads">
+             <li><a href="#">All Forums</a></li>
+             <li><a href="#">All But Meaningless</a></li>
+             <li><a href="#">Participated Threads</a></li>
+             <li><a href="#">Favourite Threads</a></li>
+           </ul>
 				</div>
 				
-				<div class="lc-node" id="new-thread">
-					<a href="/newthread">New Thread</a>
-				</div>
 				<?php } ?> 
 				
 				<div class="lc-node" id="buddy-list">
