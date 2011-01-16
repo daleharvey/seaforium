@@ -27,14 +27,14 @@ foreach($comment_result->result() as $row) {
 	// alternating comment colors!!!
 	$alt = (!isset($alt) || $alt === false ? true : false);
 	
-	$edit_source = ($row->user_id == $this->session->userdata('user_id') && strtotime($row->created) > time() - 3600) ? 'edit' : 'show source';
+	$edit_source = ($row->user_id == $this->session->userdata('user_id') && strtotime($row->created) > time() - 3600) ? 'edit' : 'View Source';
 	
 ?>
 
 					<div id="comment-<?php echo $row->comment_id; ?>" class="comment<?php echo $alt === false ? '' : ' alt'; ?>">
 						<div class="cmd-bar">
- 							<span><a href="#" class="view-source" onclick="thread.view_source(<?php echo $row->comment_id; ?>); return false;"><?php echo $edit_source; ?></a></span>
-             <a class="quote">quote</a>
+ 							<span><a class="view-source" onclick="thread.view_source(<?php echo $row->comment_id; ?>); return false;"><?php echo $edit_source; ?></a></span>
+             <a class="quote">Quote</a>
 						</div>
 						<div class="user-block">
 							<div class="username"><?php echo anchor('/user/'.url_title($row->username, 'dash', TRUE), $row->username); ?></div>

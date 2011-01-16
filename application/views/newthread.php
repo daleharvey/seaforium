@@ -22,17 +22,16 @@ $content = array(
 					
 					<?php echo form_open('/newthread'); ?>
 						
-						<div class="input text">
-							<?php echo form_label('Subject', $subject['id']); ?>
+						<div class="inp">
+							<?php echo form_label('Step 1: Write a thread title', $subject['id']); ?>
 							<?php echo form_input($subject); ?>
 						</div>
 						
-						<div class="input textarea">
-							<?php echo form_label('Body', $content['id']); ?>
+						<div class="inp">
+							<?php echo form_label('Step 3: Type the content of your thread ', $content['id']); ?>
 							<?php echo form_textarea($content); ?>
 						</div>
-						
-						<?php echo form_submit('submit', 'Submit'); ?>
+						<?php echo form_submit('submit', 'Post Thread'); ?>
 					<?php echo form_close(); ?>
 					
 				</div>
