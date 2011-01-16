@@ -31,7 +31,7 @@ class Ajax extends Controller
 			
 			$page = $goto > 0 ? '/p/'.(($goto-1)*$this->session->userdata('comments_shown')) : '';
 			
-			echo '<div id="notifier"><a href="/thread/'. $thread_id .'/'. url_title($this->thread_dal->get_thread_information($thread_id)->row()->subject, 'dash', TRUE) . $page .'/r'. mt_rand(10000, 99999) .'#bottom">'. $new_posts .' new post'. ($new_posts === 1 ? '' : 's') ."</a></div>";
+			echo '<div id="notifier"><a href="/thread/'. $thread_id .'/'. url_title($this->thread_dal->get_thread_information($thread_id)->row()->subject, 'dash', TRUE) . $page .'/r'. mt_rand(10000, 99999) .'#bottom">'. $new_posts .' new post added'. ($new_posts === 1 ? '' : 's') ."</a></div>";
 		}
 	}
 	
