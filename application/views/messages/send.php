@@ -1,20 +1,18 @@
 <?php
 
 $recip_input = set_value('recipients');
-$subject_input = set_value('subject');
-$content_input = set_value('content');
 
 $recipients = array(
 	'name'	=> 'recipients',
 	'id'	=> 'pm-recipients',
-	'value' => isset($recip_input) && strlen($recip_input) > 0 ? $recip_input : $message->username,
+	'value' => isset($recip_input) && strlen($recip_input) > 0 ? $recip_input : $to,
 	'size'	=> 30
 );
 
 $subject = array(
 	'name'	=> 'subject',
 	'id'	=> 'pm-subject',
-	'value' => isset($subject_input) && strlen($subject_input) > 0 ? $subject_input : 'RE: '.$message->subject,
+	'value' => set_value('subject'),
 	'maxlength'	=> 64,
 	'size'	=> 30
 );
@@ -22,7 +20,7 @@ $subject = array(
 $content = array(
 	'name'	=> 'content',
 	'id'	=> 'pm-content-input',
-	'value' => isset($subject_input) && strlen($subject_input) > 0 ? $subject_input : "\n\n\n------------------------------------\n\n".$message->content
+	'value' => set_value('content')
 );
 
 $err_display = '';
