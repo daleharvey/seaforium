@@ -32,13 +32,18 @@ var YAY = (function() {
         });
 
         $("#save-title").live("click", function () {
-            alert("TODO!");
             var newTitle = $("#title-input").val();
-            $("#main-title")
-                .empty()
-                .html("<h3>" + newTitle + "</h3>")
-                .removeClass("editing");            
-            // TODO: save the title
+            $.ajax({
+                type: "POST",
+                url: "/title/edit",
+                data: "title=" + newTitle,
+                success: function(msg){
+                    $("#main-title")
+                        .empty()
+                        .html("<h3>" + newTitle + "</h3>")
+                        .removeClass("editing");
+                }
+            });
         });
 
     })();
