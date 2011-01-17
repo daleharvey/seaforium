@@ -33,11 +33,12 @@ class Message_dal extends Model
 			LEFT JOIN users
 			ON pm_inbox.from_id = users.id
 			WHERE pm_content.message_id = ?
-			AND pm_inbox.to_id = ?
+			AND (pm_inbox.to_id = ? OR pm_outbox.from_id = ?)
 			AND pm_inbox.deleted = 0";
 		
 		$result = $this->db->query($sql, array(
 			$message_id,
+			$user_id,
 			$user_id
 		));
 		
