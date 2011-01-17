@@ -1,6 +1,6 @@
 	
 				<div id="thread">
-					<div id="main-title"><?php echo $title ?></div>
+					<div id="main-title"><h3><?php echo $title ?></h3></div>
 					
 					<div class="pagination top">
 						<?php echo $pagination; ?>
