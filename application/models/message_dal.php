@@ -20,7 +20,7 @@ class Message_dal extends Model
 	function get_message($user_id, $message_id)
 	{
 		$sql = "
-			SELECT
+			SELECT DISTINCT
 				users.username,
 				pm_inbox.read,
 				pm_content.subject,
@@ -33,8 +33,9 @@ class Message_dal extends Model
 			LEFT JOIN users
 			ON pm_inbox.from_id = users.id
 			WHERE pm_content.message_id = ?
-			AND (pm_inbox.to_id = ? OR pm_outbox.from_id = ?)
-			AND pm_inbox.deleted = 0";
+			AND (pm_inbox.to_id = ? OR pm_inbox.from_id = ?)
+			AND pm_inbox.deleted = 0
+			GROUP BY pm_content.message_id";
 		
 		$result = $this->db->query($sql, array(
 			$message_id,

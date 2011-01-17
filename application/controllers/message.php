@@ -21,9 +21,15 @@ class Message extends Controller {
 		
 		$user_id = (int)$this->session->userdata('user_id');
 		
-		if (!$data['message'] = $this->message_dal->get_message($user_id, $message_id)->row())
+		$message = $this->message_dal->get_message($user_id, $message_id);
+		
+		if ($message != FALSE)
 		{
-			$data['errors'] = "Either that message does not exist or you do not have rights to view it";
+			$data['message'] = $message->row();
+		}
+		else
+		{
+			redirect('/');
 		}
 		
 		$this->message_dal->set_read($user_id, $message_id);
