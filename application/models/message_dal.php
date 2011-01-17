@@ -12,6 +12,11 @@ class Message_dal extends Model
 		return (int)$this->db->query("SELECT count(inbox_id) AS msg_count FROM pm_inbox WHERE pm_inbox.read = 0 AND to_id = ?", $user_id)->row()->msg_count;
 	}
 	
+	function set_read($user_id, $message_id)
+	{
+		$this->db->query("UPDATE pm_inbox SET pm_inbox.read = 1 WHERE message_id = ? AND to_id = ?", array((int)$message_id, $user_id));
+	}
+	
 	function get_message($user_id, $message_id)
 	{
 		$sql = "
@@ -20,7 +25,8 @@ class Message_dal extends Model
 				pm_inbox.read,
 				pm_content.subject,
 				pm_content.content,
-				pm_content.created
+				pm_content.created,
+				pm_content.message_id
 			FROM pm_inbox
 			LEFT JOIN pm_content
 			ON pm_inbox.message_id = pm_content.message_id

@@ -14,7 +14,7 @@ $recipients = array(
 $subject = array(
 	'name'	=> 'subject',
 	'id'	=> 'pm-subject',
-	'value' => isset($subject_input) && strlen($subject_input) > 0 ? $subject_input : 'RE: '.$message->subject,
+	'value' => isset($subject_input) && strlen($subject_input) > 0 ? $subject_input : $message->subject,
 	'maxlength'	=> 64,
 	'size'	=> 30
 );
@@ -22,7 +22,7 @@ $subject = array(
 $content = array(
 	'name'	=> 'content',
 	'id'	=> 'pm-content-input',
-	'value' => isset($subject_input) && strlen($subject_input) > 0 ? $subject_input : "\n\n\n------------------------------------\n\n".$message->content
+	'value' => isset($subject_input) && strlen($subject_input) > 0 ? $subject_input : $message->content
 );
 
 $err_display = '';

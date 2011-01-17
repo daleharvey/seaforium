@@ -6,6 +6,31 @@
 				
 				<div id="pm-inbox">
 					
+					<div class="ctrl-bar">
+						<div class="pagination">
+						
+						</div>
+						<div class="new-message">
+							<a href="/messages/send">NEW MESSAGE</a>
+						</div>
+					</div>
+					
+					<div id="pm-box-controls">
+						<div class="left">
+							<a href="/messages/inbox">Inbox (<?php echo $this->message_dal->unread_messages($this->session->userdata('user_id')); ?>)</a> |
+							<a href="/messages/outbox">Sent Items</a>
+						</div>
+						<div class="right">
+						
+						</div>
+					</div>
+					
+					<div class="message header">
+						<div class="subject">Subject</div>
+						<div class="sender">From</div>
+						<div class="time">Received</div>
+					</div>
+					
 <?php
 
 foreach($messages->result() as $row) { 
@@ -26,9 +51,21 @@ foreach($messages->result() as $row) {
 							<?php echo $username_display .' '. $multiple_recipients; ?>
 						</div>
 						<div class="time">
-							<?php echo $row->created; ?> 
+							<?php echo _format_pm_time($row->created); ?> 
 						</div>
 					</div>
+					
+					<div class="blue-bar"></div>
+					
 <?php } ?> 
 
+					<div class="ctrl-bar">
+						<div class="pagination">
+						
+						</div>
+						<div class="new-message">
+							<a href="/messages/send">NEW MESSAGE</a>
+						</div>
+					</div>
+					
 				</div>

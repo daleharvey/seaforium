@@ -6,7 +6,7 @@ class Message extends Controller {
 	{
 		parent::Controller();
 		
-		$this->load->helper(array('form', 'url'));
+		$this->load->helper(array('form', 'url', 'content_render'));
 		//$this->load->library('form_validation');
 		
 		$this->load->model('message_dal');
@@ -25,6 +25,8 @@ class Message extends Controller {
 		{
 			$data['errors'] = "Either that message does not exist or you do not have rights to view it";
 		}
+		
+		$this->message_dal->set_read($user_id, $message_id);
 		
 		$this->load->view('shared/header');
 		$this->load->view('messages/message', $data);

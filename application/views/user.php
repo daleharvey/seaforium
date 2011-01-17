@@ -20,7 +20,7 @@
 						<div id="information" class="standard_profile_info_box">
 						<h3><?php echo $user_data->username ?></h3>
 						<span class='small_profile_caps'>BUDDY NOT ONLINE!</span><br/>
-							&rarr; <a href='#'>Send a message</a><br/>
+							&rarr; <a href='/messages/send/<?php echo $this->uri->segment(2) ?>'>Send a message</a><br/>
 							&rarr; <a href='#'>Change buddy status</a><br/>
 							&rarr; <a href='#'>View threads started</a><br/>
 							&rarr; x people invited by <?php echo $user_data->username ?><br/>

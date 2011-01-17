@@ -6,7 +6,7 @@ class Messages extends Controller {
 	{
 		parent::Controller();
 		
-		$this->load->helper(array('form', 'url'));
+		$this->load->helper(array('form', 'url', 'content_render'));
 		$this->load->library('form_validation');
 		
 		$this->load->model(array('message_dal', 'user_dal'));
@@ -17,12 +17,15 @@ class Messages extends Controller {
 		redirect('/messages/inbox');
 	}
 	
-	function send()
+	function send($to = '')
 	{
 		
-		$data = array();
+		$data = array('to' => $to);
 		
-		$this->form_validation->set_rules('recipients', 'Recipients', 'trim|required|xss_clean');
+		$this->form_validation->set_message('required', "%s is required");
+		$this->form_validation->set_error_delimiters('<li>', '</li>');
+		
+		$this->form_validation->set_rules('recipients', 'At least one recipient', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('subject', 'Subject', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('content', 'Content', 'trim|required|xss_clean');
 		
@@ -65,12 +68,44 @@ class Messages extends Controller {
 			}
 			else
 			{
-				$data['errors'] = "One or more of the recipients does not exist";
+				$data['errors'] = "<li>One or more of the recipients does not exist</li>";
 			}
+		}
+		else
+		{
+			$data['errors'] = validation_errors();
 		}
 		
 		$this->load->view('shared/header');
 		$this->load->view('messages/send', $data);
+		$this->load->view('shared/footer');
+	}
+	
+	function reply($message_id)
+	{
+		$user_id = (int)$this->session->userdata('user_id');
+		
+		if ($message = $this->message_dal->get_message($user_id, $message_id))
+		{
+			$data['message'] = $message->row();
+			
+			$data['message']->subject = 'RE: '. $data['message']->subject;
+			
+			$data['message']->content = "\n \n \n-----------------------------\n \n". $data['message']->content;
+		}
+		else
+		{
+			$null = new stdClass;
+			$null->username = '';
+			$null->subject = '';
+			$null->content = '';
+			
+			$data['message'] = $null;
+			$data['errors'] = "Either that message does not exist or you do not have rights to view it";
+		}
+		
+		$this->load->view('shared/header');
+		$this->load->view('messages/reply', $data);
 		$this->load->view('shared/footer');
 	}
 	
