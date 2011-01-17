@@ -65,6 +65,7 @@ class Messages extends Controller {
 					$this->message_dal->new_outbox($recipient, $message);
 				}
 				
+				redirect('/messages/inbox');
 			}
 			else
 			{

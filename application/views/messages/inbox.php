@@ -35,8 +35,10 @@
 
 foreach($messages->result() as $row) { 
 
+$unread = $row->read === '0' ? ' unread' : '';
+
 ?>
-					<div class="message">
+					<div class="message<?php echo $unread; ?>">
 						<div class="subject">
 							<?php echo anchor('/message/'. $row->message_id, $row->subject); ?> 
 						</div>
