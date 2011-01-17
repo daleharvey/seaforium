@@ -23,7 +23,7 @@ $content = array(
 
 ?>
 
-				<div id="main-title">New message</div>
+				<div id="main-title"><h3>Well aren't you Mr. Popular?</h3></div>
 				
 				<div id="pm-send">
 					

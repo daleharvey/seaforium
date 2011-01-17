@@ -2,7 +2,7 @@
 
 ?>
 
-				<div id="main-title">MOTHERFUCKING INBOX</div>
+				<div id="main-title"><h3>Well aren't you Mr. Popular?</h3></div>
 				
 				<div id="pm-inbox">
 					
