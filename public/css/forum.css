@@ -486,3 +486,30 @@ font-size: 10px;
 margin-bottom: 3px;
 font-style: italic;
 }
+
+.main-pagination { 
+    display: inline;
+}
+.main-pagination div, .main-pagination a { 
+    font-size: 10px;
+    color: #7E7E7E;
+    border: 1px solid #7E7E7E;
+    display: block;
+    float: left;
+    font-size: 8px;
+    height: 8px;
+    line-height: 8px;
+    margin-right: 5px;
+    padding: 2px 4px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.paging-text { 
+    font-size: 10px;
+    color: #7E7E7E;
+}
+
+.main-pagination div { 
+    background-color: #7E7E7E;
+}
