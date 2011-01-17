@@ -392,7 +392,6 @@ display: none;
 .comment .content-block, #thread .comment textarea {
 font-size: 14px;
 line-height:1;
-font-family:Georgia;
 }
 
 #thread .comment textarea {
@@ -445,7 +444,6 @@ padding: 3px;
 
 form .input.text input, form .input.textarea textarea {
 border: solid 1px #999999;
-font: normal 14px Georgia;
 }
 
 #thread-content-input {
