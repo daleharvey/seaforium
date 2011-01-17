@@ -24,7 +24,6 @@ class User_dal extends Model
 		return NULL;
 	}
 	
-	
 	/**
 	 * Get user record by username
 	 *
@@ -37,6 +36,18 @@ class User_dal extends Model
 		
 		if ($query->num_rows() == 1) return $query->row();
 		return NULL;
+	}
+	
+	function get_user_ids_from_array($usernames)
+	{
+		$usernames = array_map('strtolower', $usernames);
+		$usernames = array_map('trim', $usernames);
+		
+		$userlist = "'". implode("','",$usernames) ."'";
+		
+		$sql = "SELECT id FROM users WHERE LOWER(username) IN (". $userlist .")";
+		
+		return $this->db->query($sql);
 	}
 	
 	/**
@@ -271,9 +282,8 @@ class User_dal extends Model
 	 */
 	function get_user_recent_posts($user_id, $start=0, $limit)
 	{
-		$query = $this->db->query("
-			SELECT 
-				
+		$sql = "
+			SELECT
 				threads.subject, 
 				threads.thread_id, 
 				comments.comment_id, 
@@ -283,15 +293,19 @@ class User_dal extends Model
 				comments.deleted,
 				comments.content,
 				concat('/thread/', threads.thread_id, '/', threads.subject) as thread_rel_url
-				
-				FROM comments 
-				
-				LEFT JOIN threads ON
-				comments.thread_id = threads.thread_id
-			WHERE comments.user_id = $user_id
-		AND deleted != 0
-		ORDER BY comment_id DESC
-		LIMIT $start, $limit");
+			FROM comments 
+			LEFT JOIN threads
+				ON comments.thread_id = threads.thread_id
+			WHERE comments.user_id = ?
+				AND deleted != 0
+			ORDER BY comment_id DESC
+			LIMIT ?, ?";
+		
+		$query = $this->db->query($sql, array(
+			$user_id,
+			$start, 
+			$limit
+		));
 		
 		if ($query->num_rows() > 0)
 			return $query->result_array();

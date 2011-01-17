@@ -2,12 +2,12 @@
 				<div id="main-title" title="<?php echo $title->username ?>"><?php echo $title->title_text ?></div>
 				
 				<div id="thread-navigation" class="pagination top">
-          <a href="/newthread" id="post-thread">Post Thread</a>
+					<a href="/newthread" id="post-thread">Post Thread</a>
 					<?php echo $pagination; ?>
 				</div>
 	
 
-			<div class="thread" id="thread-headers">
+				<div class="thread" id="thread-headers">
 					<div class="one">Thread Title & Category</div>
 					<div class="two">Started By</div>
 					<div class="three">Last Post</div>
@@ -45,8 +45,7 @@ foreach($thread_result->result() as $row) {
           <div class="five"><a class="favourite">&nbsp;</a></div>
 				</div>
         <div class="blueline">&nbsp;</div>
-<?php } ?>
-
+<?php } ?> 
 				<div class="pagination bottom">
           <a href="/newthread" id="post-thread">Post Thread</a>
 					<?php echo $pagination; ?>

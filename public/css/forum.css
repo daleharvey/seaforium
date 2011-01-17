@@ -483,3 +483,28 @@ font-size: 10px;
 margin-bottom: 3px;
 font-style: italic;
 }
+
+#pm-inbox .message {
+margin-bottom: 2px;
+line-height: 24px;
+height: 24px;
+padding-left: 4px;
+}
+
+#pm-inbox .message div {
+float: left;
+line-height: 24px !important;
+color: #666666;
+font-size: 12px;
+font-weight: 500;
+padding: 0 !important;
+margin: 0 !important;
+}
+
+#pm-inbox .message .subject {
+width: 60%;
+}
+
+#pm-inbox .message .sender {
+width: 20%;
+}
