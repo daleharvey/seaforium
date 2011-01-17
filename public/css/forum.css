@@ -99,6 +99,18 @@ code {
     margin-bottom:15px;
 }
 
+.lc-node#messaging {
+background: #FEF6EA;
+}
+
+.lc-node#messaging img {
+margin-right: 5px;
+}
+
+.lc-node#messaging a {
+font-size: 11px;
+}
+
 #threads h3, #buddy-list h3 { 
     font-size:20px;
 }

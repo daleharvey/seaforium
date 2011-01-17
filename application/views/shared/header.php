@@ -44,19 +44,25 @@ $username = $this->session->userdata('username');
 					<?php
 						$unread_messages = $this->message_dal->unread_messages($this->session->userdata('user_id'));
 						
-						$unread_text = $unread_messages .' unread message' .($unread_messages === 1 ? '' : 's');
+						$unread_text = $unread_messages .' Unread Message' .($unread_messages === 1 ? '' : 's');
 					?>
 					
 					<ul>
 						<li><a href="/preferences">Preferences</a></li>
 						<li><a href="/auth/logout" class="logout">Logout</a></li>
-						<li><a href="/messages/inbox"><?php echo $unread_text; ?></a></li>
 					</ul>
 
 					<?php } ?> 
 				</div>
 				
 				<?php if ($this->sauth->is_logged_in()) { ?> 
+				
+				<div class="lc-node" id="messaging">
+					<ul>
+						<li><img src="/img/iconmessage.gif" /><a href="/messages/inbox"><?php echo $unread_text; ?></a></li>
+					</ul>
+				</div>
+				
 				<div class="lc-node" id="threads">
 					<h3><a href="/">Threads</a></h3>
 					<ul id="thread-categories">
