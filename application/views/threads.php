@@ -1,5 +1,5 @@
 
-				<div id="main-title" title="<?php echo $title->username ?>"><?php echo $title->title_text ?></div>
+				<div id="main-title" title="<?php echo $title->username ?>"><h3><?php echo $title->title_text ?></h3></div>
 				
 				<div id="thread-navigation" class="pagination top">
           <a href="/newthread" id="post-thread">Post Thread</a>
@@ -51,3 +51,10 @@ foreach($thread_result->result() as $row) {
           <a href="/newthread" id="post-thread">Post Thread</a>
 					<?php echo $pagination; ?>
 				</div>
+
+<script type="text/html" id="title-input">
+   <input type="text" id="title-input" /> 
+   <input type="submit" value="Save" id="save-title" />
+   <input type="button" value="Cancel" id="cancel-title" />
+   (36 chars max)
+</script>
