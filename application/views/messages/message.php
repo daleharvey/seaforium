@@ -29,7 +29,7 @@
 				</div>
 				
 				<div class="content">
-					<?php echo $message->content; ?>
+					<?php echo nl2br($message->content); ?>
 				</div>
 				
 				<div class="ctrl-bar">
