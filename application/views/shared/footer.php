@@ -2,11 +2,11 @@
 $js  = $this->agent->is_mobile() ? "mobile.js" : "forum.js";
 ?>
 			</div>
-
+			
 		</div>
-
+		
 	</div>
-
+	
 	<a name="bottom"></a>
 	
 	<div id="bottom">
