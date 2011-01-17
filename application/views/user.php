@@ -1,5 +1,5 @@
 
-				<div id="main-title"><?php echo $user_data->username ?></div>
+				<div id="main-title"><h3><?php echo $user_data->username ?></h3></div>
 
 				<div id="user">
 					<div class="photostream">
