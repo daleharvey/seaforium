@@ -42,7 +42,7 @@ class Welcome extends Controller {
 		
 		$order_dir = strtolower($order_dir);
 		
-		if ($order_dir != 'desc' || $order_dir != 'asc')
+		if ($order_dir != 'desc' && $order_dir != 'asc')
 			$order_dir = 'desc';
 		
 		switch($ordering)
@@ -81,7 +81,12 @@ class Welcome extends Controller {
 			'title' => $this->thread_dal->get_front_title(),
 			'thread_result' => $this->thread_dal->get_threads($pagination, $display, $sql, $sql_dir),
 			'pagination' => $this->pagination->create_links(),
-			'tab_links' => strlen($filter) > 0 ? '/f/'.$filter.'/' : '/o/'
+			'tab_links' => strlen($filter) > 0 ? '/f/'.$filter.'/' : '/o/',
+			'tab_orders' => array(
+				'started' => $ordering == 'started' && $order_dir == 'desc' ? 'asc' : 'desc',
+				'latest' => $ordering == 'latest' && $order_dir == 'desc' ? 'asc' : 'desc',
+				'posts' => $ordering == 'posts' && $order_dir == 'desc' ? 'asc' : 'desc'
+			)
 		));
 		
 		$this->load->view('shared/footer');

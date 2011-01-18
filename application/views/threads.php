@@ -9,9 +9,9 @@
 
 				<div class="thread" id="thread-headers">
 					<div class="one">Thread Title & Category</div>
-					<div class="two"><a href="<?php echo $tab_links; ?>started/desc">Started By</a></div>
-					<div class="three"><a href="<?php echo $tab_links; ?>latest/desc">Last Post</a></div>
-					<div class="four"><a href="<?php echo $tab_links; ?>posts/desc">Posts</a></div>
+					<div class="two"><a href="<?php echo $tab_links; ?>started/<?php echo $tab_orders['started']; ?>">Started By</a></div>
+					<div class="three"><a href="<?php echo $tab_links; ?>latest/<?php echo $tab_orders['started']; ?>">Last Post</a></div>
+					<div class="four"><a href="<?php echo $tab_links; ?>posts/<?php echo $tab_orders['started']; ?>">Posts</a></div>
 				</div>
 			
 <?php 
