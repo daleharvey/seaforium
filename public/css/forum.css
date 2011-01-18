@@ -117,6 +117,8 @@ margin-right: 5px;
 
 .lc-node#messaging a {
 font-size: 11px;
+background: url("/img/iconmessage.gif") no-repeat scroll 0 0 transparent;
+padding-left: 20px;
 }
 
 #threads h3, #buddy-list h3 { 

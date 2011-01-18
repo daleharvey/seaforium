@@ -59,7 +59,7 @@ $username = $this->session->userdata('username');
 				
 				<div class="lc-node" id="messaging">
 					<ul>
-						<li><img src="/img/iconmessage.gif" /><a href="/messages/inbox"><?php echo $unread_text; ?></a></li>
+						<li><a href="/messages/inbox"><?php echo $unread_text; ?></a></li>
 					</ul>
 				</div>
 				

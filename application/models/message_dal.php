@@ -32,12 +32,12 @@ class Message_dal extends Model
 				pm_content.message_id
 			FROM pm_inbox
 			LEFT JOIN pm_content
-			ON pm_inbox.message_id = pm_content.message_id
+				ON pm_inbox.message_id = pm_content.message_id
 			LEFT JOIN users
-			ON pm_inbox.from_id = users.id
+				ON pm_inbox.from_id = users.id
 			WHERE pm_content.message_id = ?
-			AND (pm_inbox.to_id = ? OR pm_inbox.from_id = ?)
-			AND pm_inbox.deleted = 0
+				AND (pm_inbox.to_id = ? OR pm_inbox.from_id = ?)
+				AND pm_inbox.deleted = 0
 			GROUP BY pm_content.message_id";
 		
 		$result = $this->db->query($sql, array(
@@ -136,10 +136,5 @@ class Message_dal extends Model
 			$message['sender'], 
 			$message['id']
 		));
-	}
-	
-	function read_receipt_sent($message_id)
-	{
-		$this->db->query("UPDATE pm_inbox SET read_receipt = '0' WHERE message_id = ?", (int)$message_id);
 	}
 }
