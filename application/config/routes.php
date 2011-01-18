@@ -43,6 +43,9 @@
 // front page paging
 $route['p'] = "welcome/index/0";
 $route['p/(:num)'] = "welcome/index/$1";
+$route['f/(:any)'] = "welcome/index/0/$1";
+//$route['f/(:any)/p/(:num)'] = "welcome/index/$2/$1";
+$route['p/(:num)/(:any)'] = "welcome/index/$1/$2";
 
 // subject | no paging
 $route['thread/(:num)/:any'] = "thread/load/$1/0";

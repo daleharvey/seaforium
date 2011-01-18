@@ -35,9 +35,9 @@ class Thread_dal extends Model
 	 *
 	 * @return	int
 	 */
-	function get_comment_count()
+	function get_comment_count($sql)
 	{
-		return (int)$this->db->query('SELECT count(threads.thread_id) AS max_rows FROM threads')->row()->max_rows;
+		return (int)$this->db->query('SELECT count(threads.thread_id) AS max_rows FROM threads '.$sql)->row()->max_rows;
 	}
 	
 	/**
@@ -47,7 +47,7 @@ class Thread_dal extends Model
 	 * @param	int
 	 * @return	object
 	 */
-	function get_threads($limit, $span)
+	function get_threads($limit, $span, $filtering = '')
 	{
 		
 		$sql = "
@@ -56,9 +56,8 @@ class Thread_dal extends Model
 				threads.created,
 				threads.thread_id,
 				categories.name AS category,
-				# authors.id AS author_id,
 				authors.username AS author_name,
-				# responders.id AS responder_id,
+				authors.username AS author_name,
 				responders.username AS responder_name,
 				responses.created AS response_created,
 				(
@@ -76,11 +75,12 @@ class Thread_dal extends Model
 				ON responses.user_id = responders.id
 			LEFT JOIN categories
 				ON threads.category = categories.category_id
+			". $filtering ."
 			ORDER BY response_created DESC
 			LIMIT ?, ?";
 		
 		return $this->db->query($sql, array(
-			$limit,
+			(int)$limit,
 			(int)$span
 		));
 	}
@@ -213,5 +213,10 @@ class Thread_dal extends Model
 			? $result->row()
 			: (object) array("title_text" => "Change Me, Please", 
                                       "username" => "anon");
+	}
+	
+	function get_participated_threads($user_id)
+	{
+		return $this->db->query("SELECT GROUP_CONCAT(DISTINCT thread_id) AS thread_ids FROM comments WHERE user_id = ?", $user_id)->row()->thread_ids;
 	}
 }

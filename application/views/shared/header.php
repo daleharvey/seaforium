@@ -41,12 +41,6 @@ $username = $this->session->userdata('username');
 						<img src="/img/pinkies/11.gif" class="main_avatar" />
 					</a>
 					
-					<?php
-						$unread_messages = $this->message_dal->unread_messages($this->session->userdata('user_id'));
-						
-						$unread_text = $unread_messages .' Unread Message' .($unread_messages === 1 ? '' : 's');
-					?>
-					
 					<ul>
 						<li><a href="/preferences">Preferences</a></li>
 						<li><a href="/auth/logout" class="logout">Logout</a></li>
@@ -55,26 +49,29 @@ $username = $this->session->userdata('username');
 					<?php } ?> 
 				</div>
 				
-				<?php if ($this->sauth->is_logged_in()) { ?> 
+				<?php if ($this->sauth->is_logged_in()) {
+				
+					$unread_messages = $this->message_dal->unread_messages($this->session->userdata('user_id'));
+				?>
 				
 				<div class="lc-node" id="messaging">
 					<ul>
-						<li><a href="/messages/inbox"><?php echo $unread_text; ?></a></li>
+						<li><a href="/messages/inbox"><?php echo $unread_messages .' Unread Message' .($unread_messages === 1 ? '' : 's'); ?></a></li>
 					</ul>
 				</div>
 				
 				<div class="lc-node" id="threads">
 					<h3><a href="/">Threads</a></h3>
 					<ul id="thread-categories">
-						<li><a href="#">Discussions</a></li>
-						<li><a href="#">Projects</a></li>
-						<li><a href="#">Advice</a></li>
-						<li><a href="#">Meaningless</a></li>
+						<li><a href="f/discussions">Discussions</a></li>
+						<li><a href="f/projects">Projects</a></li>
+						<li><a href="f/advice">Advice</a></li>
+						<li><a href="f/meaningless">Meaningless</a></li>
 					</ul>
 					<ul id="special-threads">
-						<li><a href="#">All Forums</a></li>
-						<li><a href="#">All But Meaningless</a></li>
-						<li><a href="#">Participated Threads</a></li>
+						<li><a href="/">All Forums</a></li>
+						<li><a href="f/meaningful">All But Meaningless</a></li>
+						<li><a href="f/participated">Participated Threads</a></li>
 						<li><a href="#">Favourite Threads</a></li>
 					</ul>
 				</div>
