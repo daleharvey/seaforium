@@ -261,6 +261,24 @@ top: 2px;
 left: 4px;
 }
 
+#category-selector {
+height: 20px;
+}
+
+#category-selector input {
+float: left;
+margin: 1px 6px 0 0;
+font-weight: 500;
+font-size: 12px;
+}
+
+#category-selector label {
+float: left;
+margin: 0 20px 0 0px;
+font-weight: 500;
+font-size: 12px;
+}
+
 /*************************************************************
    MAIN THREADS PAGE
 *************************************************************/

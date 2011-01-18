@@ -1,0 +1,1 @@
+ALTER TABLE threads CHANGE category category tinyint(1) DEFAULT '0'

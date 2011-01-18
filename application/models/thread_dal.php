@@ -8,6 +8,84 @@ class Thread_dal extends Model
 	}
 	
 	/**
+	 * Insert a new thread into the database
+	 *
+	 * @param	array
+	 * @return	int
+	 */
+	function new_thread($data)
+	{
+		$sql = "
+			INSERT INTO threads
+				(user_id, subject, category, created)
+			VALUES
+				(?, ?, ?, NOW())";
+		
+		$this->db->query($sql, array(
+			$data['user_id'],
+			$data['subject'],
+			$data['category']
+		));
+		
+		return $this->db->insert_id();
+	}
+	
+	/**
+	 * Get some threads from the database
+	 *
+	 * @return	int
+	 */
+	function get_comment_count()
+	{
+		return (int)$this->db->query('SELECT count(threads.thread_id) AS max_rows FROM threads')->row()->max_rows;
+	}
+	
+	/**
+	 * Get some threads from the database
+	 *
+	 * @param	int
+	 * @param	int
+	 * @return	object
+	 */
+	function get_threads($limit, $span)
+	{
+		
+		$sql = "
+			SELECT
+				threads.subject,
+				threads.created,
+				threads.thread_id,
+				categories.name AS category,
+				# authors.id AS author_id,
+				authors.username AS author_name,
+				# responders.id AS responder_id,
+				responders.username AS responder_name,
+				responses.created AS response_created,
+				(
+					SELECT 
+						count(comments.comment_id) 
+					FROM comments 
+					WHERE comments.thread_id = threads.thread_id
+				) AS response_count
+			FROM threads
+			JOIN comments AS responses
+				ON responses.comment_id = threads.last_comment_id
+			JOIN users AS authors
+				ON threads.user_id = authors.id
+			JOIN users AS responders
+				ON responses.user_id = responders.id
+			LEFT JOIN categories
+				ON threads.category = categories.category_id
+			ORDER BY response_created DESC
+			LIMIT ?, ?";
+		
+		return $this->db->query($sql, array(
+			$limit,
+			$span
+		));
+	}
+	
+	/**
 	 * Get user record by Id
 	 *
 	 * @param	int
@@ -33,7 +111,7 @@ class Thread_dal extends Model
 		
 		$this->db->query($sql, array(
 			$data['thread_id'],
-			$this->session->userdata('user_id'),
+			$data['user_id'],
 			$data['content']
 		));
 		
@@ -43,7 +121,6 @@ class Thread_dal extends Model
 			$this->db->insert_id(),
 			$data['thread_id']
 		));
-		
 		
 	}
 	
@@ -104,6 +181,14 @@ class Thread_dal extends Model
 		return $this->db->query("SELECT content, user_id, created FROM comments WHERE comment_id = ?", $comment_id);
 	}
 	
+	/**
+	 * Update a comment with new data
+	 *
+	 * @param	int
+	 * @param	string
+	 * @param	int
+	 * @return	bool
+	 */
 	function update_comment($comment_id, $content, $user_id)
 	{
 		$this->db->query("UPDATE comments SET content = ? WHERE comment_id = ? AND user_id = ?", array(
@@ -113,5 +198,20 @@ class Thread_dal extends Model
 		));
 		
 		return $this->db->affected_rows() === 1;
+	}
+	
+	/**
+	 * Get the current front page title
+	 *
+	 * @return	object
+	 */
+	function get_front_title()
+	{
+		$result = $this->db->query("SELECT titles.title_text, users.username FROM titles LEFT JOIN users ON titles.author_id = users.id ORDER BY titles.title_id DESC LIMIT 1");
+		
+		return $result->num_rows === 1
+			? $result->row()
+			: (object) array("title_text" => "Change Me, Please", 
+                                      "username" => "anon");
 	}
 }
