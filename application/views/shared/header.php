@@ -63,15 +63,15 @@ $username = $this->session->userdata('username');
 				<div class="lc-node" id="threads">
 					<h3><a href="/">Threads</a></h3>
 					<ul id="thread-categories">
-						<li><a href="f/discussions">Discussions</a></li>
-						<li><a href="f/projects">Projects</a></li>
-						<li><a href="f/advice">Advice</a></li>
-						<li><a href="f/meaningless">Meaningless</a></li>
+						<li><a href="/f/discussions">Discussions</a></li>
+						<li><a href="/f/projects">Projects</a></li>
+						<li><a href="/f/advice">Advice</a></li>
+						<li><a href="/f/meaningless">Meaningless</a></li>
 					</ul>
 					<ul id="special-threads">
 						<li><a href="/">All Forums</a></li>
-						<li><a href="f/meaningful">All But Meaningless</a></li>
-						<li><a href="f/participated">Participated Threads</a></li>
+						<li><a href="/f/meaningful">All But Meaningless</a></li>
+						<li><a href="/f/participated">Participated Threads</a></li>
 						<li><a href="#">Favourite Threads</a></li>
 					</ul>
 				</div>
