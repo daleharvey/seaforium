@@ -59,10 +59,10 @@ class Message_dal extends Model
 				pm_content.subject,
 				pm_content.created
 			FROM pm_inbox
-			LEFT JOIN pm_content
-			ON pm_inbox.message_id = pm_content.message_id
+			RIGHT JOIN pm_content
+				ON pm_inbox.message_id = pm_content.message_id
 			LEFT JOIN users
-			ON pm_inbox.from_id = users.id
+				ON pm_inbox.from_id = users.id
 			WHERE pm_inbox.to_id = ?
 			AND pm_inbox.deleted = 0
 			ORDER BY pm_content.created DESC";
@@ -79,10 +79,10 @@ class Message_dal extends Model
 				pm_content.subject,
 				pm_content.created
 			FROM pm_outbox
-			LEFT JOIN pm_content
-			ON pm_outbox.message_id = pm_content.message_id
+			RIGHT JOIN pm_content
+				ON pm_outbox.message_id = pm_content.message_id
 			LEFT JOIN users
-			ON users.id = pm_outbox.to_id
+				ON users.id = pm_outbox.to_id
 			WHERE pm_outbox.from_id = ?
 			AND pm_outbox.deleted = 0
 			GROUP BY pm_content.message_id
