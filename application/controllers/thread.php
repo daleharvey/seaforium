@@ -50,6 +50,7 @@ class Thread extends Controller {
 			
 			$this->thread_dal->new_comment(array(
 				'thread_id' => $thread_id,
+				'user_id' => $this->session->userdata('user_id'),
 				'content' => $content
 			));
 			
