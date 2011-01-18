@@ -32,6 +32,22 @@ class Message extends Controller {
 			redirect('/');
 		}
 		
+		if ((int)$data['message']->to_id == $user_id && $data['message']->read_receipt == '1')
+		{
+			$message = array(
+				'sender' => $user_id,
+				'recipient' => $data['message']->sender_id,
+				'subject' => 'Receipt for: '. $data['message']->subject,
+				'content' => 'Your message has been read.'
+			);
+			
+			$message['id'] = $this->message_dal->new_message($message);
+			
+			$this->message_dal->new_inbox($message['recipient'], $message, '');
+			$this->message_dal->new_outbox($message['recipient'], $message);
+			$this->message_dal->read_receipt_sent($message_id);
+		}
+		
 		$this->message_dal->set_read($user_id, $message_id);
 		
 		$this->load->view('shared/header');

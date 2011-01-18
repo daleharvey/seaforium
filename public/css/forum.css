@@ -241,6 +241,24 @@ font-size: 11px;
     font-size: 16px;
 }
 
+.inp .cbx {
+height: 24px;
+line-height: 24px;
+margin-bottom: 2px;
+}
+
+.inp .cbx label {
+float: left;
+height: 20px;
+margin-top: 0;
+}
+
+.inp .cbx input {
+position: relative;
+top: 2px;
+left: 4px;
+}
+
 /*************************************************************
    MAIN THREADS PAGE
 *************************************************************/

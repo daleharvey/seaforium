@@ -22,7 +22,10 @@ class Message_dal extends Model
 		$sql = "
 			SELECT DISTINCT
 				users.username,
+				users.id AS sender_id,
 				pm_inbox.read,
+				pm_inbox.read_receipt,
+				pm_inbox.to_id,
 				pm_content.subject,
 				pm_content.content,
 				pm_content.created,
@@ -104,18 +107,19 @@ class Message_dal extends Model
 		return $this->db->insert_id();
 	}
 	
-	function new_inbox($recipient, $message)
+	function new_inbox($recipient, $message, $read_receipt)
 	{
 		$sql = "
 			INSERT INTO pm_inbox
-				(to_id, from_id, message_id)
+				(to_id, from_id, message_id, read_receipt)
 			VALUES
-			(?, ?, ?)";
+			(?, ?, ?, ?)";
 		
 		$this->db->query($sql, array(
 			$recipient, 
 			$message['sender'], 
-			$message['id']
+			$message['id'],
+			$read_receipt == 'receipt' ? '1' : '0'
 		));
 	}
 	
@@ -132,5 +136,10 @@ class Message_dal extends Model
 			$message['sender'], 
 			$message['id']
 		));
+	}
+	
+	function read_receipt_sent($message_id)
+	{
+		$this->db->query("UPDATE pm_inbox SET read_receipt = '0' WHERE message_id = ?", (int)$message_id);
 	}
 }

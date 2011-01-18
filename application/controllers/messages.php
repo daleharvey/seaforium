@@ -27,6 +27,8 @@ class Messages extends Controller {
 		
 		$this->form_validation->set_rules('recipients', 'At least one recipient', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('subject', 'Subject', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('save_sent', 'Save sent');
+		$this->form_validation->set_rules('read_receipt', 'Read receipt');
 		$this->form_validation->set_rules('content', 'Content', 'trim|required|xss_clean');
 		
 		if ($this->form_validation->run())
@@ -61,8 +63,12 @@ class Messages extends Controller {
 				foreach($message['recipients'] as $recipient)
 				{
 					// send the message and increment the message counter
-					$this->message_dal->new_inbox($recipient, $message);
-					$this->message_dal->new_outbox($recipient, $message);
+					$this->message_dal->new_inbox($recipient, $message, $this->form_validation->set_value('read_receipt'));
+					
+					if ($this->form_validation->set_value('save_sent') == 'save')
+					{
+						$this->message_dal->new_outbox($recipient, $message);
+					}
 				}
 				
 				redirect('/messages/inbox');

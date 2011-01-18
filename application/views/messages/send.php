@@ -17,6 +17,20 @@ $subject = array(
 	'size'	=> 30
 );
 
+$save_sent = array(
+	'name'		=> 'save_sent',
+	'id'		=> 'save-sent',
+	'value' 	=> 'save',
+	'checked'	=> TRUE
+);
+
+$read_receipt = array(
+	'name'		=> 'read_receipt',
+	'id'		=> 'read-receipt',
+	'value' 	=> 'receipt',
+	'checked'	=> FALSE
+);
+
 $content = array(
 	'name'	=> 'content',
 	'id'	=> 'pm-content-input',
@@ -47,6 +61,17 @@ if (isset($errors) && strlen($errors) > 0)
 						<div class="inp">
 							<?php echo form_label('To: (comma delimited usernames)', $recipients['id']); ?>
 							<?php echo form_input($recipients); ?>
+						</div>
+						
+						<div class="inp">
+							<div class="cbx">
+								<?php echo form_label('Save copy in sent folder?', $save_sent['id']); ?>
+								<?php echo form_checkbox($save_sent); ?>
+							</div>
+							<div class="cbx">
+								<?php echo form_label('Read receipt?', $read_receipt['id']); ?>
+								<?php echo form_checkbox($read_receipt); ?>
+							</div>
 						</div>
 						
 						<div class="inp">
