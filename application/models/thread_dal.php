@@ -81,7 +81,7 @@ class Thread_dal extends Model
 		
 		return $this->db->query($sql, array(
 			$limit,
-			$span
+			(int)$span
 		));
 	}
 	
