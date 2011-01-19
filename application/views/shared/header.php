@@ -79,12 +79,14 @@ $username = $this->session->userdata('username');
 				<?php } ?> 
 				
 				<div class="lc-node" id="buddy-list">
-					<h3 title="within the last 5 minutes">Online Users</h3>
+					<h3><a href="/buddies">Buddies</a></h3>					
+					<?php
+						$buddy_info = $this->user_dal->get_active_users($this->session->userdata('user_id'));
+					?> 					
+					<p>ONLINE BUDDIES (<?php echo $buddy_info['buddies']->num_rows; ?>/<?php echo $buddy_info['buddy_count']; ?>)</p>
 					<div>
-						<?php 
-							$active_record = $this->user_dal->get_active_users();
-							
-							foreach($active_record->result() as $user)
+						<?php
+							foreach($buddy_info['buddies']->result() as $user)
 							{ ?> 
 						<span><?php echo anchor('/user/'.url_title($user->username, 'dash', TRUE), $user->username); ?></span>
 						<?php } ?> 
