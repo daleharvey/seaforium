@@ -383,6 +383,22 @@ overflow:auto;
 background-color: #F9FCFE;
 }
 
+.thread.buddy {
+background: #EDF5E1;
+}
+
+.thread.enemy {
+background: #FFEAEA;
+display: none;
+}
+
+.ignore-container {
+background: url(../img/ignorebg.gif);
+height: 4px;
+margin: 2px 0;
+cursor: pointer;
+}
+
 .thread .one, .thread .two, .thread .three, .thread .four, .thread .five{
 float: left;
 }

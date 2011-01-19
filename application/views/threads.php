@@ -24,9 +24,33 @@ foreach($thread_result->result() as $row) {
 	$link_text = '/thread/'.$row->thread_id.'/'.url_title($row->subject, 'dash', TRUE);
 	
 	$last_page = (ceil($row->response_count / $display) * $display - $display);
+	
+	$row->acq = (int) $row->acq;
+	
+	switch($row->acq)
+	{
+		case 1:
+			$acq = ' buddy';
+			break;
+		case 2:
+			$acq = ' enemy';
+			break;
+		default:
+			$acq = '';
+	}
+	
+	if ($row->acq == 2)
+	{
+?> 
+
+				<div id="ignore-for-<?php echo $row->thread_id; ?>" class="ignore-container" onclick="$('#thread-<?php echo $row->thread_id; ?>').toggle();"></div>
+
+<?php
+	}
+	
 ?>
 
-				<div class="thread<?php echo $alt === false ? '' : ' alt'; ?>">
+				<div id="thread-<?php echo $row->thread_id; ?>" class="thread<?php echo $alt === false ? '' : ' alt'; echo $acq; ?>">
 					<div class="one">
 						<div class="subject"><?php echo anchor($link_text, $row->subject).' '. anchor($link_text.'/p/'.$last_page.'#bottom', '#', array('class' => 'end-link')); ?></div>
 						<div class="category"><?php echo $row->category ?></div>

@@ -60,6 +60,7 @@ class Thread_dal extends Model
 				authors.username AS author_name,
 				responders.username AS responder_name,
 				responses.created AS response_created,
+				IFNULL(acquaintances.type, 0) AS acq,
 				(
 					SELECT 
 						count(comments.comment_id) 
@@ -75,6 +76,8 @@ class Thread_dal extends Model
 				ON responses.user_id = responders.id
 			LEFT JOIN categories
 				ON threads.category = categories.category_id
+			LEFT JOIN acquaintances
+				ON acquaintances.acq_user_id = authors.id AND acquaintances.user_id = 1
 			". $filtering ."
 			". $ordering ."
 			LIMIT ?, ?";
