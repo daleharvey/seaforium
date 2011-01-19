@@ -9,7 +9,7 @@ $username = $this->session->userdata('username');
 <head>
 	<title>New Forum</title>
 	<link rel="stylesheet" type="text/css" href="/css/<?php echo $css; ?>" />
-	<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 	
 	<base href="<?php echo site_url(); ?>" />
 </head>
