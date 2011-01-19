@@ -64,7 +64,7 @@ $commands = array(
 					<?php if ($buddies != FALSE) {
 						foreach($buddies->result() as $buddy) {
 						
-						$online_status = $buddy->online === '1' ? 'online' : 'offline';
+						$online_status = $buddy->online === '0' ? 'offline' : 'online';
 					?>
 						
 						<div class="buddy-listing">
@@ -81,7 +81,7 @@ $commands = array(
 					<?php if ($enemies != FALSE) {
 						foreach($enemies->result() as $enemy) {
 						
-						$online_status = $enemy->online === '1' ? 'online' : 'offline';
+						$online_status = $enemy->online === '0' ? 'offline' : 'online';
 					?>
 					
 						<div class="enemy-listing">
