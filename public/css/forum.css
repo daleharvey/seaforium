@@ -218,6 +218,7 @@ margin: 7px 0 3px 0;
     background-color: #ACE1F9;
     height: 1px;
     overflow: hidden;
+	clear: both;
 }
 
 .favourite {
@@ -815,7 +816,7 @@ margin-bottom: 8px;
 width: 130px;
 margin: 0 10px 10px 0;
 padding: 10px;
-background: lightgrey;
+float: left;
 }
 
 .buddy-listing {
