@@ -401,7 +401,8 @@ class User_dal extends Model
 			LEFT JOIN sessions
 			ON sessions.user_id = users.id
 			WHERE acquaintances.user_id = ? 
-			AND acquaintances.type = 1", $user_id);
+			AND acquaintances.type = 1
+			AND sessions.last_activity > (UNIX_TIMESTAMP() - 300)", $user_id);
 		
 		return $result->num_rows > 0 ? $result : FALSE;
 	}
@@ -418,7 +419,8 @@ class User_dal extends Model
 			LEFT JOIN sessions
 			ON sessions.user_id = users.id
 			WHERE acquaintances.user_id = ? 
-			AND acquaintances.type = 2", $user_id);
+			AND acquaintances.type = 2
+			AND sessions.last_activity > (UNIX_TIMESTAMP() - 300)", $user_id);
 		
 		return $result->num_rows > 0 ? $result : FALSE;
 	}
