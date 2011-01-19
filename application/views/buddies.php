@@ -64,14 +64,19 @@ $commands = array(
 					<?php if ($buddies != FALSE) {
 						foreach($buddies->result() as $buddy) {
 						
-						$online_status = $buddy->latest_activity != '0' && $buddy->latest_activity > (time() - 300) ? 'online' : 'offline';
+							if ((int) $buddy->latest_activity > (time() - 300))
+							{
+								$online_status = 'online';
+							}
+							else
+							{
+								$online_status = 'offline';
+							}
 					?>
 						
 						<div class="buddy-listing">
 							<div class="username"><?php echo anchor('/user/'.url_title($buddy->username, 'dash', TRUE), $buddy->username); ?></div>
 							<div class="online-status <?php echo $online_status; ?>"><?php echo $online_status; ?></div>
-							<div class="online-status"><?php echo $buddy->latest_activity; ?></div>
-							<div class="online-status"><?php echo time(); ?></div>
 						</div>
 						
 					<?php }} ?>
