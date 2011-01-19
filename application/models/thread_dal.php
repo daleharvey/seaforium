@@ -47,7 +47,7 @@ class Thread_dal extends Model
 	 * @param	int
 	 * @return	object
 	 */
-	function get_threads($limit, $span, $filtering = '', $ordering = '')
+	function get_threads($user_id, $limit, $span, $filtering = '', $ordering = '')
 	{
 		
 		$sql = "
@@ -77,12 +77,13 @@ class Thread_dal extends Model
 			LEFT JOIN categories
 				ON threads.category = categories.category_id
 			LEFT JOIN acquaintances
-				ON acquaintances.acq_user_id = authors.id AND acquaintances.user_id = 1
+				ON acquaintances.acq_user_id = authors.id AND acquaintances.user_id = ?
 			". $filtering ."
 			". $ordering ."
 			LIMIT ?, ?";
 		
 		return $this->db->query($sql, array(
+			$user_id,
 			(int)$limit,
 			(int)$span
 		));

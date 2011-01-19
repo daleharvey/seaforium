@@ -79,7 +79,7 @@ class Welcome extends Controller {
 		
 		$this->load->view('threads', array(
 			'title' => $this->thread_dal->get_front_title(),
-			'thread_result' => $this->thread_dal->get_threads($pagination, $display, $sql, $sql_dir),
+			'thread_result' => $this->thread_dal->get_threads($user_id, $pagination, $display, $sql, $sql_dir),
 			'pagination' => $this->pagination->create_links(),
 			'tab_links' => strlen($filter) > 0 ? '/f/'.$filter.'/' : '/o/',
 			'tab_orders' => array(
