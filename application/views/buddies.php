@@ -64,12 +64,14 @@ $commands = array(
 					<?php if ($buddies != FALSE) {
 						foreach($buddies->result() as $buddy) {
 						
-						$online_status = $buddy->online === '0' ? 'offline' : 'online';
+						$online_status = $buddy->latest_activity != '0' && $buddy->latest_activity > (time() - 300) ? 'online' : 'offline';
 					?>
 						
 						<div class="buddy-listing">
 							<div class="username"><?php echo anchor('/user/'.url_title($buddy->username, 'dash', TRUE), $buddy->username); ?></div>
 							<div class="online-status <?php echo $online_status; ?>"><?php echo $online_status; ?></div>
+							<div class="online-status"><?php echo $buddy->latest_activity; ?></div>
+							<div class="online-status"><?php echo time(); ?></div>
 						</div>
 						
 					<?php }} ?>
@@ -81,7 +83,7 @@ $commands = array(
 					<?php if ($enemies != FALSE) {
 						foreach($enemies->result() as $enemy) {
 						
-						$online_status = $enemy->online === '0' ? 'offline' : 'online';
+						$online_status = $enemy->latest_activity != '0' && $enemy->latest_activity > (time() - 300) ? 'online' : 'offline';
 					?>
 					
 						<div class="enemy-listing">

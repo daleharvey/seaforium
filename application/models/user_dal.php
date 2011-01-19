@@ -393,8 +393,9 @@ class User_dal extends Model
 	{
 		$result = $this->db->query("
 			SELECT 
-				DISTINCT users.username,
-				IFNULL(sessions.user_id, 0) AS online
+				users.id,
+				users.username,
+				IFNULL(sessions.last_activity, 0) AS latest_activity
 			FROM users 
 			RIGHT JOIN acquaintances 
 			ON acquaintances.acq_user_id = users.id 
@@ -402,7 +403,7 @@ class User_dal extends Model
 			ON sessions.user_id = users.id
 			WHERE acquaintances.user_id = ? 
 			AND acquaintances.type = 1
-			AND sessions.last_activity > (UNIX_TIMESTAMP() - 300)", $user_id);
+			GROUP BY users.id", $user_id);
 		
 		return $result->num_rows > 0 ? $result : FALSE;
 	}
@@ -411,8 +412,9 @@ class User_dal extends Model
 	{
 		$result = $this->db->query("
 			SELECT 
-				DISTINCT users.username,
-				IFNULL(sessions.user_id, 0) AS online
+				users.id,
+				users.username,
+				IFNULL(sessions.last_activity, 0) AS latest_activity
 			FROM users 
 			RIGHT JOIN acquaintances 
 			ON acquaintances.acq_user_id = users.id 
@@ -420,7 +422,7 @@ class User_dal extends Model
 			ON sessions.user_id = users.id
 			WHERE acquaintances.user_id = ? 
 			AND acquaintances.type = 2
-			AND sessions.last_activity > (UNIX_TIMESTAMP() - 300)", $user_id);
+			GROUP BY users.id", $user_id);
 		
 		return $result->num_rows > 0 ? $result : FALSE;
 	}
