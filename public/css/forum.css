@@ -121,8 +121,16 @@ background: url("/img/iconmessage.gif") no-repeat scroll 0 0 transparent;
 padding-left: 20px;
 }
 
-#threads h3, #buddy-list h3 { 
+#threads h3 { 
     font-size:20px;
+}
+
+#buddy-list h3 {
+font-size: 16px;
+}
+#buddy-list p {
+font-size: 10px;
+margin: 7px 0 3px 0;
 }
 
 #threads { 
@@ -223,7 +231,7 @@ padding-left: 20px;
 /*************************************************************
    New Thread
 *************************************************************/
-.inp label {
+.inp label, .biglabel {
     display:block;
     font-size:16px;
     margin-top:12px;
@@ -345,7 +353,7 @@ margin: 0 0 10px 0;
 #middle {}
 
 
-#buddy-list div {padding: 0 0 0 2px;}
+#buddy-list div {}
 #buddy-list div span {font-size: 11px;}
 
 #right-column {
@@ -759,4 +767,74 @@ margin-left: 20px;
 #errors li {
 list-style: disc;
 font-size: 11px;
+}
+
+#buddy-input {
+margin-bottom: 4px;
+}
+
+#buddy-input, #buddy-radios {
+height: 22px;
+line-height: 18px;
+}
+
+#buddy-input label {
+float: left;
+}
+
+#buddy-input label, #buddy-radios label {
+font-size: 12px;
+font-weight: 500;
+margin: 0;
+width: 100px;
+float: left;
+}
+
+#command-pick-one {
+background: orange;
+height: 10px;
+width: 10px;
+}
+
+#buddy-radios label, #buddy-radios input {
+float: left;
+}
+
+#buddy-radio-inputs label {
+width: auto;
+margin-right: 20px;
+}
+
+#buddy-radios {
+margin-bottom: 8px;
+}
+
+
+
+.buddy-listing, .enemy-listing {
+width: 130px;
+margin: 0 10px 10px 0;
+padding: 10px;
+background: lightgrey;
+}
+
+.buddy-listing {
+background: #EBF4DD;
+}
+
+.enemy-listing {
+background: #FFEAEA;
+}
+
+.buddy-listing .online, .enemy-listing .online, .buddy-listing .offline, .enemy-listing .offline {
+font-size: 10px;
+text-transform: uppercase;
+}
+
+.buddy-listing .offline, .enemy-listing .offline {
+color: #898989;
+}
+
+.buddy-listing .online, .enemy-listing .online {
+color: #00AEEF;
 }

@@ -68,6 +68,8 @@ $route['user/(:any)'] = "user/load/$1";
 
 $route['message/(:num)'] = "message/load/$1";
 
+$route['buddies/(:any)'] = "buddies/index/$1";
+
 $route['default_controller'] = "welcome";
 $route['scaffolding_trigger'] = "";
 

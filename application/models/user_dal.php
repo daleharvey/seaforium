@@ -38,6 +38,20 @@ class User_dal extends Model
 		return NULL;
 	}
 	
+	/**
+	 * Get user record by username
+	 *
+	 * @param	string
+	 * @return	object
+	 */
+	function get_user_id_by_username($username)
+	{
+		$query = $this->db->query("SELECT id FROM users WHERE LOWER(username) = ?", strtolower($username));
+		
+		if ($query->num_rows() == 1) return $query->row()->id;
+		return FALSE;
+	}
+	
 	function get_user_ids_from_array($usernames)
 	{
 		$usernames = array_map('strtolower', $usernames);
@@ -317,17 +331,95 @@ class User_dal extends Model
 	 *
 	 * @return	object
 	 */
-	function get_active_users()
+	function get_active_users($user_id)
 	{
 		$sql = "
-			SELECT DISTINCT
-				users.username,
-				sessions.user_id
-			FROM users
-			RIGHT JOIN sessions ON users.id = sessions.user_id
-			WHERE sessions.user_id != 0 AND sessions.last_activity > (UNIX_TIMESTAMP() - 300)
-			ORDER BY users.username";
+			SELECT 
+				DISTINCT users.username
+			FROM users 
+			RIGHT JOIN acquaintances 
+			ON acquaintances.acq_user_id = users.id 
+			LEFT JOIN sessions
+			ON sessions.user_id = users.id
+			WHERE acquaintances.user_id = ?
+			AND sessions.user_id != 0 
+			AND sessions.last_activity > (UNIX_TIMESTAMP() - 300)			
+			AND acquaintances.type = 1";
 			
-		return $this->db->query($sql);
+		$data['buddies'] = $this->db->query($sql, $user_id);
+		
+		$sql = "
+			SELECT count(users.id) AS buddy_count
+			FROM users
+			RIGHT JOIN acquaintances
+			ON acquaintances.acq_user_id = users.id
+			WHERE acquaintances.user_id = ?
+			AND acquaintances.type = 1";
+			
+		$data['buddy_count'] = $this->db->query($sql, $user_id)->row()->buddy_count;
+		
+		return $data;
+	}
+	
+	function add_acquaintance($key, $user_id, $acq_id, $type)
+	{
+		$this->db->query("INSERT INTO acquaintances (acq_id, user_id, acq_user_id, type) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE type = ?", array(
+			$key,
+			$user_id,
+			$acq_id,
+			$type,
+			$type
+		));
+		
+		return $this->db->affected_rows() === 1;
+	}
+	
+	function acquaintance_exists($user_id, $acq_id)
+	{
+		$result = $this->db->query("SELECT user_id FROM acquaintances WHERE user_id = ? AND acq_user_id = ?", array(
+			$user_id,
+			$acq_id
+		));
+		
+		return $result->num_rows > 0;
+	}
+	
+	function delete_acquaintance($key)
+	{
+		$this->db->query("DELETE FROM acquaintances WHERE key = ?", $key);
+	}
+	
+	function get_buddies($user_id)
+	{
+		$result = $this->db->query("
+			SELECT 
+				DISTINCT users.username,
+				IFNULL(sessions.user_id, 0) AS online
+			FROM users 
+			RIGHT JOIN acquaintances 
+			ON acquaintances.acq_user_id = users.id 
+			LEFT JOIN sessions
+			ON sessions.user_id = users.id
+			WHERE acquaintances.user_id = ? 
+			AND acquaintances.type = 1", $user_id);
+		
+		return $result->num_rows > 0 ? $result : FALSE;
+	}
+	
+	function get_enemies($user_id)
+	{
+		$result = $this->db->query("
+			SELECT 
+				DISTINCT users.username,
+				IFNULL(sessions.user_id, 0) AS online
+			FROM users 
+			RIGHT JOIN acquaintances 
+			ON acquaintances.acq_user_id = users.id 
+			LEFT JOIN sessions
+			ON sessions.user_id = users.id
+			WHERE acquaintances.user_id = ? 
+			AND acquaintances.type = 2", $user_id);
+		
+		return $result->num_rows > 0 ? $result : FALSE;
 	}
 }
