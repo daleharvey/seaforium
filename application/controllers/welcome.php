@@ -67,12 +67,20 @@ class Welcome extends Controller {
 		$paging_suffix .= strlen($ordering) > 0 ? '/'.$ordering : '';
 		$paging_suffix .= strlen($order_dir) > 0 ? '/'.$order_dir : '';
 		
+		$thread_count = $this->thread_dal->get_comment_count($sql);
+		
 		$this->pagination->initialize(array(
 			'base_url' => '/p/',
-			'total_rows' => $this->thread_dal->get_comment_count($sql),
+			'total_rows' => $thread_count,
 			'uri_segment' => '2',
 			'per_page' => $display,
-			'suffix' => $paging_suffix
+			'suffix' => $paging_suffix,
+			'full_tag_open' => '<div class="main-pagination">',
+			'full_tag_close' => '</div>',
+			'cur_tag_open' => '<div class="selected-page">',
+			'cur_tag_close' => '</div>',
+			'num_tag_open' => '',
+			'num_tag_close' => ''
 		)); 
 		
 		$this->load->view('shared/header');
@@ -80,13 +88,14 @@ class Welcome extends Controller {
 		$this->load->view('threads', array(
 			'title' => $this->thread_dal->get_front_title(),
 			'thread_result' => $this->thread_dal->get_threads($user_id, $pagination, $display, $sql, $sql_dir),
-			'pagination' => $this->pagination->create_links(),
+			'pagination' => $this->pagination->create_links() .'<span class="paging-text">'. ($pagination + 1) .' - '. ($pagination + $display) .' of '. $thread_count .' Threads</span>',
 			'tab_links' => strlen($filter) > 0 ? '/f/'.$filter.'/' : '/o/',
 			'tab_orders' => array(
 				'started' => $ordering == 'started' && $order_dir == 'desc' ? 'asc' : 'desc',
 				'latest' => $ordering == 'latest' && $order_dir == 'desc' ? 'asc' : 'desc',
 				'posts' => $ordering == 'posts' && $order_dir == 'desc' ? 'asc' : 'desc'
-			)
+			),
+			
 		));
 		
 		$this->load->view('shared/footer');

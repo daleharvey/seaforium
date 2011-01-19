@@ -99,7 +99,7 @@ class Thread extends Controller {
 			
 		)); 
 		
-		$data['pagination'] = $this->pagination->create_links();
+		$data['pagination'] = $this->pagination->create_links() .'<span class="paging-text">'. ($limit_start + 1) .' - '. ($limit_start + $display) .' of '. $data['total_comments'] .' Posts</span>';
 		
 		$this->load->helper('content_render');
 		
