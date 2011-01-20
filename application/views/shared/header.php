@@ -25,12 +25,33 @@ $username = $this->session->userdata('username');
 			
 			  <a href="/" id="header">New Yay</a>
 
+				<?php 
+					if (!$this->sauth->is_logged_in()) { 
+						$button_texts = array(
+							"Get In!",
+							"Let's Go!",
+							"Do it!",
+							"Booya!",
+							"Push Me",
+							"Zippity!",
+							"Engage!",
+							"Go For It!"
+						);
+					?> 
+				<div class="lc-node login">
+					<h5>Not a member? Wanna join up? Tell us why!</h5>
+					<p>Click for more info, n00b!</p>
+					<form action="/auth/login">
+						<div>
+							<label>U:</label><input type="text" name="username" /><button><?php echo $button_texts[array_rand($button_texts)]; ?></button>
+						</div>
+						<div>
+							<label>P:</label><input type="password" name="password" /><a href="#">Forgot it?</a>
+						</div>
+					</form>
+				</div>
+				<?php } else { ?> 
 				<div class="lc-node welcome">
-					<?php if (!$this->sauth->is_logged_in()) { ?> 
-					<ul>
-						<li><a href="/auth/login">Login</a></li>
-					</ul>
-					<?php } else { ?> 
 					<h4>
 						Hi, <a href="/user/<?php echo $username; ?>">
 							<?php echo $username; ?> 
@@ -46,8 +67,8 @@ $username = $this->session->userdata('username');
 						<li><a href="/auth/logout" class="logout">Logout</a></li>
 					</ul>
 
-					<?php } ?> 
 				</div>
+				<?php } ?> 
 				
 				<?php if ($this->sauth->is_logged_in()) {
 				
@@ -60,6 +81,8 @@ $username = $this->session->userdata('username');
 					</ul>
 				</div>
 				
+				<?php } ?> 
+				
 				<div class="lc-node" id="threads">
 					<h3><a href="/">Threads</a></h3>
 					<ul id="thread-categories">
@@ -71,12 +94,14 @@ $username = $this->session->userdata('username');
 					<ul id="special-threads">
 						<li><a href="/">All Forums</a></li>
 						<li><a href="/f/meaningful">All But Meaningless</a></li>
+						<?php if ($this->sauth->is_logged_in()) { ?>
 						<li><a href="/f/participated">Participated Threads</a></li>
 						<li><a href="#">Favourite Threads</a></li>
+						<?php } ?> 
 					</ul>
 				</div>
-				
-				<?php } ?> 
+
+				<?php if ($this->sauth->is_logged_in()) { ?> 
 				
 				<div class="lc-node" id="buddy-list">
 					<h3><a href="/buddies">Buddies</a></h3>					
@@ -92,6 +117,7 @@ $username = $this->session->userdata('username');
 						<?php } ?> 
 					</div>
 				</div>
+				<?php } ?> 
 				
 			</div>
 			

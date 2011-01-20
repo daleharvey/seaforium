@@ -10,6 +10,9 @@ class Message extends Controller {
 		//$this->load->library('form_validation');
 		
 		$this->load->model('message_dal');
+		
+		if (!$this->sauth->is_logged_in())
+			redirect('/');
 	}
 	
 	function index(){}

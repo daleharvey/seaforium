@@ -566,7 +566,7 @@ display: none;
 
 .comment .content-block, #thread .comment textarea {
 font-size: 14px;
-line-height:1;
+line-height:1.3;
 }
 
 #thread .comment textarea {
@@ -912,4 +912,42 @@ color: #898989;
 
 .buddy-listing .online, .enemy-listing .online {
 color: #00AEEF;
+}
+
+
+.lc-node.login, .lc-node.login label {
+color: #FFFFFF;
+}
+
+.lc-node.login {
+background: #494949;
+}
+
+.lc-node.login h5 {
+font-size: 14px;
+}
+
+.lc-node.login p {
+font-size: 9px;
+margin: 8px 0;
+}
+
+.lc-node.login a {color: #959595; font-size: 10px;}
+
+.lc-node.login div {
+margin-bottom: 5px;
+}
+
+.lc-node.login label {
+font-size: 9px;
+margin-right: 3px;
+}
+
+.lc-node.login input {
+width: 90px;
+margin-right: 8px;
+}
+
+.lc-node.login button {
+font-size: 9px;
 }

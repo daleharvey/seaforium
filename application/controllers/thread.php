@@ -44,6 +44,7 @@ class Thread extends Controller {
 			'thread_id' => $thread_id
 		);
 		
+		// if the thread is closed then we're not accepting any new data
 		if ($thread_info->closed === '0')
 		{
 			// we're going to go ahead and do the form processing for the reply now

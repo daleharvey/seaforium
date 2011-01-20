@@ -94,9 +94,7 @@ foreach($comment_result->result() as $row) {
 						<?php echo $pagination; ?>
 					</div>
 
-<?php if ($this->sauth->is_logged_in() && $info['closed'] === '0') { ?>
-
-<?php
+<?php if ($this->sauth->is_logged_in() && $info['closed'] === '0') { 
 
 // and now the reply form
 $content = array(

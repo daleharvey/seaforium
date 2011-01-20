@@ -9,6 +9,9 @@ class Newthread extends Controller {
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
 		$this->load->model('thread_dal');
+		
+		if (!$this->sauth->is_logged_in())
+			redirect('/');
 	}
 	
 	function index()
@@ -25,16 +28,16 @@ class Newthread extends Controller {
 			
 			$category = $this->form_validation->set_value('category[]');
 			
-			$data = array(
+			$comment = array(
 				'user_id' => $this->session->userdata('user_id'),
 				'category' => (int)$category[0],
 				'subject' => $this->form_validation->set_value('subject'),
 				'content' => $this->form_validation->set_value('content')
 			);
 			
-			$data['thread_id'] = $this->thread_dal->new_thread($data);
+			$comment['thread_id'] = $this->thread_dal->new_thread($comment);
 			
-			$this->thread_dal->new_comment($data);
+			$this->thread_dal->new_comment($comment);
 			
 			redirect('/thread/'.$thread_id.'/'.url_title($subject, 'dash', TRUE));
 		}
