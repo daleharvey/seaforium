@@ -480,7 +480,7 @@ clear: both;
 }
 
 .comment {
-padding: 8px 8px 20px 2px;
+padding: 0 8px 20px 2px;
 margin-bottom: 2px;
 border-bottom: solid 1px #CCCCCC;
 min-height: 45px;
@@ -488,9 +488,8 @@ position:relative;
 }
 
 .comment .cmd-bar {
-    position:absolute;
-    top:0px;
-    right:0px;
+padding-bottom: 4px;
+text-align: right;
 font-size: 9px;
 }
 
