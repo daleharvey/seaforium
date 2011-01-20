@@ -34,6 +34,8 @@ function thread_notifier()
 
 thread = {
 	
+	status_text: [],
+	
 	view_source: function(comment_id)
 	{
 		$.ajax({
@@ -94,5 +96,29 @@ thread = {
 				$('#comment-'+comment_id+' .content').html(data);
 			}
 		});
+	},
+	
+	set_status: function(thread_id, keyword, status, key)
+	{
+		$.get(
+			'/ajax/set_thread_status/'+ thread_id +'/'+ keyword +'/'+ status +'/'+ key,
+			function(data) {
+				console.log(data);
+				if (data == 1)
+				{
+					status = status == 1 ? 0 : 1;
+					
+					$('#control-'+ keyword +' span').unbind('click').bind('click', function(){
+						thread.set_status(thread_id, keyword, status, key);
+						return false;
+					}).html(thread.status_text[keyword][status]);
+				}
+			}
+		);
+		
+		return false;
 	}
 }
+
+thread.status_text['nsfw'] = ['Unmark Naughty', 'Mark Naughty'];
+thread.status_text['closed'] = ['Open Thread', 'Close Thread'];

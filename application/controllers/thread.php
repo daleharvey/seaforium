@@ -32,29 +32,38 @@ class Thread extends Controller {
 		if ($query->num_rows === 0)
 			redirect('/');
 		
+		$thread_info = $query->row();
+		
 		// alright we're clear, set some data for the view
 		$data = array(
-			'title' => $query->row()->subject,
+			'info' => array(
+				'title' => $thread_info->subject,
+				'nsfw' => $thread_info->nsfw,
+				'closed' => $thread_info->closed
+			),
 			'thread_id' => $thread_id
 		);
 		
-		// we're going to go ahead and do the form processing for the reply now
-		// if they're submitting data, we're going to refresh the page anyways
-		// so theres no point in running the query below the form validation
-		$this->form_validation->set_rules('content', 'Content', 'required');
-		
-		// if a comment was submitted
-		if ($this->form_validation->run())
+		if ($thread_info->closed === '0')
 		{
-			$content = _ready_for_save($this->form_validation->set_value('content'));
+			// we're going to go ahead and do the form processing for the reply now
+			// if they're submitting data, we're going to refresh the page anyways
+			// so theres no point in running the query below the form validation
+			$this->form_validation->set_rules('content', 'Content', 'required');
 			
-			$this->thread_dal->new_comment(array(
-				'thread_id' => $thread_id,
-				'user_id' => $this->session->userdata('user_id'),
-				'content' => $content
-			));
-			
-			redirect(uri_string());
+			// if a comment was submitted
+			if ($this->form_validation->run())
+			{
+				$content = _ready_for_save($this->form_validation->set_value('content'));
+				
+				$this->thread_dal->new_comment(array(
+					'thread_id' => $thread_id,
+					'user_id' => $this->session->userdata('user_id'),
+					'content' => $content
+				));
+				
+				redirect(uri_string());
+			}
 		}
 		
 		$display = $this->session->userdata('comments_shown') == false ? 50 : (int)$this->session->userdata('comments_shown');
@@ -100,6 +109,8 @@ class Thread extends Controller {
 		)); 
 		
 		$data['pagination'] = $this->pagination->create_links() .'<span class="paging-text">'. ($limit_start + 1) .' - '. ($limit_start + $display) .' of '. $data['total_comments'] .' Posts</span>';
+		
+		$data['starting'] = $limit_start;
 		
 		$this->load->helper('content_render');
 		

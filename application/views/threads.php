@@ -39,6 +39,9 @@ foreach($thread_result->result() as $row) {
 			$acq = '';
 	}
 	
+	$nsfw = $row->nsfw === '1' ? ' nsfw' : '';
+	$nsfw_tag = $row->nsfw === '1' ? ' <span class="naughty-tag">[NAUGHTY!]</span>' : '';
+	
 	if ($row->acq == 2)
 	{
 ?> 
@@ -50,9 +53,9 @@ foreach($thread_result->result() as $row) {
 	
 ?>
 
-				<div id="thread-<?php echo $row->thread_id; ?>" class="thread<?php echo $alt === false ? '' : ' alt'; echo $acq; ?>">
+				<div id="thread-<?php echo $row->thread_id; ?>" class="thread<?php echo $alt === false ? '' : ' alt'; echo $acq; echo $nsfw; ?>">
 					<div class="one">
-						<div class="subject"><?php echo anchor($link_text, $row->subject).' '. anchor($link_text.'/p/'.$last_page.'#bottom', '#', array('class' => 'end-link')); ?></div>
+						<div class="subject"><span class="subject-text"><?php echo anchor($link_text, $row->subject); ?></span> <?php echo $nsfw_tag.' '. anchor($link_text.'/p/'.$last_page.'#bottom', '#', array('class' => 'end-link')); ?></div>
 						<div class="category"><?php echo $row->category ?></div>
 					</div>
 					<div class="two">

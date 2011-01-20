@@ -1,12 +1,14 @@
 	
 				<div id="thread">
-					<div id="main-title"><h3><?php echo $title ?></h3></div>
+					<div id="main-title"><h3><?php echo $info['title'] ?></h3></div>
 					
 					<div class="pagination top">
 						<?php echo $pagination; ?>
 					</div>
 				
 <?php
+
+$i = 0;
 
 // loop through and print out all the comments
 foreach($comment_result->result() as $row) { 
@@ -27,8 +29,11 @@ foreach($comment_result->result() as $row) {
 	// alternating comment colors!!!
 	$alt = (!isset($alt) || $alt === false ? true : false);
 	
-	$edit_source = ($row->user_id == $this->session->userdata('user_id') && strtotime($row->created) > time() - 3600) ? 'edit' : 'View Source';
+	$my_thread = $row->user_id == $this->session->userdata('user_id');
 	
+	$edit_source = ($my_thread && strtotime($row->created) > time() - 3600) ? 'edit' : 'View Source';
+	
+	$url_safe_username = url_title($row->username, 'dash', TRUE);
 ?>
 
 					<div id="comment-<?php echo $row->comment_id; ?>" class="comment<?php echo $alt === false ? '' : ' alt'; ?>">
@@ -37,22 +42,59 @@ foreach($comment_result->result() as $row) {
              <a class="quote">Quote</a>
 						</div>
 						<div class="user-block">
-							<div class="username"><?php echo anchor('/user/'.url_title($row->username, 'dash', TRUE), $row->username); ?></div>
+							<div class="username"><?php echo anchor('/user/'. $url_safe_username, $row->username); ?></div>
 							<div class="time"><?php echo timespan(strtotime($row->created), time()) ?></div>
+							
+							<div class="user-information" style="background: url(img/noavatar.gif);">
+								<ul>
+									<li><a href="/buddies/<?php echo $url_safe_username; ?>">BUDDY? ENEMY?</a></li>
+									<li><a href="/messages/send/<?php echo $url_safe_username; ?>">SEND A MESSAGE</a></li>
+								</ul>
+							</div>
+							
+							<?php if ($my_thread && $i === 0 && $starting === 0) { 
+							
+								$session_id = $this->session->userdata('session_id');
+								
+								$set_nsfw_status = $info['nsfw'] === '1' ? 0 : 1;
+								$set_closed_status = $info['closed'] === '1' ? 0 : 1;
+								
+								$nsfw_text = $info['nsfw'] === '1' ? 'Unmark Naughty' : 'Mark Naughty';
+								$closed_text = $info['closed'] === '1' ? 'Open Thread' : 'Close Thread';
+							
+							?>
+							<div id="thread-control">
+								<p>THREAD ADMIN</p>
+								<ul>
+									<li id="control-nsfw">&middot; <span><?php echo $nsfw_text; ?></span></li>
+									<li id="control-closed">&middot; <span><?php echo $closed_text; ?></span></li>
+								</ul>
+							</div>
+							
+							<script type="text/javascript">
+								$('#control-nsfw span').bind('click', function(){
+									thread.set_status(<?php echo $row->thread_id; ?>, 'nsfw', <?php echo $set_nsfw_status; ?>, '<?php echo $session_id; ?>')
+								});
+								$('#control-closed span').bind('click', function(){
+									thread.set_status(<?php echo $row->thread_id; ?>, 'closed', <?php echo $set_closed_status; ?>, '<?php echo $session_id; ?>');
+								});
+							</script>
+							<?php } ?>
+							
 						</div>
 						<div class="content-block">
 							<div class="content"><?php echo _ready_for_display($row->content); ?></div>
 						</div>
   
-						<div style="clear: right;"></div>
+						<div style="clear: both;"></div>
 					</div>
-<?php } ?>
+<?php ++$i; } ?>
 
 					<div class="pagination bottom">
 						<?php echo $pagination; ?>
 					</div>
 
-<?php if ($this->sauth->is_logged_in()) { ?>
+<?php if ($this->sauth->is_logged_in() && $info['closed'] === '0') { ?>
 
 <?php
 

@@ -72,6 +72,30 @@ class Ajax extends Controller
 		}
 		
 	}
+	
+	function set_thread_status($thread_id, $keyword, $status, $key)
+	{
+		if ($key === $this->session->userdata('session_id'))
+		{
+			$thread_id = (int) $thread_id;
+			$status = (int) $status;
+			$user_id = (int) $this->session->userdata('user_id');
+			
+			if ($keyword == 'nsfw')
+			{
+				echo $this->thread_dal->change_nsfw($user_id, $thread_id, $status);
+				return;
+			}
+			elseif ($keyword == 'closed')
+			{
+				echo $this->thread_dal->change_closed($user_id, $thread_id, $status);
+				return;
+			}
+			
+		}
+		
+		echo $key ."\n". $this->session->userdata('session_id');
+	}
 }
 
 /* End of file ajax.php */

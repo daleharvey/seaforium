@@ -54,6 +54,7 @@ class Thread_dal extends Model
 			SELECT
 				threads.subject,
 				threads.created,
+				threads.nsfw,
 				threads.thread_id,
 				categories.name AS category,
 				authors.username AS author_name,
@@ -98,7 +99,7 @@ class Thread_dal extends Model
 	 */
 	function get_thread_information($thread_id)
 	{
-		$sql = "SELECT subject FROM threads WHERE thread_id = ?"; 
+		$sql = "SELECT subject, closed, nsfw FROM threads WHERE thread_id = ?"; 
 		
 		return $this->db->query($sql, $thread_id);
 	}
@@ -154,6 +155,7 @@ class Thread_dal extends Model
 		
 		$sql = "
 			SELECT
+				comments.thread_id,
 				comments.comment_id,
 				comments.content,
 				comments.created,
@@ -222,5 +224,27 @@ class Thread_dal extends Model
 	function get_participated_threads($user_id)
 	{
 		return $this->db->query("SELECT GROUP_CONCAT(DISTINCT thread_id) AS thread_ids FROM comments WHERE user_id = ?", $user_id)->row()->thread_ids;
+	}
+	
+	function change_nsfw($user_id, $thread_id, $status)
+	{
+		$this->db->query("UPDATE threads SET nsfw = ? WHERE thread_id = ? AND user_id = ? LIMIT 1", array(
+			$status,
+			$thread_id,
+			$user_id
+		));
+		
+		return $this->db->affected_rows();
+	}
+	
+	function change_closed($user_id, $thread_id, $status)
+	{
+		$this->db->query("UPDATE threads SET closed = ? WHERE thread_id = ? AND user_id = ? LIMIT 1", array(
+			$status,
+			$thread_id,
+			$user_id
+		));
+		
+		return $this->db->affected_rows();
 	}
 }
