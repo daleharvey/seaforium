@@ -12,7 +12,7 @@ var YAY = (function() {
         
         var title, tpl = $("#title-input").html();
     
-        $("#main-title").bind("click", function () {
+        $("#main-title .changeling").bind("click", function () {
             if ($(this).is(":not(.editing)")) {
                 title = $(this).text();
                 $(this).addClass("editing");

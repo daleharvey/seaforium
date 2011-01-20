@@ -56,11 +56,9 @@ $route['thread/(:num)/p/(:num)'] = "thread/load/$1/$2";
 // let them pass, they'll be redirected home anyways
 $route['thread/(:any)'] = "thread/load/$1";
 
-// thread paging, with and without subject in the url
-//$route['thread/(:num)'] = "thread/load/$1";
-//$route['thread/(:num)/:any'] = "thread/load/$1";
-
 $route['user/(:any)'] = "user/load/$1";
+
+$route['message/(:num)'] = "message/load/$1";
 
 $route['default_controller'] = "welcome";
 $route['scaffolding_trigger'] = "";

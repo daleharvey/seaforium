@@ -44,6 +44,11 @@ code {
 	white-space: pre;
 }
 
+.dotted-bar {
+	border-bottom: 1px dotted #959595;
+	margin-top: 14px;
+}
+
 /********************************************************
    MAIN LAYOUT
  ********************************************************/
@@ -195,7 +200,7 @@ code {
 /*************************************************************
    New Thread
 *************************************************************/
-#new-thread label {
+.inp label {
     display:block;
     font-size:16px;
     margin-top:12px;
@@ -488,7 +493,6 @@ margin-top: 10px;
 width: 150px;
 }
 
-
 div.tquote {
 	background: #FAFAFA;
 	padding: 5px 5px 7px 6px;
@@ -580,4 +584,124 @@ div.tquote div.tqname {
 	line-height: 18px;
 	padding: 8px;
 	width: 200px;
+}
+
+#pm-box-controls {
+background: #FFEAEA;
+padding: 6px;
+border-bottom: solid 1px #BBBBBB;
+}
+
+#pm-box-controls a {
+font-size: 11px;
+}
+
+#pm-inbox .message.header {
+background: transparent;
+border-bottom: solid 1px #BBBBBB;
+}
+
+#pm-inbox .message.header div {
+font-size: 10px !important;
+}
+
+#pm-inbox .message {
+margin: 2px 0;
+line-height: 24px;
+height: 24px;
+padding-left: 4px;
+background: #F5FBFE;
+}
+
+#pm-inbox .message.unread .subject {
+font-weight: 700;
+}
+
+#pm-inbox .message div {
+float: left;
+line-height: 24px !important;
+color: #666666;
+font-size: 12px;
+font-weight: 500;
+padding: 0 !important;
+margin: 0 !important;
+}
+
+#pm-inbox .message .subject {
+width: 60%;
+}
+
+#pm-inbox .message .sender {
+width: 20%;
+}
+
+#pm-inbox .blue-bar {
+height: 1px;
+background: #ACE1F9;
+width: 100%;
+}
+
+#pm-inbox .ctrl-bar, #pm-message .ctrl-bar {
+line-height: 30px;
+height: 30px;
+border-bottom: 1px dotted #959595;
+}
+
+#pm-inbox .pagination, #pm-message .pagination {
+border: 0;
+float: left;
+font-size: 11px;
+}
+
+#pm-inbox .new-message, #pm-message .new-message {
+float: right;
+display: block;
+background: #E6F7FE;
+padding: 3px 7px;
+height: 18px;
+line-height: 18px;
+margin-top: 3px;
+font-size: 10px;
+}
+
+#pm-message-meta {
+line-height: 20px;
+height: 20px;
+font-size: 10px;
+border-bottom: solid 1px #BBBBBB;
+}
+
+#pm-message-meta span {
+padding: 0 4px;
+}
+
+#pm-message-meta span span {
+padding: 0;
+color: #7E7E7E;
+}
+
+#pm-message .content {
+padding: 20px 0;
+border-bottom: 1px dotted #959595;
+}
+
+#errors {
+background: #FFFFEE;
+border: solid 1px #ED135A;
+padding: 12px;
+margin-top: 10px;
+width: 400px;
+}
+
+#errors h4 {
+font-size: 14px;
+margin-bottom: 4px;
+}
+
+#errors ul {
+margin-left: 20px;
+}
+#errors li {
+list-style: disc;
+font-size: 11px;
 }

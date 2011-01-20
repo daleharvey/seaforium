@@ -1,7 +1,5 @@
 <?php
 
-$this->load->model('user_dal');
-
 $css = $this->agent->is_mobile() ? "mobile.css" : "forum.css";
 $username = $this->session->userdata('username');
 
@@ -34,19 +32,25 @@ $username = $this->session->userdata('username');
 					</ul>
 					<?php } else { ?> 
 					<h4>
-            Hi, <a href="/user/<?php echo $username; ?>">
-             <?php echo $this->session->userdata('username'); ?>
-             </a>
-          </h4>
+						Hi, <a href="/user/<?php echo $username; ?>">
+							<?php echo $username; ?> 
+						</a>
+					</h4>
 
-            <a href="/user/<?php echo $username; ?>">
-             <img src="/img/pinkies/11.gif" class="main_avatar" />
-             </a>
-          
+					<a href="/user/<?php echo $username; ?>">
+						<img src="/img/pinkies/11.gif" class="main_avatar" />
+					</a>
+					
+					<?php
+						$unread_messages = $this->message_dal->unread_messages($this->session->userdata('user_id'));
+						
+						$unread_text = $unread_messages .' unread message' .($unread_messages === 1 ? '' : 's');
+					?>
+					
 					<ul>
 						<li><a href="/preferences">Preferences</a></li>
 						<li><a href="/auth/logout" class="logout">Logout</a></li>
-						<?php //<li><a href="/mail/inbox">8 unread messages</a></li> ?> 
+						<li><a href="/messages/inbox"><?php echo $unread_text; ?></a></li>
 					</ul>
 
 					<?php } ?> 
@@ -55,18 +59,18 @@ $username = $this->session->userdata('username');
 				<?php if ($this->sauth->is_logged_in()) { ?> 
 				<div class="lc-node" id="threads">
 					<h3><a href="/">Threads</a></h3>
-           <ul id="thread-categories">
-             <li><a href="#">Discussions</a></li>
-             <li><a href="#">Projects</a></li>
-             <li><a href="#">Advice</a></li>
-             <li><a href="#">Meaningless</a></li>
-           </ul>
-           <ul id="special-threads">
-             <li><a href="#">All Forums</a></li>
-             <li><a href="#">All But Meaningless</a></li>
-             <li><a href="#">Participated Threads</a></li>
-             <li><a href="#">Favourite Threads</a></li>
-           </ul>
+					<ul id="thread-categories">
+						<li><a href="#">Discussions</a></li>
+						<li><a href="#">Projects</a></li>
+						<li><a href="#">Advice</a></li>
+						<li><a href="#">Meaningless</a></li>
+					</ul>
+					<ul id="special-threads">
+						<li><a href="#">All Forums</a></li>
+						<li><a href="#">All But Meaningless</a></li>
+						<li><a href="#">Participated Threads</a></li>
+						<li><a href="#">Favourite Threads</a></li>
+					</ul>
 				</div>
 				
 				<?php } ?> 

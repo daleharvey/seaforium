@@ -52,3 +52,9 @@ function _ready_for_save($content)
 	
 	return strip_tags($final, '<img><a><em><i><b><strong><strike><del><address><code><pre><quote>');
 }
+
+
+function _format_pm_time($mysql_time)
+{
+	return date('M j \'y \@ g:ia', strtotime($mysql_time));
+}
