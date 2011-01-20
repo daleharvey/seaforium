@@ -39,7 +39,8 @@ class Thread extends Controller {
 			'info' => array(
 				'title' => $thread_info->subject,
 				'nsfw' => $thread_info->nsfw,
-				'closed' => $thread_info->closed
+				'closed' => $thread_info->closed,
+				'category' => $thread_info->category
 			),
 			'thread_id' => $thread_id
 		);
@@ -109,7 +110,7 @@ class Thread extends Controller {
 			
 		)); 
 		
-		$data['pagination'] = $this->pagination->create_links() .'<span class="paging-text">'. ($limit_start + 1) .' - '. ($limit_start + $display) .' of '. $data['total_comments'] .' Posts</span>';
+		$data['pagination'] = $this->pagination->create_links() .'<span class="paging-text">'. ($limit_start + 1) .' - '. ($limit_start + $display) .' of '. $data['total_comments'] .' Posts in <a href="/">Threads</a> &gt; <a href="/f/'.strtolower($data['info']['category']).'">'.$data['info']['category'].'</a> > <a href="/thread/'. $thread_id.'/'.url_title($data['info']['title'], 'dash', TRUE) .'">'.$data['info']['title'].'</a></span>';
 		
 		$data['starting'] = $limit_start;
 		

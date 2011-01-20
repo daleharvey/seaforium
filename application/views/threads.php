@@ -1,5 +1,9 @@
 
+				<?php if ($this->sauth->is_logged_in()) { ?>
 				<div id="main-title" class="changeling" title="<?php echo $title->username ?>"><h3><?php echo $title->title_text ?></h3></div>
+				<?php } else { ?>
+				<div id="main-title" title="<?php echo $title->username ?>"><h3><?php echo $title->title_text ?></h3></div>
+				<?php } ?>
 				
 				<div id="thread-navigation" class="pagination top">
 					<?php if ($this->sauth->is_logged_in()) { ?>

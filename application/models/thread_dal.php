@@ -99,7 +99,7 @@ class Thread_dal extends Model
 	 */
 	function get_thread_information($thread_id)
 	{
-		$sql = "SELECT subject, closed, nsfw FROM threads WHERE thread_id = ?"; 
+		$sql = "SELECT subject, closed, nsfw, categories.name AS category FROM threads LEFT JOIN categories ON threads.category = categories.category_id WHERE thread_id = ?"; 
 		
 		return $this->db->query($sql, $thread_id);
 	}

@@ -88,29 +88,6 @@ class Controller extends CI_Base {
 			}
 		}
 	}
-	
-	// --------------------------------------------------------------------
-	
-	/**
-	 * Run Scaffolding
-	 *
-	 * @access	private
-	 * @return	void
-	 */	
-	function _ci_scaffolding()
-	{
-		if ($this->_ci_scaffolding === FALSE OR $this->_ci_scaff_table === FALSE)
-		{
-			show_404('Scaffolding unavailable');
-		}
-		
-		$method = ( ! in_array($this->uri->segment(3), array('add', 'insert', 'edit', 'update', 'view', 'delete', 'do_delete'), TRUE)) ? 'view' : $this->uri->segment(3);
-		
-		require_once(BASEPATH.'scaffolding/Scaffolding'.EXT);
-		$scaff = new Scaffolding($this->_ci_scaff_table);
-		$scaff->$method();
-	}
-
 
 }
 // END _Controller class
