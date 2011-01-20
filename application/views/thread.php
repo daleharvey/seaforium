@@ -107,15 +107,62 @@ $content = array(
 );
 
 ?>
-
-					<?php echo form_open(uri_string()); ?> 
 					
-						<div class="input textarea">
-							<?php echo form_textarea($content); ?> 
+					<div class="dotted-bar replypad"></div>
+					
+					<div id="reply-lc">
+						
+						<h4>Post A Reply</h4>
+						
+						<div id="post-shortcuts">
+							<p>SHORTCUTS!</p>
+							<ul>
+								<li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<a href=%22%22></a>')">URL</a></li>
+								<li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<img src=%22%22 />')">Image</a></li>
+								<li>&middot; <a href="#">Spoiler</a></li>
+							</ul>
 						</div>
+						
+					</div>
 					
-						<?php echo form_submit('submit', 'Submit'); ?> 
-					<?php echo form_close(); ?> 
+					<div id="reply-rc">
+						
+						<div id="pinkies">
+							<a href="javascript:insertAtCaret('thread-content-input', '[:)]');"><img src="img/pinkies/11.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:(]');"><img src="img/pinkies/01.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:D]');"><img src="img/pinkies/05.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[;)]');"><img src="img/pinkies/07.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:P]');"><img src="img/pinkies/08.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[>|]');"><img src="img/pinkies/14.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:[]');"><img src="img/pinkies/10.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[\'(]');"><img src="img/pinkies/03.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:*]');"><img src="img/pinkies/17.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[B-]');"><img src="img/pinkies/16.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:=]');"><img src="img/pinkies/27.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:.]');"><img src="img/pinkies/22.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[O]');"><img src="img/pinkies/24.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[8)]');"><img src="img/pinkies/09.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:{]');"><img src="img/pinkies/06.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:@]');"><img src="img/pinkies/20.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[%(]');"><img src="img/pinkies/18.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[><]');"><img src="img/pinkies/25.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[RR]');"><img src="img/pinkies/23.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[NH]');"><img src="img/pinkies/26.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[fbm]');"><img src="img/pinkies/21.gif" /></a>
+						</div>
+						
+						<?php echo form_open(uri_string()); ?> 
+							
+							<div class="input textarea">
+								<?php echo form_textarea($content); ?> 
+							</div>
+							
+							<p>I, <?php echo $this->session->userdata('username'); ?>, do solemnly swear that in posting this comment I promise to be nice.</p>
+							
+							<?php echo form_submit('submit', 'Agree & Post'); ?> 
+						<?php echo form_close(); ?> 
+						
+					</div>
 
 <?php } ?> 
 					<script type="text/javascript" src="/js/thread.js"></script>

@@ -31,7 +31,7 @@ $yh_username = array(
 		<div id="secluded-login">
 			<?php echo form_open('/auth/login'); ?> 
 				
-				<h4>Login</h4>
+				<h1>Login</h1>
 				
 				<div class="secluded-input">
 					<?php echo form_label('Username', $username['id']); ?> 

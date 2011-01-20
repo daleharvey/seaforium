@@ -1,6 +1,3 @@
-<?php
-$js  = $this->agent->is_mobile() ? "mobile.js" : "forum.js";
-?>
 			</div>
 			
 		</div>
@@ -13,6 +10,11 @@ $js  = $this->agent->is_mobile() ? "mobile.js" : "forum.js";
 	</div>
 
 	<script type="text/javascript" src="/js/<?php echo $js; ?>"></script>
+<?php
+  if ($this->agent->is_mobile()) { 
+    echo 	'<script type="text/javascript" src="/js/mobile.js"></script>';
+  }
+?>
 	
 </body>
 </html>

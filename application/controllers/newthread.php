@@ -39,7 +39,7 @@ class Newthread extends Controller {
 			
 			$this->thread_dal->new_comment($comment);
 			
-			redirect('/thread/'.$thread_id.'/'.url_title($subject, 'dash', TRUE));
+			redirect('/thread/'.$comment['thread_id'].'/'.url_title($subject, 'dash', TRUE));
 		}
 		
 		$this->load->view('shared/header');

@@ -49,6 +49,10 @@ code {
 	margin-top: 14px;
 }
 
+.dotted-bar.replypad {
+margin: 0 0 14px 0;
+}
+
 /********************************************************
    MAIN LAYOUT
  ********************************************************/
@@ -475,7 +479,7 @@ clear: both;
 }
 
 .comment {
-padding: 15px 8px 20px 2px;
+padding: 0 8px 20px 2px;
 margin-bottom: 2px;
 border-bottom: solid 1px #CCCCCC;
 min-height: 45px;
@@ -483,9 +487,8 @@ position:relative;
 }
 
 .comment .cmd-bar {
-    position:absolute;
-    top:0px;
-    right:0px;
+padding-bottom: 4px;
+text-align: right;
 font-size: 9px;
 }
 
@@ -624,8 +627,66 @@ form .input.text input, form .input.textarea textarea {
 border: solid 1px #999999;
 }
 
+#reply-lc {
+float: left;
+}
+
+#reply-lc h4 {
+font-size: 14px;
+margin-bottom: 10px;
+}
+
+#post-shortcuts {
+background: #F4F4F4;
+border: dotted 1px #8A8A8A;
+padding: 5px;
+width: 85px;
+}
+
+#post-shortcuts p {
+font-size: 9px;
+}
+
+#post-shortcuts li a{
+font-size: 9px;
+color: #ED135A;
+text-decoration: underline;
+line-height: 9px;
+height: 9px;
+cursor: pointer;
+}
+
+#post-shortcuts li a:hover {
+color: #FFFFFF;
+background: #ED135A;
+}
+
+#reply-rc {
+margin-left: 130px;
+background: url(../img/benice.gif) 446px 150px no-repeat;
+}
+
+#pinkies {
+line-height: 22px;
+padding-bottom: 2px;
+}
+
+#pinkies span {
+padding-top: 6px;
+cursor: pointer;
+}
+#pinkies span:hover {
+background: #494949;
+}
+
 #thread-content-input {
-width: 400px;
+width: 450px;
+height: 180px;
+}
+
+#reply-rc p {
+font-weight: 700;
+margin: 8px 0 9px 0;
 }
 
 #preferences form {
