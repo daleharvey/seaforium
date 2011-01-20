@@ -164,7 +164,7 @@ margin: 7px 0 3px 0;
     height: 40px;
     line-height: 40px;
     margin-bottom: 15px;
-    padding-top: 53px;
+    padding-top: 51px;
 }
 
 #main-title h3, #title-input {
@@ -361,7 +361,7 @@ margin: 0 0 10px 0;
 #buddy-list div span {font-size: 11px;}
 
 #right-column {
-    margin: 25px 0 0 240px;
+    margin: 25px 0 0 235px;
     padding: 0 25px 50px 0;
 }
 
