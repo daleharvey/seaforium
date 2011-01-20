@@ -45,7 +45,7 @@ foreach($comment_result->result() as $row) {
 							<div class="username"><?php echo anchor('/user/'. $url_safe_username, $row->username); ?></div>
 							<div class="time"><?php echo timespan(strtotime($row->created), time()) ?></div>
 							
-							<div class="user-information" style="background: url(img/noavatar.gif);">
+							<div class="user-information" style="background: url(/img/noavatar.gif);">
 								<ul>
 									<li><a href="/buddies/<?php echo $url_safe_username; ?>">BUDDY? ENEMY?</a></li>
 									<li><a href="/messages/send/<?php echo $url_safe_username; ?>">SEND A MESSAGE</a></li>
@@ -125,27 +125,27 @@ $content = array(
 					<div id="reply-rc">
 						
 						<div id="pinkies">
-							<a href="javascript:insertAtCaret('thread-content-input', '[:)]');"><img src="img/pinkies/11.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[:(]');"><img src="img/pinkies/01.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[:D]');"><img src="img/pinkies/05.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[;)]');"><img src="img/pinkies/07.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[:P]');"><img src="img/pinkies/08.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[>|]');"><img src="img/pinkies/14.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[:[]');"><img src="img/pinkies/10.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[\'(]');"><img src="img/pinkies/03.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[:*]');"><img src="img/pinkies/17.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[B-]');"><img src="img/pinkies/16.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[:=]');"><img src="img/pinkies/27.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[:.]');"><img src="img/pinkies/22.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[O]');"><img src="img/pinkies/24.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[8)]');"><img src="img/pinkies/09.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[:{]');"><img src="img/pinkies/06.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[:@]');"><img src="img/pinkies/20.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[%(]');"><img src="img/pinkies/18.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[><]');"><img src="img/pinkies/25.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[RR]');"><img src="img/pinkies/23.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[NH]');"><img src="img/pinkies/26.gif" /></a>
-							<a href="javascript:insertAtCaret('thread-content-input', '[fbm]');"><img src="img/pinkies/21.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:)]');"><img src="/img/pinkies/11.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:(]');"><img src="/img/pinkies/01.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:D]');"><img src="/img/pinkies/05.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[;)]');"><img src="/img/pinkies/07.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:P]');"><img src="/img/pinkies/08.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[>|]');"><img src="/img/pinkies/14.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:[]');"><img src="/img/pinkies/10.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[\'(]');"><img src="/img/pinkies/03.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:*]');"><img src="/img/pinkies/17.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[B-]');"><img src="/img/pinkies/16.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:=]');"><img src="/img/pinkies/27.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:.]');"><img src="/img/pinkies/22.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[O]');"><img src="/img/pinkies/24.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[8)]');"><img src="/img/pinkies/09.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:{]');"><img src="/img/pinkies/06.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[:@]');"><img src="/img/pinkies/20.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[%(]');"><img src="/img/pinkies/18.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[><]');"><img src="/img/pinkies/25.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[RR]');"><img src="/img/pinkies/23.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[NH]');"><img src="/img/pinkies/26.gif" /></a>
+							<a href="javascript:insertAtCaret('thread-content-input', '[fbm]');"><img src="/img/pinkies/21.gif" /></a>
 						</div>
 						
 						<?php echo form_open(uri_string()); ?> 
