@@ -387,16 +387,18 @@ background-color: #F9FCFE;
 }
 
 .thread.buddy {
-background: #EDF5E1;
+background-color: #EDF5E1;
 }
 
 .thread.enemy {
-background: #FFEAEA;
+background-color: #FFEAEA;
 display: none;
 }
 
 .thread.nsfw {
-background: url(../img/naughty.gif) 6px 8px no-repeat;
+background-image: url(../img/naughty.gif);
+background-position: 6px 8px;
+background-repeat: no-repeat;
 }
 
 .thread.nsfw .subject-text a, .thread.nsfw .naughty-tag {
