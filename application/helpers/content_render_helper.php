@@ -2,7 +2,7 @@
 
 function _ready_for_display($content)
 {
-	$content = nl2br($content);
+	$content = format_pinkies(nl2br($content));
 	
 	return $content;
 }
@@ -53,6 +53,32 @@ function _ready_for_save($content)
 	return strip_tags($final, '<img><a><em><i><b><strong><strike><del><address><code><pre><quote>');
 }
 
+function format_pinkies($text)
+{
+	$text = str_replace('[:)]', '<span class="pinkie"><img src="/img/pinkies/11.gif" align="absmiddle" class="pinkie" alt=":)" /></span>', $text);
+	$text = str_replace('[:(]', '<span class="pinkie"><img src="/img/pinkies/01.gif" align="absmiddle" class="pinkie" alt=":(" /></span>', $text);
+	$text = str_replace('[:D]', '<span class="pinkie"><img src="/img/pinkies/05.gif" align="absmiddle" class="pinkie" alt=":D" /></span>', $text);
+	$text = str_replace('[;)]', '<span class="pinkie"><img src="/img/pinkies/07.gif" align="absmiddle" class="pinkie" alt=";)" /></span>', $text);
+	$text = str_replace('[:P]', '<span class="pinkie"><img src="/img/pinkies/08.gif" align="absmiddle" class="pinkie" alt=":P" /></span>', $text);
+	$text = str_replace('[>|]', '<span class="pinkie"><img src="/img/pinkies/14.gif" align="absmiddle" class="pinkie" alt="" /></span>', $text);
+	$text = str_replace('[:[]', '<span class="pinkie"><img src="/img/pinkies/10.gif" align="absmiddle" class="pinkie" alt=":[" /></span>', $text);
+	$text = str_replace('[\'(]', '<span class="pinkie"><img src="/img/pinkies/03.gif" align="absmiddle" class="pinkie" alt="\'(" /></span>', $text);
+	$text = str_replace('[:*]', '<span class="pinkie"><img src="/img/pinkies/17.gif" align="absmiddle" class="pinkie" alt=":*" /></span>', $text);
+	$text = str_replace('[B-]', '<span class="pinkie"><img src="/img/pinkies/16.gif" align="absmiddle" class="pinkie" alt="B-" /></span>', $text);
+	$text = str_replace('[:=]', '<span class="pinkie"><img src="/img/pinkies/27.gif" align="absmiddle" class="pinkie" alt=":=" /></span>', $text);
+	$text = str_replace('[:.]', '<span class="pinkie"><img src="/img/pinkies/22.gif" align="absmiddle" class="pinkie" alt="%(" /></span>', $text);
+	$text = str_replace('[O]', '<span class="pinkie"><img src="/img/pinkies/24.gif" align="absmiddle" class="pinkie" alt="O" /></span>', $text);
+	$text = str_replace('[8)]', '<span class="pinkie"><img src="/img/pinkies/09.gif" align="absmiddle" class="pinkie" alt="8)" /></span>', $text);
+	$text = str_replace('[:{]', '<span class="pinkie"><img src="/img/pinkies/06.gif" align="absmiddle" class="pinkie" alt=":{" /></span>', $text);
+	$text = str_replace('[:@]', '<span class="pinkie"><img src="/img/pinkies/20.gif" align="absmiddle" class="pinkie" alt=":@" /></span>', $text);
+	$text = str_replace('[%(]', '<span class="pinkie"><img src="/img/pinkies/18.gif" align="absmiddle" class="pinkie" alt="%(" /></span>', $text);
+	$text = str_replace('[><]', '<span class="pinkie"><img src="/img/pinkies/25.gif" align="absmiddle" class="pinkie" alt="><" /></span>', $text);
+	$text = str_replace('[RR]', '<span class="pinkie"><img src="/img/pinkies/23.gif" align="absmiddle" class="pinkie" alt="RR" /></span>', $text);
+	$text = str_replace('[NH]', '<span class="pinkie"><img src="/img/pinkies/26.gif" align="absmiddle" class="pinkie" alt="NH" /></span>', $text);
+	$text = str_replace('[fbm]', '<span class="pinkie"><img src="/img/pinkies/21.gif" align="absmiddle" class="pinkie" alt="fbm" /></span>', $text);
+	
+	return $text;
+}
 
 function _format_pm_time($mysql_time)
 {
