@@ -41,8 +41,16 @@
 */
 
 // front page paging
-$route['p'] = "welcome/index/0";
-$route['p/(:num)'] = "welcome/index/$1";
+$route['p'] = "welcome/index/0"; // no page
+$route['p/(:num)'] = "welcome/index/$1"; // page
+
+$route['f/(:any)'] = "welcome/index/0/$1"; // filter
+$route['f/(:any)/(:any)/(:any)'] = "welcome/index/0/$1/$2/$3"; // filter, order
+
+$route['o/(:any)/(:any)'] = "welcome/index/0/all/$1/$2"; // order
+
+$route['p/(:num)/(:any)/(:any)'] = "welcome/index/$1/all/$2/$3"; // page, order
+$route['p/(:num)/(:any)/(:any)/(:any)'] = "welcome/index/$1/$2/$3/$4"; // page, filter, order
 
 // subject | no paging
 $route['thread/(:num)/:any'] = "thread/load/$1/0";
@@ -59,6 +67,8 @@ $route['thread/(:any)'] = "thread/load/$1";
 $route['user/(:any)'] = "user/load/$1";
 
 $route['message/(:num)'] = "message/load/$1";
+
+$route['buddies/(:any)'] = "buddies/index/$1";
 
 $route['default_controller'] = "welcome";
 $route['scaffolding_trigger'] = "";

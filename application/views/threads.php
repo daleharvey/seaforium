@@ -1,17 +1,23 @@
 
+				<?php if ($this->sauth->is_logged_in()) { ?>
 				<div id="main-title" class="changeling" title="<?php echo $title->username ?>"><h3><?php echo $title->title_text ?></h3></div>
+				<?php } else { ?>
+				<div id="main-title" title="<?php echo $title->username ?>"><h3><?php echo $title->title_text ?></h3></div>
+				<?php } ?>
 				
 				<div id="thread-navigation" class="pagination top">
+					<?php if ($this->sauth->is_logged_in()) { ?>
 					<a href="/newthread" id="post-thread">Post Thread</a>
+					<?php } ?>
 					<?php echo $pagination; ?>
 				</div>
 	
 
 				<div class="thread" id="thread-headers">
 					<div class="one">Thread Title & Category</div>
-					<div class="two">Started By</div>
-					<div class="three">Last Post</div>
-					<div class="four">Posts</div>
+					<div class="two"><a href="<?php echo $tab_links; ?>started/<?php echo $tab_orders['started']; ?>">Started By</a></div>
+					<div class="three"><a href="<?php echo $tab_links; ?>latest/<?php echo $tab_orders['started']; ?>">Last Post</a></div>
+					<div class="four"><a href="<?php echo $tab_links; ?>posts/<?php echo $tab_orders['started']; ?>">Posts</a></div>
 				</div>
 			
 <?php 
@@ -24,11 +30,38 @@ foreach($thread_result->result() as $row) {
 	$link_text = '/thread/'.$row->thread_id.'/'.url_title($row->subject, 'dash', TRUE);
 	
 	$last_page = (ceil($row->response_count / $display) * $display - $display);
+	
+	$row->acq = (int) $row->acq;
+	
+	switch($row->acq)
+	{
+		case 1:
+			$acq = ' buddy';
+			break;
+		case 2:
+			$acq = ' enemy';
+			break;
+		default:
+			$acq = '';
+	}
+	
+	$nsfw = $row->nsfw === '1' ? ' nsfw' : '';
+	$nsfw_tag = $row->nsfw === '1' ? ' <span class="naughty-tag">[NAUGHTY!]</span>' : '';
+	
+	if ($row->acq == 2)
+	{
+?> 
+
+				<div id="ignore-for-<?php echo $row->thread_id; ?>" class="ignore-container" onclick="$('#thread-<?php echo $row->thread_id; ?>').toggle();"></div>
+
+<?php
+	}
+	
 ?>
 
-				<div class="thread<?php echo $alt === false ? '' : ' alt'; ?>">
+				<div id="thread-<?php echo $row->thread_id; ?>" class="thread<?php echo $alt === false ? '' : ' alt'; echo $acq; echo $nsfw; ?>">
 					<div class="one">
-						<div class="subject"><?php echo anchor($link_text, $row->subject).' '. anchor($link_text.'/p/'.$last_page.'#bottom', '#', array('class' => 'end-link')); ?></div>
+						<div class="subject"><span class="subject-text"><?php echo anchor($link_text, $row->subject); ?></span> <?php echo $nsfw_tag.' '. anchor($link_text.'/p/'.$last_page.'#bottom', '#', array('class' => 'end-link')); ?></div>
 						<div class="category"><?php echo $row->category ?></div>
 					</div>
 					<div class="two">

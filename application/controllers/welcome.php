@@ -8,69 +8,96 @@ class Welcome extends Controller {
 		
 		$this->load->helper(array('date', 'url'));
 		$this->load->library('pagination');
+		$this->load->model('thread_dal');
 	}
 	
-	function index($pagination = 0)
+	function index($pagination = 0, $filter = '', $ordering = '', $order_dir = 'desc')
 	{
-		$data['title'] = $this->db->query('
-			SELECT
-				titles.title_text,
-				users.username
-			FROM titles
-			LEFT JOIN users
-				ON titles.author_id = users.id
-			ORDER BY titles.title_id DESC
-			LIMIT 1
-		')->row();
-
-    if (count($data["title"]) == 0) { 
-      $data["title"] = (object) array("title_text" => "Change Me, Please", 
-                                      "username" => "anon");
-    }
-      
-		$row_count = $this->db->query('SELECT count(threads.thread_id) AS max_rows FROM threads')->row();
+		$user_id = (int) $this->session->userdata('user_id');
+		
+		switch($filter)
+		{
+			case 'discussions':
+				$sql = "WHERE threads.category = 1";
+				break;
+			case 'projects':
+				$sql = "WHERE threads.category = 2";
+				break;
+			case 'advice':
+				$sql = "WHERE threads.category = 3";
+				break;
+			case 'meaningless':
+				$sql = "WHERE threads.category = 4";
+				break;
+			case 'meaningful':
+				$sql = "WHERE threads.category != 4";
+				break;
+			case 'participated':
+				$sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_participated_threads($user_id) .")";
+				break;
+			case 'all':
+			default:
+				$filter = $sql = '';
+		}
+		
+		$order_dir = strtolower($order_dir);
+		
+		if ($order_dir != 'desc' && $order_dir != 'asc')
+			$order_dir = 'desc';
+		
+		switch($ordering)
+		{
+			case 'started':
+				$sql_dir = "ORDER BY threads.created ". $order_dir;
+				break;
+			case 'latest':
+				$sql_dir = "ORDER BY response_created ". $order_dir;
+				break;
+			case 'posts':
+				$sql_dir = "ORDER BY response_count ". $order_dir;
+				break;
+			default:
+				$sql_dir = "ORDER BY response_created DESC";
+				$ordering = $order_dir = '';
+		}
 		
 		$display = $this->session->userdata('threads_shown') == false ? 50 : $this->session->userdata('threads_shown');
 		
-		$data['thread_result'] = $this->db->query('
-			SELECT
-				threads.subject,
-				threads.created,
-				threads.thread_id,
-				threads.category,
-				# authors.id AS author_id,
-				authors.username AS author_name,
-				# responders.id AS responder_id,
-				responders.username AS responder_name,
-				responses.created AS response_created,
-				(
-					SELECT 
-						count(comments.comment_id) 
-					FROM comments 
-					WHERE comments.thread_id = threads.thread_id
-				) AS response_count
-			FROM threads
-			JOIN comments AS responses
-				ON responses.comment_id = threads.last_comment_id
-			JOIN users AS authors
-				ON threads.user_id = authors.id
-			JOIN users AS responders
-				ON responses.user_id = responders.id
-			ORDER BY response_created DESC
-			LIMIT '. $pagination .', '. $display .'
-		');
+		$paging_suffix = strlen($filter) > 0 ? '/'.$filter : '';
+		$paging_suffix .= strlen($ordering) > 0 ? '/'.$ordering : '';
+		$paging_suffix .= strlen($order_dir) > 0 ? '/'.$order_dir : '';
+		
+		$thread_count = $this->thread_dal->get_comment_count($sql);
 		
 		$this->pagination->initialize(array(
 			'base_url' => '/p/',
-			'total_rows' => $row_count->max_rows,
+			'total_rows' => $thread_count,
 			'uri_segment' => '2',
-			'per_page' => $display
+			'per_page' => $display,
+			'suffix' => $paging_suffix,
+			'full_tag_open' => '<div class="main-pagination">',
+			'full_tag_close' => '</div>',
+			'cur_tag_open' => '<div class="selected-page">',
+			'cur_tag_close' => '</div>',
+			'num_tag_open' => '',
+			'num_tag_close' => ''
 		)); 
 		
-		$data['pagination'] = $this->pagination->create_links();
-		
 		$this->load->view('shared/header');
-		$this->load->view('threads', $data);
+		
+		$this->load->view('threads', array(
+			'title' => $this->thread_dal->get_front_title(),
+			'thread_result' => $this->thread_dal->get_threads($user_id, $pagination, $display, $sql, $sql_dir),
+			'pagination' => $this->pagination->create_links() .'<span class="paging-text">'. ($pagination + 1) .' - '. ($pagination + $display) .' of '. $thread_count .' Threads</span>',
+			'tab_links' => strlen($filter) > 0 ? '/f/'.$filter.'/' : '/o/',
+			'tab_orders' => array(
+				'started' => $ordering == 'started' && $order_dir == 'desc' ? 'asc' : 'desc',
+				'latest' => $ordering == 'latest' && $order_dir == 'desc' ? 'asc' : 'desc',
+				'posts' => $ordering == 'posts' && $order_dir == 'desc' ? 'asc' : 'desc'
+			),
+			
+		));
+		
 		$this->load->view('shared/footer');
 	}
 }

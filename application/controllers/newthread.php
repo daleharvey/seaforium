@@ -8,12 +8,17 @@ class Newthread extends Controller {
 		
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
+		$this->load->model('thread_dal');
+		
+		if (!$this->sauth->is_logged_in())
+			redirect('/');
 	}
 	
 	function index()
 	{
 		
 		$this->form_validation->set_rules('subject', 'Subject', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('category[]', 'Category', 'required|exact_length[1]|integer');
 		$this->form_validation->set_rules('content', 'Content', 'trim|required|xss_clean');
 		
 		if ($this->form_validation->run())
@@ -21,33 +26,18 @@ class Newthread extends Controller {
 			
 			$subject = $this->form_validation->set_value('subject');
 			
-			// insert a new thread into the database
-			// the variables are done one at a time to take advantage of set()'s 3rd argument
-			// set() by default puts quotes around the 2nd argument but since
-			// its a native mySQL function, we dont want it quoted
-			$this->db->set('user_id', $this->session->userdata('user_id'));
-			$this->db->set('subject', $subject);
-			$this->db->set('created', 'NOW()', FALSE);
-			$this->db->insert('threads');
+			$category = $this->form_validation->set_value('category[]');
 			
-			// grab the new thread id
-			$thread_id = $this->db->insert_id();
+			$comment = array(
+				'user_id' => $this->session->userdata('user_id'),
+				'category' => (int)$category[0],
+				'subject' => $this->form_validation->set_value('subject'),
+				'content' => $this->form_validation->set_value('content')
+			);
 			
-			// insert a new comment into the database
-			$this->db->set('thread_id', $thread_id);
-			$this->db->set('user_id', $this->session->userdata('user_id'));
-			$this->db->set('content', $this->form_validation->set_value('content'));
-			$this->db->set('created', 'NOW()', FALSE);
-			$this->db->insert('comments');
+			$comment['thread_id'] = $this->thread_dal->new_thread($comment);
 			
-			// now grab the new comment id
-			$comment_id = $this->db->insert_id();
-			
-			// update the new thread we made with the latest comment id
-			$this->db->where('thread_id', $thread_id);
-			$this->db->update('threads', array(
-				'last_comment_id' => $comment_id
-			));
+			$this->thread_dal->new_comment($comment);
 			
 			redirect('/thread/'.$thread_id.'/'.url_title($subject, 'dash', TRUE));
 		}

@@ -22,19 +22,22 @@ class Message_dal extends Model
 		$sql = "
 			SELECT DISTINCT
 				users.username,
+				users.id AS sender_id,
 				pm_inbox.read,
+				pm_inbox.read_receipt,
+				pm_inbox.to_id,
 				pm_content.subject,
 				pm_content.content,
 				pm_content.created,
 				pm_content.message_id
 			FROM pm_inbox
 			LEFT JOIN pm_content
-			ON pm_inbox.message_id = pm_content.message_id
+				ON pm_inbox.message_id = pm_content.message_id
 			LEFT JOIN users
-			ON pm_inbox.from_id = users.id
+				ON pm_inbox.from_id = users.id
 			WHERE pm_content.message_id = ?
-			AND (pm_inbox.to_id = ? OR pm_inbox.from_id = ?)
-			AND pm_inbox.deleted = 0
+				AND (pm_inbox.to_id = ? OR pm_inbox.from_id = ?)
+				AND pm_inbox.deleted = 0
 			GROUP BY pm_content.message_id";
 		
 		$result = $this->db->query($sql, array(
@@ -56,10 +59,10 @@ class Message_dal extends Model
 				pm_content.subject,
 				pm_content.created
 			FROM pm_inbox
-			LEFT JOIN pm_content
-			ON pm_inbox.message_id = pm_content.message_id
+			RIGHT JOIN pm_content
+				ON pm_inbox.message_id = pm_content.message_id
 			LEFT JOIN users
-			ON pm_inbox.from_id = users.id
+				ON pm_inbox.from_id = users.id
 			WHERE pm_inbox.to_id = ?
 			AND pm_inbox.deleted = 0
 			ORDER BY pm_content.created DESC";
@@ -76,10 +79,10 @@ class Message_dal extends Model
 				pm_content.subject,
 				pm_content.created
 			FROM pm_outbox
-			LEFT JOIN pm_content
-			ON pm_outbox.message_id = pm_content.message_id
+			RIGHT JOIN pm_content
+				ON pm_outbox.message_id = pm_content.message_id
 			LEFT JOIN users
-			ON users.id = pm_outbox.to_id
+				ON users.id = pm_outbox.to_id
 			WHERE pm_outbox.from_id = ?
 			AND pm_outbox.deleted = 0
 			GROUP BY pm_content.message_id
@@ -104,18 +107,19 @@ class Message_dal extends Model
 		return $this->db->insert_id();
 	}
 	
-	function new_inbox($recipient, $message)
+	function new_inbox($recipient, $message, $read_receipt)
 	{
 		$sql = "
 			INSERT INTO pm_inbox
-				(to_id, from_id, message_id)
+				(to_id, from_id, message_id, read_receipt)
 			VALUES
-			(?, ?, ?)";
+			(?, ?, ?, ?)";
 		
 		$this->db->query($sql, array(
 			$recipient, 
 			$message['sender'], 
-			$message['id']
+			$message['id'],
+			$read_receipt == 'receipt' ? '1' : '0'
 		));
 	}
 	

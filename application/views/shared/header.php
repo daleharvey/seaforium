@@ -9,7 +9,7 @@ $username = $this->session->userdata('username');
 <head>
 	<title>New Forum</title>
 	<link rel="stylesheet" type="text/css" href="/css/<?php echo $css; ?>" />
-	<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 	
 	<base href="<?php echo site_url(); ?>" />
 </head>
@@ -25,12 +25,33 @@ $username = $this->session->userdata('username');
 			
 			  <a href="/" id="header">New Yay</a>
 
+				<?php 
+					if (!$this->sauth->is_logged_in()) { 
+						$button_texts = array(
+							"Get In!",
+							"Let's Go!",
+							"Do it!",
+							"Booya!",
+							"Push Me",
+							"Zippity!",
+							"Engage!",
+							"Go For It!"
+						);
+					?> 
+				<div class="lc-node login">
+					<h5>Not a member? Wanna join up? Tell us why!</h5>
+					<p>Click for more info, n00b!</p>
+					<form action="/auth/login" method="post">
+						<div>
+							<label>U:</label><input type="text" name="username" /><button><?php echo $button_texts[array_rand($button_texts)]; ?></button>
+						</div>
+						<div>
+							<label>P:</label><input type="password" name="password" /><a href="#">Forgot it?</a>
+						</div>
+					</form>
+				</div>
+				<?php } else { ?> 
 				<div class="lc-node welcome">
-					<?php if (!$this->sauth->is_logged_in()) { ?> 
-					<ul>
-						<li><a href="/auth/login">Login</a></li>
-					</ul>
-					<?php } else { ?> 
 					<h4>
 						Hi, <a href="/user/<?php echo $username; ?>">
 							<?php echo $username; ?> 
@@ -41,52 +62,62 @@ $username = $this->session->userdata('username');
 						<img src="/img/pinkies/11.gif" class="main_avatar" />
 					</a>
 					
-					<?php
-						$unread_messages = $this->message_dal->unread_messages($this->session->userdata('user_id'));
-						
-						$unread_text = $unread_messages .' unread message' .($unread_messages === 1 ? '' : 's');
-					?>
-					
 					<ul>
 						<li><a href="/preferences">Preferences</a></li>
 						<li><a href="/auth/logout" class="logout">Logout</a></li>
-						<li><a href="/messages/inbox"><?php echo $unread_text; ?></a></li>
 					</ul>
 
-					<?php } ?> 
 				</div>
+				<?php } ?> 
 				
-				<?php if ($this->sauth->is_logged_in()) { ?> 
-				<div class="lc-node" id="threads">
-					<h3><a href="/">Threads</a></h3>
-					<ul id="thread-categories">
-						<li><a href="#">Discussions</a></li>
-						<li><a href="#">Projects</a></li>
-						<li><a href="#">Advice</a></li>
-						<li><a href="#">Meaningless</a></li>
-					</ul>
-					<ul id="special-threads">
-						<li><a href="#">All Forums</a></li>
-						<li><a href="#">All But Meaningless</a></li>
-						<li><a href="#">Participated Threads</a></li>
-						<li><a href="#">Favourite Threads</a></li>
+				<?php if ($this->sauth->is_logged_in()) {
+				
+					$unread_messages = $this->message_dal->unread_messages($this->session->userdata('user_id'));
+				?>
+				
+				<div class="lc-node" id="messaging">
+					<ul>
+						<li><a href="/messages/inbox"><?php echo $unread_messages .' Unread Message' .($unread_messages === 1 ? '' : 's'); ?></a></li>
 					</ul>
 				</div>
 				
 				<?php } ?> 
 				
+				<div class="lc-node" id="threads">
+					<h3><a href="/">Threads</a></h3>
+					<ul id="thread-categories">
+						<li><a href="/f/discussions">Discussions</a></li>
+						<li><a href="/f/projects">Projects</a></li>
+						<li><a href="/f/advice">Advice</a></li>
+						<li><a href="/f/meaningless">Meaningless</a></li>
+					</ul>
+					<ul id="special-threads">
+						<li><a href="/">All Forums</a></li>
+						<li><a href="/f/meaningful">All But Meaningless</a></li>
+						<?php if ($this->sauth->is_logged_in()) { ?>
+						<li><a href="/f/participated">Participated Threads</a></li>
+						<li><a href="#">Favourite Threads</a></li>
+						<?php } ?> 
+					</ul>
+				</div>
+
+				<?php if ($this->sauth->is_logged_in()) { ?> 
+				
 				<div class="lc-node" id="buddy-list">
-					<h3 title="within the last 5 minutes">Online Users</h3>
+					<h3><a href="/buddies">Buddies</a></h3>					
+					<?php
+						$buddy_info = $this->user_dal->get_active_users($this->session->userdata('user_id'));
+					?> 					
+					<p>ONLINE BUDDIES (<?php echo $buddy_info['buddies']->num_rows; ?>/<?php echo $buddy_info['buddy_count']; ?>)</p>
 					<div>
-						<?php 
-							$active_record = $this->user_dal->get_active_users();
-							
-							foreach($active_record->result() as $user)
+						<?php
+							foreach($buddy_info['buddies']->result() as $user)
 							{ ?> 
 						<span><?php echo anchor('/user/'.url_title($user->username, 'dash', TRUE), $user->username); ?></span>
 						<?php } ?> 
 					</div>
 				</div>
+				<?php } ?> 
 				
 			</div>
 			
