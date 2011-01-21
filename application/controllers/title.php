@@ -10,6 +10,16 @@ class Title extends Controller
 		$this->load->model('thread_dal');
 	}
 
+	function index() {
+    $query = $this->db->query("SELECT users.username, titles.title_text FROM ".
+                              "titles LEFT JOIN users ON titles.author_id = ".
+                              "users.id");
+          
+    foreach ($query->result() as $row) {
+      echo $row->username . " - " . $row->title_text . "<br />";
+    }
+  }
+
   function edit() {
 
     $rules = 'required|min_length[1]|max_length[36]';    
