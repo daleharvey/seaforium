@@ -84,11 +84,13 @@ class Welcome extends Controller {
 		)); 
 		
 		$this->load->view('shared/header');
+
+    $end = min(array($pagination + $display, $thread_count));
 		
 		$this->load->view('threads', array(
 			'title' => $this->thread_dal->get_front_title(),
 			'thread_result' => $this->thread_dal->get_threads($user_id, $pagination, $display, $sql, $sql_dir),
-			'pagination' => $this->pagination->create_links() .'<span class="paging-text">'. ($pagination + 1) .' - '. ($pagination + $display) .' of '. $thread_count .' Threads</span>',
+			'pagination' => $this->pagination->create_links() .'<span class="paging-text">'. ($pagination + 1) .' - '. $end .' of '. $thread_count .' Threads</span>',
 			'tab_links' => strlen($filter) > 0 ? '/f/'.$filter.'/' : '/o/',
 			'tab_orders' => array(
 				'started' => $ordering == 'started' && $order_dir == 'desc' ? 'asc' : 'desc',
