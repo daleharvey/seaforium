@@ -4,7 +4,6 @@
 					
 					<div class="pagination top">
 						<?php echo $pagination; ?>
-           <span class="paging-text">X to Y of Z Posts in <a href="/">Threads</a></span>
 					</div>
 				
 <?php
@@ -93,8 +92,6 @@ foreach($comment_result->result() as $row) {
 
 					<div class="pagination bottom">
 						<?php echo $pagination; ?>
-           <span class="paging-text">X to Y of Z Posts in <a href="/">Threads</a></span>
-
 					</div>
 
 <?php if ($this->sauth->is_logged_in() && $info['closed'] === '0') { 
