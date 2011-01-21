@@ -9,6 +9,7 @@ body {
 body, div, td, input, select, textarea {
     font-family: Arial;
     color: #494949;
+    font-size:16px;
 }
 
 h1 { 
@@ -239,7 +240,8 @@ form .textarea {
     padding-right:5px;
 }
     
-#thread-content-input { 
+#thread-content-input {
+    
     height:120px;
     width:100%;
 }
