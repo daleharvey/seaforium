@@ -50,7 +50,6 @@ function thread_notifier()
 $("#closenotify").bind("click", function () {
     $('#notifications').hide();
 });
-
 thread = {
 	
 	status_text: [],

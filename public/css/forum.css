@@ -62,7 +62,7 @@ margin: 0 0 14px 0;
     text-indent:-9999px;
     width:80px;
     height:14px;
-    background:url(/img/logo.gif);
+    background:url(../img/logo.gif);
     margin-bottom:15px;
 }
 
@@ -232,7 +232,7 @@ margin: 7px 0 3px 0;
     display:block;
     width:12px;
     height:16px;
-    background:url(/img/b-add.gif);
+    background:url(../img/b-add.gif);
 }
 
 /*************************************************************
@@ -597,17 +597,17 @@ margin-right: 2px;
 	border: solid 3px #FFF;
 	padding: 10px 0;
 	font-size: 11px;
-  background: #FEF6EA;
+	background: #FEF6EA;
 }
-#notifier a { 
-  background: url("/img/pinkies/25.gif") no-repeat scroll 10px center;
+#notify { 
+	background: url(../img/pinkies/25.gif) no-repeat scroll 10px center;
 	color: #545454;
-  padding-left:30px;
+	padding-left:30px;
 	font-size: 12px;
 }
 
 #closenotify { 
-    background:url(/img/close.gif) no-repeat center center;
+    background:url(../img/close.gif) no-repeat center center;
     width:10px;
     height:10px;
     padding:5px;
@@ -615,7 +615,6 @@ margin-right: 2px;
     right:10px;
     top:8px;
 }
-    
 
 form {text-align: left;}
 
