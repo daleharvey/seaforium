@@ -863,6 +863,7 @@ border-bottom: 1px dotted #959595;
 }
 
 #pm-inbox .pagination, #pm-message .pagination {
+overflow:hidden;
 border: 0;
 float: left;
 font-size: 11px;
