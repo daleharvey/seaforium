@@ -109,8 +109,9 @@ class Thread extends Controller {
 			'num_tag_close' => ''
 			
 		)); 
-		
-		$data['pagination'] = $this->pagination->create_links() .'<span class="paging-text">'. ($limit_start + 1) .' - '. ($limit_start + $display) .' of '. $data['total_comments'] .' Posts in <a href="/">Threads</a> &gt; <a href="/f/'.strtolower($data['info']['category']).'">'.$data['info']['category'].'</a> > <a href="/thread/'. $thread_id.'/'.url_title($data['info']['title'], 'dash', TRUE) .'">'.$data['info']['title'].'</a></span>';
+
+    $end = min(array($limit_start + $display, $data['total_comments']));
+		$data['pagination'] = $this->pagination->create_links() .'<span class="paging-text">'. ($limit_start + 1) .' - '. $end .' of '. $data['total_comments'] .' Posts in <a href="/">Threads</a> &gt; <a href="/f/'.strtolower($data['info']['category']).'">'.$data['info']['category'].'</a> > <a href="/thread/'. $thread_id.'/'.url_title($data['info']['title'], 'dash', TRUE) .'">'.$data['info']['title'].'</a></span>';
 		
 		$data['starting'] = $limit_start;
 		
