@@ -161,6 +161,10 @@ $content = array(
 						
 					</div>
 
+    <div id="notifications">
+       <a id="closenotify"></a></div>
+    </div>                                                                                    
+
 <?php } ?> 
 					<script type="text/javascript" src="/js/thread.js"></script>
 					<script type="text/javascript">
