@@ -585,21 +585,34 @@ left: -2px;
 margin-right: 2px;
 }
 
-#notifier {
+#notifications {
+    display:none;
 	position:fixed;
   bottom: 10px;
-	left: 10px;
-	width: 198px;
+	left: 20px;
+	width: 200px;
 	border: solid 3px #FFF;
-	text-align: center;
-	padding: 7px 0;
+	padding: 10px 0;
 	font-size: 11px;
-  background: none repeat scroll 0% 0% rgb(254, 246, 234); 
+  background: #FEF6EA;
 }
 #notifier a { 
+  background: url("/img/pinkies/25.gif") no-repeat scroll 10px center;
 	color: #545454;
+  padding-left:30px;
 	font-size: 12px;
 }
+
+#closenotify { 
+    background:url(/img/close.gif) no-repeat center center;
+    width:10px;
+    height:10px;
+    padding:5px;
+    position:absolute;
+    right:10px;
+    top:8px;
+}
+    
 
 form {text-align: left;}
 
@@ -619,7 +632,6 @@ padding: 3px;
 }
 
 form .input.textarea textarea {
-line-height: 24px;
 padding: 3px;
 }
 
