@@ -73,6 +73,20 @@ a {
     background-color: #F9FCFE;
 }
 
+.thread.buddy {
+background-color: #EDF5E1;
+}
+
+.thread.enemy {
+background-color: #FFEAEA;
+display: none;
+}
+
+.thread.nsfw .subject-text a, .thread.nsfw .naughty-tag {
+color: #F06171;
+}
+
+
 
 .subject-text {
     font-size: 18px; 
@@ -86,7 +100,7 @@ a {
 }
 
 .two {
-    width: 130px;
+    width: 140px;
 }
 .two .username:before { 
     content: "By: ";
@@ -98,7 +112,7 @@ a {
     content: ", ";
 }
 
-.two, .three { 
+.two div, .three div { 
     font-size:11px;
 }
 .two div, .three div, .two a, .three a { 
@@ -160,11 +174,11 @@ a {
 #threads li a, .welcome li a {
     background: #444;
     color:#EEE;
-    font-size:14px;
+    font-size:12px;
     /* border: 1px solid #AAA; */
     display: block;
-    padding: 8px 10px;
-    margin:4px;
+    padding: 4px 6px;
+    margin:8px;
     border-radius:5px;
     -moz-border-radius:5px;
 }
