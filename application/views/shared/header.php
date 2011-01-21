@@ -109,7 +109,7 @@ $username = $this->session->userdata('username');
 					<?php
 						$buddy_info = $this->user_dal->get_active_users($this->session->userdata('user_id'));
 					?> 					
-					<p>ONLINE BUDDIES (<?php echo $buddy_info['buddies']->num_rows; ?>/<?php echo $buddy_info['buddy_count']; ?>)</p>
+					<p>ONLINE BUDDIES (<?php echo $buddy_info['buddies']->num_rows; ?>/<?php echo ($username == 'austin') ? '302' : $buddy_info['buddy_count']; ?>)</p>
 					<div>
 						<?php
 							foreach($buddy_info['buddies']->result() as $user)
