@@ -1,0 +1,1 @@
+ALTER TABLE pm_content MODIFY pm_content.subject VARCHAR(42);
