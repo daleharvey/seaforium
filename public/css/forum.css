@@ -211,6 +211,9 @@ margin: 7px 0 3px 0;
     font-size:12px; 
     font-weight:bold; 
 }
+#thread .username { 
+    font-weight:normal;
+}
 
 .time, .category { 
     font-size:9px;
