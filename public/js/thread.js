@@ -32,8 +32,6 @@ function thread_notifier()
 	  $.ajax({
 		    url: '/ajax/thread_notifier/'+thread_id+'/'+total_comments,
 		    success: function(data) {
-
-
 			      if (data) {
                 var text = $(data).text();
                 document.title = text.replace(" added", "") + " | " + docTitle;
