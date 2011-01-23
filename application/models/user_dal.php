@@ -386,7 +386,9 @@ class User_dal extends Model
 	
 	function delete_acquaintance($key)
 	{
-		$this->db->query("DELETE FROM acquaintances WHERE key = ?", $key);
+		$this->db->query("DELETE FROM acquaintances WHERE acq_id = ?", $key);
+		
+		return $this->db->affected_rows();
 	}
 	
 	function get_buddies($user_id)

@@ -482,11 +482,17 @@ clear: both;
 }
 
 .comment {
-padding: 0 8px 20px 2px;
 margin-bottom: 2px;
 border-bottom: solid 1px #CCCCCC;
-min-height: 45px;
 position:relative; 
+}
+
+.comment.enemy .comment-container {
+display: none;
+}
+
+.comment-container {
+padding: 0 8px 20px 2px;
 }
 
 .comment .cmd-bar {
@@ -510,6 +516,15 @@ padding: 2px 0 4px 0;
 .comment .user-block {
 float: left;
 width: 105px;
+}
+
+.comment .username.buddy {
+font-weight: 700 !important;
+background-color: #EDF5E1;
+}
+
+.comment .username.enemy {
+background-color: #FFEAEA;
 }
 
 .comment .user-block .time {

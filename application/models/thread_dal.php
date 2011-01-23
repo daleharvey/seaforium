@@ -35,7 +35,7 @@ class Thread_dal extends Model
 	 *
 	 * @return	int
 	 */
-	function get_comment_count($sql)
+	function get_thread_count($sql)
 	{
 		return (int)$this->db->query('SELECT count(threads.thread_id) AS max_rows FROM threads '.$sql)->row()->max_rows;
 	}
@@ -150,7 +150,7 @@ class Thread_dal extends Model
 	 * @param	int
 	 * @return	object
 	 */
-	function get_comments($thread_id, $limit_start, $limit_end)
+	function get_comments($user_id, $thread_id, $limit_start, $limit_end)
 	{
 		
 		$sql = "
@@ -161,15 +161,20 @@ class Thread_dal extends Model
 				comments.created,
 				comments.deleted,
 				comments.user_id,
-				users.username
+				users.username,
+				acquaintances.type AS acq_type
 			FROM comments
 			LEFT JOIN users
 				ON comments.user_id = users.id
+			LEFT JOIN acquaintances
+				ON acquaintances.acq_user_id = users.id
+				AND acquaintances.user_id = ?
 			WHERE comments.thread_id = ?
 			ORDER BY comments.created
 			LIMIT ?, ?";
 		
 		return $this->db->query($sql, array(
+			$user_id,
 			$thread_id,
 			$limit_start,
 			$limit_end

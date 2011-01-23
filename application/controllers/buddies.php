@@ -38,7 +38,7 @@ class Buddies extends Controller {
 						'sender' => $user_id,
 						'recipient' => $acq_id, 
 						'subject' => $this->session->userdata('username')." just added you as a buddy",
-						'content' => "Wow, what a momentous occasion! No go return the favor...\n\nProfile: <a href=\"".$profile."\">".$profile."</a>\nAdd as buddy: <a href=\"".$buddy_link."\">".$buddy_link."</a>"
+						'content' => "Wow, what a momentous occasion! Now go return the favor...\n\nProfile: <a href=\"".$profile."\">".$profile."</a>\nAdd as buddy: <a href=\"".$buddy_link."\">".$buddy_link."</a>"
 					);
 					
 					$message['id'] = $this->message_dal->new_message($message);
@@ -57,6 +57,20 @@ class Buddies extends Controller {
 			'username' => $username
 		));
 		$this->load->view('shared/footer');
+	}
+	
+	function remove($user_id = 0, $key = '')
+	{
+		$user_id = (int) $user_id;
+		
+		if ($user_id == 0)
+			return 0;
+		
+		if ($key == $this->session->userdata('session_id'))
+		{
+			echo $this->user_dal->delete_acquaintance(md5($this->session->userdata('username').$user_id));
+			return;
+		}
 	}
 }
 

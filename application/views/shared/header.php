@@ -11,7 +11,8 @@ $username = $this->session->userdata('username');
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link rel="stylesheet" type="text/css" href="/css/<?php echo $css; ?>" />
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>-->
+	<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
 	
 	<base href="<?php echo site_url(); ?>" />
 </head>

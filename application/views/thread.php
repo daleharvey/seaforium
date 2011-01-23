@@ -20,7 +20,7 @@ foreach($comment_result->result() as $row) {
 ?>
 
 					<div class="comment deleted">
-						comment by <?php echo $row->username ?> deleted
+						comment by <?php echo $row->username; ?> deleted
 					</div>
 <?php
 		continue;
@@ -34,59 +34,82 @@ foreach($comment_result->result() as $row) {
 	$edit_source = ($my_thread && strtotime($row->created) > time() - 3600) ? 'edit' : 'View Source';
 	
 	$url_safe_username = url_title($row->username, 'dash', TRUE);
+	
+	switch($row->acq_type)
+	{
+		case 1:
+			$acq = ' buddy';
+			break;
+		case 2:
+			$acq = ' enemy';
+			break;
+		default:
+			$acq = '';
+	}
+	
+	if ($row->acq_type == 2)
+	{
+?> 
+
+					<div id="ignore-for-<?php echo $row->comment_id; ?>" class="ignore-container" onclick="$('#comment-container-<?php echo $row->comment_id; ?>').toggle();"></div>
+
+<?php
+	}
+	
 ?>
 
-					<div id="comment-<?php echo $row->comment_id; ?>" class="comment<?php echo $alt === false ? '' : ' alt'; ?>">
-						<div class="cmd-bar">
- 							<span><a class="view-source" onclick="thread.view_source(<?php echo $row->comment_id; ?>); return false;"><?php echo $edit_source; ?></a></span>
-             <a class="quote">Quote</a>
-						</div>
-						<div class="user-block">
-							<div class="username"><?php echo anchor('/user/'. $url_safe_username, $row->username); ?></div>
-							<div class="time"><?php echo timespan(strtotime($row->created), time()) ?></div>
-							
-							<div class="user-information" style="background: url(/img/noavatar.gif);">
-								<ul>
-									<li><a href="/buddies/<?php echo $url_safe_username; ?>">BUDDY? ENEMY?</a></li>
-									<li><a href="/messages/send/<?php echo $url_safe_username; ?>">SEND A MESSAGE</a></li>
-								</ul>
+					<div id="comment-<?php echo $row->comment_id; ?>" class="comment<?php echo $alt === false ? '' : ' alt'; echo $acq; ?>">
+						<div id="comment-container-<?php echo $row->comment_id; ?>" class="comment-container">
+							<div class="cmd-bar">
+								<span><a class="view-source" onclick="thread.view_source(<?php echo $row->comment_id; ?>); return false;"><?php echo $edit_source; ?></a></span>
+								<a class="quote">Quote</a>
 							</div>
-							
-							<?php if ($my_thread && $i === 0 && $starting === 0) { 
-							
-								$session_id = $this->session->userdata('session_id');
+							<div class="user-block">
+								<div class="username<?php echo $acq; ?>"><?php echo anchor('/user/'. $url_safe_username, $row->username); ?></div>
+								<div class="time"><?php echo timespan(strtotime($row->created), time()) ?></div>
 								
-								$set_nsfw_status = $info['nsfw'] === '1' ? 0 : 1;
-								$set_closed_status = $info['closed'] === '1' ? 0 : 1;
+								<div class="user-information" style="background: url(/img/noavatar.gif);">
+									<ul>
+										<li><a href="/buddies/<?php echo $url_safe_username; ?>">BUDDY? ENEMY?</a></li>
+										<li><a href="/messages/send/<?php echo $url_safe_username; ?>">SEND A MESSAGE</a></li>
+									</ul>
+								</div>
 								
-								$nsfw_text = $info['nsfw'] === '1' ? 'Unmark Naughty' : 'Mark Naughty';
-								$closed_text = $info['closed'] === '1' ? 'Open Thread' : 'Close Thread';
-							
-							?>
-							<div id="thread-control">
-								<p>THREAD ADMIN</p>
-								<ul>
-									<li id="control-nsfw">&middot; <span><?php echo $nsfw_text; ?></span></li>
-									<li id="control-closed">&middot; <span><?php echo $closed_text; ?></span></li>
-								</ul>
+								<?php if ($my_thread && $i === 0 && $starting === 0) { 
+								
+									$session_id = $this->session->userdata('session_id');
+									
+									$set_nsfw_status = $info['nsfw'] === '1' ? 0 : 1;
+									$set_closed_status = $info['closed'] === '1' ? 0 : 1;
+									
+									$nsfw_text = $info['nsfw'] === '1' ? 'Unmark Naughty' : 'Mark Naughty';
+									$closed_text = $info['closed'] === '1' ? 'Open Thread' : 'Close Thread';
+								
+								?>
+								<div id="thread-control">
+									<p>THREAD ADMIN</p>
+									<ul>
+										<li id="control-nsfw">&middot; <span><?php echo $nsfw_text; ?></span></li>
+										<li id="control-closed">&middot; <span><?php echo $closed_text; ?></span></li>
+									</ul>
+								</div>
+								
+								<script type="text/javascript">
+									$('#control-nsfw span').bind('click', function(){
+										thread.set_status(<?php echo $row->thread_id; ?>, 'nsfw', <?php echo $set_nsfw_status; ?>, '<?php echo $session_id; ?>')
+									});
+									$('#control-closed span').bind('click', function(){
+										thread.set_status(<?php echo $row->thread_id; ?>, 'closed', <?php echo $set_closed_status; ?>, '<?php echo $session_id; ?>');
+									});
+								</script>
+								<?php } ?>
+								
 							</div>
-							
-							<script type="text/javascript">
-								$('#control-nsfw span').bind('click', function(){
-									thread.set_status(<?php echo $row->thread_id; ?>, 'nsfw', <?php echo $set_nsfw_status; ?>, '<?php echo $session_id; ?>')
-								});
-								$('#control-closed span').bind('click', function(){
-									thread.set_status(<?php echo $row->thread_id; ?>, 'closed', <?php echo $set_closed_status; ?>, '<?php echo $session_id; ?>');
-								});
-							</script>
-							<?php } ?>
-							
+							<div class="content-block">
+								<div class="content"><?php echo _ready_for_display($row->content); ?></div>
+							</div>
+							<div style="clear: both;"></div>
 						</div>
-						<div class="content-block">
-							<div class="content"><?php echo _ready_for_display($row->content); ?></div>
-						</div>
-  
-						<div style="clear: both;"></div>
 					</div>
 <?php ++$i; } ?>
 

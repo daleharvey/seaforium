@@ -9,6 +9,12 @@ class Thread extends Controller {
 		$this->load->helper(array('url', 'date', 'form', 'content_render'));
 		$this->load->library(array('form_validation', 'pagination'));
 		$this->load->model('thread_dal');
+		
+		// set all this so we dont have to continually call functions through session
+		$this->meta = array(
+			'user_id' => (int) $this->session->userdata('user_id'),
+			'comments_shown' => $this->session->userdata('comments_shown') == false ? 50 : (int)$this->session->userdata('comments_shown')
+		);
 	}
 	
 	// if the just throw in /thread into the address bar
@@ -60,7 +66,7 @@ class Thread extends Controller {
 				
 				$this->thread_dal->new_comment(array(
 					'thread_id' => $thread_id,
-					'user_id' => $this->session->userdata('user_id'),
+					'user_id' => $this->meta['user_id'],
 					'content' => $content
 				));
 				
@@ -92,7 +98,7 @@ class Thread extends Controller {
 		
 		if ($pseg === 0) $base_url .= '/p';
 		
-		$data['comment_result'] = $this->thread_dal->get_comments($thread_id, $limit_start, $display);
+		$data['comment_result'] = $this->thread_dal->get_comments($this->meta['user_id'], $thread_id, $limit_start, $this->meta['comments_shown']);
 		
 		$data['total_comments'] = $this->thread_dal->comment_count($thread_id);
 		
@@ -100,7 +106,7 @@ class Thread extends Controller {
 			'base_url' => $base_url,
 			'total_rows' => $data['total_comments'],
 			'uri_segment' => $pseg,
-			'per_page' => $display,
+			'per_page' => $this->meta['comments_shown'],
 			'full_tag_open' => '<div class="main-pagination">',
 			'full_tag_close' => '</div>',
 			'cur_tag_open' => '<div class="selected-page">',
@@ -110,7 +116,7 @@ class Thread extends Controller {
 			
 		)); 
 
-    $end = min(array($limit_start + $display, $data['total_comments']));
+		$end = min(array($limit_start + $this->meta['comments_shown'], $data['total_comments']));
 		$data['pagination'] = $this->pagination->create_links() .'<span class="paging-text">'. ($limit_start + 1) .' - '. $end .' of '. $data['total_comments'] .' Posts in <a href="/">Threads</a> &gt; <a href="/f/'.strtolower($data['info']['category']).'">'.$data['info']['category'].'</a> > <a href="/thread/'. $thread_id.'/'.url_title($data['info']['title'], 'dash', TRUE) .'">'.$data['info']['title'].'</a></span>';
 		
 		$data['starting'] = $limit_start;
