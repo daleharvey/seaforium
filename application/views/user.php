@@ -65,7 +65,7 @@
 						foreach($recent_posts as $post):
 					?>
 						<div class="post-container" id="post-<?php echo $post['comment_id']; ?>">
-						<div class="post-block"><a href='<?php echo $post['thread_rel_url']; ?>'>POST</a></div>
+						<div class="post-block"><a href='/thread/<?php echo $post['thread_id'] .'/'. url_title($post['subject']); ?>'>POST</a></div>
 						<h3 class="recent-thread-title"><?php echo $post['subject'] ?></h3>
 						
 						<div class="recent-post-content">
