@@ -57,6 +57,8 @@ foreach($thread_result->result() as $row) {
 <?php
 	}
 	
+	$favorite = in_array($row->thread_id, $favorites) ? ' added' : '';
+	
 ?>
 
 				<div id="thread-<?php echo $row->thread_id; ?>" class="thread<?php echo $alt === false ? '' : ' alt'; echo $acq; echo $nsfw; ?>">
@@ -75,7 +77,7 @@ foreach($thread_result->result() as $row) {
 					<div class="four">
 						<span><?php echo $row->response_count ?></span>
 					</div> 
-						<div class="five"><a class="favourite">&nbsp;</a></div>
+					<div class="five"><a class="favourite<?php echo $favorite; ?>" rel="<?php echo $row->thread_id; ?>"></a></div>
 				</div>
 				
 				<div class="blueline">&nbsp;</div>
@@ -90,4 +92,39 @@ foreach($thread_result->result() as $row) {
 					<input type="submit" value="Save" id="save-title" />
 					<input type="button" value="Cancel" id="cancel-title" />
 					(36 chars max)
+				</script>
+				
+				<script type="text/javascript">
+					session_id = '<?php echo $this->session->userdata('session_id'); ?>';
+					
+					$('.favourite').bind('click', function(){
+						button = $(this);
+						
+						if (!$(this).hasClass('added'))
+						{
+							$.get(
+							'/ajax/favorite_thread/'+ $(this).attr('rel') +'/'+ session_id,
+							function(data) {
+								if (data == 1)
+								{
+									button.addClass('added');
+								}
+							}
+							);
+						}
+						else
+						{
+							$.get(
+							'/ajax/unfavorite_thread/'+ $(this).attr('rel') +'/'+ session_id,
+							function(data) {
+								if (data == 1)
+								{
+									button.removeClass('added');
+								}
+							}
+							);
+						}
+						
+						return;
+					});
 				</script>

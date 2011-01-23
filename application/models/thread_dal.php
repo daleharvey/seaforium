@@ -97,11 +97,24 @@ class Thread_dal extends Model
 	 * @param	bool
 	 * @return	object
 	 */
-	function get_thread_information($thread_id)
+	function get_thread_information($user_id, $thread_id)
 	{
-		$sql = "SELECT subject, closed, nsfw, categories.name AS category FROM threads LEFT JOIN categories ON threads.category = categories.category_id WHERE thread_id = ?"; 
+		$sql = "
+			SELECT 
+				subject, 
+				closed, 
+				nsfw, 
+				categories.name AS category, 
+				IFNULL(acquaintances.type, 1) AS type
+			FROM threads 
+			LEFT JOIN categories 
+				ON threads.category = categories.category_id 
+			LEFT JOIN acquaintances
+				ON acquaintances.user_id = threads.user_id
+				AND acquaintances.acq_user_id = ?
+			WHERE thread_id = ?"; 
 		
-		return $this->db->query($sql, $thread_id);
+		return $this->db->query($sql, array($user_id, $thread_id));
 	}
 	
 	/**
@@ -249,6 +262,25 @@ class Thread_dal extends Model
 			$thread_id,
 			$user_id
 		));
+		
+		return $this->db->affected_rows();
+	}
+	
+	function get_favorites($user_id)
+	{
+		return $this->db->query("SELECT GROUP_CONCAT(thread_id) AS favorites FROM favorites WHERE user_id = ?", $user_id)->row()->favorites;
+	}
+	
+	function add_favorite($favorite_id, $user_id, $thread_id)
+	{
+		$this->db->query("INSERT INTO favorites (favorite_id, user_id, thread_id) VALUES (?, ?, ?)", array($favorite_id, $user_id, $thread_id));
+		
+		return $this->db->affected_rows();
+	}
+	
+	function remove_favorite($favorite_id)
+	{
+		$this->db->query("DELETE FROM favorites WHERE favorite_id = ?", $favorite_id);
 		
 		return $this->db->affected_rows();
 	}

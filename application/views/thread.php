@@ -117,7 +117,31 @@ foreach($comment_result->result() as $row) {
 						<?php echo $pagination; ?>
 					</div>
 
-<?php if ($this->sauth->is_logged_in() && $info['closed'] === '0') { 
+					<div class="dotted-bar replypad"></div>
+<?php if (!$this->sauth->is_logged_in() || $info['closed'] === '1' || $info['acq_type'] === 2) { 
+	
+	if ($info['closed'] === '1')
+	{
+	?>
+	
+					<h3>This thread is closed</h3>
+	
+	<?php
+	}
+	elseif ($info['acq_type'] === 2)
+	{
+	?>
+	
+					<h3>You cannot post in this thread</h3>
+	
+	<?php
+	}
+	
+	
+	
+}
+else
+{
 
 // and now the reply form
 $content = array(
@@ -128,7 +152,6 @@ $content = array(
 
 ?>
 					
-					<div class="dotted-bar replypad"></div>
 					
 					<div id="reply-lc">
 						

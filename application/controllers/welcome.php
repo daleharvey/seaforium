@@ -57,7 +57,7 @@ class Welcome extends Controller {
 				'latest' => $ordering == 'latest' && $dir == 'desc' ? 'asc' : 'desc',
 				'posts' => $ordering == 'posts' && $dir == 'desc' ? 'asc' : 'desc'
 			),
-			
+			'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id']))
 		));
 		
 		$this->load->view('shared/footer');
@@ -85,6 +85,9 @@ class Welcome extends Controller {
 				break;
 			case 'participated':
 				$sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_participated_threads($this->meta['user_id']) .")";
+				break;
+			case 'favorites':
+				$sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_favorites($this->meta['user_id']) .")";
 				break;
 			case 'all':
 			default:

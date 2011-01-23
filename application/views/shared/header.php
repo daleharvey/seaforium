@@ -99,7 +99,7 @@ $username = $this->session->userdata('username');
 						<li><a href="/f/meaningful">All But Meaningless</a></li>
 						<?php if ($this->sauth->is_logged_in()) { ?>
 						<li><a href="/f/participated">Participated Threads</a></li>
-						<li><a href="#">Favourite Threads</a></li>
+						<li><a href="/f/favorites">Favourite Threads</a></li>
 						<?php } ?> 
 					</ul>
 				</div>

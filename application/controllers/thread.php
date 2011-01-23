@@ -32,7 +32,7 @@ class Thread extends Controller {
 			redirect('/');
 		
 		// grabbing the thread information
-		$query = $this->thread_dal->get_thread_information($thread_id);
+		$query = $this->thread_dal->get_thread_information($this->meta['user_id'], $thread_id);
 		
 		// does it exist?
 		if ($query->num_rows === 0)
@@ -46,13 +46,14 @@ class Thread extends Controller {
 				'title' => $thread_info->subject,
 				'nsfw' => $thread_info->nsfw,
 				'closed' => $thread_info->closed,
-				'category' => $thread_info->category
+				'category' => $thread_info->category,
+				'acq_type' => (int) $thread_info->type
 			),
 			'thread_id' => $thread_id
 		);
 		
 		// if the thread is closed then we're not accepting any new data
-		if ($thread_info->closed === '0')
+		if ($thread_info->closed === '0' || (int) $thread_info->type == 2)
 		{
 			// we're going to go ahead and do the form processing for the reply now
 			// if they're submitting data, we're going to refresh the page anyways

@@ -25,13 +25,17 @@ class Ajax extends Controller
 		{
 			$new_posts = $db_count - $current_count;
 			
-			$goto = $this->session->userdata('comments_shown') == 0 
-        ? 0 
-        : ceil($db_count / $this->session->userdata('comments_shown'));
+			$count = $this->session->userdata('comments_shown') == false
+				? 50 
+				: ceil($db_count / $this->session->userdata('comments_shown'));
 			
-			$page = $goto > 0 ? '/p/'.(($goto-1)*$this->session->userdata('comments_shown')) : '';
+			//$page = $count > 0 ? '/p/'.(($count-1)*$this->session->userdata('comments_shown')) : '';
 			
-			echo '<div id="notifier"><a href="/thread/'. $thread_id .'/'. url_title($this->thread_dal->get_thread_information($thread_id)->row()->subject, 'dash', TRUE) . $page .'/r'. mt_rand(10000, 99999) .'#bottom">'. $new_posts .' new post added'. ($new_posts === 1 ? '' : 's') ."</a></div>";
+			//$page = ;
+			
+			$page = '/p/'. floor($db_count/$count)*$count;
+			
+			echo '<div id="notifier"><a id="notify" href="/thread/'. $thread_id .'/'. url_title($this->thread_dal->get_thread_information($this->session->userdata('user_id'), $thread_id)->row()->subject, 'dash', TRUE) . $page .'/r'. mt_rand(10000, 99999) .'#bottom">'. $new_posts .' new post'. ($new_posts === 1 ? '' : 's') ." added</a></div>";
 		}
 	}
 	
@@ -93,8 +97,33 @@ class Ajax extends Controller
 			}
 			
 		}
+	}
+	
+	function favorite_thread($thread_id, $key)
+	{
+		if ($key === $this->session->userdata('session_id'))
+		{
+			$thread_id = (int) $thread_id;
+			$user_id = (int) $this->session->userdata('user_id');
+			
+			$md5 = md5($this->session->userdata('username').$thread_id);
+			
+			echo $this->thread_dal->add_favorite($md5, $user_id, $thread_id);
+			return;
+		}
 		
-		echo $key ."\n". $this->session->userdata('session_id');
+		echo 0;
+	}
+	
+	function unfavorite_thread($thread_id, $key)
+	{
+		if ($key === $this->session->userdata('session_id'))
+		{
+			echo $this->thread_dal->remove_favorite(md5($this->session->userdata('username').$thread_id));
+			return;
+		}
+		
+		echo 0;
 	}
 }
 

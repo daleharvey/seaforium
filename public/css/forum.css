@@ -235,6 +235,10 @@ margin: 7px 0 3px 0;
     background:url(../img/b-add.gif);
 }
 
+.favourite.added {
+    background: url(../img/close.gif) center no-repeat;
+}
+
 /*************************************************************
    New Thread
 *************************************************************/
@@ -959,6 +963,10 @@ font-weight: 500;
 margin: 0;
 width: 100px;
 float: left;
+}
+
+.remove-acq {
+font-size: 9px;
 }
 
 #command-pick-one {

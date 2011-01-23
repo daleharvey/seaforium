@@ -52,16 +52,24 @@ class User_dal extends Model
 		return FALSE;
 	}
 	
-	function get_user_ids_from_array($usernames)
+	function get_user_ids_from_array($user_id, $usernames)
 	{
 		$usernames = array_map('strtolower', $usernames);
 		$usernames = array_map('trim', $usernames);
 		
-		$userlist = "'". implode("','",$usernames) ."'";
+		$sql = "
+			SELECT
+				users.id,
+				users.username,
+				IFNULL(acquaintances.type, 1) AS type
+			FROM users
+			LEFT JOIN
+				acquaintances
+			ON acquaintances.user_id = users.id
+			AND acquaintances.acq_user_id = ?
+			WHERE LOWER(username) IN ('". implode("','",$usernames) ."');";
 		
-		$sql = "SELECT id FROM users WHERE LOWER(username) IN (". $userlist .")";
-		
-		return $this->db->query($sql);
+		return $this->db->query($sql, $user_id);
 	}
 	
 	/**
