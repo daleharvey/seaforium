@@ -436,4 +436,14 @@ class User_dal extends Model
 		
 		return $result->num_rows > 0 ? $result : FALSE;
 	}
+	
+	function toggle_html($user_id, $view_html)
+	{
+		$this->db->query("UPDATE users SET view_html = ? WHERE id = ?", array(
+			$view_html == '1' ? 0 : 1,
+			$user_id
+		));
+		
+		return $this->db->affected_rows();
+	}
 }

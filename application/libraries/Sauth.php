@@ -44,7 +44,8 @@ class Sauth
 							'username'	=> $user->username,
 							'status'	=> ($user->activated == 1) ? 1 : 0,
 							'threads_shown' => $user->threads_shown,
-							'comments_shown' => $user->comments_shown
+							'comments_shown' => $user->comments_shown,
+							'view_html' => $user->view_html
 					));
 					
 					$this->create_autologin($user->id);

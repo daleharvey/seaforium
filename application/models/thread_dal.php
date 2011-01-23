@@ -268,7 +268,8 @@ class Thread_dal extends Model
 	
 	function get_favorites($user_id)
 	{
-		return $this->db->query("SELECT GROUP_CONCAT(thread_id) AS favorites FROM favorites WHERE user_id = ?", $user_id)->row()->favorites;
+		$favorites = $this->db->query("SELECT GROUP_CONCAT(thread_id) AS favorites FROM favorites WHERE user_id = ?", $user_id)->row()->favorites;
+		return strlen($favorites) > 0 ? $favorites : '0';
 	}
 	
 	function add_favorite($favorite_id, $user_id, $thread_id)

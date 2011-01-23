@@ -8,7 +8,7 @@ class Ajax extends Controller
 		
 		$this->load->helper(array('url', 'content_render'));
 		$this->load->library('form_validation');
-		$this->load->model('thread_dal');
+		$this->load->model(array('thread_dal', 'user_dal'));
 	}
 	
 	function thread_notifier($thread_id = 0, $current_count = 0)
@@ -124,6 +124,29 @@ class Ajax extends Controller
 		}
 		
 		echo 0;
+	}
+	
+	function toggle_html($key)
+	{
+		if ($key === $this->session->userdata('session_id'))
+		{
+			$view_html = (int) $this->session->userdata('view_html');
+			$results = $this->user_dal->toggle_html((int) $this->session->userdata('user_id'), $view_html);
+			
+			if ($results === 1)
+			{
+				$this->session->set_userdata('view_html', $view_html == 1 ? 0 : 1);
+				if ($view_html === 1)
+				{
+					echo "Turn on html";
+				}
+				else
+				{
+					echo "Turn off html";
+				}
+				return;
+			}
+		}
 	}
 }
 

@@ -39,7 +39,7 @@ function thread_notifier()
 				if (text !== currentNotification) {
 					$("#notifier").remove();
 					currentNotification = text;                    
-						$('#notifications').append(data).show();
+						$('#notifications').append(html).show();
 				}
 			}
 		}
