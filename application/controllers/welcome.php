@@ -35,6 +35,9 @@ class Welcome extends Controller {
 			case 'participated':
 				$sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_participated_threads($user_id) .")";
 				break;
+			case 'started':
+				$sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_started_threads($user_id) .")";
+				break;
 			case 'all':
 			default:
 				$filter = $sql = '';

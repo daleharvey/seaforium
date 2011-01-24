@@ -22,7 +22,7 @@
 						<span class='small_profile_caps'>BUDDY NOT ONLINE!</span><br/>
 							&rarr; <a href='/messages/send/<?php echo $this->uri->segment(2) ?>'>Send a message</a><br/>
 							&rarr; <a href='#'>Change buddy status</a><br/>
-							&rarr; <a href='#'>View threads started</a><br/>
+							&rarr; <a href='/f/started'>View threads started</a><br/>
 							&rarr; x people invited by <?php echo $user_data->username ?><br/>
 						
 						</div>
@@ -65,8 +65,8 @@
 						foreach($recent_posts as $post):
 					?>
 						<div class="post-container" id="post-<?php echo $post['comment_id']; ?>">
-						<div class="post-block"><a href='/thread/<?php echo $post['thread_id'] .'/'. url_title($post['subject']); ?>'>POST</a></div>
-						<h3 class="recent-thread-title"><?php echo $post['subject'] ?></h3>
+						<div class="post-block">POST</div>
+						<h3 class="recent-thread-title"><a href="/thread/<?php echo $post['thread_id'] ."/". url_title($post['subject'], 'dash', TRUE); ?>"><?php echo $post['subject'] ?></a></h3>
 						
 						<div class="recent-post-content">
 							<?php echo $post['content']; ?>

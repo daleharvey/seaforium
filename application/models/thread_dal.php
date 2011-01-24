@@ -225,6 +225,11 @@ class Thread_dal extends Model
 	{
 		return $this->db->query("SELECT GROUP_CONCAT(DISTINCT thread_id) AS thread_ids FROM comments WHERE user_id = ?", $user_id)->row()->thread_ids;
 	}
+
+	function get_started_threads($user_id)
+	{
+		return $this->db->query("SELECT GROUP_CONCAT(DISTINCT thread_id) AS thread_ids FROM threads WHERE user_id = ?", $user_id)->row()->thread_ids;
+	}
 	
 	function change_nsfw($user_id, $thread_id, $status)
 	{
