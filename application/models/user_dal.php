@@ -52,16 +52,24 @@ class User_dal extends Model
 		return FALSE;
 	}
 	
-	function get_user_ids_from_array($usernames)
+	function get_user_ids_from_array($user_id, $usernames)
 	{
 		$usernames = array_map('strtolower', $usernames);
 		$usernames = array_map('trim', $usernames);
 		
-		$userlist = "'". implode("','",$usernames) ."'";
+		$sql = "
+			SELECT
+				users.id,
+				users.username,
+				IFNULL(acquaintances.type, 1) AS type
+			FROM users
+			LEFT JOIN
+				acquaintances
+			ON acquaintances.user_id = users.id
+			AND acquaintances.acq_user_id = ?
+			WHERE LOWER(username) IN ('". implode("','",$usernames) ."');";
 		
-		$sql = "SELECT id FROM users WHERE LOWER(username) IN (". $userlist .")";
-		
-		return $this->db->query($sql);
+		return $this->db->query($sql, $user_id);
 	}
 	
 	/**
@@ -386,7 +394,9 @@ class User_dal extends Model
 	
 	function delete_acquaintance($key)
 	{
-		$this->db->query("DELETE FROM acquaintances WHERE key = ?", $key);
+		$this->db->query("DELETE FROM acquaintances WHERE acq_id = ?", $key);
+		
+		return $this->db->affected_rows();
 	}
 	
 	function get_buddies($user_id)
@@ -425,5 +435,15 @@ class User_dal extends Model
 			GROUP BY users.id", $user_id);
 		
 		return $result->num_rows > 0 ? $result : FALSE;
+	}
+	
+	function toggle_html($user_id, $view_html)
+	{
+		$this->db->query("UPDATE users SET view_html = ? WHERE id = ?", array(
+			$view_html == '1' ? 0 : 1,
+			$user_id
+		));
+		
+		return $this->db->affected_rows();
 	}
 }

@@ -29,22 +29,21 @@ var docTitle = document.title;
 var currentNotification;
 function thread_notifier()
 {
-	  $.ajax({
-		    url: '/ajax/thread_notifier/'+thread_id+'/'+total_comments,
-		    success: function(data) {
-			      if (data) {
-                var text = $(data).text();
-                document.title = text.replace(" added", "") + " | " + docTitle;
-                if (text !== currentNotification) {
-                    $("#notifier").remove();
-                    var html = '<div id="notifier">' +
-                        '<a id="notify" href="">' + text + '</a>';
-                    currentNotification = text;                    
-				            $('#notifications').append(html).show();
-                }
-		        }
-        }
-	  });
+	$.ajax({
+		url: '/ajax/thread_notifier/'+thread_id+'/'+total_comments,
+		success: function(data) {
+			if (data) {
+				var text = $(data).text();
+				
+				document.title = text.replace(" added", "") + " | " + docTitle;
+				if (text !== currentNotification) {
+					$("#notifier").remove();
+					currentNotification = text;                    
+						$('#notifications').append(html).show();
+				}
+			}
+		}
+	});
 }
 
 $("#closenotify").bind("click", function () {

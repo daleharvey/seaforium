@@ -39,52 +39,86 @@ class Messages extends Controller {
 			// array of user names
 			$usernames = explode(',', $this->form_validation->set_value('recipients'));
 			
-			// translated into user ids
-			$user_ids = $this->user_dal->get_user_ids_from_array($usernames);
-			
-			if (count($usernames) === $user_ids->num_rows)
+			if (count($usernames) < 11)
 			{
+			
+				// translated into user ids
+				$user_ids = $this->user_dal->get_user_ids_from_array($this->session->userdata('user_id'), $usernames);
 				
-				$recipient_ids = array();
-				
-				foreach($user_ids->result() as $row)
+				if (count($usernames) === $user_ids->num_rows)
 				{
-					$recipient_ids[] = (int)$row->id;
-				}
-				
-				$message = array(
-					'sender' => (int)$this->session->userdata('user_id'),
-					'recipients' => $recipient_ids,
-					'subject' => $this->form_validation->set_value('subject'),
-					'content' => $this->form_validation->set_value('content')
-				);
-				
-				// insert a new PM into the database
-				$message['id'] = $this->message_dal->new_message($message);
-				
-				// loop through all recipients
-				foreach($message['recipients'] as $recipient)
-				{
-					// send the message and increment the message counter
-					$this->message_dal->new_inbox($recipient, $message, $this->form_validation->set_value('read_receipt'));
+					$recipient_ids = array();
+					$have_me_enemied = array();
 					
-					if ($this->form_validation->set_value('save_sent') == 'save')
+					// loop through the results to pull out user ids and see if anyone has me enemied
+					foreach($user_ids->result() as $row)
 					{
-						$this->message_dal->new_outbox($recipient, $message);
+						$recipient_ids[] = (int)$row->id;
+						if ($row->type == '2')
+							$have_me_enemied[] = $row->username;
+					}
+					
+					// if no one has me enemied
+					if (count($have_me_enemied) === 0)
+					{
+						// put together the data for a new pm
+						$message = array(
+							'sender' => (int)$this->session->userdata('user_id'),
+							'recipients' => $recipient_ids,
+							'subject' => $this->form_validation->set_value('subject'),
+							'content' => $this->form_validation->set_value('content')
+						);
+						
+						// insert a new PM into the database
+						$message['id'] = $this->message_dal->new_message($message);
+						
+						// loop through all recipients
+						foreach($message['recipients'] as $recipient)
+						{
+							// send the message and increment the message counter
+							$this->message_dal->new_inbox($recipient, $message, $this->form_validation->set_value('read_receipt'));
+							
+							// if we want to save a message to our outbox
+							if ($this->form_validation->set_value('save_sent') == 'save')
+							{
+								$this->message_dal->new_outbox($recipient, $message);
+							}
+						}
+						
+						// redirect them to the inbox
+						redirect('/messages/inbox');
+					}
+					// if there was 1 recipient and that 1 person has me enemied
+					elseif (count($have_me_enemied) === 1 && count($recipient_ids) === 1)
+					{
+						$data['errors'] = "<li>That user has you enemied.</li>";
+					}
+					// if there were multiple recipients and most of them have me enemied
+					else
+					{
+						$data['errors'] = "<li>The following users have you enemied:<ul>";
+						foreach($have_me_enemied as $jerk)
+						{
+							$data['errors'] .= '<li>'. $jerk .'</li>';
+						}
+						$data['errors'] .= '</ul></li>';
 					}
 				}
-				
-				redirect('/messages/inbox');
+				else
+				{
+					$data['errors'] = "<li>One or more of the recipients does not exist</li>";
+				}
 			}
 			else
 			{
-				$data['errors'] = "<li>One or more of the recipients does not exist</li>";
+				$data['errors'] = validation_errors();
 			}
 		}
 		else
 		{
-			$data['errors'] = validation_errors();
+			$data['errors'] = '<li>Less than 10 recipients please!</li>';
 		}
+		
 		
 		$this->load->view('shared/header');
 		$this->load->view('messages/send', $data);

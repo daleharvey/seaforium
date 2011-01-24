@@ -77,6 +77,7 @@ $commands = array(
 						<div class="buddy-listing">
 							<div class="username"><?php echo anchor('/user/'.url_title($buddy->username, 'dash', TRUE), $buddy->username); ?></div>
 							<div class="online-status <?php echo $online_status; ?>"><?php echo $online_status; ?></div>
+							<a class="remove-acq" rel="<?php echo $buddy->id; ?>">remove</a>
 						</div>
 						
 					<?php }} ?>
@@ -94,10 +95,24 @@ $commands = array(
 						<div class="enemy-listing">
 							<div class="username"><?php echo anchor('/user/'.url_title($enemy->username, 'dash', TRUE), $enemy->username); ?></div>
 							<div class="online-status <?php echo $online_status; ?>"><?php echo $online_status; ?></div>
+							<a class="remove-acq" rel="<?php echo $enemy->id; ?>">remove</a>
 						</div>
 					
 					<?php }} ?>
 					
 					<div class="blueline"></div>
+					
+					<script type="text/javascript">
+						$('.remove-acq').bind('click', function(){
+							master = $(this).parent();
+							$.get(
+								'/buddies/remove/'+ $(this).attr('rel') +'/<?php echo $this->session->userdata('session_id'); ?>',
+								function(data) {
+									if (data == 1)
+										master.remove();
+								}
+							);
+						});
+					</script>
 					
 				</div>

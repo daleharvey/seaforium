@@ -39,6 +39,19 @@ var YAY = (function() {
         });
 
     })();
+	
+	(function () {
+		$('#toggle-html').bind('click', function(){
+			button = $(this);
+			$.get(
+				'/ajax/toggle_html/'+ session_id,
+				function(data) {
+					button.html(data);
+				}
+			);
+			return;
+		});
+	})();
     
 })();
 

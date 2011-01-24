@@ -35,7 +35,7 @@ class Thread_dal extends Model
 	 *
 	 * @return	int
 	 */
-	function get_comment_count($sql)
+	function get_thread_count($sql)
 	{
 		return (int)$this->db->query('SELECT count(threads.thread_id) AS max_rows FROM threads '.$sql)->row()->max_rows;
 	}
@@ -97,11 +97,24 @@ class Thread_dal extends Model
 	 * @param	bool
 	 * @return	object
 	 */
-	function get_thread_information($thread_id)
+	function get_thread_information($user_id, $thread_id)
 	{
-		$sql = "SELECT subject, closed, nsfw, categories.name AS category FROM threads LEFT JOIN categories ON threads.category = categories.category_id WHERE thread_id = ?"; 
+		$sql = "
+			SELECT 
+				subject, 
+				closed, 
+				nsfw, 
+				categories.name AS category, 
+				IFNULL(acquaintances.type, 1) AS type
+			FROM threads 
+			LEFT JOIN categories 
+				ON threads.category = categories.category_id 
+			LEFT JOIN acquaintances
+				ON acquaintances.user_id = threads.user_id
+				AND acquaintances.acq_user_id = ?
+			WHERE thread_id = ?"; 
 		
-		return $this->db->query($sql, $thread_id);
+		return $this->db->query($sql, array($user_id, $thread_id));
 	}
 	
 	/**
@@ -150,7 +163,7 @@ class Thread_dal extends Model
 	 * @param	int
 	 * @return	object
 	 */
-	function get_comments($thread_id, $limit_start, $limit_end)
+	function get_comments($user_id, $thread_id, $limit_start, $limit_end)
 	{
 		
 		$sql = "
@@ -161,15 +174,20 @@ class Thread_dal extends Model
 				comments.created,
 				comments.deleted,
 				comments.user_id,
-				users.username
+				users.username,
+				acquaintances.type AS acq_type
 			FROM comments
 			LEFT JOIN users
 				ON comments.user_id = users.id
+			LEFT JOIN acquaintances
+				ON acquaintances.acq_user_id = users.id
+				AND acquaintances.user_id = ?
 			WHERE comments.thread_id = ?
 			ORDER BY comments.created
 			LIMIT ?, ?";
 		
 		return $this->db->query($sql, array(
+			$user_id,
 			$thread_id,
 			$limit_start,
 			$limit_end
@@ -249,6 +267,26 @@ class Thread_dal extends Model
 			$thread_id,
 			$user_id
 		));
+		
+		return $this->db->affected_rows();
+	}
+	
+	function get_favorites($user_id)
+	{
+		$favorites = $this->db->query("SELECT GROUP_CONCAT(thread_id) AS favorites FROM favorites WHERE user_id = ?", $user_id)->row()->favorites;
+		return strlen($favorites) > 0 ? $favorites : '0';
+	}
+	
+	function add_favorite($favorite_id, $user_id, $thread_id)
+	{
+		$this->db->query("INSERT INTO favorites (favorite_id, user_id, thread_id) VALUES (?, ?, ?)", array($favorite_id, $user_id, $thread_id));
+		
+		return $this->db->affected_rows();
+	}
+	
+	function remove_favorite($favorite_id)
+	{
+		$this->db->query("DELETE FROM favorites WHERE favorite_id = ?", $favorite_id);
 		
 		return $this->db->affected_rows();
 	}

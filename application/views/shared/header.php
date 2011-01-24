@@ -2,6 +2,9 @@
 
 $css = $this->agent->is_mobile() ? "mobile.css" : "forum.css";
 $username = $this->session->userdata('username');
+$user_id = $this->session->userdata('user_id');
+
+$logged_in = $this->sauth->is_logged_in();
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -11,7 +14,8 @@ $username = $this->session->userdata('username');
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link rel="stylesheet" type="text/css" href="/css/<?php echo $css; ?>" />
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>-->
+	<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
 	
 	<base href="<?php echo site_url(); ?>" />
 </head>
@@ -28,7 +32,7 @@ $username = $this->session->userdata('username');
 			  <a href="/" id="header">New Yay</a>
 
 				<?php 
-					if (!$this->sauth->is_logged_in()) { 
+					if (!$logged_in) { 
 						$button_texts = array(
 							"Get In!",
 							"Let's Go!",
@@ -72,9 +76,9 @@ $username = $this->session->userdata('username');
 				</div>
 				<?php } ?> 
 				
-				<?php if ($this->sauth->is_logged_in()) {
+				<?php if ($logged_in) {
 				
-					$unread_messages = $this->message_dal->unread_messages($this->session->userdata('user_id'));
+					$unread_messages = $this->message_dal->unread_messages($user_id);
 				?>
 				
 				<div class="lc-node" id="messaging">
@@ -96,11 +100,16 @@ $username = $this->session->userdata('username');
 					<ul id="special-threads">
 						<li><a href="/">All Forums</a></li>
 						<li><a href="/f/meaningful">All But Meaningless</a></li>
-						<?php if ($this->sauth->is_logged_in()) { ?>
+						<?php if ($logged_in) { ?>
 						<li><a href="/f/participated">Participated Threads</a></li>
-						<li><a href="#">Favourite Threads</a></li>
+						<li><a href="/f/favorites">Favourite Threads</a></li>
 						<?php } ?> 
 					</ul>
+					<?php if ($logged_in) { ?>
+					
+					<a id="toggle-html">Turn <?php echo $this->session->userdata('view_html') == '1' ? 'off' : 'on'; ?> html</a>
+					
+					<?php } ?>
 				</div>
 
 				<?php if ($this->sauth->is_logged_in()) { ?> 
