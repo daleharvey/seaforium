@@ -270,9 +270,12 @@ class Sauth
 
 						// Login user
 						$this->ci->session->set_userdata(array(
-								'user_id'	=> $user->id,
-								'username'	=> $user->username,
-								'status'	=> 1,
+							'user_id'	=> $user->id,
+							'username'	=> $user->username,
+							'status'	=> ($user->activated == 1) ? 1 : 0,
+							'threads_shown' => $user->threads_shown,
+							'comments_shown' => $user->comments_shown,
+							'view_html' => $user->view_html
 						));
 
 						// Renew users cookie to prevent it from expiring
