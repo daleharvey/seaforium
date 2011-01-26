@@ -57,21 +57,16 @@
 					<div id="latest-posts">
 					<? echo $pagination; ?>
 					
-					
-					
 					<?php if(!$recent_posts): ?>
 						<h1>This user has posted absolutely nothing on __FORUM__</h1>
 					<?php else: 
 						foreach($recent_posts as $post):
 					?>
 						<div class="post-container" id="post-<?php echo $post['comment_id']; ?>">
-						<div class="post-block"><a href='/thread/<?php echo $post['thread_id'] .'/'. url_title($post['subject']); ?>'>POST</a></div>
-						<h3 class="recent-thread-title"><?php echo $post['subject'] ?></h3>
->>>>>>> 0e0d47ea594af6242ad6c1456345d0be2ab75daf
-						
+						<div class="post-block">POST</div>
+						<h3 class="recent-thread-title"><a href='/thread/<?php echo $post['thread_id'] .'/'. url_title($post['subject']); ?>'><?php echo $post['subject'] ?></a></h3>
 						<div class="recent-post-content">
 							<?php echo $post['content']; ?>
-							
 						</div>
 						
 						<hr/>
