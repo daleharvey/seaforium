@@ -1,6 +1,9 @@
-	
+<?php $favorite = in_array($thread_id, $favorites) ? ' added' : ''; ?>	
 				<div id="thread">
-					<div id="main-title"><h3><?php echo $info['title'] ?></h3></div>
+					<div id="main-title">
+						<h3><?php echo $info['title'] ?></h3>
+						<a class="favourite<?php echo $favorite; ?>" rel="<?php echo $thread_id; ?>"></a>
+					</div>
 					
 					<div class="pagination top">
 						<?php echo $pagination; ?>
@@ -217,6 +220,41 @@ $content = array(
 						thread_id = <?php echo $thread_id; ?> 
 						total_comments = <?php echo $total_comments; ?> 
 						setInterval("thread_notifier()",10000);
+					</script>
+					
+					<script type="text/javascript">
+						session_id = '<?php echo $this->session->userdata('session_id'); ?>';
+
+						$('.favourite').bind('click', function(){
+							button = $(this);
+
+							if (!$(this).hasClass('added'))
+							{
+								$.get(
+								'/ajax/favorite_thread/'+ $(this).attr('rel') +'/'+ session_id,
+								function(data) {
+									if (data == 1)
+									{
+										button.addClass('added');
+									}
+								}
+								);
+							}
+							else
+							{
+								$.get(
+								'/ajax/unfavorite_thread/'+ $(this).attr('rel') +'/'+ session_id,
+								function(data) {
+									if (data == 1)
+									{
+										button.removeClass('added');
+									}
+								}
+								);
+							}
+
+							return;
+						});
 					</script>
 					
 				</div>
