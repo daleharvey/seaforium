@@ -109,7 +109,7 @@ foreach($comment_result->result() as $row) {
 								
 							</div>
 							<div class="content-block">
-								<div class="content"><?php echo $this->session->userdata('view_html') === '1' ? _ready_for_display($row->content) : nl2br(htmlentities($row->content)); ?></div>
+								<div class="content"><?php echo $this->session->userdata('view_html') === '1' ? _ready_for_display($row->content, array('username'=>$row->username, "url_safe_username"=>$url_safe_username)) : nl2br(htmlentities($row->content)); ?></div>
 							</div>
 							<div style="clear: both;"></div>
 						</div>
@@ -211,7 +211,7 @@ $content = array(
 					</div>
 
     <div id="notifications">
-       <a id="closenotify"></a></div>
+       <a id="closenotify"></a>
     </div>                                                                                    
 
 <?php } ?> 
