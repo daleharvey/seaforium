@@ -47,7 +47,7 @@ foreach($comment_result->result() as $row) {
 			$acq = ' enemy';
 			break;
 		default:
-			$acq = '';
+			$acq = null;
 	}
 	
 	if ($row->acq_type == 2)
@@ -73,7 +73,7 @@ foreach($comment_result->result() as $row) {
 								
 								<div class="user-information" style="background: url(/img/noavatar.gif);">
 									<ul>
-										<li><a href="/buddies/<?php echo $url_safe_username; ?>">BUDDY? ENEMY?</a></li>
+										<li><a href="/buddies/<?php echo $url_safe_username; ?>"><?php echo ($acq)? "Your $acq!" : 'BUDDY? ENEMY?'; ?></a></li>
 										<li><a href="/messages/send/<?php echo $url_safe_username; ?>">SEND A MESSAGE</a></li>
 									</ul>
 								</div>
