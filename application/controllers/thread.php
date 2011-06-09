@@ -49,7 +49,8 @@ class Thread extends Controller {
 				'category' => $thread_info->category,
 				'acq_type' => (int) $thread_info->type
 			),
-			'thread_id' => $thread_id
+			'thread_id' => $thread_id,
+			'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id']))
 		);
 		
 		// if the thread is closed then we're not accepting any new data

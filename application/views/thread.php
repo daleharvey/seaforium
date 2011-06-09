@@ -1,6 +1,9 @@
-	
+<?php $favorite = in_array($thread_id, $favorites) ? ' added' : ''; ?>	
 				<div id="thread">
-					<div id="main-title"><h3><?php echo $info['title'] ?></h3></div>
+					<div id="main-title">
+						<h3><?php echo $info['title'] ?></h3>
+						<a class="favourite<?php echo $favorite; ?>" rel="<?php echo $thread_id; ?>"></a>
+					</div>
 					
 					<div class="pagination top">
 						<?php echo $pagination; ?>
@@ -44,7 +47,7 @@ foreach($comment_result->result() as $row) {
 			$acq = ' enemy';
 			break;
 		default:
-			$acq = '';
+			$acq = null;
 	}
 	
 	if ($row->acq_type == 2)
@@ -70,7 +73,7 @@ foreach($comment_result->result() as $row) {
 								
 								<div class="user-information" style="background: url(/img/noavatar.gif);">
 									<ul>
-										<li><a href="/buddies/<?php echo $url_safe_username; ?>">BUDDY? ENEMY?</a></li>
+										<li><a href="/buddies/<?php echo $url_safe_username; ?>"><?php echo ($acq)? "Your $acq!" : 'BUDDY? ENEMY?'; ?></a></li>
 										<li><a href="/messages/send/<?php echo $url_safe_username; ?>">SEND A MESSAGE</a></li>
 									</ul>
 								</div>
@@ -106,7 +109,7 @@ foreach($comment_result->result() as $row) {
 								
 							</div>
 							<div class="content-block">
-								<div class="content"><?php echo $this->session->userdata('view_html') === '1' ? _ready_for_display($row->content) : nl2br(htmlentities($row->content)); ?></div>
+								<div class="content"><?php echo $this->session->userdata('view_html') === '1' ? _ready_for_display($row->content, array('username'=>$row->username, "url_safe_username"=>$url_safe_username)) : nl2br(htmlentities($row->content)); ?></div>
 							</div>
 							<div style="clear: both;"></div>
 						</div>
@@ -208,7 +211,7 @@ $content = array(
 					</div>
 
     <div id="notifications">
-       <a id="closenotify"></a></div>
+       <a id="closenotify"></a>
     </div>                                                                                    
 
 <?php } ?> 
@@ -217,6 +220,41 @@ $content = array(
 						thread_id = <?php echo $thread_id; ?> 
 						total_comments = <?php echo $total_comments; ?> 
 						setInterval("thread_notifier()",10000);
+					</script>
+					
+					<script type="text/javascript">
+						session_id = '<?php echo $this->session->userdata('session_id'); ?>';
+
+						$('.favourite').bind('click', function(){
+							button = $(this);
+
+							if (!$(this).hasClass('added'))
+							{
+								$.get(
+								'/ajax/favorite_thread/'+ $(this).attr('rel') +'/'+ session_id,
+								function(data) {
+									if (data == 1)
+									{
+										button.addClass('added');
+									}
+								}
+								);
+							}
+							else
+							{
+								$.get(
+								'/ajax/unfavorite_thread/'+ $(this).attr('rel') +'/'+ session_id,
+								function(data) {
+									if (data == 1)
+									{
+										button.removeClass('added');
+									}
+								}
+								);
+							}
+
+							return;
+						});
 					</script>
 					
 				</div>

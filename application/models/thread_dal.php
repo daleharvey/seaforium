@@ -37,7 +37,9 @@ class Thread_dal extends Model
 	 */
 	function get_thread_count($sql)
 	{
-		return (int)$this->db->query('SELECT count(threads.thread_id) AS max_rows FROM threads '.$sql)->row()->max_rows;
+		$thread_count = (int)$this->db->query('SELECT count(threads.thread_id) AS max_rows FROM threads '.$sql)->row()->max_rows;
+		
+		return $thread_count > 0 ? $thread_count : '0';
 	}
 	
 	/**
@@ -241,7 +243,14 @@ class Thread_dal extends Model
 	
 	function get_participated_threads($user_id)
 	{
-		return $this->db->query("SELECT GROUP_CONCAT(DISTINCT thread_id) AS thread_ids FROM comments WHERE user_id = ?", $user_id)->row()->thread_ids;
+		$participated = $this->db->query("SELECT GROUP_CONCAT(DISTINCT thread_id) AS thread_ids FROM comments WHERE user_id = ?", $user_id)->row()->thread_ids;
+		return strlen($participated) > 0 ? $participated : '0';
+	}
+
+	function get_started_threads($user_id)
+	{
+		$started = $this->db->query("SELECT GROUP_CONCAT(DISTINCT thread_id) AS thread_ids FROM threads WHERE user_id = ?", $user_id)->row()->thread_ids;
+		return strlen($started) > 0 ? $started : '0';
 	}
 	
 	function change_nsfw($user_id, $thread_id, $status)

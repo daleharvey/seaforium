@@ -89,6 +89,9 @@ class Welcome extends Controller {
 			case 'favorites':
 				$sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_favorites($this->meta['user_id']) .")";
 				break;
+			case 'started':
+				$sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_started_threads($this->meta['user_id']) .")";
+				break;
 			case 'all':
 			default:
 				$filter = $sql = '';

@@ -1,7 +1,8 @@
 <?php
 
-function _ready_for_display($content)
+function _ready_for_display($content, $author=null)
 {
+	$content = ($author)?format_me_script($content, $author):$content;
 	$content = format_pinkies(nl2br($content));
 	
 	return $content;
@@ -77,6 +78,15 @@ function format_pinkies($text)
 	$text = str_replace('[NH]', '<span class="pinkie"><img src="/img/pinkies/26.gif" align="absmiddle" class="pinkie" alt="NH" /></span>', $text);
 	$text = str_replace('[fbm]', '<span class="pinkie"><img src="/img/pinkies/21.gif" align="absmiddle" class="pinkie" alt="fbm" /></span>', $text);
 	
+	return $text;
+}
+
+function format_me_script($text, $author)
+{
+	$username = $author['username'];
+	$url_safe_username = $author['url_safe_username'];
+	$me = '<span class="me">* '. anchor('/user/' . $url_safe_username, $username).'</span>';
+	$text = preg_replace('%(?<!/)(/{1}me{1})(?=\s)%i', $me, $text, 1);
 	return $text;
 }
 
