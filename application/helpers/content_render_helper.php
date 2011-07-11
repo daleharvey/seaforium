@@ -3,7 +3,7 @@
 function _ready_for_display($content, $author=null)
 {
 	//$content = ($author)?format_me_script($content, $author):$content;
-	//$content = format_pinkies(nl2br($content));
+	$content = format_pinkies(nl2br($content));
 	
 	return $content;
 }
