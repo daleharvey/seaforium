@@ -2,7 +2,7 @@
 				<div id="thread">
 					<div id="main-title">
 						<h3><?php echo $info['title'] ?></h3>
-						<a class="favourite<?php echo $favorite; ?>" rel="<?php echo $thread_id; ?>"></a>
+						<?php if ($this->sauth->is_logged_in()) { ?><a class="favourite<?php echo $favorite; ?>" rel="<?php echo $thread_id; ?>"></a><?php } ?>
 					</div>
 					
 					<div class="pagination top">
@@ -65,7 +65,7 @@ foreach($comment_result->result() as $row) {
 						<div id="comment-container-<?php echo $row->comment_id; ?>" class="comment-container">
 							<div class="cmd-bar">
 								<span><a class="view-source" onclick="thread.view_source(<?php echo $row->comment_id; ?>); return false;"><?php echo $edit_source; ?></a></span>
-								<a class="quote">Quote</a>
+								<?php if ($this->sauth->is_logged_in()) { ?><a class="quote">Quote</a><?php } ?> 
 							</div>
 							<div class="user-block">
 								<div class="username<?php echo $acq; ?>"><?php echo anchor('/user/'. $url_safe_username, $row->username); ?></div>
@@ -73,8 +73,13 @@ foreach($comment_result->result() as $row) {
 								
 								<div class="user-information" style="background: url(/img/noavatar.gif);">
 									<ul>
+									<?php if ($this->sauth->is_logged_in()) { ?> 
 										<li><a href="/buddies/<?php echo $url_safe_username; ?>"><?php echo ($acq)? "Your $acq!" : 'BUDDY? ENEMY?'; ?></a></li>
 										<li><a href="/messages/send/<?php echo $url_safe_username; ?>">SEND A MESSAGE</a></li>
+									<?php } else { ?> 
+										<li>&nbsp;</li>
+										<li>&nbsp;</li>
+									<?php } ?> 
 									</ul>
 								</div>
 								
@@ -105,11 +110,11 @@ foreach($comment_result->result() as $row) {
 										thread.set_status(<?php echo $row->thread_id; ?>, 'closed', <?php echo $set_closed_status; ?>, '<?php echo $session_id; ?>');
 									});
 								</script>
-								<?php } ?>
+								<?php }	?>
 								
 							</div>
 							<div class="content-block">
-								<div class="content"><?php echo $this->session->userdata('view_html') === '1' ? _ready_for_display($row->content, array('username'=>$row->username, "url_safe_username"=>$url_safe_username)) : nl2br(htmlentities($row->content)); ?></div>
+								<div class="content"><?php echo $this->session->userdata('view_html') === '1' || $this->session->userdata('view_html') === false ? _ready_for_display($row->content, array('username'=>$row->username, "url_safe_username"=>$url_safe_username)) : nl2br(htmlentities($row->content)); ?></div>
 							</div>
 							<div style="clear: both;"></div>
 						</div>

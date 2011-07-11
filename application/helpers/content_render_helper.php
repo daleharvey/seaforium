@@ -2,14 +2,15 @@
 
 function _ready_for_display($content, $author=null)
 {
-	$content = ($author)?format_me_script($content, $author):$content;
-	$content = format_pinkies(nl2br($content));
+	//$content = ($author)?format_me_script($content, $author):$content;
+	//$content = format_pinkies(nl2br($content));
 	
 	return $content;
 }
 
 function _ready_for_save($content)
 {
+	/*
 	$content = explode("\n", $content);
 	$final = '';
 	
@@ -50,6 +51,7 @@ function _ready_for_save($content)
 	
 	if ($incode)
 		$final .= $block."</code>\n";
+	*/
 	
 	return strip_tags($final, '<img><a><em><i><b><strong><strike><del><address><code><pre><quote>');
 }
