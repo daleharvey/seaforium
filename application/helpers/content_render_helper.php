@@ -53,7 +53,7 @@ function _ready_for_save($content)
 		$final .= $block."</code>\n";
 	*/
 	
-	return strip_tags($final, '<img><a><em><i><b><strong><strike><del><address><code><pre><quote>');
+	return strip_tags($content, '<img><a><em><i><b><strong><strike><del><address><code><pre><quote>');
 }
 
 function format_pinkies($text)
