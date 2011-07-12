@@ -209,44 +209,10 @@
 		"Yemen",
 		"Zambia",
 		"Zimbabwe"
-		
-			
+
 			);
-/*
-stdClass Object
-(
-    [id] => 1
-    [username] => culthero
-    [created] => 2011-07-12 12:30:29
-    [last_login] => 2011-07-12 15:14:26
-    [email] => zack@032koncept.net
-    [new_post_notification] => 1
-    [random_titles] => 1
-    [timezone] => CST
-    [country] => United States
-    [website_1] => http://google.com
-    [website_2] => http://msn.com
-    [website_3] => http://reddit.com
-    [aim] => myaim
-    [msn] => mymsn
-    [gchat] => mygchat
-    [facebook] => http://facebook.com/myfacebook
-    [lastfm] => http://last.fm/myaccount
-    [about_blurb] => blurb.
-    [flickr_username] => flickruser
-    [delicious_username] => delcioususer
-    [rss_feed_1] => http://rss.com/1.rss
-    [rss_feed_2] => http://rss.com/2.rss
-    [rss_feed_3] => http://rss.com/3.rss
-    [custom_css] => yay_css.css
-    [comments_shown] => 100
-    [comment_count] => 2
-    [thread_count] => 1
-)
-*/
-echo "<pre>";
-print_r($user_preferences);
-echo "</pre>";
+
+
 
 ?>
 
@@ -271,7 +237,66 @@ echo "</pre>";
 							<?php echo form_label('New Post Notification', 'new_post_notification'); ?>
 							<?php echo form_checkbox('new_post_notification', "1", $user_preferences->new_post_notification); ?>
 						</div>
-						
+						<div class="input text">
+							<?php echo form_label('Website 1', 'website_1'); ?>
+							<?php echo form_input('website_1', $user_preferences->website_1); ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('Website 2', 'website_2'); ?>
+							<?php echo form_input('website_2', $user_preferences->website_2); ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('Website 3', 'website_3'); ?>
+							<?php echo form_input('website_3', $user_preferences->website_3); ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('RSS Feed 1', 'rss_feed_1'); ?>
+							<?php echo form_input('rss_feed_1', $user_preferences->rss_feed_1); ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('RSS Feed 2', 'rss_feed_2'); ?>
+							<?php echo form_input('rss_feed_2', $user_preferences->rss_feed_2); ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('RSS Feed 3', 'rss_feed_3'); ?>
+							<?php echo form_input('rss_feed_3', $user_preferences->rss_feed_3); ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('Custom CSS', 'custom_css'); ?>
+							<?php echo form_input('custom_css', $user_preferences->custom_css); ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('Tell us about yoruself', 'about_blurb'); ?>
+							<?php echo form_textarea('about_blurb', $user_preferences->about_blurb); ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('Flickr Username', 'flickr_username'); ?>
+							<?php echo form_input('flickr_username', $user_preferences->flickr_username); ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('Del.icio.us Username', 'delicious_username'); ?>
+							<?php echo form_input('delicious_username', $user_preferences->delicious_username); ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('Facebook', 'facebook'); ?>
+							<?php echo form_input('facebook', $user_preferences->facebook); ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('AIM username', 'aim'); ?>
+							<?php echo form_input('aim', $user_preferences->aim); ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('Gchat (Jabber)', 'gchat'); ?>
+							<?php echo form_input('gchat', $user_preferences->gchat); ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('Last.fm', 'lastfm'); ?>
+							<?php echo form_input('lastfm', $user_preferences->lastfm); ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('MSN username', 'msn'); ?>
+							<?php echo form_input('msn', $user_preferences->msn); ?>
+						</div>
 						<div class="input text">
 							<?php echo form_label('Threads Shown', 'threads_shown'); ?>
 							<?php echo form_dropdown('threads_shown', $elements_shown_options, $this->session->userdata('threads_shown').''); ?>
