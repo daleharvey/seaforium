@@ -1,5 +1,5 @@
 <h5>Woops, you forgot your password? We can help.</h5>
-<p>Enter in the email address you used to sign up, and I will send you an email with a new password.</p>
+<p>Enter in the email address you used to sign up, and I will send you an email with a new password. <a href="#" id="forgot-back">Cancel</a></p>
 <p class="error"><?php echo $error; ?></p>
 
 <form method="post" action="/ajax_user/forgot_password" id="forgot-request">
