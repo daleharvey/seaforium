@@ -53,7 +53,7 @@ $("#closenotify").bind("click", function() {
 	document.title = originalTitle;
 });
 
-$("#submit-button").live("click", function() {
+$("#comment-form").live("submit", function() {
 	if ($("#thread-content-input").val().length == 0)
 		return false;
 	
