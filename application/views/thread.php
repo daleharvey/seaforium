@@ -155,7 +155,7 @@ else
 
 // and now the reply form
 $content = array(
-	'name'	=> 'content',
+	'name'	=> 'thread-content-input',
 	'id'	=> 'thread-content-input',
 	'value' => set_value('content')
 );

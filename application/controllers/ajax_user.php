@@ -45,18 +45,7 @@ class Ajax_user extends Controller
 					$this->email->from('castis@gmail.com', 'YayHooray.net');
 					$this->email->to($email);
 					$this->email->subject('Your new password!');
-					
-					$this->email->message('<img src="http://yayhooray.net/img/logo.gif" />
-
-Hey dude, your new password is '. $data['password'] .'.
-
-Can you write it down this time so we don\'t have to go through all of this again?
-Cool!
-
-That\'s it for now!
-
-Love,
-The Jakes!');
+					$this->email->message($this->load->view('emails/forgot_password', $data, true));
 					
 					$this->email->send();
 					
