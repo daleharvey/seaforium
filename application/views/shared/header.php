@@ -32,30 +32,14 @@ $logged_in = $this->sauth->is_logged_in();
 			  <a href="/" id="header">New Yay</a>
 
 				<?php 
-					if (!$logged_in) { 
-						$button_texts = array(
-							"Get In!",
-							"Let's Go!",
-							"Do it!",
-							"Booya!",
-							"Push Me",
-							"Zippity!",
-							"Engage!",
-							"Go For It!"
-						);
+					if (!$logged_in) {
 					?> 
-				<div class="lc-node login">
-					<h5>Not a member? Wanna join up? Tell us why!</h5>
-					<p>Click for more info, n00b!</p>
-					<form action="/auth/login" method="post">
-						<div>
-							<label>U:</label><input type="text" name="username" /><button><?php echo $button_texts[array_rand($button_texts)]; ?></button>
-						</div>
-						<div>
-							<label>P:</label><input type="password" name="password" /><a href="#">Forgot it?</a>
-						</div>
-					</form>
+				
+				<div class="lc-node login" id="login-box">
+					<?php $this->load->view('forgot_password/default'); ?>
 				</div>
+				<script type="text/javascript" src="/js/forgot.js"></script>
+				
 				<?php } else { ?> 
 				<div class="lc-node welcome">
 					<h4>
@@ -117,7 +101,7 @@ $logged_in = $this->sauth->is_logged_in();
 				<div class="lc-node" id="buddy-list">
 					<h3><a href="/buddies">Buddies</a></h3>					
 					<?php
-						$buddy_info = $this->user_dal->get_active_users($this->session->userdata('user_id'));
+						$buddy_info = $this->user_dal->get_active_users($user_id);
 					?> 					
 					<p>ONLINE BUDDIES (<?php echo $buddy_info['buddies']->num_rows; ?>/<?php echo $buddy_info['buddy_count']; ?>)</p>
 					<div>

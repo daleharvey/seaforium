@@ -148,8 +148,6 @@ http://sparklebacon.net/auth/register/{$invite_id}
 castis
 EOT;
 					
-					//exit($message);
-					
 					$this->yayhooray->login('castis', '');
 					$this->yayhooray->send_message($this->form_validation->set_value('yhuser'), 'Your invite to the new board', $message);
 					
@@ -166,7 +164,6 @@ EOT;
 			$this->load->view('shared/secluded_footer');
 		}
 	}
-
 }
 
 /* End of file auth.php */

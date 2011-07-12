@@ -39,6 +39,20 @@ class User_dal extends Model
 	}
 	
 	/**
+	 * Get user record by email address
+	 *
+	 * @param	string
+	 * @return	object
+	 */
+	function get_user_by_email($email)
+	{
+		$query = $this->db->query("SELECT * FROM users WHERE LOWER(email) = ?", strtolower($email));
+		
+		if ($query->num_rows() == 1) return $query->row();
+		return NULL;
+	}
+	
+	/**
 	 * Get user record by username
 	 *
 	 * @param	string
@@ -236,6 +250,14 @@ class User_dal extends Model
 		return $this->db->query("INSERT INTO user_profiles (user_id) VALUES (?)", $user_id);
 	}
 	
+	function reset_password($user_id, $new_password)
+	{
+		return $this->db->query("UPDATE users SET password = ? WHERE id = ?", array(
+			$new_password,
+			$user_id
+		));
+	}
+	
 	/**
 	 * Purge table of non-activated users
 	 *
@@ -259,7 +281,6 @@ class User_dal extends Model
 		$sql = "
 			UPDATE users
 			SET
-				new_password_key = NULL,
 				new_password_key = NULL,
 				last_ip = ?,
 				last_login = NOW()

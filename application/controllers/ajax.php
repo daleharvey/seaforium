@@ -11,34 +11,63 @@ class Ajax extends Controller
 		$this->load->model(array('thread_dal', 'user_dal'));
 	}
 	
+	/**
+	 * New Comment Notification
+	 *
+	 * Javascript calls this every few seconds to check
+	 * on the existence of new comments
+	 *
+	 * @access	public
+	 * @param	int		thread id
+	 * @param	int		current number of comments
+	 * @return	void
+	 */
 	function thread_notifier($thread_id = 0, $current_count = 0)
 	{
+		// make sure thread_id and current_count are integers
 		$thread_id = (int)$thread_id;
 		$current_count = (int)$current_count;
 		
+		// the typecasting above will convert non-integers to zero
 		if ($thread_id === 0 || $current_count === 0)
 			return;
 		
+		// find out how many comments are in the thread
 		$db_count = $this->thread_dal->comment_count($thread_id);
 		
+		// if the numbers dont match, throw out some html
 		if ($db_count > $current_count)
 		{
+			// number of new posts
 			$new_posts = $db_count - $current_count;
 			
+			/*
+			 * TODO: if their comments_shown value is false,
+			 * 	they probably aren't logged in, in which case,
+			 * 	they don't get the notifier anyways.
+			 *
+			 * Test out that idea and remove the userdata boolean check accordingly
+			 */
 			$count = $this->session->userdata('comments_shown') == false
 				? 50 
 				: ceil($db_count / $this->session->userdata('comments_shown'));
 			
-			//$page = $count > 0 ? '/p/'.(($count-1)*$this->session->userdata('comments_shown')) : '';
-			
-			//$page = ;
-			
-			$page = '/p/'. floor($db_count/$count)*$count;
+			$page = '/p/'. floor($db_count/$count) * $count;
 			
 			echo '<div id="notifier"><a id="notify" href="/thread/'. $thread_id .'/'. url_title($this->thread_dal->get_thread_information($this->session->userdata('user_id'), $thread_id)->row()->subject, 'dash', TRUE) . $page .'/r'. mt_rand(10000, 99999) .'#bottom">'. $new_posts .' new post'. ($new_posts === 1 ? '' : 's') ." added</a></div>";
 		}
 	}
 	
+	/**
+	 * Get Comment Source
+	 *
+	 * Get the raw text for any given comment
+	 *
+	 * @access	public
+	 * @param	int
+	 * @param	int
+	 * @return	void
+	 */
 	function comment_source($comment_id = 0, $display = 0)
 	{
 		$comment_id = (int)$comment_id;
@@ -54,6 +83,24 @@ class Ajax extends Controller
 		);
 		
 		echo '('. json_encode($data) .')';
+		return;
+	}
+	
+	function view_source($comment_id = 0)
+	{
+		if((int)$comment_id === 0)
+			return;
+		
+		$comment = $this->thread_dal->get_comment($comment_id)->row();
+		
+		$data = array(
+			'content' => _ready_for_source($comment->content),
+			'owner' => ($comment->user_id == $this->session->userdata('user_id') && strtotime($comment->created) > (time() - 3600))
+		);
+		
+		echo '('. json_encode($data) .')';
+		
+		return;
 	}
 	
 	function comment_save()
@@ -75,6 +122,7 @@ class Ajax extends Controller
 			}
 		}
 		
+		return;
 	}
 	
 	function set_thread_status($thread_id, $keyword, $status, $key)
@@ -88,14 +136,11 @@ class Ajax extends Controller
 			if ($keyword == 'nsfw')
 			{
 				echo $this->thread_dal->change_nsfw($user_id, $thread_id, $status);
-				return;
 			}
 			elseif ($keyword == 'closed')
 			{
 				echo $this->thread_dal->change_closed($user_id, $thread_id, $status);
-				return;
 			}
-			
 		}
 	}
 	
@@ -144,7 +189,6 @@ class Ajax extends Controller
 				{
 					echo "Turn off html";
 				}
-				return;
 			}
 		}
 	}

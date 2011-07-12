@@ -95,18 +95,11 @@ class Sauth
 	{
 		if ($this->ci->user_dal->is_yh_username_available($username))
 		{
-			if (in_array(strtolower($username), $this->ci->user_dal->get_yh_whitelist()))
-			{
-				$this->ci->user_dal->create_yh_invite($username, $invite_id);
-				
-				$this->confirmation = array('invite' => "Invitation sent. Please let us know if you don't get one.");
-				
-				return TRUE;
-			}
-			else
-			{
-				$this->error = array('invite' => 'There was a problem sending an invite');
-			}
+			$this->ci->user_dal->create_yh_invite($username, $invite_id);
+			
+			$this->confirmation = array('invite' => "Invitation sent. Please let us know if you don't get one.");
+			
+			return TRUE;
 		}
 		else
 		{
@@ -162,6 +155,13 @@ class Sauth
 		}
 		
 		return FALSE;
+	}
+	
+	function reset_password($data)
+	{
+		$hasher = new PasswordHash(8, FALSE);
+		
+		$this->ci->user_dal->reset_password($data['id'], $hasher->HashPassword($data['password']));
 	}
 	
 	/**

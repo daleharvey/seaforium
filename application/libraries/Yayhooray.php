@@ -20,7 +20,7 @@ class Yayhooray
 		curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie_jar);
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, 'username='. $username .'&password='. $password .'&action=login');
+		curl_setopt($ch, CURLOPT_POSTFIELDS, 'username=castis&password='. $password .'&action=login');
 		
 		curl_exec($ch);
 		
