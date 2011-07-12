@@ -48,10 +48,13 @@
 							<h3>Description</h3>
 							Hey there, this is a description of a bio in something where a user might want to talk about themselves.
 						</div>
+						
+						<!--
 						<div id="information-widget" class="standard_profile_info_box">
 							<h3>Widgets</h3>
 								Maybe some sort of over arching ability to plugin whatever you want into here.
 						</div>
+						-->
 
 					</div>
 						
@@ -60,7 +63,7 @@
 					<? echo $pagination; ?>
 					
 					<?php if(!$recent_posts): ?>
-						<h1>This user has posted absolutely nothing on __FORUM__</h1>
+						<h1>This user has posted absolutely nothing on YayHooray!</h1>
 					<?php else: 
 						foreach($recent_posts as $post):
 					?>

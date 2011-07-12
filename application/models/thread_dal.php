@@ -15,6 +15,14 @@ class Thread_dal extends Model
 	 */
 	function new_thread($data)
 	{
+		$this->db->insert('threads', (object)array(
+			'user_id' => $data['user_id'],
+			'subject' => $data['subject'],
+			'category' => '"'. $data['category'] .'"',
+			'created' => 'NOW()'
+		));
+		
+		/*
 		$sql = "
 			INSERT INTO threads
 				(user_id, subject, category, created)
@@ -26,6 +34,7 @@ class Thread_dal extends Model
 			$data['subject'],
 			$data['category']
 		));
+		*/
 		
 		return $this->db->insert_id();
 	}
@@ -141,7 +150,6 @@ class Thread_dal extends Model
 			$this->db->insert_id(),
 			$data['thread_id']
 		));
-		
 	}
 	
 	/**
@@ -167,7 +175,6 @@ class Thread_dal extends Model
 	 */
 	function get_comments($user_id, $thread_id, $limit_start, $limit_end)
 	{
-		
 		$sql = "
 			SELECT
 				comments.thread_id,
@@ -238,7 +245,7 @@ class Thread_dal extends Model
 		return $result->num_rows === 1
 			? $result->row()
 			: (object) array("title_text" => "Change Me, Please", 
-                                      "username" => "anon");
+							"username" => "anon");
 	}
 	
 	function get_participated_threads($user_id)

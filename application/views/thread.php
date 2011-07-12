@@ -56,16 +56,12 @@ foreach($comment_result->result() as $row) {
 
 					<div id="ignore-for-<?php echo $row->comment_id; ?>" class="ignore-container" onclick="$('#comment-container-<?php echo $row->comment_id; ?>').toggle();"></div>
 
-<?php
-	}
-	
-?>
-
+<?php } ?> 
 					<div id="comment-<?php echo $row->comment_id; ?>" class="comment<?php echo $alt === false ? '' : ' alt'; echo $acq; ?>">
 						<div id="comment-container-<?php echo $row->comment_id; ?>" class="comment-container">
 							<div class="cmd-bar">
 								<span><a class="view-source" onclick="thread.view_source(<?php echo $row->comment_id; ?>); return false;"><?php echo $edit_source; ?></a></span>
-								<?php if ($this->sauth->is_logged_in()) { ?><a class="quote">Quote</a><?php } ?> 
+								<?php if ($this->sauth->is_logged_in()) { ?><a class="quote" onclick="thread.quote(<?php echo $row->comment_id; ?>);">Quote</a><?php } ?> 
 							</div>
 							<div class="user-block">
 								<div class="username<?php echo $acq; ?>"><?php echo anchor('/user/'. $url_safe_username, $row->username); ?></div>
@@ -114,7 +110,13 @@ foreach($comment_result->result() as $row) {
 								
 							</div>
 							<div class="content-block">
-								<div class="content"><?php echo $this->session->userdata('view_html') === '1' || $this->session->userdata('view_html') === false ? _ready_for_display($row->content, array('username'=>$row->username, "url_safe_username"=>$url_safe_username)) : nl2br(htmlentities($row->content)); ?></div>
+								<div class="content">
+<?php 
+echo $this->session->userdata('view_html') === '1' || $this->session->userdata('view_html') === false 
+	? _ready_for_display($row->content, array('username'=>$row->username, "url_safe_username"=>$url_safe_username)) 
+	: nl2br(htmlentities($row->content));
+?>
+								</div>
 							</div>
 							<div style="clear: both;"></div>
 						</div>
@@ -202,7 +204,7 @@ $content = array(
 							<a href="javascript:insertAtCaret('thread-content-input', '[fbm]');"><img src="/img/pinkies/21.gif" /></a>
 						</div>
 						
-						<?php echo form_open(uri_string()); ?> 
+						<form method="post" action="<?php echo uri_string(); ?>">
 							
 							<div class="input textarea">
 								<?php echo form_textarea($content); ?> 
@@ -210,21 +212,21 @@ $content = array(
 							
 							<p>I, <?php echo $this->session->userdata('username'); ?>, do solemnly swear that in posting this comment I promise to be nice.</p>
 							
-							<?php echo form_submit('submit', 'Agree & Post'); ?> 
-						<?php echo form_close(); ?> 
+							<button type="submit" id="submit-button">Agree &amp; Post</button>
+						</form>
 						
 					</div>
 
-    <div id="notifications">
-       <a id="closenotify"></a>
-    </div>                                                                                    
+					<div id="notifications">
+						<a id="closenotify"></a>
+					</div>                                                                                    
 
 <?php } ?> 
 					<script type="text/javascript" src="/js/thread.js"></script>
 					<script type="text/javascript">
 						thread_id = <?php echo $thread_id; ?> 
 						total_comments = <?php echo $total_comments; ?> 
-						setInterval("thread_notifier()",10000);
+						notification = setInterval("thread_notifier()",10000);
 					</script>
 					
 					<script type="text/javascript">
@@ -238,10 +240,7 @@ $content = array(
 								$.get(
 								'/ajax/favorite_thread/'+ $(this).attr('rel') +'/'+ session_id,
 								function(data) {
-									if (data == 1)
-									{
-										button.addClass('added');
-									}
+									if (data == 1) button.addClass('added');
 								}
 								);
 							}
@@ -250,10 +249,7 @@ $content = array(
 								$.get(
 								'/ajax/unfavorite_thread/'+ $(this).attr('rel') +'/'+ session_id,
 								function(data) {
-									if (data == 1)
-									{
-										button.removeClass('added');
-									}
+									if (data == 1) button.removeClass('added');
 								}
 								);
 							}

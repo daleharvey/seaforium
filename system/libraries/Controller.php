@@ -79,6 +79,7 @@ class Controller extends CI_Base {
 		$this->load->_ci_autoloader();
 		
 		// redirect to login if they arent currently logged in
+		/*
 		if (!$this->sauth->is_logged_in())
 		{
 			if ((!isset($this->uri->segments[1]) || $this->uri->segments[1] != 'auth'))
@@ -87,6 +88,7 @@ class Controller extends CI_Base {
 				redirect('/auth/login');
 			}
 		}
+		*/
 	}
 
 }
