@@ -1060,3 +1060,12 @@ margin-right: 8px;
 .lc-node.login button {
 font-size: 9px;
 }
+
+/*************************************************************
+   USER PREFERENCES
+*************************************************************/
+
+hr.divider { 
+	border: none;
+	border-bottom: dotted 1px #000;	
+}

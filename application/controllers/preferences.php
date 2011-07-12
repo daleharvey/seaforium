@@ -21,14 +21,19 @@ class Preferences extends Controller {
 	 */
 	function index()
 	{
+		$username = $this->session->userdata('username');
+		
 		if (!$this->sauth->is_logged_in())
 		{
 			redirect('');
 		}
 		else
 		{
+			
+			
 			$this->form_validation->set_rules('threads_shown', 'Threads Shown', 'trim|is_natural|required|xss_clean');
 			$this->form_validation->set_rules('comments_shown', 'Comments Shown', 'trim|is_natural|required|xss_clean');
+			
 			
 			$data['errors'] = array();
 			
@@ -45,7 +50,10 @@ class Preferences extends Controller {
 				$this->session->set_userdata($data);
 			}
 			
-			$data = array();
+			$query = $this->user_dal->get_profile_information(str_replace('-', ' ', $username));
+			$data['user_preferences'] = $query->row();
+			
+			//$data = array();
 			
 			$this->load->view('shared/header');
 			$this->load->view('preferences', $data);
