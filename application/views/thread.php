@@ -204,7 +204,7 @@ $content = array(
 							<a href="javascript:insertAtCaret('thread-content-input', '[fbm]');"><img src="/img/pinkies/21.gif" /></a>
 						</div>
 						
-						<form method="post" action="<?php echo uri_string(); ?>">
+						<form method="post" action="<?php echo uri_string(); ?>" id="comment-form">
 							
 							<div class="input textarea">
 								<?php echo form_textarea($content); ?> 
