@@ -59,7 +59,7 @@ class Thread extends Controller {
 			// we're going to go ahead and do the form processing for the reply now
 			// if they're submitting data, we're going to refresh the page anyways
 			// so theres no point in running the query below the form validation
-			$this->form_validation->set_rules('thread-content-input', 'Content', 'required');
+			$this->form_validation->set_rules('content', 'Content', 'required');
 			
 			// if a comment was submitted
 			if ($this->form_validation->run())

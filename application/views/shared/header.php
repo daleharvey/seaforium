@@ -61,13 +61,14 @@ $logged_in = $this->sauth->is_logged_in();
 				<?php } ?> 
 				
 				<?php if ($logged_in) {
-				
 					$unread_messages = $this->message_dal->unread_messages($user_id);
+					
 				?>
 				
 				<div class="lc-node" id="messaging">
 					<ul>
-                 <li><a href="/messages/inbox"><?php if ($unread_messages === 0) { echo "No New Messages"; } else { echo $unread_messages .' Unread Message' .($unread_messages === 1 ? '' : 's'); } ?></a></li>
+						<li><a href="/messages/inbox"><?php if ($unread_messages === 0) { echo "No New Messages"; } else { echo $unread_messages .' Unread Message' .($unread_messages === 1 ? '' : 's'); } ?></a></li>
+						<li><a href="/invite/inbox"><?php if ($unread_messages === 0) { echo "No New Messages"; } else { echo $unread_messages .' Unread Message' .($unread_messages === 1 ? '' : 's'); } ?></a></li>
 					</ul>
 				</div>
 				

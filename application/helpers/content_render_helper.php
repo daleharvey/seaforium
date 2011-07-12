@@ -37,12 +37,17 @@ function _ready_for_save($content)
 	
 	// its a bazillion times faster to run html cleanup through a compiled extension
 	// this'll take care of unclosed tags and all that jazz
-	$tidy = new tidy();
-	$tidy->parseString('<div>'. $content .'</div>', array('show-body-only' => true, 'input-xml' => true), 'utf8');
-	$tidy->cleanRepair();
+	
+	if (class_exists('tidy')) { // honestly, wtf is a mamp
+		$tidy = new tidy();
+		$tidy->parseString('<div>'. $content .'</div>', array('show-body-only' => true, 'input-xml' => true), 'utf8');
+		$tidy->cleanRepair();
+		
+		$content = $tidy->value;
+	}
 	
 	// pull out all the tags we dont want
-	$content = strip_tags($tidy->value, '<img><a><em><i><b><strong><strike><del><address><code><pre><quote>');
+	$content = strip_tags($content, '<img><a><em><i><b><strong><strike><del><address><code><pre><quote>');
 	
 	return $content;
 }
