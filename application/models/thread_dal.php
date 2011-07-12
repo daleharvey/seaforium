@@ -15,14 +15,6 @@ class Thread_dal extends Model
 	 */
 	function new_thread($data)
 	{
-		$this->db->insert('threads', (object)array(
-			'user_id' => $data['user_id'],
-			'subject' => $data['subject'],
-			'category' => '"'. $data['category'] .'"',
-			'created' => 'NOW()'
-		));
-		
-		/*
 		$sql = "
 			INSERT INTO threads
 				(user_id, subject, category, created)
@@ -34,7 +26,6 @@ class Thread_dal extends Model
 			$data['subject'],
 			$data['category']
 		));
-		*/
 		
 		return $this->db->insert_id();
 	}
