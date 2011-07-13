@@ -50,16 +50,18 @@ $logged_in = $this->sauth->is_logged_in();
 				<div class="lc-node login" id="login-box">
 					<h5>Not a member? Wanna join up? Tell us why!</h5>
 					<p><img src="/img/pinkies/07.gif" width="14" height="14" align="absmiddle"/> <a href="/invite" class="white">Click for more info, n00b!</a></p>
-					<form action="/auth/login" method="post">
+					<p class="error"></p>
+					
+					<form action="/auth/login" method="post" id="login-form">
 						<div>
-							<label>U:</label><input type="text" name="username" tabindex="1" /><button tabindex="3"><?php echo $button_texts[array_rand($button_texts)]; ?></button>
+							<label>U:</label><input type="text" name="username" tabindex="1" /><button tabindex="3" type="submit"><?php echo $button_texts[array_rand($button_texts)]; ?></button>
 						</div>
 						<div>
 							<label>P:</label><input type="password" name="password" tabindex="2" /><a href="#" id="forgot-password">Forgot it?</a>
 						</div>
 					</form>
 				</div>
-				<script type="text/javascript" src="/js/forgot.js"></script>
+				<script type="text/javascript" src="/js/login.js"></script>
 				
 				<?php } else { ?> 
 				<div class="lc-node welcome">

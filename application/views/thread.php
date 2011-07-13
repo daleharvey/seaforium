@@ -1,8 +1,17 @@
-<?php $favorite = in_array($thread_id, $favorites) ? ' added' : ''; ?>	
+<?php 
+
+$favorite = in_array($thread_id, $favorites) ? ' added' : ''; 
+
+$session_id = $this->session->userdata('session_id');
+
+$logged_in = $this->sauth->is_logged_in();
+$use_notifier = $logged_in && (int)$this->session->userdata('new_post_notification') === 1
+
+?> 
 				<div id="thread">
 					<div id="main-title">
 						<h3><?php echo $info['title'] ?></h3>
-						<?php if ($this->sauth->is_logged_in()) { ?><a class="favourite<?php echo $favorite; ?>" rel="<?php echo $thread_id; ?>"></a><?php } ?>
+						<?php if ($logged_in) { ?><a class="favourite<?php echo $favorite; ?>" rel="<?php echo $thread_id; ?>"></a><?php } ?>
 					</div>
 					
 					<div class="pagination top">
@@ -61,7 +70,7 @@ foreach($comment_result->result() as $row) {
 						<div id="comment-container-<?php echo $row->comment_id; ?>" class="comment-container">
 							<div class="cmd-bar">
 								<span><a class="view-source" onclick="thread.view_source(<?php echo $row->comment_id; ?>); return false;"><?php echo $edit_source; ?></a></span>
-								<?php if ($this->sauth->is_logged_in()) { ?><a class="quote" onclick="thread.quote(<?php echo $row->comment_id; ?>);">Quote</a><?php } ?> 
+								<?php if ($logged_in) { ?><a class="quote" onclick="thread.quote(<?php echo $row->comment_id; ?>);">Quote</a><?php } ?> 
 							</div>
 							<div class="user-block">
 								<div class="username<?php echo $acq; ?>"><?php echo anchor('/user/'. $url_safe_username, $row->username); ?></div>
@@ -69,7 +78,7 @@ foreach($comment_result->result() as $row) {
 								
 								<div class="user-information" style="background: url(/img/noavatar.gif);">
 									<ul>
-									<?php if ($this->sauth->is_logged_in()) { ?> 
+									<?php if ($logged_in) { ?> 
 										<li><a href="/buddies/<?php echo $url_safe_username; ?>"><?php echo ($acq)? "Your $acq!" : 'BUDDY? ENEMY?'; ?></a></li>
 										<li><a href="/messages/send/<?php echo $url_safe_username; ?>">SEND A MESSAGE</a></li>
 									<?php } else { ?> 
@@ -128,7 +137,7 @@ echo $this->session->userdata('view_html') === '1' || $this->session->userdata('
 					</div>
 
 					<div class="dotted-bar replypad"></div>
-<?php if (!$this->sauth->is_logged_in() || $info['closed'] === '1' || $info['acq_type'] === 2) { 
+<?php if (!$logged_in || $info['closed'] === '1' || $info['acq_type'] === 2) { 
 	
 	if ($info['closed'] === '1')
 	{
@@ -216,29 +225,58 @@ $content = array(
 						</form>
 						
 					</div>
-
+<?php if ($use_notifier) { ?>
 					<div id="notifications">
 						<a id="closenotify"></a>
-					</div>                                                                                    
-
-<?php } ?> 
-					<script type="text/javascript" src="/js/thread.js"></script>
-					<script type="text/javascript">
-						thread_id = <?php echo $thread_id; ?> 
-						total_comments = <?php echo $total_comments; ?> 
-						notification = setInterval("thread_notifier()",10000);
-					</script>
+					</div>
 					
 					<script type="text/javascript">
-						session_id = '<?php echo $this->session->userdata('session_id'); ?>';
+						var originalTitle = document.title,
+							currentNotification;
+						
+						function thread_notifier()
+						{
+							$.ajax({
+								url: '/ajax/thread_notifier/<?php echo $thread_id; ?>/<?php echo $total_comments; ?>',
+								success: function(data) {
+									if (data) {
+										var text = $(data).text();
+										
+										document.title = text.replace(" added", "") + " | " + originalTitle;
+										
+										if (text !== currentNotification) {
+											$("#notifier").remove();
+											currentNotification = text;                   
+												$('#notifications').append(data).show();
+										}
+									}
+								}
+							});
+						}
 
+						$("#closenotify").live("click", function() {
+							$('#notifications').remove();
+							clearTimeout(notification);
+							document.title = originalTitle;
+						});
+
+						var notification = setInterval("thread_notifier()",10000);
+					</script>
+<?php } ?>
+
+<?php } ?> 
+
+					<script type="text/javascript" src="/js/thread.js"></script>
+
+<?php if ($logged_in) { ?>					
+					<script type="text/javascript">
 						$('.favourite').bind('click', function(){
 							button = $(this);
 
 							if (!$(this).hasClass('added'))
 							{
 								$.get(
-								'/ajax/favorite_thread/'+ $(this).attr('rel') +'/'+ session_id,
+								'/ajax/favorite_thread/'+ $(this).attr('rel') +'/<?php echo $session_id; ?>',
 								function(data) {
 									if (data == 1) button.addClass('added');
 								}
@@ -247,7 +285,7 @@ $content = array(
 							else
 							{
 								$.get(
-								'/ajax/unfavorite_thread/'+ $(this).attr('rel') +'/'+ session_id,
+								'/ajax/unfavorite_thread/'+ $(this).attr('rel') +'/<?php echo $session_id; ?>',
 								function(data) {
 									if (data == 1) button.removeClass('added');
 								}
@@ -257,5 +295,5 @@ $content = array(
 							return;
 						});
 					</script>
-					
+<?php } ?> 
 				</div>

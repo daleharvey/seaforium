@@ -216,26 +216,41 @@
 
 ?>
 
-
-
-				<div id="main-title">Your Preferences</div>
+				<div id="main-title"><h3>Pimpin' ain't easy... but editing your profile is!</h3></div>
+				
+				<p><strong>This is the page where you can edit your profile and change your YH settings. Your profile lets people learn a little about you. Tweak your YH settings to browse yay the way you want to.</strong></p>
+				
+				<div class="dotted-bar"></div>
 				
 				<div id="preferences">
 				
-					
 					<?php echo form_open('/preferences'); ?>
-					
+						
+						<h4 class="biglabel">Account Stuff</h4>
+						
 						<div class="input text">
 							<?php echo form_label('Email Address', 'email'); ?>
 							<?php echo form_input('email', $user_preferences->email); ?>
 						</div>
+						
 						<div class="input text">
-							<?php echo form_label('Show Random Titles', 'random_titles'); ?>
-							<?php echo form_checkbox('random_titles', "1", $user_preferences->random_titles) ?>
+							<?php echo form_label('Change Password', 'password'); ?>
+							<?php echo form_input('password'); ?>
 						</div>
+						
 						<div class="input text">
-							<?php echo form_label('New Post Notification', 'new_post_notification'); ?>
-							<?php echo form_checkbox('new_post_notification', "1", $user_preferences->new_post_notification); ?>
+							<?php echo form_label('Verify Password', 'password2'); ?>
+							<?php echo form_input('password2'); ?>
+						</div>
+						
+						<br />
+						<div class="blueline"></div>
+						
+						<h4 class="biglabel">Personal Stuff</h4>
+						
+						<div class="input text">
+							<?php echo form_label('Tell us about yoruself', 'about_blurb'); ?>
+							<?php echo form_textarea('about_blurb', $user_preferences->about_blurb); ?>
 						</div>
 						<div class="input text">
 							<?php echo form_label('Website 1', 'website_1'); ?>
@@ -261,14 +276,12 @@
 							<?php echo form_label('RSS Feed 3', 'rss_feed_3'); ?>
 							<?php echo form_input('rss_feed_3', $user_preferences->rss_feed_3); ?>
 						</div>
-						<div class="input text">
-							<?php echo form_label('Custom CSS', 'custom_css'); ?>
-							<?php echo form_input('custom_css', $user_preferences->custom_css); ?>
-						</div>
-						<div class="input text">
-							<?php echo form_label('Tell us about yoruself', 'about_blurb'); ?>
-							<?php echo form_textarea('about_blurb', $user_preferences->about_blurb); ?>
-						</div>
+						
+						<br />
+						<div class="blueline"></div>
+						
+						<h4 class="biglabel">Other Websites</h4>
+						
 						<div class="input text">
 							<?php echo form_label('Flickr Username', 'flickr_username'); ?>
 							<?php echo form_input('flickr_username', $user_preferences->flickr_username); ?>
@@ -297,6 +310,26 @@
 							<?php echo form_label('MSN username', 'msn'); ?>
 							<?php echo form_input('msn', $user_preferences->msn); ?>
 						</div>
+						
+						<br />
+						<div class="blueline"></div>
+						
+						<h4 class="biglabel">YH Settings</h4>
+						
+						<div class="input text">
+							<?php echo form_label('Show Random Titles', 'random_titles'); ?>
+							<?php echo form_checkbox('random_titles', "1", $user_preferences->random_titles) ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('New Post Notification', 'new_post_notification'); ?>
+							<?php echo form_checkbox('new_post_notification', "1", $user_preferences->new_post_notification); ?>
+						</div>
+
+						<div class="input text">
+							<?php echo form_label('Custom CSS', 'custom_css'); ?>
+							<?php echo form_input('custom_css', $user_preferences->custom_css); ?>
+						</div>
+
 						<div class="input text">
 							<?php echo form_label('Threads Shown', 'threads_shown'); ?>
 							<?php echo form_dropdown('threads_shown', $elements_shown_options, $this->session->userdata('threads_shown').''); ?>

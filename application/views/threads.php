@@ -1,9 +1,10 @@
 <?php 
 
 $logged_in = $this->sauth->is_logged_in();
+$use_random_title = $this->session->userdata('random_titles') !== '0';
 
 ?>
-				<div id="main-title"<?php echo $logged_in ? ' class="changeling"':''; ?> title="<?php echo $title->username ?>"><h3><?php echo $title->title_text ?></h3></div>
+				<div id="main-title"<?php echo $use_random_title ? ' class="changeling" title="'. $title->username .'"':''; ?>"><h3><?php echo ($use_random_title) ? $title->title_text : 'Threads'; ?></h3></div>
 				
 				<div id="thread-navigation" class="pagination top">
 					<?php if ($logged_in) { ?>

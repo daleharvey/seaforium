@@ -298,7 +298,7 @@ class User_dal extends Model
 	 * @param	string
 	 * @return	object
 	 */
-	function get_profile_information($username)
+	function get_profile_information($user_id)
 	{
 		$sql = "
 			SELECT 
@@ -333,9 +333,9 @@ class User_dal extends Model
 			LEFT JOIN user_profiles ON user_profiles.user_id = users.id
 			LEFT JOIN comments ON comments.user_id = users.id
 			LEFT JOIN threads ON threads.user_id = users.id
-			WHERE LOWER(username) = ?";
+			WHERE users.id = ?";
 		
-		return $this->db->query($sql, $username);
+		return $this->db->query($sql, $user_id);
 		
 	}
 	/**

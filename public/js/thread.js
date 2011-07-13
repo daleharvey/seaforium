@@ -25,34 +25,6 @@ function format_quotes()
 }
 format_quotes();
 
-var originalTitle = document.title;
-var currentNotification;
-function thread_notifier()
-{
-	$.ajax({
-		url: '/ajax/thread_notifier/'+thread_id+'/'+total_comments,
-		success: function(data) {
-			if (data) {
-				var text = $(data).text();
-				
-				document.title = text.replace(" added", "") + " | " + originalTitle;
-				
-				if (text !== currentNotification) {
-					$("#notifier").remove();
-					currentNotification = text;                   
-						$('#notifications').append(data).show();
-				}
-			}
-		}
-	});
-}
-
-$("#closenotify").bind("click", function() {
-    $('#notifications').remove();
-	clearTimeout(notification);
-	document.title = originalTitle;
-});
-
 $("#comment-form").live("submit", function() {
 	if ($("#thread-content-input").val().length == 0)
 		return false;
