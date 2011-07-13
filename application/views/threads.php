@@ -77,16 +77,17 @@ foreach($thread_result->result() as $row) {
 					<div class="four">
 						<span><?php echo $row->response_count ?></span>
 					</div> 
-					<div class="five"><a class="favourite<?php echo $favorite; ?>" rel="<?php echo $row->thread_id; ?>"></a></div>
+					<?php if ($logged_in) { ?><div class="five"><a class="favourite<?php echo $favorite; ?>" rel="<?php echo $row->thread_id; ?>"></a></div><?php } ?>
 				</div>
 				
 				<div class="blueline">&nbsp;</div>
 <?php } ?> 
 				<div class="pagination bottom">
-					<a href="/newthread" id="post-thread">Post Thread</a>
+					<?php if ($logged_in) { ?><a href="/newthread" id="post-thread">Post Thread</a><?php } ?> 
 					<?php echo $pagination; ?> 
 				</div>
 
+<?php if ($logged_in) { ?>
 				<script type="text/html" id="title-input">
 					<input type="text" id="title-input" /> 
 					<input type="submit" value="Save" id="save-title" />
@@ -128,3 +129,5 @@ foreach($thread_result->result() as $row) {
 						return;
 					});
 				</script>
+
+<?php } ?>

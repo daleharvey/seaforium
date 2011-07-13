@@ -71,7 +71,7 @@
 						<div class="post-block">POST</div>
 						<h3 class="recent-thread-title"><a href='/thread/<?php echo $post['thread_id'] .'/'. url_title($post['subject']); ?>'><?php echo $post['subject'] ?></a></h3>
 						<div class="recent-post-content">
-							<?php echo $post['content']; ?>
+							<?php echo _ready_for_display($post['content']); ?>
 						</div>
 						
 						<hr/>

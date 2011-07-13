@@ -1,12 +1,12 @@
-<img src="http://yayhooray.net/img/logo.gif" />
+<p><img src="http://yayhooray.net/img/logo.gif" /></p>
 
-Hey dude, your new password is <?php echo $password ?>.
+<p>Hey dude, your new password is <?php echo $password ?>.</p>
 
-Can you write it down this time so we don't have to go through all of this again?
-Cool!
+<p>Can you write it down this time so we don't have to go through all of this again?<br />
+Cool!</p>
 
-That's it for now!
+<p>That's it for now!</p>
 
-Love,
-The guys at YayHooray.net
-http://www.yayhooray.net
+<p>Love,<br />
+The guys at YayHooray.net<br />
+http://www.yayhooray.net</p>

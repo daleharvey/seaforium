@@ -58,6 +58,7 @@ $("#comment-form").live("submit", function() {
 		return false;
 	
 	$("#submit-button").attr('disabled', 'disabled')
+	this.submit();
 });
 
 thread = {

@@ -6,7 +6,7 @@ class User extends Controller {
 	{
 		parent::Controller();
 
-		$this->load->helper(array('url', 'number'));
+		$this->load->helper(array('url', 'number', 'content_render'));
 		$this->load->model('user_dal');
 		$this->load->library('pagination');
 	}

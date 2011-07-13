@@ -347,7 +347,7 @@ class User_dal extends Model
 		$query = $this->db->query($sql, array(
 			$user_id,
 			$start, 
-			$limit
+			10
 		));
 		
 		if ($query->num_rows() > 0)
@@ -355,6 +355,12 @@ class User_dal extends Model
 		
 		return NULL;
 	}
+	
+	function get_invites($user_id)
+	{
+		return (int)$this->db->query("SELECT invites FROM users WHERE id = ?", (int)$user_id)->row()->invites;
+	}
+	
 	/**
 	 * Pretty self-explanatory
 	 *

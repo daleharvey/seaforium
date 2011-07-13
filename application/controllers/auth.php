@@ -118,6 +118,7 @@ class Auth extends Controller
 	 *
 	 * @return void
 	 */
+	/*
 	function invite()
 	{
 		if ($this->sauth->is_logged_in())
@@ -164,6 +165,7 @@ EOT;
 			$this->load->view('shared/secluded_footer');
 		}
 	}
+	*/
 }
 
 /* End of file auth.php */

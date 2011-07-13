@@ -48,8 +48,8 @@ $content = array(
 					
 					<div class="dotted-bar"></div>
 					
-					<?php echo form_open('/newthread'); ?>
-						
+					<form method="post" action="/newthread">
+					
 						<div class="inp">
 							<?php echo form_label('Step 1: Pick a category'); ?>
 							
@@ -78,6 +78,6 @@ $content = array(
 							<?php echo form_textarea($content); ?>
 						</div>
 						<?php echo form_submit('submit', 'Post Thread'); ?>
-					<?php echo form_close(); ?>
+					</form>
 					
 				</div>

@@ -33,10 +33,31 @@ $logged_in = $this->sauth->is_logged_in();
 
 				<?php 
 					if (!$logged_in) {
+						
+						$button_texts = array(
+							"Get In!",
+							"Let's Go!",
+							"Do it!",
+							"Booya!",
+							"Push Me",
+							"Zippity!",
+							"Engage!",
+							"Go For It!"
+						);
+						
 					?> 
 				
 				<div class="lc-node login" id="login-box">
-					<?php $this->load->view('forgot_password/default'); ?>
+					<h5>Not a member? Wanna join up? Tell us why!</h5>
+					<p><img src="/img/pinkies/07.gif" width="14" height="14" align="absmiddle"/> <a href="/invite" class="white">Click for more info, n00b!</a></p>
+					<form action="/auth/login" method="post">
+						<div>
+							<label>U:</label><input type="text" name="username" tabindex="1" /><button tabindex="3"><?php echo $button_texts[array_rand($button_texts)]; ?></button>
+						</div>
+						<div>
+							<label>P:</label><input type="password" name="password" tabindex="2" /><a href="#" id="forgot-password">Forgot it?</a>
+						</div>
+					</form>
 				</div>
 				<script type="text/javascript" src="/js/forgot.js"></script>
 				
@@ -62,13 +83,13 @@ $logged_in = $this->sauth->is_logged_in();
 				
 				<?php if ($logged_in) {
 					$unread_messages = $this->message_dal->unread_messages($user_id);
-					
+					$available_invites = $this->user_dal->get_invites($user_id);
 				?>
 				
 				<div class="lc-node" id="messaging">
 					<ul>
-						<li><a href="/messages/inbox"><?php if ($unread_messages === 0) { echo "No New Messages"; } else { echo $unread_messages .' Unread Message' .($unread_messages === 1 ? '' : 's'); } ?></a></li>
-						<li><a href="/invite/inbox"><?php if ($unread_messages === 0) { echo "No New Messages"; } else { echo $unread_messages .' Unread Message' .($unread_messages === 1 ? '' : 's'); } ?></a></li>
+						<li class="messages"><a href="/messages/inbox"><?php if ($unread_messages === 0) { echo "No New Messages"; } else { echo $unread_messages .' Unread Message' .($unread_messages === 1 ? '' : 's'); } ?></a></li>
+						<li class="invites"><a href="/invite"><?php if ($available_invites === 0) { echo "No invites"; } else { echo $available_invites .' Remaining Invite' .($available_invites === 1 ? '' : 's'); } ?></a></li>
 					</ul>
 				</div>
 				

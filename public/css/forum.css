@@ -53,6 +53,8 @@ code {
 	margin: 0 0 14px 0;
 }
 
+.white, a.white {color: #FFFFFF !important;}
+
 /********************************************************
    MAIN LAYOUT
  ********************************************************/
@@ -122,10 +124,20 @@ margin-right: 5px;
 color: #FAA4A4;
 }
 
-.lc-node#messaging a {
+.lc-node#messaging .messages {
 font-size: 10px;
 background: url("/img/iconmessage.gif") no-repeat scroll 0 0 transparent;
 padding-left: 20px;
+}
+
+.lc-node#messaging .invites {
+font-size: 10px;
+background: url("/img/iconinvite.gif") no-repeat scroll 0 0 transparent;
+padding-left: 20px;
+}
+
+.lc-node#messaging a:hover {
+background: #444444;
 }
 
 #threads h3 { 
