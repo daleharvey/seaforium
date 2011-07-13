@@ -33,10 +33,33 @@ class Ajax_user extends Controller
 				// if user exists
 				if ($user)
 				{
+					$passwords = array(
+						'airplane',
+						'apple',
+						'booger',
+						'bug',
+						'burrito',
+						'catapult',
+						'dude',
+						'godzilla',
+						'hamburger',
+						'jabba',
+						'jacket',
+						'peach',
+						'red',
+						'silly',
+						'stupid',
+						'sunshine',
+						'taco',
+						'threadless',
+						'wookie',
+						'yes'
+					);
+					
 					// make some data to throw at auth
 					$data = array(
 						'id' => $user->id,
-						'password' => md5(rand().microtime())
+						'password' => $passwords[mt_rand(0, 19)] . mt_rand(10, 99) . $passwords[mt_rand(0, 19)]
 					);
 					
 					// reset it!
