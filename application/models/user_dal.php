@@ -306,10 +306,31 @@ class User_dal extends Model
 				users.username, 
 				users.created, 
 				users.last_login,
+				users.email,
+				users.new_post_notification,
+				users.random_titles,
+				users.timezone,
+				user_profiles.country,
+				user_profiles.website_1,
+				user_profiles.website_2,
+				user_profiles.website_3,
+				user_profiles.aim,
+				user_profiles.msn,
+				user_profiles.gchat,
+				user_profiles.facebook,
+				user_profiles.lastfm,
+				user_profiles.about_blurb,
+				user_profiles.flickr_username,
+				user_profiles.delicious_username,
+				user_profiles.rss_feed_1,
+				user_profiles.rss_feed_2,
+				user_profiles.rss_feed_3,
+				user_profiles.custom_css,
 				users.comments_shown,
 				count(DISTINCT comments.comment_id) AS comment_count,
 				count(DISTINCT threads.thread_id) AS thread_count
 			FROM users
+			LEFT JOIN user_profiles ON user_profiles.user_id = users.id
 			LEFT JOIN comments ON comments.user_id = users.id
 			LEFT JOIN threads ON threads.user_id = users.id
 			WHERE LOWER(username) = ?";
