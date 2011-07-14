@@ -22,7 +22,7 @@ class Preferences extends Controller {
 	function index()
 	{
 		$user_id = $this->session->userdata('user_id');
-		
+				
 		$this->form_validation->set_rules('threads_shown', 'Threads Shown', 'trim|required|is_natural|xss_clean');
 		$this->form_validation->set_rules('comments_shown', 'Comments Shown', 'trim|required|is_natural|xss_clean');
 		$this->form_validation->set_rules('email', 'Email Address', 'trim|xss_clean|valid_email');
@@ -79,6 +79,25 @@ class Preferences extends Controller {
 				'name' => $this->form_validation->set_value('real_name'),
 				'location' => $this->form_validation->set_value('location'),
 			);
+			
+			if (isset($_FILES['emot_upload']) && strlen($_FILES['emot_upload']['name']) > 0) {
+				$this->load->library('upload', array(
+					'upload_path' => './img/emoticons/',
+					'allowed_types' => 'gif',
+					'max_size' => 3,
+					'max_width' => 16,
+					'max_height' => 16,
+					'overwrite' => TRUE,
+					'encrypt_name' => TRUE
+					));
+				if ($this->upload->do_upload('emot_upload'))
+				{
+					$uploaded = $this->upload->data();
+					
+					if (rename($uploaded['full_path'], $uploaded['file_path'] . $user_id . $uploaded['file_ext']))
+						$data['emoticon'] = 1;
+				}
+			}
 			
 			$password = $this->form_validation->set_value('password');
 			$password2 = $this->form_validation->set_value('password2');

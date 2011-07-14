@@ -220,7 +220,7 @@
 				
 				<div id="preferences">
 				
-					<?php echo form_open('/preferences'); ?>
+					<?php echo form_open_multipart('/preferences');?>
 						
 						<h4 class="biglabel">Account Stuff</h4>
 						
@@ -342,6 +342,11 @@
 						<div class="input text">
 							<?php echo form_label('Comments Shown', 'comments_shown'); ?>
 							<?php echo form_dropdown('comments_shown', $elements_shown_options, $this->session->userdata('comments_shown').''); ?>
+						</div>
+						
+						<div class="input text">
+							<label for="emot_upload">Avatar</label>
+							<input type="file" id="emot_upload" name="emot_upload" size="20" />
 						</div>
 						
 						

@@ -175,6 +175,8 @@ class Thread_dal extends Model
 				comments.deleted,
 				comments.user_id,
 				users.username,
+				users.id,
+				users.emoticon,
 				acquaintances.type AS acq_type
 			FROM comments
 			LEFT JOIN users
