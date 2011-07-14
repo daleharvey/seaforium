@@ -76,7 +76,7 @@ foreach($comment_result->result() as $row) {
 								<div class="username<?php echo $acq; ?>"><?php echo anchor('/user/'. $url_safe_username, $row->username); ?></div>
 								<div class="time"><?php echo timespan(strtotime($row->created), time()) ?></div>
 								
-								<div class="user-information" style="background: url(/img/emoticons/<?php echo $row->emoticon === 1 ? $row->id : '0'; ?>.gif);">
+								<div class="user-information" style="background: url(/img/emoticons/<?php echo (int)$row->emoticon === 1 ? $row->id : '0'; ?>.gif);">
 									<ul>
 									<?php if ($logged_in) { ?> 
 										<li><a href="/buddies/<?php echo $url_safe_username; ?>"><?php echo ($acq)? "Your $acq!" : 'BUDDY? ENEMY?'; ?></a></li>

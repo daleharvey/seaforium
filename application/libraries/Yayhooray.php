@@ -4,7 +4,7 @@ class Yayhooray
 {
 	public $logged_in = FALSE;
 	
-	private $cookie_jar = 'C:/Program Files (x86)/PHP/cookiejar.txt';
+	private $cookie_jar = '/var/www/yayhooray.net/cookiejar.txt';
 	private $user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1';
 	private $page_data = array();
 	public $meta = array();
@@ -13,14 +13,25 @@ class Yayhooray
 	
 	public function login($username, $password)
 	{
+		$fields = array(
+            'username' => urlencode($username),
+            'password' => urlencode($password),
+            'action' => 'login'
+        );
+		
+		$fields_string = '';
+		
+		foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+		rtrim($fields_string, '&');
+		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, "http://www.yayhooray.com/");
 		curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
 		curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookie_jar);
 		curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie_jar);
-		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, 'username='. $username .'&password='. $password .'&action=login');
+		curl_setopt($ch, CURLOPT_POST, count($fields));
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
 		
 		curl_exec($ch);
 		
