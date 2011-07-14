@@ -20,7 +20,6 @@ class User extends Controller {
 	{
 		$query = $this->user_dal->get_profile_information(str_replace('-', ' ', $username));
 		
-		
 		if ($query->result_id->num_rows === 0)
 			redirect('/');
 		
@@ -38,7 +37,7 @@ class User extends Controller {
 		
 		$start = 0;
 			
-		$data['recent_posts'] = $this->user_dal->get_user_recent_posts($data['user_data']->id, $start, (int)$data['user_data']->comments_shown);
+		$data['recent_posts'] = $this->user_dal->get_user_recent_posts((int)$data['user_data']->id);
 		
 		$this->pagination->initialize(array(
 			'base_url' => '/user/' . $data['user_data']->username . '/p/',

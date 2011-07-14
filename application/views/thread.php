@@ -171,6 +171,28 @@ $content = array(
 
 ?>
 					
+					<div id="comment-preview" class="test-comment" style="display: none;">
+						<div class="comment-container">
+							<div class="user-block">
+								<div class="username">You!</div>
+								<div class="time">Seconds from now</div>
+								
+								<div class="user-information" style="background: url(/img/noavatar.gif);">
+									<ul>
+										<li>&nbsp;</li>
+										<li>&nbsp;</li>
+									</ul>
+								</div>
+							</div>
+							<div class="content-block">
+								<div class="content">
+									
+								</div>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+
+					</div>
 					
 					<div id="reply-lc">
 						
@@ -221,7 +243,7 @@ $content = array(
 							
 							<p>I, <?php echo $this->session->userdata('username'); ?>, do solemnly swear that in posting this comment I promise to be nice.</p>
 							
-							<button type="submit" id="submit-button">Agree &amp; Post</button>
+							<button type="submit" id="submit-button">Agree &amp; Post</button> <button type="button" id="preview-button">Preview</button>
 						</form>
 						
 					</div>

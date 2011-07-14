@@ -24,9 +24,7 @@
 							&rarr; <a href='/messages/send/<?php echo $this->uri->segment(2) ?>'>Send a message</a><br/>
 							&rarr; <a href='#'>Change buddy status</a><br/>
 							<?php } ?>
-							&rarr; <a href='/f/started'>View threads started</a><br/>
-							&rarr; x people invited by <?php echo $user_data->username ?><br/>
-						
+							&rarr; <a href='/f/started'>View threads started</a>
 						</div>
 						<div id="stats" class="standard_profile_info_box">
 							<h3>Stats</h3>
@@ -37,27 +35,20 @@
 						</div>
 						<div id="information-bio" class="standard_profile_info_box">
 						<h3>Info</h3>
-							<span class='small_profile_caps'>INVITED BY: </span><br/>
-							<span class='small_profile_caps'>NAME: </span><br/>
-							<span class='small_profile_caps'>LOC: </span><br/>
-							<span class='small_profile_caps'>URL 1: </span><a href="#">www.website.com</a><br/>
-							<span class='small_profile_caps'>URL 1: </span><a href="#">www.website.com</a><br/>
-							<span class='small_profile_caps'>URL 1: </span><a href="#">www.website.com</a><br/>
+							<?php if ($user_data->id < 100) { ?><span class='small_profile_caps'>Original Member ®</span><br/><?php } else { ?>
+							<span class='small_profile_caps'>INVITED BY: </span><br/><?php } ?>
+							<?php if (strlen($user_data->name) > 0) { ?><span class='small_profile_caps'>NAME: <?php echo $user_data->name; ?></span><br/><?php } ?>
+							<?php if (strlen($user_data->location) > 0) { ?><span class='small_profile_caps'>LOC: <?php echo $user_data->location; ?></span><br/><?php } ?>
+							<?php if (strlen($user_data->website_1) > 0) { ?><span class='small_profile_caps'>URL 1: </span><a href="<?php echo $user_data->website_1; ?>"><?php echo $user_data->website_1; ?></a><br/><?php } ?>
+							<?php if (strlen($user_data->website_2) > 0) { ?><span class='small_profile_caps'>URL 1: </span><a href="<?php echo $user_data->website_2; ?>"><?php echo $user_data->website_2; ?></a><br/><?php } ?>
+							<?php if (strlen($user_data->website_3) > 0) { ?><span class='small_profile_caps'>URL 1: </span><a href="<?php echo $user_data->website_3; ?>"><?php echo $user_data->website_3; ?></a><br/><?php } ?>
 						</div>
 						<div id="information-desc" class="standard_profile_info_box">
 							<h3>Description</h3>
-							Hey there, this is a description of a bio in something where a user might want to talk about themselves.
+							<?php echo $user_data->about_blurb; ?>
 						</div>
-						
-						<!--
-						<div id="information-widget" class="standard_profile_info_box">
-							<h3>Widgets</h3>
-								Maybe some sort of over arching ability to plugin whatever you want into here.
-						</div>
-						-->
 
 					</div>
-						
 					
 					<div id="latest-posts">
 					<? echo $pagination; ?>

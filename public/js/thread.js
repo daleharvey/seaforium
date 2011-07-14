@@ -2,9 +2,15 @@ function cloneObj(obj) {
     return jQuery.extend(true, {}, obj);
 };
 
-function format_quotes()
+function format_special(element)
 {
-	$('.content').each(function(){
+	pattern = new RegExp('(?:")?http(?:s)?://(?:www.)?youtu(?:be)?.(?:[a-z]){2,3}(?:[a-z/?=]+)([a-zA-Z0-9-_]{11})(?:[a-z0-9?&-_=]+)?');
+	
+	$(element).each(function(){
+		// auto-embed youtube videos
+		$(this).html($(this).html().replace(pattern, function(a, b){return (a.indexOf("\"") != -1) ? a : '<iframe width="425" height="349" src="http://www.youtube.com/embed/'+b+'" frameborder="0" allowfullscreen></iframe><br />';}));
+		
+		// formatting for nickoislazy style quotes
 		children = $(this).children('quote');
 		
 		if (children.length > 0)
@@ -20,10 +26,18 @@ function format_quotes()
 				
 				$(this).remove();
 			});
-		} 
+		}
 	});
 }
-format_quotes();
+format_special('.comment .content');
+
+$('#preview-button').live('click', function(e){
+	e.preventDefault();
+	
+	$("#comment-preview .content").html($("#thread-content-input").val());
+	format_special("#comment-preview .content");
+	$("#comment-preview").show();
+});
 
 $("#comment-form").live("submit", function() {
 	if ($("#thread-content-input").val().length == 0)

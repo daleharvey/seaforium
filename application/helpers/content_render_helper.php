@@ -47,7 +47,7 @@ function _ready_for_save($content)
 	}
 	
 	// pull out all the tags we dont want
-	$content = strip_tags($content, '<img><a><em><i><b><strong><strike><del><address><code><pre><quote>');
+	$content = trim(strip_tags($content, '<img><a><em><i><b><strong><strike><del><address><code><pre><quote>'));
 	
 	return $content;
 }

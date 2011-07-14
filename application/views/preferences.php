@@ -208,11 +208,7 @@
 		"Vietnam",
 		"Yemen",
 		"Zambia",
-		"Zimbabwe"
-
-			);
-
-
+		"Zimbabwe");
 
 ?>
 
@@ -234,13 +230,13 @@
 						</div>
 						
 						<div class="input text">
-							<?php echo form_label('Change Password', 'password'); ?>
-							<?php echo form_input('password'); ?>
+							<label for="password">Change Password</label>
+							<input type="password" name="password" id="password" value="" />
 						</div>
 						
 						<div class="input text">
-							<?php echo form_label('Verify Password', 'password2'); ?>
-							<?php echo form_input('password2'); ?>
+							<label for="password2">Verify Password</label>
+							<input type="password" name="password2" id="password2" value="" />
 						</div>
 						
 						<br />
@@ -248,6 +244,14 @@
 						
 						<h4 class="biglabel">Personal Stuff</h4>
 						
+						<div class="input text">
+							<?php echo form_label('What\'s your name?', 'real_name'); ?>
+							<?php echo form_input('real_name', $user_preferences->name); ?>
+						</div>
+						<div class="input text">
+							<?php echo form_label('Where ya from?', 'location'); ?>
+							<?php echo form_input('location', $user_preferences->location); ?>
+						</div>
 						<div class="input text">
 							<?php echo form_label('Tell us about yoruself', 'about_blurb'); ?>
 							<?php echo form_textarea('about_blurb', $user_preferences->about_blurb); ?>

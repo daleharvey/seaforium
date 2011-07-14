@@ -43,6 +43,8 @@ class Preferences extends Controller {
 		$this->form_validation->set_rules('gchat','Gchat (Jabber)', 'trim|xss_clean|alpha_dash');
 		$this->form_validation->set_rules('lastfm','Last.fm', 'trim|xss_clean|alpha_dash');
 		$this->form_validation->set_rules('msn','MSN username', 'trim|xss_clean|alpha_dash');
+		$this->form_validation->set_rules('real_name','MSN username', 'trim|xss_clean|alpha_dash');
+		$this->form_validation->set_rules('location','MSN username', 'trim|xss_clean|alpha_dash');
 		
 		$this->form_validation->set_rules('password', 'Change Password', 'trim|xss_clean');
 		$this->form_validation->set_rules('password2', 'Verify Password', 'trim|xss_clean');
@@ -74,6 +76,8 @@ class Preferences extends Controller {
 				'gchat' => $this->form_validation->set_value('gchat'),
 				'lastfm' => $this->form_validation->set_value('lastfm'),
 				'msn' => $this->form_validation->set_value('msn'),
+				'name' => $this->form_validation->set_value('real_name'),
+				'location' => $this->form_validation->set_value('location'),
 			);
 			
 			$password = $this->form_validation->set_value('password');

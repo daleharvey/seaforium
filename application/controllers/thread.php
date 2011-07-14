@@ -129,13 +129,6 @@ class Thread extends Controller {
 		$this->load->view('thread', $data);
 		$this->load->view('shared/footer');
 	}
-	
-	function _ready_content($content)
-	{
-		$content = nl2br($content);
-		
-		return $content;
-	}
 }
 
 /* End of file thread.php */

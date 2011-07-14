@@ -300,6 +300,8 @@ class User_dal extends Model
 	 */
 	function get_profile_information($user_id)
 	{
+		$ident = !is_numeric($user_id) ? 'username' : 'id';
+		
 		$sql = "
 			SELECT 
 				users.id, 
@@ -310,6 +312,7 @@ class User_dal extends Model
 				users.new_post_notification,
 				users.random_titles,
 				users.timezone,
+				users.invited_by,
 				user_profiles.country,
 				user_profiles.website_1,
 				user_profiles.website_2,
@@ -326,6 +329,8 @@ class User_dal extends Model
 				user_profiles.rss_feed_2,
 				user_profiles.rss_feed_3,
 				user_profiles.custom_css,
+				user_profiles.name,
+				user_profiles.location,
 				users.comments_shown,
 				count(DISTINCT comments.comment_id) AS comment_count,
 				count(DISTINCT threads.thread_id) AS thread_count
@@ -333,7 +338,7 @@ class User_dal extends Model
 			LEFT JOIN user_profiles ON user_profiles.user_id = users.id
 			LEFT JOIN comments ON comments.user_id = users.id
 			LEFT JOIN threads ON threads.user_id = users.id
-			WHERE users.id = ?";
+			WHERE users.". $ident ." = ?";
 		
 		return $this->db->query($sql, $user_id);
 		
@@ -344,7 +349,7 @@ class User_dal extends Model
 	 * @param	string
 	 * @return	object
 	 */
-	function get_user_recent_posts($user_id, $start=0, $limit)
+	function get_user_recent_posts($user_id)
 	{
 		$sql = "
 			SELECT
@@ -363,13 +368,11 @@ class User_dal extends Model
 			WHERE comments.user_id = ?
 				AND deleted != 0
 			ORDER BY comment_id DESC
-			LIMIT ?, ?";
+			LIMIT 10";
 		
-		$query = $this->db->query($sql, array(
-			$user_id,
-			$start, 
-			10
-		));
+		$query = $this->db->query($sql, $user_id);
+		
+		//var_dump($user_id);
 		
 		if ($query->num_rows() > 0)
 			return $query->result_array();
