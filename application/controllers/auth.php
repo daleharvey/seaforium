@@ -7,7 +7,7 @@ class Auth extends Controller
 		parent::__construct();
 
 		$this->load->helper(array('form', 'url', 'string'));
-		$this->load->library(array('form_validation', 'sauth', 'yayhooray'));
+		$this->load->library(array('form_validation', 'sauth', 'yayhooray', 'email'));
 		$this->load->model('user_dal');
 	}
 
@@ -67,7 +67,7 @@ class Auth extends Controller
 		}
 		else
 		{
-			$this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|min_length[2]|max_length[18]|alpha_dash');
+			//$this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|min_length[2]|max_length[18]|alpha_dash');
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('password2', 'Confirm Password', 'trim|required|xss_clean|matches[password]');
 			$this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|valid_email');
@@ -77,28 +77,37 @@ class Auth extends Controller
 			
 			if ($this->form_validation->run())
 			{
-				if ($this->sauth->create_user(
-						$this->form_validation->set_value('username'),
-						$this->form_validation->set_value('email'),
-						$this->form_validation->set_value('password'),
-						$this->form_validation->set_value('key')))
+				$username = $this->user_dal->get_username_from_authkey($this->form_validation->set_value('key'));
+				
+				if ($username !== 0)
 				{
-					
-					$this->sauth->login($this->form_validation->set_value('username'), $this->form_validation->set_value('password'));
-					
-					redirect('');
+					if ($this->sauth->create_user(
+							$username,
+							$this->form_validation->set_value('email'),
+							$this->form_validation->set_value('password'),
+							$this->form_validation->set_value('key')))
+					{
+						
+						$this->sauth->login($username, $this->form_validation->set_value('password'));
+						
+						redirect('');
+					}
+					else
+					{
+						$data['errors'] = $this->sauth->get_error_message();
+					}
 				}
 				else
 				{
-					$data['errors'] = $this->sauth->get_error_message();
+					$data['errors'] = "No authkey found";
 				}
 			}
 			
 			$data['key'] = $key;
 			
-			$this->load->view('shared/secluded_header');
+			$this->load->view('shared/header');
 			$this->load->view('auth/register', $data);
-			$this->load->view('shared/secluded_footer');
+			$this->load->view('shared/footer');
 		}
 	}
 	

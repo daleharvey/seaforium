@@ -72,7 +72,7 @@ $logged_in = $this->sauth->is_logged_in();
 					</h4>
 
 					<a href="/user/<?php echo $username; ?>">
-						<img src="/img/pinkies/11.gif" class="main_avatar" />
+						<img src="/img/emoticons/<?php echo $this->session->userdata('emoticon') ? $user_id : 0; ?>.gif" class="main_avatar" />
 					</a>
 					
 					<ul>

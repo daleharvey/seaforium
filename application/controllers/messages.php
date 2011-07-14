@@ -114,11 +114,6 @@ class Messages extends Controller {
 				$data['errors'] = validation_errors();
 			}
 		}
-		else
-		{
-			$data['errors'] = '<li>Less than 10 recipients please!</li>';
-		}
-		
 		
 		$this->load->view('shared/header');
 		$this->load->view('messages/send', $data);

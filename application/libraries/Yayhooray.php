@@ -35,15 +35,28 @@ class Yayhooray
 		if ($this->logged_in === FALSE)
 			return FALSE;
 		
+		$fields = array(
+            'action'=>'sendmessage',
+            'uid'=>urlencode($this->meta['uid']),
+            'to'=>urlencode($to),
+            'subject'=>urlencode($subject),
+            'message'=>urlencode($message)
+        );
+		
+		$fields_string = '';
+		
+		foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+		rtrim($fields_string,'&');
+		
 		// take the specified action on the user
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, "http://www.yayhooray.com/message.php");
 		curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
 		curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookie_jar);
 		curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie_jar);
-		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, 'action=sendmessage&uid='. $this->meta['uid'] .'&to='.urlencode($to).'&subject='. urlencode($subject) .'&message='. urlencode($message));
+		curl_setopt($ch, CURLOPT_POST, count($fields));
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
 		
 		// sending!
 		curl_exec($ch);

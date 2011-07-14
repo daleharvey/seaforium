@@ -86,6 +86,16 @@ class User_dal extends Model
 		return $this->db->query($sql, $user_id);
 	}
 	
+	function get_username_from_authkey($authkey)
+	{
+		$query = $this->db->query("SELECT yh_username FROM yh_invites WHERE invite_id = ?", $authkey);
+		
+		if ($query->num_rows() === 1)
+			return $query->row()->yh_username;
+		
+		return 0;
+	}
+	
 	/**
 	 * Get yh username by invite id
 	 *

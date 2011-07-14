@@ -47,7 +47,8 @@ class Sauth
 							'comments_shown' => $user->comments_shown,
 							'view_html' => $user->view_html,
 							'new_post_notification' => $user->new_post_notification,
-							'random_titles' => $user->random_titles
+							'random_titles' => $user->random_titles,
+							'emoticon' => $user->emoticon
 					));
 					
 					$this->create_autologin($user->id);

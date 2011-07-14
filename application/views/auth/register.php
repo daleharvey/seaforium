@@ -28,40 +28,39 @@ $email_address = array(
 );
 
 ?>
-		<?php if (count($errors)): ?> 
-			<div id="messages"><div id="error"><ul><?php foreach($errors as $error) echo '<li>'. $error .'</li>'; ?></ul></div></div>
-		<?php endif; ?> 
-		
-		<div id="secluded-register">
-			<?php echo form_open('/auth/register/'. $key); ?> 
+
+				<div id="main-title"><h3>ALMOST THERE!!!</h3></div>
 				
-				<h4>Register</h4>
+				<p><strong>We need an email address and a password and you're done!</strong></p>
 				
-				<div class="secluded-input">
-					<?php echo form_label('Username', $username['id']); ?> 
-					<?php echo form_input($username); ?> 
+				<div class="dotted-bar"></div>
+
+				<?php if (count($errors)): ?> 
+					<div id="messages"><div id="error"><ul><?php foreach($errors as $error) echo '<li>'. $error .'</li>'; ?></ul></div></div>
+				<?php endif; ?> 
+				
+				<div id="preferences">
+					
+					<form method="post" action="/auth/register">
+						
+						<div class="inp">
+							<?php echo form_label('Email Address', $email_address['id']); ?>
+							<?php echo form_input($email_address); ?>
+						</div>
+						
+						<div class="inp">
+							<?php echo form_label('Password', $password['id']); ?>
+							<?php echo form_password($password); ?>
+						</div>
+						
+						<div class="inp">
+							<?php echo form_label('Again please', $password2['id']); ?>
+							<?php echo form_password($password2); ?>
+						</div>
+						
+						<?php echo form_hidden('key', $key); ?>
+						<?php echo form_submit('submit', 'MESSAGEBOARDS!!!'); ?>
+						
+					</form>
+					
 				</div>
-				
-				<div class="secluded-input">
-					<?php echo form_label('Password', $password['id']); ?> 
-					<?php echo form_password($password); ?> 
-				</div>
-				
-				<div class="secluded-input">
-					<?php echo form_label('Again please', $password2['id']); ?> 
-					<?php echo form_password($password2); ?> 
-				</div>
-				
-				<div class="secluded-input">
-					<?php echo form_label('Email Address', $email_address['id']); ?> 
-					<?php echo form_input($email_address); ?> 
-				</div>
-				
-				<div class="secluded-submit">
-					<?php echo form_hidden('key', $key); ?>
-					<?php echo form_submit('submit', 'Login'); ?> 
-				</div>
-				
-			<?php echo form_close(); ?> 
-		</div>
-		

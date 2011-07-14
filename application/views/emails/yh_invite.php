@@ -2,7 +2,7 @@
 
 <p>Here's a link for you to register at the new board we've got!</p>
 
-<p>http://yayhooray.net/invite/register/<?php echo $invite_id; ?></p>
+<p><a href="http://yayhooray.net/auth/register/<?php echo $invite_id; ?>">http://yayhooray.net/auth/register/<?php echo $invite_id; ?></a></p>
 
 <p>cheers!,</p>
 
