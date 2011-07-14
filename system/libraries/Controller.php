@@ -79,16 +79,15 @@ class Controller extends CI_Base {
 		$this->load->_ci_autoloader();
 		
 		// redirect to login if they arent currently logged in
-		/*
+		
 		if (!$this->sauth->is_logged_in())
 		{
-			if ((!isset($this->uri->segments[1]) || $this->uri->segments[1] != 'auth'))
+			if ((!isset($this->uri->segments[1]) || $this->uri->segments[1] != 'beta'))
 			{
 				$this->load->helper(array('url'));
-				redirect('/auth/login');
+				redirect('/beta/');
 			}
 		}
-		*/
 	}
 
 }
