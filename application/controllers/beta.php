@@ -30,7 +30,7 @@ class Beta extends Controller
 		if ($this->form_validation->run()) {
 			if ($this->sauth->login($this->form_validation->set_value('username'), $this->form_validation->set_value('password')))
 			{
-				echo 1;
+			        redirect('http://yayhooray.net/');
 				return;
 			}
 			else
@@ -51,8 +51,7 @@ class Beta extends Controller
 	function logout()
 	{
 		$this->sauth->logout();
-
-		redirect('/');
+		redirect('http://yayhooray.net/beta/login');
 	}
 
 	/**
