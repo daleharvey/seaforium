@@ -85,13 +85,11 @@ $logged_in = $this->sauth->is_logged_in();
 				
 				<?php if ($logged_in) {
 					$unread_messages = $this->message_dal->unread_messages($user_id);
-					$available_invites = $this->user_dal->get_invites($user_id);
 				?>
 				
 				<div class="lc-node" id="messaging">
 					<ul>
 						<li class="messages"><a href="/messages/inbox"><?php if ($unread_messages === 0) { echo "No New Messages"; } else { echo $unread_messages .' Unread Message' .($unread_messages === 1 ? '' : 's'); } ?></a></li>
-						<li class="invites"><a href="/invite"><?php if ($available_invites === 0) { echo "No invites"; } else { echo $available_invites .' Remaining Invite' .($available_invites === 1 ? '' : 's'); } ?></a></li>
 					</ul>
 				</div>
 				
