@@ -40,8 +40,6 @@ foreach($comment_result->result() as $row) {
     continue;
   }
 
-  // alternating comment colors!!!
-  $alt = (!isset($alt) || $alt === false ? true : false);
   $my_thread = $row->user_id == $this->session->userdata('user_id');
   $edit_source = ($my_thread && strtotime($row->created) > time() - 3600)
     ? 'edit' : 'View Source';
@@ -66,8 +64,7 @@ foreach($comment_result->result() as $row) {
     </div>
 
 <?php } ?>
-    <div id="comment-<?php echo $row->comment_id; ?>"
-       class="comment<?php echo $alt === false ? '' : ' alt'; echo $acq; ?>">
+    <div id="comment-<?php echo $row->comment_id; ?>" class="comment">
       <div id="comment-container-<?php echo $row->comment_id; ?>"
        class="comment-container">
       <div class="cmd-bar">
