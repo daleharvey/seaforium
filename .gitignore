@@ -1,1 +1,7 @@
 application/controllers/invite.php
+
+application/logs
+
+build
+
+tests/pytests/*.pyc
