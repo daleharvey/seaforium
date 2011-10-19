@@ -1,38 +1,45 @@
 var defaultLoginBox = $('#login-box').html();
 
+$('#login-form').live('submit', function(e) {
+  e.preventDefault();
+
+  var data = {
+    username: $('#username').val(),
+    password: $('#password').val()
+  };
+
+  $.ajax({
+    url: '/beta/login', type: 'POST', data: data
+  }).fail(function(data) {
+    $('.error').text(JSON.parse(data.responseText).error);
+  }).then(function() {
+    document.location.href = '';
+  });
+});
+
+
 $('#forgot-password').live('click', function(e){
-	e.preventDefault();
-	$('#login-box').load('/auth/forgot_password');
+  e.preventDefault();
+  $('#login-box').load('/beta/forgot_password');
 });
 
 $('#forgot-request').live('submit', function(e){
-	e.preventDefault();
-	$.post(
-		'/auth/forgot_password',
-		{email: $('#forgot-email').val(),
-		 key: $('#forgot-key').val()},
-		function(data)
-		{
-			$('#login-box').html(data);
-		}
-	);
+  e.preventDefault();
+
+  var data = {
+    email: $('#forgot-email').val(),
+    key: $('#forgot-key').val()
+  };
+
+  $.ajax({
+    url: '/beta/forgot_password', type: 'POST', data: data
+  }).then(function(data) {
+    $('#login-box').html(data);
+  });
+
 });
 
 $('#forgot-back').live('click', function(e){
-	e.preventDefault();
-	$('#login-box').html(defaultLoginBox);
-});
-
-$('#login-form').live('submit', function(e){
-	e.preventDefault();
-	$.post(
-		'/auth/login',
-		{username: $('#login-box input[name=username]').val(),
-		 password: $('#login-box input[name=password]').val()},
-		function(data)
-		{
-			if (data == '1') location.reload(true);
-			else $('#login-box .error').html("Sorry, wrong password!");
-		}
-	);
+  e.preventDefault();
+  $('#login-box').html(defaultLoginBox);
 });
