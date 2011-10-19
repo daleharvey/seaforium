@@ -33,8 +33,11 @@ $('#forgot-request').live('submit', function(e){
 
   $.ajax({
     url: '/beta/forgot_password', type: 'POST', data: data
+  }).fail(function(data) {
+    $('.error').text(JSON.parse(data.responseText).error);
   }).then(function(data) {
-    $('#login-box').html(data);
+    $('#login-box').html(defaultLoginBox);
+    $('.error').text('Password reset email sent');
   });
 
 });

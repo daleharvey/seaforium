@@ -96,68 +96,52 @@ class Beta extends Controller
     $this->form_validation->set_rules('email', 'Email', 'required');
     $this->form_validation->set_rules('key', 'Key', 'required');
 
-    // if the form was actually submitted
-    if ($this->form_validation->run()) {
-      // get the values
-      $email = $this->form_validation->set_value('email');
-      $key = $this->form_validation->set_value('key');
-
-      // make sure the session key matches
-      if ($key === $this->session->userdata('session_id')) {
-        // find the user
-        $user = $this->user_dal->get_user_by_email($email);
-
-        // if user exists
-        if ($user) {
-          $passwords = array(
-                             'airplane',
-                             'apple',
-                             'booger',
-                             'bug',
-                             'burrito',
-                             'catapult',
-                             'dude',
-                             'godzilla',
-                             'hamburger',
-                             'jabba',
-                             'jacket',
-                             'peach',
-                             'red',
-                             'silly',
-                             'stupid',
-                             'sunshine',
-                             'taco',
-                             'threadless',
-                             'wookie',
-                             'yes'
-                             );
-
-          // make some data to throw at auth
-          $data = array(
-                        'id' => $user->id,
-                        'password' => $passwords[mt_rand(0, 19)] . mt_rand(10, 99) . $passwords[mt_rand(0, 19)]
-                        );
-
-          // reset it!
-          $this->sauth->reset_password($data);
-
-          $this->email->from('castis@gmail.com', 'YayHooray.net');
-          $this->email->to($email);
-          $this->email->subject('Your new password!');
-          $this->email->message($this->load->view('emails/forgot_password', $data, true));
-
-          $this->email->send();
-
-          $this->load->view('forgot_password/success', array('email' => $email));
-        } else {
-          $this->load->view('forgot_password/request', array('error' => "Hmm, I couldn't find any accounts with that email address. Are you sure that's the one you signed up with?"));
-        }
-      }
-
-      // YOU GET NOTHING, SIR!
-    } else {
+    // Sends the initial form if a plain GET request
+    if (!$this->form_validation->run()) {
       $this->load->view('forgot_password/request', array('error' => ''));
+      return;
     }
+
+    // get the values
+    $email = $this->form_validation->set_value('email');
+    $key = $this->form_validation->set_value('key');
+
+    // make sure the session key matches
+    if (!$key === $this->session->userdata('session_id')) {
+      return send_json($this->output, 412, array('error' => "invalid key"));
+    }
+
+    // find the user
+    $user = $this->user_dal->get_user_by_email($email);
+
+    // if user exists
+    if (!$user) {
+      $err = "Hmm, I couldn't find any accounts with that email address. Are you "
+        . "sure that's the one you signed up with?";
+      return send_json($this->output, 412, array('error' => $err));
+    }
+
+    $passwords = array('airplane', 'apple', 'booger', 'bug', 'burrito',
+                       'catapult', 'dude', 'godzilla', 'hamburger',
+                       'jabba', 'jacket', 'peach', 'red', 'silly', 'stupid',
+                       'sunshine', 'taco', 'threadless', 'wookie', 'yes');
+
+    // make some data to throw at auth
+    $password = $passwords[mt_rand(0, 19)] . mt_rand(10, 99) .
+      $passwords[mt_rand(0, 19)];
+    $data = array('id' => $user->id, 'password' => $password);
+
+    // reset it!
+    $this->sauth->reset_password($data);
+
+    $this->email->from('castis@gmail.com', 'YayHooray.net');
+    $this->email->to($email);
+    $this->email->subject('Your new password!');
+    $this->email->message($this->load->view('emails/forgot_password', $data, true));
+
+    $this->email->send();
+
+    return send_json($this->output, 200, array('ok' => true));
   }
 
   /**
