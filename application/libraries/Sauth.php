@@ -27,48 +27,41 @@ class Sauth
    */
   function login($username, $password)
   {
-    if (!is_null($user = $this->ci->user_dal->get_user_by_username($username)))
-      {
 
-        $hasher = new PasswordHash(8, FALSE);
-        if ($hasher->CheckPassword($password, $user->password))
-          {
-            if ($user->banned == 1)
-              {
-                $this->error = array('banned' => $user->ban_reason);
-              }
-            else
-              {
-                $this->ci->session->set_userdata(array(
-                                                       'user_id'	=> $user->id,
-                                                       'username'	=> $user->username,
-                                                       'status'	=> ($user->activated == 1) ? 1 : 0,
-                                                       'threads_shown' => $user->threads_shown,
-                                                       'comments_shown' => $user->comments_shown,
-                                                       'view_html' => $user->view_html,
-                                                       'new_post_notification' => $user->new_post_notification,
-                                                       'random_titles' => $user->random_titles,
-                                                       'emoticon' => $user->emoticon
-                                                       ));
+    if (!is_null($user = $this->ci->user_dal->get_user_by_username($username))) {
 
-                $this->create_autologin($user->id);
+      $hasher = new PasswordHash(8, FALSE);
+      if ($hasher->CheckPassword($password, $user->password)) {
+        if ($user->banned == 1) {
+          $this->error = array('banned' => $user->ban_reason);
+        } else {
+          $data = array(
+            'user_id' => $user->id,
+            'username' => $user->username,
+            'status' => ($user->activated == 1) ? 1 : 0,
+            'threads_shown' => $user->threads_shown,
+            'comments_shown' => $user->comments_shown,
+            'view_html' => $user->view_html,
+            'new_post_notification' => $user->new_post_notification,
+            'random_titles' => $user->random_titles,
+            'emoticon' => $user->emoticon
+          );
+          $this->ci->session->set_userdata($data);
+          $this->create_autologin($user->id);
 
-                $this->clear_login_attempts($username);
+          $this->clear_login_attempts($username);
 
-                $this->ci->user_dal->update_login_info(
-                                                       $user->id,
-                                                       $this->ci->config->item('login_record_ip', 'auth'),
-                                                       $this->ci->config->item('login_record_time', 'auth'));
+          $ip = $this->ci->config->item('login_record_ip', 'auth');
+          $time = $this->ci->config->item('login_record_time', 'auth');
+          $this->ci->user_dal->update_login_info($user->id, $ip, $time);
 
-                return TRUE;
-              }
+          return TRUE;
+        }
 
-          }
-        else
-          {
-            $this->increase_login_attempt($username);
-          }
+      } else {
+        $this->increase_login_attempt($username);
       }
+    }
 
     $this->error = array('login' => "Login incorrect");
 
@@ -82,10 +75,10 @@ class Sauth
    */
   function logout()
   {
+    $data = array('user_id' => '', 'username' => '', 'status' => '');
+
     $this->delete_autologin();
-
-    $this->ci->session->set_userdata(array('user_id' => '', 'username' => '', 'status' => ''));
-
+    $this->ci->session->set_userdata($data);
     $this->ci->session->sess_destroy();
   }
 
@@ -96,18 +89,17 @@ class Sauth
    */
   function yh_invite($username, $invite_id)
   {
-    if ($this->ci->user_dal->is_yh_username_available($username))
-      {
-        $this->ci->user_dal->create_yh_invite($username, $invite_id);
-
-        $this->confirmation = array('invite' => "Invitation sent. Please let us know if you don't get one.");
-
-        return TRUE;
-      }
-    else
-      {
-        $this->error = array('invite' => 'An invitation has already been sent to that username');
-      }
+    if ($this->ci->user_dal->is_yh_username_available($username)) {
+      $this->ci->user_dal->create_yh_invite($username, $invite_id);
+      $this->confirmation = array(
+        'invite' => "Invitation sent. Please let us know if you don't get one."
+      );
+      return TRUE;
+    } else {
+      $this->error = array(
+        'invite' => 'An invitation has already been sent to that username'
+      );
+    }
 
     return FALSE;
   }
@@ -148,7 +140,8 @@ class Sauth
   {
     $hasher = new PasswordHash(8, FALSE);
 
-    $this->ci->user_dal->reset_password($data['id'], $hasher->HashPassword($data['password']));
+    $this->ci->user_dal->reset_password($data['id'],
+                                        $hasher->HashPassword($data['password']));
   }
 
   /**
@@ -209,10 +202,10 @@ class Sauth
 
     if ($this->ci->user_autologin->set($user_id, md5($key))) {
       set_cookie(array(
-                       'name' 		=> 'autologin',
-                       'value'		=> serialize(array('user_id' => $user_id, 'key' => $key)),
-                       'expire'	=> 5356800,
-                       ));
+        'name' => 'autologin',
+        'value'  => serialize(array('user_id' => $user_id, 'key' => $key)),
+        'expire' => 5356800,
+      ));
       return TRUE;
     }
     return FALSE;
@@ -254,27 +247,26 @@ class Sauth
         if (isset($data['key']) AND isset($data['user_id'])) {
 
           $this->ci->load->model('auth/user_autologin');
-          if (!is_null($user = $this->ci->user_autologin->get($data['user_id'], md5($data['key'])))) {
+          $user = $this->ci->user_autologin->get($data['user_id'],md5($data['key']));
+          if (!is_null($user)) {
 
             // Login user
             $this->ci->session->set_userdata(array(
-                                                   'user_id'	=> $user->id,
-                                                   'username'	=> $user->username,
-                                                   'status'	=> 1,
-                                                   ));
+              'user_id' => $user->id,
+              'username' => $user->username,
+              'status'	=> 1,
+            ));
 
             // Renew users cookie to prevent it from expiring
             set_cookie(array(
-                             'name' 		=> 'autologin',
-                             'value'		=> $cookie,
-                             'expire'	=> 5356800,
-                             ));
+              'name' => 'autologin',
+              'value' => $cookie,
+              'expire' => 5356800,
+            ));
 
-            $this->ci->user_dal->update_login_info(
-                                                   $user->id,
-                                                   $this->ci->config->item('login_record_ip', 'auth'),
-                                                   $this->ci->config->item('login_record_time', 'auth'));
-
+            $ip = $this->ci->config->item('login_record_ip', 'auth');
+            $time = $this->ci->config->item('login_record_time', 'auth');
+            $this->ci->user_dal->update_login_info($user->id, $ip, $time);
             return TRUE;
           }
         }
@@ -292,7 +284,8 @@ class Sauth
   function is_max_login_attempts_exceeded($login)
   {
     $this->ci->load->model('auth/login_attempts');
-    return $this->ci->login_attempts->get_attempts_num($this->ci->input->ip_address(), $login) >= 5;
+    return $this->ci->login_attempts
+      ->get_attempts_num($this->ci->input->ip_address(), $login) >= 5;
   }
 
   /**
@@ -306,7 +299,8 @@ class Sauth
   {
     if (!$this->is_max_login_attempts_exceeded($login)) {
       $this->ci->load->model('auth/login_attempts');
-      $this->ci->login_attempts->increase_attempt($this->ci->input->ip_address(), $login);
+      $this->ci->login_attempts
+        ->increase_attempt($this->ci->input->ip_address(), $login);
     }
   }
 
@@ -320,7 +314,8 @@ class Sauth
   private function clear_login_attempts($login)
   {
     $this->ci->load->model('auth/login_attempts');
-    $this->ci->login_attempts->clear_attempts($this->ci->input->ip_address(), $login, 86400);
+    $this->ci->login_attempts->clear_attempts($this->ci->input->ip_address(),
+                                              $login, 86400);
   }
 }
 
