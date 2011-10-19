@@ -1057,7 +1057,7 @@ font-size: 14px;
 
 .lc-node.login p {
 font-size: 9px;
-margin: 8px 0;
+margin: 0 0 8px 0;
 }
 
 .lc-node.login a {color: #959595; font-size: 10px;}

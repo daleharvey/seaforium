@@ -28,8 +28,9 @@ class Thread extends Controller {
   {
     // if they roll in with something unexpected
     // send them home
-    if (!is_numeric($thread_id))
+    if (!is_numeric($thread_id)) {
       redirect('/');
+    }
 
     // grabbing the thread information
     $query = $this->thread_dal->get_thread_information($this->meta['user_id'], $thread_id);
@@ -99,7 +100,7 @@ class Thread extends Controller {
     }
 
     $data['comment_result'] = $this->thread_dal->get_comments($this->meta['user_id'],
-      $thread_id, $limit_start, $this->meta['comments_shown']);
+                                                              $thread_id, $limit_start, $this->meta['comments_shown']);
 
     $data['total_comments'] = $this->thread_dal->comment_count($thread_id);
 

@@ -21,50 +21,50 @@ $yh_username = array(
 	'maxlength'	=> 80,
 	'size'	=> 30
 );
-	
+
 ?>
 
-		<?php if (count($errors)): ?> 
+		<?php if (count($errors)): ?>
 			<div id="messages"><div id="error"><ul><?php foreach($errors as $error) echo '<li>'. $error .'</li>'; ?></ul></div></div>
-		<?php endif; ?> 
+		<?php endif; ?>
 
 		<div id="secluded-login">
-			<?php echo form_open('/auth/login'); ?> 
-				
+			<?php echo form_open('/auth/login'); ?>
+
 				<h1>Login</h1>
-				
+
 				<div class="secluded-input">
-					<?php echo form_label('Username', $username['id']); ?> 
-					<?php echo form_input($username); ?> 
+					<?php echo form_label('Username', $username['id']); ?>
+					<?php echo form_input($username); ?>
 				</div>
-				
+
 				<div class="secluded-input">
-					<?php echo form_label('Password', $password['id']); ?> 
-					<?php echo form_password($password); ?> 
+					<?php echo form_label('Password', $password['id']); ?>
+					<?php echo form_password($password); ?>
 				</div>
-				
+
 				<div class="secluded-submit">
-					<?php echo form_submit('submit', 'Login'); ?> 
+					<?php echo form_submit('submit', 'Login'); ?>
 				</div>
-			<?php echo form_close(); ?> 
+			<?php echo form_close(); ?>
 		</div>
-		
+
 		<div id="secluded-invite">
-			
+
 			<h4>Get an invite</h4>
-			
+
 			<p>Input your YayHooray username and an invite will be sent to you.</p>
-			
-			<?php echo form_open('/auth/invite'); ?> 
-				
+
+			<?php echo form_open('/auth/invite'); ?>
+
 				<div class="secluded-input">
-					<?php echo form_label('Username', $yh_username['id']); ?> 
-					<?php echo form_input($yh_username); ?> 
+					<?php echo form_label('Username', $yh_username['id']); ?>
+					<?php echo form_input($yh_username); ?>
 				</div>
-				
+
 				<div class="secluded-submit">
-					<?php echo form_submit('submit', 'Send me an invite'); ?> 
+					<?php echo form_submit('submit', 'Send me an invite'); ?>
 				</div>
-			<?php echo form_close(); ?> 
-			
+			<?php echo form_close(); ?>
+
 		</div>
