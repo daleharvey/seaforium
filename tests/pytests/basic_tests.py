@@ -19,11 +19,19 @@ class TestSequenceFunctions(unittest.TestCase):
         self.assertEqual(urlparse(r1.url).path, '/beta')
         self.assertEqual(urlparse(r2.url).path, '/beta')
 
-    # Test we can register and then login
+
+    # Test we can register
     def test_register(self):
         r = YayClient.register(self.opts, 'a', 'a@a.com', 'a', 'a')
         self.assertEqual(r.status_code, 201)
         self.assertTrue(YayClient.is_logged_in(self.opts, r.cookies))
+
+
+    def test_failed_login(self):
+        r = YayClient.login(self.opts, 'madeupname', 'madeuppass')
+        self.assertEqual(r.status_code, 401)
+        self.assertFalse(YayClient.is_logged_in(self.opts, r.cookies))
+
 
 
     def test_login(self):
