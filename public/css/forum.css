@@ -128,6 +128,7 @@ color: #FAA4A4;
 font-size: 10px;
 background: url("/img/iconmessage.gif") no-repeat scroll 0 0 transparent;
 padding-left: 20px;
+line-height:11px;
 }
 
 .lc-node#messaging .invites {
@@ -160,9 +161,17 @@ margin: 7px 0 3px 0;
     background-color: #EDF5E1;
 }
 
+#threads hr {
+    margin-top:0px;
+    border-top: 1px dotted #959595;
+    border-width: 1px 0 0 0;
+}
 #threads ul {
     padding-bottom: 7px;
     margin-top:7px;
+}
+#threads li {
+    margin: 2px 0;
 }
 #threads ul a {
     font-size:10px;
@@ -350,6 +359,7 @@ font-size: 12px;
 
 .main-pagination div {
     background-color: #7E7E7E;
+    color: #FFF;
 }
 
 /* #left-column .lc-node { */

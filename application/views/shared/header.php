@@ -117,7 +117,7 @@ $logged_in = $this->sauth->is_logged_in();
 						<?php } ?>
 					</ul>
 					<?php if ($logged_in) { ?>
-
+                                        <hr />
 					<a id="toggle-html">Turn <?php echo $this->session->userdata('view_html') == '1' ? 'off' : 'on'; ?> html</a>
 
 					<?php } ?>
