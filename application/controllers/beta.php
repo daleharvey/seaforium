@@ -60,8 +60,6 @@ class Beta extends Controller
    */
   function register($key = '')
   {
-    return; // Temporarily disable
-
     if ($this->sauth->is_logged_in()) {
       return send_json($this->output, 412, array('error' => 'already logged in'));
     }
