@@ -711,6 +711,13 @@ border: dotted 1px #8A8A8A;
 padding: 5px;
 width: 85px;
 }
+#new-thread #thread-content-input {
+    float:left;
+}
+#new-thread #post-shortcuts {
+    float:left;
+    margin-left: 15px;
+}
 
 #post-shortcuts p {
 font-size: 9px;
