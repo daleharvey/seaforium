@@ -161,7 +161,7 @@ margin: 7px 0 3px 0;
     background-color: #EDF5E1;
 }
 
-#threads hr {
+hr {
     margin-top:0px;
     border-top: 1px dotted #959595;
     border-width: 1px 0 0 0;
@@ -1024,13 +1024,15 @@ margin-right: 20px;
 margin-bottom: 8px;
 }
 
-.buddy-listing, .enemy-listing {
+.user-listing, .buddy-listing, .enemy-listing {
 width: 130px;
 margin: 0 10px 10px 0;
 padding: 10px;
 float: left;
 }
-
+.user-listing {
+    background: #F4F4F4;
+}
 .buddy-listing {
 background: #EBF4DD;
 }
@@ -1097,4 +1099,21 @@ font-size: 9px;
 hr.divider {
 	border: none;
 	border-bottom: dotted 1px #000;
+}
+
+#threadnav {
+    margin-top:15px;
+}
+
+.users-link {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.user_startdate, .user_logdate {
+    font-size: 10px;
+}
+
+#users {
+    margin-top: 15px;
 }

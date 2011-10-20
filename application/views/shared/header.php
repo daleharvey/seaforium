@@ -126,7 +126,8 @@ $logged_in = $this->sauth->is_logged_in();
 				<?php if ($this->sauth->is_logged_in()) { ?>
 
 				<div class="lc-node" id="buddy-list">
-					<h3><a href="/buddies">Buddies</a></h3>
+					<h3><a href="/buddies">Buddies</a> <a href="/users" class="users-link">(All users)</a></h3>
+
 					<?php
 						$buddy_info = $this->user_dal->get_active_users($user_id);
 					?>

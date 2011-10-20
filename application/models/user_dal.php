@@ -79,6 +79,13 @@ class User_dal extends Model
     return FALSE;
   }
 
+
+  function get_users()
+  {
+    return $this->db->query("SELECT username, created, last_login FROM users;")->result_array();
+  }
+
+
   function get_user_ids_from_array($user_id, $usernames)
   {
 
