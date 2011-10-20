@@ -10,35 +10,46 @@ class User extends Controller {
 		$this->load->model('user_dal');
 		$this->load->library('pagination');
 	}
-	
+
 	function index()
 	{
 		redirect('/');
 	}
-	
+
 	function load($username)
 	{
-		$query = $this->user_dal->get_profile_information(str_replace('-', ' ', $username));
-		
-		if ($query->result_id->num_rows === 0)
-			redirect('/');
-		
+		$query = $this->user_dal
+                  ->get_profile_information(str_replace('-', ' ', $username));
+
+		if ($query->result_id->num_rows === 0) {
+                  redirect('/');
+                }
+
 		$data['user_data'] = $query->row();
-		
-		$data['user_data']->average_posts = number_format(
-			$data['user_data']->thread_count + $data['user_data']->comment_count / // total posts, divided by
-			(ceil((time() - strtotime($data['user_data']->created)) / 86400)) // days
-			, 2);
-		
-		$data['user_data']->last_login_text = (strtotime($data['user_data']->last_login) == null)
-			? " hasn't logged in yet."
-			: ' last logged in on '. date('F jS Y \a\t g:i a', strtotime($data['user_data']->last_login)) .'.';
-		
-		
+
+                $time_registered =
+                  (ceil((time() - strtotime($data['user_data']->created)) / 86400));
+
+                $time_registered = $time_registered <= 0 ? 1 : $time_registered;
+
+                $ppd = ($data['user_data']->thread_count +
+                        $data['user_data']->comment_count) / $time_registered;
+
+                $logged_in = date('F jS Y \a\t g:i a',
+                                  strtotime($data['user_data']->last_login));
+
+		$data['user_data']->average_posts = number_format($ppd, 2);
+		$data['user_data']->last_login_text =
+                  (strtotime($data['user_data']->last_login) == null)
+                    ? " hasn't logged in yet."
+                    : ' last logged in on ' . $logged_in .'.';
+
+
 		$start = 0;
-			
-		$data['recent_posts'] = $this->user_dal->get_user_recent_posts((int)$data['user_data']->id);
-		
+
+		$data['recent_posts'] = $this->user_dal
+                  ->get_user_recent_posts((int)$data['user_data']->id);
+
 		$this->pagination->initialize(array(
 			'base_url' => '/user/' . $data['user_data']->username . '/p/',
 			'total_rows' => $data['user_data']->comment_count,
@@ -50,12 +61,12 @@ class User extends Controller {
 			'cur_tag_close' => '</div>',
 			'num_tag_open' => '',
 			'num_tag_close' => ''
-			
-		)); 
-		
-		
+
+		));
+
+
 		$data['pagination'] = $this->pagination->create_links();
-		
+
 		$this->load->view('shared/header');
 		$this->load->view('user', $data);
 		$this->load->view('shared/footer');
