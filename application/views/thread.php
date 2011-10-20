@@ -42,7 +42,7 @@ foreach($comment_result->result() as $row) {
 
   $my_thread = $row->user_id == $this->session->userdata('user_id');
   $edit_source = ($my_thread && strtotime($row->created) > time() - 3600)
-    ? 'edit' : 'View Source';
+    ? 'Edit Post' : 'View Source';
   $url_safe_username = url_title($row->username, 'dash');
 
   switch($row->acq_type) {
