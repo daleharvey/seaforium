@@ -104,6 +104,10 @@ class Beta extends Controller
     $email = $this->form_validation->set_value('email');
     $password = $this->form_validation->set_value('password');
 
+    if (!valid_username($username)) {
+      return send_json($this->output, 401, array('error' => 'invalid username'));
+    }
+
     if (!$this->sauth->create_user($username, $email, $password)) {
       return send_json($this->output, 412, array('error' => $this->sauth->error));
     }
@@ -116,6 +120,7 @@ class Beta extends Controller
     $this->sauth->login($username, $password);
     return send_json($this->output, 201, array('ok' => true, 'method' => 'plain'));
   }
+
 
   function send_activate_link($username)
   {
