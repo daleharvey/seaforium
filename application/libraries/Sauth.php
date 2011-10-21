@@ -27,46 +27,53 @@ class Sauth
    */
   function login($username, $password)
   {
-
-    if (!is_null($user = $this->ci->user_dal->get_user_by_username($username))) {
-
-      $hasher = new PasswordHash(8, FALSE);
-      if ($hasher->CheckPassword($password, $user->password)) {
-        if ($user->banned == 1) {
-          $this->error = array('banned' => $user->ban_reason);
-        } else {
-          $data = array(
-            'user_id' => $user->id,
-            'username' => $user->username,
-            'status' => ($user->activated == 1) ? 1 : 0,
-            'threads_shown' => $user->threads_shown,
-            'comments_shown' => $user->comments_shown,
-            'view_html' => $user->view_html,
-            'new_post_notification' => $user->new_post_notification,
-            'random_titles' => $user->random_titles,
-            'emoticon' => $user->emoticon
-          );
-          $this->ci->session->set_userdata($data);
-          $this->create_autologin($user->id);
-
-          $this->clear_login_attempts($username);
-
-          $ip = $this->ci->config->item('login_record_ip', 'auth');
-          $time = $this->ci->config->item('login_record_time', 'auth');
-          $this->ci->user_dal->update_login_info($user->id, $ip, $time);
-
-          return TRUE;
-        }
-
-      } else {
-        $this->increase_login_attempt($username);
-      }
+    if (is_null($user = $this->ci->user_dal->get_user_by_username($username))) {
+      $this->increase_login_attempt($username);
+      $this->error = array('msg' => "Login incorrect");
+      return FALSE;
     }
 
-    $this->error = array('login' => "Login incorrect");
+    $hasher = new PasswordHash(8, FALSE);
 
-    return FALSE;
+    if (!$hasher->CheckPassword($password, $user->password)) {
+      $this->increase_login_attempt($username);
+      $this->error = array('msg' => "Login incorrect");
+      return FALSE;
+    }
+
+    if ($user->banned == 1) {
+      $this->error = array('msg' => $user->ban_reason);
+      return FALSE;
+    }
+    if ($user->activated == 0) {
+      $this->error = array('msg' => "User Account is not active");
+      return FALSE;
+    }
+
+    $data = array(
+      'user_id' => $user->id,
+      'username' => $user->username,
+      'status' => ($user->activated == 1) ? 1 : 0,
+      'threads_shown' => $user->threads_shown,
+      'comments_shown' => $user->comments_shown,
+      'view_html' => $user->view_html,
+      'new_post_notification' => $user->new_post_notification,
+      'random_titles' => $user->random_titles,
+      'emoticon' => $user->emoticon
+    );
+
+    $this->ci->session->set_userdata($data);
+    $this->create_autologin($user->id);
+
+    $this->clear_login_attempts($username);
+
+    $ip = $this->ci->config->item('login_record_ip', 'auth');
+    $time = $this->ci->config->item('login_record_time', 'auth');
+    $this->ci->user_dal->update_login_info($user->id, $ip, $time);
+
+    return TRUE;
   }
+
 
   /**
    * Logout user from the site
@@ -89,19 +96,8 @@ class Sauth
    */
   function yh_invite($username, $invite_id)
   {
-    if ($this->ci->user_dal->is_yh_username_available($username)) {
-      $this->ci->user_dal->create_yh_invite($username, $invite_id);
-      $this->confirmation = array(
-        'invite' => "Invitation sent. Please let us know if you don't get one."
-      );
-      return TRUE;
-    } else {
-      $this->error = array(
-        'invite' => 'An invitation has already been sent to that username'
-      );
-    }
-
-    return FALSE;
+    $this->ci->user_dal->create_yh_invite($username, $invite_id);
+    return TRUE;
   }
 
   /**
@@ -118,22 +114,29 @@ class Sauth
     if ((strlen($username) > 0) AND
         !$this->ci->user_dal->is_username_available($username)) {
       $this->error = 'That username is already in use';
-    } elseif (!$this->ci->user_dal->is_email_available($email)) {
-      $this->error = 'That email address is already in use';
-    } else {
-
-      $hasher = new PasswordHash(8, FALSE);
-      $user = array('username'	=> $username,
-                    'password'	=> $hasher->HashPassword($password),
-                    'email'	=> $email,
-                    'last_ip'	=> $this->ci->input->ip_address());
-
-      // insert the user into the database
-      $user_id = $this->ci->user_dal->create_user($user);
-
-      return TRUE;
+      return false;
     }
-    return FALSE;
+
+    if (!$this->ci->user_dal->is_email_available($email)) {
+      $this->error = 'That email address is already in use';
+      return FALSE;
+    }
+
+    $is_yay_name = $this->ci->user_dal->is_yay_username($username);
+
+    $hasher = new PasswordHash(8, FALSE);
+    $user = array(
+      'username' => $username,
+      'password' => $hasher->HashPassword($password),
+      'email' => $email,
+      'last_ip' => $this->ci->input->ip_address(),
+      'activated' => $is_yay_name ? 0 : 1
+    );
+
+    // insert the user into the database
+    $user_id = $this->ci->user_dal->create_user($user);
+
+    return TRUE;
   }
 
   function reset_password($data)

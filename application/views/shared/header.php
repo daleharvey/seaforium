@@ -19,7 +19,7 @@ $logged_in = $this->sauth->is_logged_in();
     <meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" type="text/css" href="/css/<?php echo $css; ?>" />
-    <script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.6.4.min.js"></script>
 
     <base href="<?php echo site_url(); ?>" />
   </head>
@@ -59,10 +59,10 @@ $logged_in = $this->sauth->is_logged_in();
 
 					<form action="/auth/login" method="post" id="login-form">
 						<div>
-							<label>U:</label><input type="text" name="username" tabindex="1" /><button tabindex="3" type="submit"><?php echo $button_texts[array_rand($button_texts)]; ?></button>
+							<label>U:</label><input type="text" name="username" tabindex="1" id="username" /><button tabindex="3" type="submit"><?php echo $button_texts[array_rand($button_texts)]; ?></button>
 						</div>
 						<div>
-							<label>P:</label><input type="password" name="password" tabindex="2" /><a href="#" id="forgot-password">Forgot it?</a>
+							<label>P:</label><input type="password" name="password" tabindex="2" id="password" /><a href="#" id="forgot-password">Forgot it?</a>
 						</div>
 					</form>
 				</div>

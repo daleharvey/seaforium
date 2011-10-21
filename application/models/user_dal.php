@@ -114,7 +114,7 @@ class User_dal extends Model
       return $query->row()->yh_username;
     }
 
-    return 0;
+    return FALSE;
   }
 
   /**
@@ -133,6 +133,16 @@ class User_dal extends Model
     }
 
     return NULL;
+  }
+
+  /**
+   */
+  function is_yay_username($username)
+  {
+    $query = $this->db->query("SELECT 1 FROM yay_users WHERE username = ?",
+                              strtolower($username));
+
+    return $query->num_rows() == 1;
   }
 
   /**
@@ -198,11 +208,9 @@ class User_dal extends Model
    */
   function create_yh_invite($username, $invite_id)
   {
-    $this->db->query("INSERT INTO yh_invites (invite_id, yh_username, created) VALUES (?, ?, NOW())", array(
-                                                                                                            $invite_id,
-                                                                                                            $username
-                                                                                                            ));
-
+    $data = array($invite_id, $username);
+    $this->db->query("INSERT INTO yh_invites (invite_id, yh_username, created) " .
+                     "VALUES (?, ?, NOW())", $data);
     return $this->db->insert_id() != 0;
   }
 
@@ -240,14 +248,15 @@ class User_dal extends Model
 				created,
 				activated
 			) VALUES (
-				?, ?, ?, ?, NOW(), 1
+				?, ?, ?, ?, NOW(), ?
 			)";
 
     $this->db->query($sql, array(
                                  $data['username'],
                                  $data['email'],
                                  $data['password'],
-                                 $data['last_ip']
+                                 $data['last_ip'],
+                                 $data['activated']
                                  ));
 
     if ($user_id = $this->db->insert_id()) {
@@ -257,13 +266,19 @@ class User_dal extends Model
     return FALSE;
   }
 
+  function activate_user($username)
+  {
+    $this->db->query("UPDATE users SET activated = 1 WHERE username = ?", $username);
+    return $this->db->affected_rows();
+  }
+
   /**
    * Set yh invite key as used
    *
    * @param	string
    * @return	void
    */
-  private function set_yh_invite_used($invite_id)
+  function set_yh_invite_used($invite_id)
   {
     $this->db->query("UPDATE yh_invites SET used = 1 WHERE invite_id = ?",
                      $invite_id);
