@@ -48,10 +48,9 @@ class YayClient:
         return requests.post(opts['url'] + 'beta/forgot_password', creds)
 
 
-    # Nasty way of checking if we are logged or not, if we can access
-    # subpages, we are logged in
     @staticmethod
     def is_logged_in(details, cookies):
         r = requests.get(details['url'] + 'f/discussions', cookies=cookies)
-        return urlparse(r.url).path == '/f/discussions'
+        tree = lxml.html.fromstring(r.content)
+        return not not tree.cssselect(".welcome")
 

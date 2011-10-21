@@ -76,12 +76,6 @@ class Controller extends CI_Base {
     $this->load =& load_class('Loader');
     $this->load->_ci_autoloader();
 
-    if (!$this->sauth->is_logged_in()) {
-      if ((!isset($this->uri->segments[1]) || $this->uri->segments[1] != 'beta')) {
-        $this->load->helper(array('url'));
-        redirect('/beta/');
-      }
-    }
   }
 
 }

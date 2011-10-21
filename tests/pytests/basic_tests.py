@@ -12,13 +12,6 @@ class TestBasicFunction(unittest.TestCase):
             url = 'http://yayhooray.dev/'
         )
 
-    def test_unauthenticated_users_access(self):
-        r1 = requests.get(self.opts['url'])
-        r2 = requests.get(self.opts['url'] + 'f/discussions')
-        self.assertEqual(urlparse(r1.url).path, '/beta')
-        self.assertEqual(urlparse(r2.url).path, '/beta')
-
-
     def test_new_register(self):
         r = YayClient.register(self.opts, 'neudjcshfo', 'a@a.com', 'a', 'a')
         j = simplejson.loads(r.content)
