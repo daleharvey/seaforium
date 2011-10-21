@@ -211,7 +211,7 @@ class User_dal extends Model
     $data = array($invite_id, $username);
     $this->db->query("INSERT INTO yh_invites (invite_id, yh_username, created) " .
                      "VALUES (?, ?, NOW())", $data);
-    return $this->db->insert_id() != 0;
+    return TRUE;
   }
 
   /**

@@ -125,18 +125,21 @@ class Beta extends Controller
       return FALSE;
     }
 
+    $uri = 'http://' . $_SERVER['SERVER_NAME'] . '/beta/activate/' . $invite_id;
+
     $message = <<<EOT
       Hey {$username},
 
-      Click this link to activate your yh.net account
+      Click this link to activate your yay2.0 account
 
-      http://yayhooray.net/beta/activate/{$invite_id}
+      {$uri}
 
       dh
 EOT;
 
-    $this->yayhooray->login('yayname', 'yaypass');
-    $this->yayhooray->send_message($username, 'Activation link', $message);
+      $this->yayhooray->login($this->config->item('yay_username'),
+                              $this->config->item('yay_password'));
+      $this->yayhooray->send_message($username, 'Activation link', $message);
 
     return TRUE;
   }

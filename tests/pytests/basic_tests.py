@@ -3,9 +3,9 @@ import requests
 import simplejson
 
 from urlparse import urlparse
-from yayclient import YayClient
+from yayclient import YayClient, OldYayClient
 
-class TestSequenceFunctions(unittest.TestCase):
+class TestBasicFunction(unittest.TestCase):
 
     def setUp(self):
         self.opts = dict(
@@ -19,24 +19,43 @@ class TestSequenceFunctions(unittest.TestCase):
         self.assertEqual(urlparse(r2.url).path, '/beta')
 
 
-    def test_register(self):
-        r = YayClient.register(self.opts, 'a', 'a@a.com', 'a', 'a')
+    def test_new_register(self):
+        r = YayClient.register(self.opts, 'neudjcshfo', 'a@a.com', 'a', 'a')
+        j = simplejson.loads(r.content)
+        self.assertEqual(j['method'], 'plain')
         self.assertEqual(r.status_code, 201)
         self.assertTrue(YayClient.is_logged_in(self.opts, r.cookies))
+
+
+    def test_yay_register(self):
+
+        # register existing yay username
+        r = YayClient.register(self.opts, 'dh', 'dale@arandomurl.com', 'a', 'a')
+        j = simplejson.loads(r.content)
+        self.assertEqual(j['method'], 'yaypm')
+        self.assertEqual(r.status_code, 201)
+        self.assertFalse(YayClient.is_logged_in(self.opts, r.cookies))
+
+        # attempt to login, should fail because not activated
+        failed_login = YayClient.login(self.opts, 'dh', 'a')
+        self.assertEqual(failed_login.status_code, 401)
+        self.assertFalse(YayClient.is_logged_in(self.opts, failed_login.cookies))
+
+        # perform activation
+        activate_url = OldYayClient.read_last_pm_link('yayname', 'yaypass')
+        activate = requests.get(activate_url)
+        self.assertEqual(activate.status_code, 200)
+
+        # Yay, should now be able to login
+        login = YayClient.login(self.opts, 'dh', 'a')
+        self.assertEqual(login.status_code, 200)
+        self.assertTrue(YayClient.is_logged_in(self.opts, login.cookies))
 
 
     def test_failed_login(self):
         r = YayClient.login(self.opts, 'madeupname', 'madeuppass')
         self.assertEqual(r.status_code, 401)
         self.assertFalse(YayClient.is_logged_in(self.opts, r.cookies))
-
-
-
-    def test_login(self):
-        YayClient.register(self.opts, 'b', 'b@b.com', 'b', 'b')
-        r = YayClient.login(self.opts, 'b', 'b')
-        self.assertEqual(r.status_code, 200)
-        self.assertTrue(YayClient.is_logged_in(self.opts, r.cookies))
 
 
     def test_forgot_password(self):

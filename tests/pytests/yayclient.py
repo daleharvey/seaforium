@@ -4,6 +4,22 @@ import lxml
 from urlparse import urlparse
 from lxml import html
 
+class OldYayClient:
+
+    @staticmethod
+    def read_last_pm_link(username, password):
+        host = 'http://yayhooray.com'
+        r = requests.post(host, dict(username=username,
+                                     password=password,
+                                     action='login'))
+        messages = requests.get("%s/messages" % host, cookies=r.cookies)
+        tree = lxml.html.fromstring(messages.content)
+        message_url = tree.find_class("message")[0].cssselect("a")[0].get('href')
+        message = requests.get("%s/%s" % (host, message_url), cookies=r.cookies)
+        tree2 = lxml.html.fromstring(message.content)
+        return tree2.cssselect(".messageoriginal a")[0].get('href')
+
+
 class YayClient:
 
     def __init__(self, options):
