@@ -5,15 +5,15 @@ class Preferences extends Controller {
 	function Preferences()
 	{
 		parent::Controller();
-		
+
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
 		$this->load->model('auth/user_dal');
-		
+
 		if (!$this->sauth->is_logged_in())
 			redirect('/');
 	}
-	
+
 	/**
 	 * Show/save preferences
 	 *
@@ -22,7 +22,7 @@ class Preferences extends Controller {
 	function index()
 	{
 		$user_id = $this->session->userdata('user_id');
-				
+
 		$this->form_validation->set_rules('threads_shown', 'Threads Shown', 'trim|required|is_natural|xss_clean');
 		$this->form_validation->set_rules('comments_shown', 'Comments Shown', 'trim|required|is_natural|xss_clean');
 		$this->form_validation->set_rules('email', 'Email Address', 'trim|xss_clean|valid_email');
@@ -36,21 +36,21 @@ class Preferences extends Controller {
 		$this->form_validation->set_rules('rss_feed_3','Rss Feed 3', 'trim|xss_clean');
 		$this->form_validation->set_rules('custom_css','Custom CSS', 'trim|xss_clean');
 		$this->form_validation->set_rules('about_blurb','Tell us about yourself', 'trim|xss_clean');
-		$this->form_validation->set_rules('flickr_username','Flickr Username', 'trim|xss_clean|alpha_dash');
-		$this->form_validation->set_rules('delicious_username','Del.icio.us Username', 'trim|xss_clean|alpha_dash');
-		$this->form_validation->set_rules('facebook','Facebook', 'trim|xss_clean|alpha_dash');
-		$this->form_validation->set_rules('aim','Aim username', 'trim|xss_clean|alpha_dash');
-		$this->form_validation->set_rules('gchat','Gchat (Jabber)', 'trim|xss_clean|alpha_dash');
-		$this->form_validation->set_rules('lastfm','Last.fm', 'trim|xss_clean|alpha_dash');
-		$this->form_validation->set_rules('msn','MSN username', 'trim|xss_clean|alpha_dash');
-		$this->form_validation->set_rules('real_name','MSN username', 'trim|xss_clean|alpha_dash');
-		$this->form_validation->set_rules('location','MSN username', 'trim|xss_clean|alpha_dash');
-		
+		$this->form_validation->set_rules('flickr_username','Flickr Username', 'trim|xss_clean');
+		$this->form_validation->set_rules('delicious_username','Del.icio.us Username', 'trim|xss_clean');
+		$this->form_validation->set_rules('facebook','Facebook', 'trim|xss_clean');
+		$this->form_validation->set_rules('aim','Aim username', 'trim|xss_clean');
+		$this->form_validation->set_rules('gchat','Gchat (Jabber)', 'trim|xss_clean');
+		$this->form_validation->set_rules('lastfm','Last.fm', 'trim|xss_clean');
+		$this->form_validation->set_rules('msn','MSN username', 'trim|xss_clean');
+		$this->form_validation->set_rules('real_name','MSN username', 'trim|xss_clean');
+		$this->form_validation->set_rules('location','MSN username', 'trim|xss_clean');
+
 		$this->form_validation->set_rules('password', 'Change Password', 'trim|xss_clean');
 		$this->form_validation->set_rules('password2', 'Verify Password', 'trim|xss_clean');
-		
+
 		$data['errors'] = array();
-		
+
 		if ($this->form_validation->run())
 		{
 			$data = array(
@@ -79,7 +79,7 @@ class Preferences extends Controller {
 				'name' => $this->form_validation->set_value('real_name'),
 				'location' => $this->form_validation->set_value('location'),
 			);
-			
+
 			if (isset($_FILES['emot_upload']) && strlen($_FILES['emot_upload']['name']) > 0) {
 				$this->load->library('upload', array(
 					'upload_path' => './img/emoticons/',
@@ -93,36 +93,36 @@ class Preferences extends Controller {
 				if ($this->upload->do_upload('emot_upload'))
 				{
 					$uploaded = $this->upload->data();
-					
+
 					if (rename($uploaded['full_path'], $uploaded['file_path'] . $user_id . $uploaded['file_ext']))
 						$data['emoticon'] = 1;
 				}
 			}
-			
+
 			$password = $this->form_validation->set_value('password');
 			$password2 = $this->form_validation->set_value('password2');
-			
+
 			if (isset($password) && isset($password2) && $password === $password2)
 				$this->sauth->reset_password(array('id' => $user_id, 'password' => $password));
-			
+
 			$this->db->where('id', $this->session->userdata('user_id'));
 			$this->db->update('users', $data);
-			
+
 			$this->db->where('user_id', $this->session->userdata('user_id'));
 			$this->db->update('user_profiles', $data_profile);
-			
+
 			$this->session->set_userdata($data);
-		} else { 
+		} else {
 			echo validation_errors();
 		}
-		
+
 		$query = $this->user_dal->get_profile_information($user_id);
 		$data['user_preferences'] = $query->row();
-		
+
 		$this->load->view('shared/header');
 		$this->load->view('preferences', $data);
 		$this->load->view('shared/footer');
-		
+
 	}
 }
 
