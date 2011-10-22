@@ -30,21 +30,21 @@ class YayClient:
                      email = email,
                      password = password,
                      password_confirm = confirm_password)
-        return requests.post(details['url'] + 'beta/register', creds)
+        return requests.post(details['url'] + 'auth/register', creds)
 
     @staticmethod
     def login(details, username, password):
         creds = dict(username = username, password = password)
-        return requests.post(details['url'] + 'beta/login', creds)
+        return requests.post(details['url'] + 'auth/login', creds)
 
 
     @staticmethod
     def forgot_password(opts, email):
-        keyreq = requests.get(opts['url'] + 'beta/forgot_password')
+        keyreq = requests.get(opts['url'] + 'auth/forgot_password')
         tree = lxml.html.fromstring(keyreq.content)
         key = tree.get_element_by_id('forgot-key').value
         creds = dict(email = email, key = key)
-        return requests.post(opts['url'] + 'beta/forgot_password', creds)
+        return requests.post(opts['url'] + 'auth/forgot_password', creds)
 
 
     @staticmethod

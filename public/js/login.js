@@ -9,7 +9,7 @@ $('#login-form').live('submit', function(e) {
   };
 
   $.ajax({
-    url: '/beta/login', type: 'POST', data: data
+    url: '/auth/login', type: 'POST', data: data
   }).fail(function(data) {
     $('.error').text(JSON.parse(data.responseText).error);
   }).then(function() {
@@ -20,7 +20,7 @@ $('#login-form').live('submit', function(e) {
 
 $('#forgot-password').live('click', function(e){
   e.preventDefault();
-  $('#login-box').load('/beta/forgot_password');
+  $('#login-box').load('/auth/forgot_password');
 });
 
 $('#forgot-request').live('submit', function(e){
@@ -32,7 +32,7 @@ $('#forgot-request').live('submit', function(e){
   };
 
   $.ajax({
-    url: '/beta/forgot_password', type: 'POST', data: data
+    url: '/auth/forgot_password', type: 'POST', data: data
   }).fail(function(data) {
     $('.error').text(JSON.parse(data.responseText).error);
   }).then(function(data) {
