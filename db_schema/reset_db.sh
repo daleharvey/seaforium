@@ -6,7 +6,6 @@
 cd `dirname $0`
 
 mysql -u$1 -p$2 new_forum <<< "TRUNCATE acquaintances;"
-mysql -u$1 -p$2 new_forum <<< "TRUNCATE categories;"
 mysql -u$1 -p$2 new_forum <<< "TRUNCATE comments;"
 mysql -u$1 -p$2 new_forum <<< "TRUNCATE favorites;"
 mysql -u$1 -p$2 new_forum <<< "TRUNCATE login_attempts;"
