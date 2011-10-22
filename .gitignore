@@ -1,7 +1,9 @@
-application/controllers/invite.php
-
 application/logs
 
 build
 
 tests/pytests/*.pyc
+
+
+.DS_Store
+.#*
