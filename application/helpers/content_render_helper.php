@@ -11,10 +11,10 @@ function _ready_for_display($content, $author = null)
 	// if the author is passed in, run
 	if ($author)
 		_format_me_script($content, $author);
-	
+
 	// add in pinkies
 	_format_pinkies($content);
-	
+
 	// and convert all newlines to html line breaks
 	return nl2br($content);
 }
@@ -22,7 +22,7 @@ function _ready_for_display($content, $author = null)
 function _ready_for_source($content)
 {
 	_unplacehold_pinkies($content);
-	
+
 	return $content;
 }
 
@@ -33,23 +33,9 @@ function _ready_for_source($content)
  */
 function _ready_for_save($content)
 {
-	_placehold_pinkies($content);
-	
-	// its a bazillion times faster to run html cleanup through a compiled extension
-	// this'll take care of unclosed tags and all that jazz
-	
-	if (class_exists('tidy')) { // honestly, wtf is a mamp
-		$tidy = new tidy();
-		$tidy->parseString('<div>'. $content .'</div>', array('show-body-only' => true, 'input-xml' => true), 'utf8');
-		$tidy->cleanRepair();
-		
-		$content = $tidy->value;
-	}
-	
-	// pull out all the tags we dont want
-	$content = trim(strip_tags($content, '<img><a><em><i><b><strong><strike><del><address><code><pre><quote>'));
-	
-	return $content;
+  _placehold_pinkies($content);
+  $content = purify($content);
+  return $content;
 }
 
 /**
@@ -82,7 +68,7 @@ function _format_pinkies(&$text)
 		'%26%' => '<span class="pinkie"><img src="/img/pinkies/26.gif" align="absmiddle" class="pinkie" alt="NH" /></span>',
 		'%21%' => '<span class="pinkie"><img src="/img/pinkies/21.gif" align="absmiddle" class="pinkie" alt="fbm" /></span>',
 	);
-	
+
 	foreach($pinkies as $key => $value)
 	{
 		$text = str_replace($key, $value, $text);
@@ -114,7 +100,7 @@ function _placehold_pinkies(&$text)
 		'[NH]'  => '%26%',
 		'[fbm]' => '%21%',
 	);
-	
+
 	foreach($pinkies as $key => $value)
 	{
 		$text = str_replace($key, $value, $text);
@@ -146,7 +132,7 @@ function _unplacehold_pinkies(&$text)
 		'[NH]'  => '%26%',
 		'[fbm]' => '%21%',
 	);
-	
+
 	foreach($pinkies as $key => $value)
 	{
 		$text = str_replace($value, $key, $text);

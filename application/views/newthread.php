@@ -119,7 +119,7 @@ $content = array(
         <ul>
           <li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<a href=%22%22></a>')">URL</a></li>
           <li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<img src=%22%22 />')">Image</a></li>
-          <li>&middot; <a href="#">Spoiler</a></li>
+          <!--<li>&middot; <a href="#">Spoiler</a></li>-->
         </ul>
       </div>
       </div>

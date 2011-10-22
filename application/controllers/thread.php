@@ -6,7 +6,7 @@ class Thread extends Controller {
   {
     parent::Controller();
 
-    $this->load->helper(array('url', 'date', 'form', 'content_render'));
+    $this->load->helper(array('url', 'date', 'form', 'content_render', 'htmlpurifier'));
     $this->load->library(array('form_validation', 'pagination'));
     $this->load->model('thread_dal');
 
