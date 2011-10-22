@@ -11,12 +11,6 @@ class Auth extends Controller
     $this->load->model('user_dal');
   }
 
-  function index()
-  {
-    $this->load->view('beta/header');
-    $this->load->view('beta/footer');
-  }
-
   /**
    * Login user on the site
    *
@@ -83,6 +77,13 @@ class Auth extends Controller
    */
   function register()
   {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+      $this->load->view('shared/header');
+      $this->load->view('register');
+      $this->load->view('shared/footer');
+      return;
+    }
+
     if ($this->sauth->is_logged_in()) {
       return send_json($this->output, 412, array('error' => 'already logged in'));
     }

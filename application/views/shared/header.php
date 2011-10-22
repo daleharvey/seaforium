@@ -53,8 +53,8 @@ $logged_in = $this->sauth->is_logged_in();
 					?>
 
 				<div class="lc-node login" id="login-box">
-					<h5>Not a member? Wanna join up? Tell us why!</h5>
-					<p><img src="/img/pinkies/07.gif" width="14" height="14" align="absmiddle"/> <a href="/invite" class="white">Click for more info, n00b!</a></p>
+					<h5>Not a member?</h5>
+					<p><img src="/img/pinkies/07.gif" width="14" height="14" align="absmiddle"/> <a href="/auth/register" class="white">Click to register, n00b!</a></p>
 					<p class="error"></p>
 
 					<form action="/auth/login" method="post" id="login-form">
