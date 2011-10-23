@@ -6,7 +6,7 @@ class Ajax extends Controller
 	{
 		parent::__construct();
 
-		$this->load->helper(array('url', 'content_render'));
+		$this->load->helper(array('url', 'content_render', 'htmlpurifier'));
 		$this->load->library('form_validation');
 		$this->load->model(array('thread_dal', 'user_dal'));
 	}
@@ -95,7 +95,7 @@ class Ajax extends Controller
 
 		$data = array(
 			'content' => _ready_for_source($comment->content),
-			'owner' => ($comment->user_id == $this->session->userdata('user_id') && strtotime($comment->created) > (time() - 3600))
+			'owner' => ($comment->user_id == $this->session->userdata('user_id') && strtotime($comment->created) > (time() - (60*60*24)))
 		);
 
 		echo '('. json_encode($data) .')';
