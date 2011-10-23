@@ -82,10 +82,10 @@
        <?php echo $row['username']; ?>
     </a></div>
     <div class="user_startdate">Member since
-      <?php echo date('M jS Y', strtotime($row['created'])); ?>
+      <?php echo date('M jS y', strtotime($row['created'])); ?>
     </div>
     <div class="user_logdate">Last log date
-      <?php echo date('M jS Y', strtotime($row['last_login'])); ?>
+      <?php echo date('M jS y', strtotime($row['last_login'])); ?>
     </div>
   </div>
 
