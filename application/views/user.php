@@ -3,18 +3,18 @@
 
 				<div id="user">
 					<div class="photostream">
-					
+
 					</div>
-					
+
 					<div class="personal_info_box">
-					
-					<?php 
+
+					<?php
 
 					if($this->uri->segment(2) == $this->session->userdata('username')){ ?>
 						<div id="this-is-you" >
 							<strong>This is You! <a href='preferences/'>Edit this page</a></strong>
 							<br/>
-							
+
 						</div>
 						<?php } ?>
 						<div id="information" class="standard_profile_info_box">
@@ -22,7 +22,7 @@
 						<span class='small_profile_caps'>BUDDY NOT ONLINE!</span><br/>
 							<?php if ($this->sauth->is_logged_in()) { ?>
 							&rarr; <a href='/messages/send/<?php echo $this->uri->segment(2) ?>'>Send a message</a><br/>
-							&rarr; <a href='#'>Change buddy status</a><br/>
+							&rarr; <a href='/buddies/<?php echo $user_data->username; ?>'>Change buddy status</a><br/>
 							<?php } ?>
 							&rarr; <a href='/f/started'>View threads started</a>
 						</div>
@@ -30,8 +30,8 @@
 							<h3>Stats</h3>
 							<?php echo $user_data->username ?> is the <?php echo make_ordinal($user_data->id); ?> member of this place and has been here since <?php echo date('F jS Y', strtotime($user_data->created)); ?>.
 							Since then, <?php echo $user_data->username ?> has posted <?php echo $user_data->thread_count ?> threads and <?php echo $user_data->comment_count ?> comments.
-							That's a total of <?php echo $user_data->average_posts ?> posts per day. <?php echo $user_data->username . $user_data->last_login_text ?> 
-							
+							That's a total of <?php echo $user_data->average_posts ?> posts per day. <?php echo $user_data->username . $user_data->last_login_text ?>
+
 						</div>
 						<div id="information-bio" class="standard_profile_info_box">
 						<h3>Info</h3>
@@ -49,13 +49,13 @@
 						</div>
 
 					</div>
-					
+
 					<div id="latest-posts">
 					<? echo $pagination; ?>
-					
+
 					<?php if(!$recent_posts): ?>
 						<h1>This user has posted absolutely nothing on YayHooray!</h1>
-					<?php else: 
+					<?php else:
 						foreach($recent_posts as $post):
 					?>
 						<div class="post-container" id="post-<?php echo $post['comment_id']; ?>">
@@ -64,15 +64,15 @@
 						<div class="recent-post-content">
 							<?php echo _ready_for_display($post['content']); ?>
 						</div>
-						
+
 						<hr/>
 						</div>
-					
+
 					<?php
-						endforeach; 
+						endforeach;
 					 endif; ?>
 					</div>
-					
+
 				</div>
-					
-				
+
+
