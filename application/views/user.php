@@ -49,7 +49,7 @@
 					</div>
 
 					<div id="latest-posts">
-					<? echo $pagination; ?>
+					<? //echo $pagination; ?>
 
 					<?php if(!$recent_posts): ?>
 						<h1>This user has posted absolutely nothing on YayHooray!</h1>
