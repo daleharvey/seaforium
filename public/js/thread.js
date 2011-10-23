@@ -102,7 +102,7 @@ thread = {
       url: '/ajax/comment_save/'+comment_id,
       data: data,
       success: function(data){
-	$('#comment-'+comment_id+' .content').html(data);
+	format_special($('#comment-'+comment_id+' .content').html(data));
 	thread.comments[comment_id].content = data.content;
       }
     });
