@@ -558,6 +558,7 @@ padding: 2px 0 4px 0;
 .comment .user-block, .test-comment .user-block {
 float: left;
 width: 105px;
+margin-top:5px;
 }
 
 .comment .username.buddy {
@@ -613,7 +614,7 @@ background: #ED135A;
 }
 
 .comment .content-block, .test-comment .content-block {
-margin: 3px 0 0 125px;
+margin: 5px 0 0 125px;
 font-size: 14px;
 }
 
