@@ -138,26 +138,32 @@ thread = {
 
   view_source: function(comment_id)
   {
-    if (thread.comments[comment_id] != undefined)
-    {
+    if (thread.comments[comment_id] != undefined) {
+
       comment = thread.comments[comment_id];
+
+      // View source is already active, switch back to original
+      if (comment.container.find("textarea").length !== 0) {
+        thread.view_original(comment_id);
+        return;
+      }
 
       comment.container.html($('<textarea>', {
 	'id': 'comment-'+comment_id+'-source',
 	'val': comment.data.content
       }));
 
-      if (comment.data.owner)
-	comment.container.append($('<button>',{'html': 'Save'}).bind('click',
-					                             function() {thread.save(comment_id);}
-				                                    ));
+      if (comment.data.owner) {
+	comment.container.append(
+          $('<button>',{'html': 'Save'})
+            .bind('click', function() {thread.save(comment_id);} ));
+      }
 
-      comment.container.append($('<button>', {'html': 'Close'}).bind('click',
-				                                     function(){thread.view_original(comment_id);}
-			                                            ));
-    }
-    else
-    {
+      comment.container.append(
+        $('<button>', {'html': 'Close'})
+          .bind('click', function(){thread.view_original(comment_id);} ));
+
+    } else {
       thread.get_comment_details(comment_id, function(){
 	thread.view_source(comment_id);
       });
