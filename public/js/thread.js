@@ -8,6 +8,14 @@ jQuery.fn.reverse = function() {
 
 function format_special(element)
 {
+  $('spoiler').each(function() {
+    var html = '<div class="spoiler">' +
+      '<div class="spoiler-disclaimer">Warning! May contain spoilers</div>' +
+      '<div class="spoiler-content">' + $(this).html() + '</div>' +
+      '</div>'
+    $(this).replaceWith(html);
+  });
+
   pattern = new RegExp('(?:")?http(?:s)?://(?:www.)?youtu(?:be)?.(?:[a-z]){2,3}(?:[a-z/?=]+)([a-zA-Z0-9-_]{11})(?:[a-z0-9?&-_=]+)?');
 
   $(element).each(function(){

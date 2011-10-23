@@ -21,6 +21,14 @@ function purify($dirty_html)
 
   $config = HTMLPurifier_Config::createDefault();
   $config->set('HTML.Doctype', 'XHTML 1.0 Strict');
+  $def = $config->getHTMLDefinition(true);
+  $def->addElement(
+   'spoiler',   // name
+   'Block',  // content set
+   'Flow', // allowed children
+   'Common', // attribute collection
+   array()
+);
 
   return HTMLPurifier($dirty_html, $config);
 }

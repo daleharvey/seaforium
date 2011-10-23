@@ -1141,3 +1141,27 @@ hr.divider {
     font-weight: bold;
     display:none;
 }
+
+spoiler {
+    display:none;
+}
+.spoiler {
+    position:relative;
+    background: #EEE;
+}
+.spoiler:hover .spoiler-disclaimer {
+    display:none;
+}
+.spoiler:hover .spoiler-content {
+    visibility: visible;
+}
+
+.spoiler-disclaimer {
+    position:absolute;
+    background: red;
+    color: white;
+}
+
+.spoiler-content {
+    visibility:hidden;
+}
