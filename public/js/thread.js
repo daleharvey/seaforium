@@ -11,7 +11,7 @@ function format_special(element)
     $(this).html($(this).html().replace(pattern, function(a, b){return (a.indexOf("\"") != -1) ? a : '<iframe width="425" height="349" src="http://www.youtube.com/embed/'+b+'" frameborder="0" allowfullscreen></iframe><br />';}));
 
     // formatting for nickoislazy style quotes
-    children = $(this).children('quote');
+    children = $(this).children('blockquote');
 
     if (children.length > 0)
     {
@@ -20,7 +20,7 @@ function format_special(element)
 	$(this).after(
 	  $('<div>', {
 	    'class': 'tquote',
-	    'html': '<div class="tqname">'+$(this).attr('name')+' said:</div>'+$(this).html()
+	    'html': '<div class="tqname">'+$(this).attr('title')+' said:</div>'+$(this).html()
 	  })
 	);
 
@@ -78,7 +78,7 @@ thread = {
   {
     if (thread.comments[comment_id] != undefined)
     {
-      html = "<quote name=\"" + thread.comments[comment_id].author + "\">\n" + thread.comments[comment_id].data.content + "\n</quote>";
+      html = "<blockquote title=\"" + $.trim(thread.comments[comment_id].author) + "\">\n" + thread.comments[comment_id].data.content + "\n</blockquote>";
 
       $("#thread-content-input").val($("#thread-content-input").val() + html);
     }
