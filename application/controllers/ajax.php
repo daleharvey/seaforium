@@ -46,7 +46,7 @@ class Ajax extends Controller
       $count = ceil($db_count / $shown);
 
       echo '<div id="notifier"><a id="notify" href="/thread/'. $thread_id .
-        '/'. $title . $page .'/r'. mt_rand(10000, 99999) .'#bottom">' .
+        '/'. $title . '/p/'. $count .'/r'. mt_rand(10000, 99999) .'#bottom">' .
         $new_posts .' new post'. ($new_posts === 1 ? '' : 's') ." added</a></div>";
     }
   }
