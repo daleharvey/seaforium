@@ -208,9 +208,9 @@ class User_dal extends Model
    */
   function create_yh_invite($username, $invite_id)
   {
-    $data = array($invite_id, $username);
+    $data = array($invite_id, $username, date("Y-m-d H:i:s", utc_time()));
     $this->db->query("INSERT INTO yh_invites (invite_id, yh_username, created) " .
-                     "VALUES (?, ?, NOW())", $data);
+                     "VALUES (?, ?, ?)", $data);
     return TRUE;
   }
 
@@ -248,7 +248,7 @@ class User_dal extends Model
 				created,
 				activated
 			) VALUES (
-				?, ?, ?, ?, NOW(), ?
+				?, ?, ?, ?, ?, ?
 			)";
 
     $this->db->query($sql, array(
@@ -256,6 +256,7 @@ class User_dal extends Model
                                  $data['email'],
                                  $data['password'],
                                  $data['last_ip'],
+                                 date("Y-m-d H:i:s", utc_time()),
                                  $data['activated']
                                  ));
 
@@ -328,10 +329,10 @@ class User_dal extends Model
 			SET
 				new_password_key = NULL,
 				last_ip = ?,
-				last_login = NOW()
+				last_login = ?
 			WHERE id = ?";
 
-    $this->db->query($sql, array($this->input->ip_address(), $user_id));
+    $this->db->query($sql, array($this->input->ip_address(), date("Y-m-d H:i:s", utc_time()), $user_id));
   }
 
   /**
