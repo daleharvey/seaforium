@@ -38,23 +38,16 @@ class Ajax extends Controller
 
     // if the numbers dont match, throw out some html
     if ($db_count > $current_count) {
+
       // number of new posts
       $new_posts = $db_count - $current_count;
+      $title = url_title($this->thread_dal->get_thread_information($this->session->userdata('user_id'), $thread_id)->row()->subject, 'dash', TRUE);
+      $shown = $this->session->userdata('comments_shown');
+      $count = ceil($db_count / $shown);
 
-      /*
-       * TODO: if their comments_shown value is false,
-       * 	they probably aren't logged in, in which case,
-       * 	they don't get the notifier anyways.
-       *
-       * Test out that idea and remove the userdata boolean check accordingly
-       */
-      $count = $this->session->userdata('comments_shown') == false
-        ? 50
-        : ceil($db_count / $this->session->userdata('comments_shown'));
-
-      $page = '/p/'. floor($db_count/$count) * $count;
-
-      echo '<div id="notifier"><a id="notify" href="/thread/'. $thread_id .'/'. url_title($this->thread_dal->get_thread_information($this->session->userdata('user_id'), $thread_id)->row()->subject, 'dash', TRUE) .'">'. $new_posts .' new post'. ($new_posts === 1 ? '' : 's') ." added</a></div>";
+      echo '<div id="notifier"><a id="notify" href="/thread/'. $thread_id .
+        '/'. $title . $page .'/r'. mt_rand(10000, 99999) .'#bottom">' .
+        $new_posts .' new post'. ($new_posts === 1 ? '' : 's') ." added</a></div>";
     }
   }
 
