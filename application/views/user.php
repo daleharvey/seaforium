@@ -35,8 +35,6 @@
 						</div>
 						<div id="information-bio" class="standard_profile_info_box">
 						<h3>Info</h3>
-							<?php if ($user_data->id < 100) { ?><span class='small_profile_caps'>Original Member ®</span><br/><?php } else { ?>
-							<span class='small_profile_caps'>INVITED BY: </span><br/><?php } ?>
 							<?php if (strlen($user_data->name) > 0) { ?><span class='small_profile_caps'>NAME: <?php echo $user_data->name; ?></span><br/><?php } ?>
 							<?php if (strlen($user_data->location) > 0) { ?><span class='small_profile_caps'>LOC: <?php echo $user_data->location; ?></span><br/><?php } ?>
 							<?php if (strlen($user_data->website_1) > 0) { ?><span class='small_profile_caps'>URL 1: </span><a href="<?php echo $user_data->website_1; ?>"><?php echo $user_data->website_1; ?></a><br/><?php } ?>
