@@ -66,12 +66,11 @@ class Thread extends Controller {
         $content = _ready_for_save($this->form_validation->set_value('content'));
 
         $this->thread_dal->new_comment(array(
-                                             'thread_id' => $thread_id,
-                                             'user_id' => $this->meta['user_id'],
-                                             'content' => $content
-                                             ));
-
-        redirect(uri_string());
+          'thread_id' => $thread_id,
+          'user_id' => $this->meta['user_id'],
+          'content' => $content
+        ));
+        redirect(uri_string() . '#bottom');
       }
     }
 
