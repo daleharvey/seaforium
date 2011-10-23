@@ -11,8 +11,8 @@
 		'id'	=> 'thread-content-input',
 		'value' => set_value('content')
 	);
-	
-	
+
+
 	$countries = array(
 		"Afghanistan",
 		"Albania",
@@ -213,37 +213,37 @@
 ?>
 
 				<div id="main-title"><h3>Pimpin' ain't easy... but editing your profile is!</h3></div>
-				
+
 				<p><strong>This is the page where you can edit your profile and change your YH settings. Your profile lets people learn a little about you. Tweak your YH settings to browse yay the way you want to.</strong></p>
-				
+
 				<div class="dotted-bar"></div>
-				
+
 				<div id="preferences">
-				
+
 					<?php echo form_open_multipart('/preferences');?>
-						
+
 						<h4 class="biglabel">Account Stuff</h4>
-						
+
 						<div class="input text">
 							<?php echo form_label('Email Address', 'email'); ?>
 							<?php echo form_input('email', $user_preferences->email); ?>
 						</div>
-						
+
 						<div class="input text">
 							<label for="password">Change Password</label>
 							<input type="password" name="password" id="password" value="" />
 						</div>
-						
+
 						<div class="input text">
 							<label for="password2">Verify Password</label>
 							<input type="password" name="password2" id="password2" value="" />
 						</div>
-						
+
 						<br />
 						<div class="blueline"></div>
-						
+
 						<h4 class="biglabel">Personal Stuff</h4>
-						
+
 						<div class="input text">
 							<?php echo form_label('What\'s your name?', 'real_name'); ?>
 							<?php echo form_input('real_name', $user_preferences->name); ?>
@@ -253,7 +253,7 @@
 							<?php echo form_input('location', $user_preferences->location); ?>
 						</div>
 						<div class="input text">
-							<?php echo form_label('Tell us about yoruself', 'about_blurb'); ?>
+							<?php echo form_label('Tell us about yourself', 'about_blurb'); ?>
 							<?php echo form_textarea('about_blurb', $user_preferences->about_blurb); ?>
 						</div>
 						<div class="input text">
@@ -280,12 +280,12 @@
 							<?php echo form_label('RSS Feed 3', 'rss_feed_3'); ?>
 							<?php echo form_input('rss_feed_3', $user_preferences->rss_feed_3); ?>
 						</div>
-						
+
 						<br />
 						<div class="blueline"></div>
-						
+
 						<h4 class="biglabel">Other Websites</h4>
-						
+
 						<div class="input text">
 							<?php echo form_label('Flickr Username', 'flickr_username'); ?>
 							<?php echo form_input('flickr_username', $user_preferences->flickr_username); ?>
@@ -314,12 +314,12 @@
 							<?php echo form_label('MSN username', 'msn'); ?>
 							<?php echo form_input('msn', $user_preferences->msn); ?>
 						</div>
-						
+
 						<br />
 						<div class="blueline"></div>
-						
+
 						<h4 class="biglabel">YH Settings</h4>
-						
+
 						<div class="input text">
 							<?php echo form_label('Show Random Titles', 'random_titles'); ?>
 							<?php echo form_checkbox('random_titles', "1", $user_preferences->random_titles) ?>
@@ -338,19 +338,19 @@
 							<?php echo form_label('Threads Shown', 'threads_shown'); ?>
 							<?php echo form_dropdown('threads_shown', $elements_shown_options, $this->session->userdata('threads_shown').''); ?>
 						</div>
-						
+
 						<div class="input text">
 							<?php echo form_label('Comments Shown', 'comments_shown'); ?>
 							<?php echo form_dropdown('comments_shown', $elements_shown_options, $this->session->userdata('comments_shown').''); ?>
 						</div>
-						
+
 						<div class="input text">
 							<label for="emot_upload">Avatar</label>
 							<input type="file" id="emot_upload" name="emot_upload" size="20" />
 						</div>
-						
-						
+
+
 						<?php echo form_submit('submit', 'Submit'); ?>
 					<?php echo form_close(); ?>
-					
+
 				</div>
