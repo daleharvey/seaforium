@@ -140,7 +140,8 @@ class Auth extends Controller
 
       {$uri}
 
-      dh
+     Love,
+     The guys at YayHooray.net
 EOT;
 
       $this->yayhooray->login($this->config->item('yay_username'),
