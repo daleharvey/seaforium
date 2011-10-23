@@ -613,8 +613,7 @@ background: #ED135A;
 }
 
 .comment .content-block, .test-comment .content-block {
-margin-left: 125px;
-line-height: 18px;
+margin: 3px 0 0 125px;
 font-size: 14px;
 }
 
