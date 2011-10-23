@@ -11,7 +11,7 @@ function send_json($output, $code, $json)
 // We are pretty restrictive with usernames for now, can fix up later
 function valid_username($username)
 {
-  if (preg_match('/^[a-z\d_]{1,32}$/i', $username)) {
+  if (preg_match('/^[a-z\d ]{1,32}$/i', $username)) {
     return true;
   } else {
     return false;

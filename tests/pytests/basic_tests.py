@@ -14,10 +14,10 @@ class TestBasicFunction(unittest.TestCase):
 
 
     def test_fail_register(self):
-        r = YayClient.register(self.opts, 'some name', 'a@a.com', 'a', 'a')
+        r = YayClient.register(self.opts, '    ', 'b@a.com', 'a', 'a')
         j = simplejson.loads(r.content)
         self.assertEqual(r.status_code, 401)
-        r = YayClient.register(self.opts, 'my\'name', 'a@a.com', 'a', 'a')
+        r = YayClient.register(self.opts, 'my\'name', 'c@a.com', 'a', 'a')
         j = simplejson.loads(r.content)
         self.assertEqual(r.status_code, 401)
 
