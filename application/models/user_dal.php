@@ -139,7 +139,7 @@ class User_dal extends Model
    */
   function is_yay_username($username)
   {
-    $query = $this->db->query("SELECT 1 FROM yay_users WHERE username = ?",
+    $query = $this->db->query("SELECT 1 FROM yay_users WHERE LOWER(username) = ?",
                               strtolower($username));
 
     return $query->num_rows() == 1;
