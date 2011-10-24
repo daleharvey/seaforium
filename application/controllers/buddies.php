@@ -26,24 +26,27 @@ class Buddies extends Controller {
 				$me = $this->session->userdata('username');
 				$key = md5($me.$acq_id);
 				$command = (int)$this->form_validation->set_value('command');
-
-				$this->user_dal->add_acquaintance($key, $user_id, $acq_id, $command);
-
-				if ($command === 1 && $user_id != $acq_id)
+				
+				if ($user_id != $acq_id)
 				{
-					$profile = 'http://yayhooray.net/user/'.url_title($me, 'dash', TRUE);
-					$buddy_link = 'http://yayhooray.net/buddies/'.url_title($me, 'dash', TRUE);
+					$this->user_dal->add_acquaintance($key, $user_id, $acq_id, $command);
 
-					$message = array(
-						'sender' => $user_id,
-						'recipient' => $acq_id,
-						'subject' => $this->session->userdata('username')." just added you as a buddy",
-						'content' => "Wow, what a momentous occasion! Now go return the favor...\n\nProfile: <a href=\"".$profile."\">".$profile."</a>\nAdd as buddy: <a href=\"".$buddy_link."\">".$buddy_link."</a>"
-					);
+					if ($command === 1)
+					{
+						$profile = 'http://yayhooray.net/user/'.url_title($me, 'dash', TRUE);
+						$buddy_link = 'http://yayhooray.net/buddies/'.url_title($me, 'dash', TRUE);
 
-					$message['id'] = $this->message_dal->new_message($message);
+						$message = array(
+							'sender' => $user_id,
+							'recipient' => $acq_id,
+							'subject' => $this->session->userdata('username')." just added you as a buddy",
+							'content' => "Wow, what a momentous occasion! Now go return the favor...\n\nProfile: <a href=\"".$profile."\">".$profile."</a>\nAdd as buddy: <a href=\"".$buddy_link."\">".$buddy_link."</a>"
+						);
 
-					$this->message_dal->new_inbox($message['recipient'], $message, '');
+						$message['id'] = $this->message_dal->new_message($message);
+
+						$this->message_dal->new_inbox($message['recipient'], $message, '');
+					}
 				}
 
 				redirect('/buddies');
