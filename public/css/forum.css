@@ -113,7 +113,8 @@ line-height: 10px;
 }
 
 .lc-node#messaging {
-background: #FEF6EA;
+background: ivory;
+/* background: #FEF6EA; */
 }
 
 .lc-node#messaging img {
@@ -154,11 +155,13 @@ margin: 7px 0 3px 0;
 }
 
 #threads {
-    background-color: #E9F8FE;
+background: aliceblue;
+    /* background-color: #E9F8FE; */
 }
 
 #buddy-list {
-    background-color: #EDF5E1;
+background: honeydew ;
+    /* background-color: #EDF5E1; */
 }
 
 hr {
