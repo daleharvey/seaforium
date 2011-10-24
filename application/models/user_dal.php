@@ -504,6 +504,20 @@ class User_dal extends Model
     return $result->num_rows > 0 ? $result : FALSE;
   }
 
+  function get_buddies_count($user_id)
+  {
+    $sql = "
+			SELECT count(users.id) AS buddy_count
+			FROM users
+			RIGHT JOIN acquaintances
+			ON acquaintances.user_id = users.id
+			WHERE acquaintances.acq_user_id = ?
+			AND acquaintances.type = 1";
+
+    $data['buddy_count'] = $this->db->query($sql, $user_id)->row()->buddy_count;
+	return $data['buddy_count'];
+  }
+
   function get_enemies($user_id)
   {
     $result = $this->db->query("
@@ -521,6 +535,20 @@ class User_dal extends Model
 			GROUP BY users.id", $user_id);
 
     return $result->num_rows > 0 ? $result : FALSE;
+  }
+
+  function get_enemies_count($user_id)
+  {
+    $sql = "
+			SELECT count(users.id) AS enemy_count
+			FROM users
+			RIGHT JOIN acquaintances
+			ON acquaintances.user_id = users.id
+			WHERE acquaintances.acq_user_id = ?
+			AND acquaintances.type = 2";
+
+    $data['enemy_count'] = $this->db->query($sql, $user_id)->row()->enemy_count;
+	return $data['enemy_count'];
   }
 
   function toggle_html($user_id, $view_html)

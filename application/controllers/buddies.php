@@ -29,7 +29,7 @@ class Buddies extends Controller {
 
 				$this->user_dal->add_acquaintance($key, $user_id, $acq_id, $command);
 
-				if ($command === 1)
+				if ($command === 1 && $user_id != $acq_id)
 				{
 					$profile = 'http://yayhooray.net/user/'.url_title($me, 'dash', TRUE);
 					$buddy_link = 'http://yayhooray.net/buddies/'.url_title($me, 'dash', TRUE);

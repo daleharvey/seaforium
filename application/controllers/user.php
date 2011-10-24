@@ -47,6 +47,12 @@ class User extends Controller {
     $data['recent_posts'] = $this->user_dal
       ->get_user_recent_posts((int)$data['user_data']->id);
 
+	$data['buddy_count'] = $this->user_dal
+	  ->get_buddies_count((int)$data['user_data']->id);
+
+	$data['enemy_count'] = $this->user_dal
+	  ->get_enemies_count((int)$data['user_data']->id);
+
     $this->pagination->initialize(array(
       'base_url' => '/user/' . $data['user_data']->username . '/p/',
       'total_rows' => $data['user_data']->comment_count,
