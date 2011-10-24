@@ -68,11 +68,11 @@ foreach($thread_result->result() as $row) {
 						<div class="category"><?php echo $row->category ?></div>
 					</div>
 					<div class="two">
-						<div class="username"><?php echo anchor('/user/'.url_title($row->author_name, 'dash', TRUE), $row->author_name); ?></div>
+						<div class="username"><?php echo anchor('/user/'.url_title($row->author_name, 'dash', FALSE), $row->author_name); ?></div>
 						<div class="time"><?php echo timespan(strtotime($row->created), time()) ?></div>
 					</div>
 					<div class="three">
-						<div class="username"><?php echo anchor('/user/'.url_title($row->responder_name, 'dash', TRUE), $row->responder_name); ?></div>
+						<div class="username"><?php echo anchor('/user/'.url_title($row->responder_name, 'dash', FALSE), $row->responder_name); ?></div>
 						<div class="time"><?php echo timespan(strtotime($row->response_created), time()) ?></div>
 					</div>
 					<div class="four">
