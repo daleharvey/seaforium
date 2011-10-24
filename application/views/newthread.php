@@ -12,8 +12,7 @@ $categories = array(
 	'discussions' => array(
 		'name' => 'category[]',
 		'id' => 'cat-discussions',
-		'value' => '1',
-		'checked' => TRUE
+		'value' => '1'
 	),
 	'projects' => array(
 		'name' => 'category[]',
