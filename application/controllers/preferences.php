@@ -83,7 +83,7 @@ class Preferences extends Controller {
 			if (isset($_FILES['emot_upload']) && strlen($_FILES['emot_upload']['name']) > 0) {
 				$this->load->library('upload', array(
 					'upload_path' => './img/emoticons/',
-					'allowed_types' => 'gif',
+					'allowed_types' => 'gif|png',
 					'max_size' => 3,
 					'max_width' => 16,
 					'max_height' => 16,
