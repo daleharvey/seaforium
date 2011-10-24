@@ -21,7 +21,8 @@ class Buddies extends Controller {
 
 		if ($this->form_validation->run())
 		{
-			if ($acq_id = $this->user_dal->get_user_id_by_username($this->form_validation->set_value('username')))
+                        $acq_id = $acq_id = $this->user_dal->get_user_id_by_username($this->form_validation->set_value('username'));
+			if ($acq_id  && $user_id != $acq_id)
 			{
 				$me = $this->session->userdata('username');
 				$key = md5($me.$acq_id);
@@ -29,7 +30,7 @@ class Buddies extends Controller {
 
 				$this->user_dal->add_acquaintance($key, $user_id, $acq_id, $command);
 
-				if ($command === 1 && $user_id != $acq_id)
+				if ($command === 1)
 				{
 					$profile = 'http://yayhooray.net/user/'.url_title($me, 'dash', TRUE);
 					$buddy_link = 'http://yayhooray.net/buddies/'.url_title($me, 'dash', TRUE);
