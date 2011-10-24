@@ -2,7 +2,13 @@
 
 <div id="new-thread">
 
-  <p><strong>Think you have something good enough to say to post a thread about it? Well have it!</strong> Remember that posting a thread is no small thing. Millions of people will read it so make it good!</p>
+   <p>If you register using an existing username on yayhooray.com you will have
+     to activate your account to use that username, the link will be sent to
+     <a href="http://www.yayhooray.com/messages">yayhooray.com/messages</a>.
+   </p>
+
+   <p>If the pm doesn't arrive within 10 minutes, pm
+     <a href="http://dh.yayhooray.com">dh</a> for access. Cheers</p>
 
   <div class="dotted-bar"></div>
 
