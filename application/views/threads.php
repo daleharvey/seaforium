@@ -30,7 +30,25 @@ foreach($thread_result->result() as $row) {
 
 	$link_text = '/thread/'.$row->thread_id.'/'.url_title($row->subject, 'dash', TRUE);
 
-	$last_page = (ceil($row->response_count / $display) * $display - $display);
+	$last_pagenumber = ceil($row->response_count / $display);
+	$last_page = ($last_pagenumber * $display - $display);
+
+	$printpages = '';
+	if ($last_pagenumber > 1)
+	{
+		$tmplast_pagenumber = $last_pagenumber;
+		if ($last_pagenumber > 8) $tmplast_pagenumber = 4;
+		$printpages .= ' | Page:';
+		for($p=1; $p<=$tmplast_pagenumber; ++$p)
+		{
+			$n_page = ($p * $display - $display);
+			$printpages .= ' <a href="'.$link_text.'/p/'.$n_page.'">'.$p.'</a>';
+		}
+		if ($last_pagenumber > 8)
+		{
+			$printpages .= ' <a href="'.$link_text.'/p/'.$last_page.'">...</a> <a href="'.$link_text.'/p/'.$last_page.'">'.$last_pagenumber.'</a>';
+		}
+	}
 
 	$row->acq = (int) $row->acq;
 
@@ -65,7 +83,7 @@ foreach($thread_result->result() as $row) {
 				<div id="thread-<?php echo $row->thread_id; ?>" class="thread<?php echo $alt === false ? '' : ' alt'; echo $acq; echo $nsfw; ?>">
 					<div class="one">
 						<div class="subject"><span class="subject-text"><a href="<?php echo $link_text; ?>"><?php echo $row->subject; ?></a></span> <?php echo $nsfw_tag.' '. '<a href="'.$link_text.'/p/'.$last_page.'#bottom'; ?>" class='end-link'>#</a></div>
-						<div class="category"><?php echo $row->category ?></div>
+						<div class="category"><?php echo $row->category.$printpages ?></div>
 					</div>
 					<div class="two">
 						<div class="username"><?php echo anchor('/user/'.url_title($row->author_name, 'dash', FALSE), $row->author_name); ?></div>
