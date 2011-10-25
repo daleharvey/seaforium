@@ -20,8 +20,6 @@ class Thread_dal extends Model
 				(user_id, subject, category, created)
 			VALUES
 				(?, ?, ?, ?)";
-
-		$data['subject'] = utf8_entities($data['subject']);
 				
 		$this->db->query($sql, array(
 			$data['user_id'],
@@ -131,8 +129,6 @@ class Thread_dal extends Model
 	function new_comment($data)
 	{
 		$sql = "INSERT INTO comments (thread_id, user_id, content, created) VALUES (?, ?, ?, ?)";
-		
-		$data['content'] = utf8_entities($data['content']);
 
 		$this->db->query($sql, array(
 			$data['thread_id'],
