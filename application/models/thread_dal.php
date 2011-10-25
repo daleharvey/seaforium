@@ -20,7 +20,7 @@ class Thread_dal extends Model
 				(user_id, subject, category, created)
 			VALUES
 				(?, ?, ?, ?)";
-
+				
 		$this->db->query($sql, array(
 			$data['user_id'],
 			$data['subject'],
