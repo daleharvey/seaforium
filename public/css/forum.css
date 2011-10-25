@@ -33,6 +33,10 @@ a:hover{
     background-color:#494949;
 }
 
+b, strong {
+	font-weight:bolder;
+}
+
 ol, ul {
     list-style: none;
 }
@@ -180,8 +184,14 @@ hr {
     text-transform:uppercase;
     border-bottom:1px dotted #959595;
 }
+#special-threads { 
+	border-bottom:1px dotted #959595;
+}
 #special-threads a {
     color: #959595;
+}
+#search-title { 
+      
 }
 #toggle-html {
 font-size: 10px;
@@ -246,6 +256,10 @@ font-size: 10px;
 .time, .category {
     font-size:9px;
     color: #959595;
+}
+
+.category a {
+	text-decoration:none;
 }
 
 .blueline {

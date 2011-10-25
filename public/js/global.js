@@ -37,7 +37,10 @@ var YAY = (function() {
         }
       });
     });
-
+	$('#search-box').submit(function() { 
+		window.location.href="find/" + $('#search-phrase').val();
+		return false;
+	});
   })();
 
   (function () {
