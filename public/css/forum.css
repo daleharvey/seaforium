@@ -180,8 +180,14 @@ hr {
     text-transform:uppercase;
     border-bottom:1px dotted #959595;
 }
+#special-threads { 
+	border-bottom:1px dotted #959595;
+}
 #special-threads a {
     color: #959595;
+}
+#search-title { 
+      
 }
 #toggle-html {
 font-size: 10px;
