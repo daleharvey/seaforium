@@ -1,14 +1,12 @@
-var YAY = (function() {
 
-  (function () {
-
+(function () {
     var title, tpl = $("#title-input").html();
 
     $("#main-title.changeling").bind("click", function () {
       if ($(this).is(":not(.editing)")) {
-        title = $(this).text();
+        title = $('h3', this).text();
         $(this).addClass("editing");
-        $(this).empty().append(tpl);
+        $('h3', this).empty().append(tpl);
         var input = $(this).find("#title-input");
         input.val(title);
         input[0].focus();
@@ -17,22 +15,27 @@ var YAY = (function() {
     });
 
     $("#cancel-title").live("click", function () {
-      $("#main-title")
+      $('h3', "#main-title")
         .empty()
-        .html("<h3>" + title + "</h3>")
+        .text(title);
+	  $("#main-title")
         .removeClass("editing");
     });
 
     $("#save-title").live("click", function () {
       var newTitle = $("#title-input").val();
+	  var data = "title=" + newTitle;
+	  data += isThread() ? "&thread_id=" + thread.id() : '';
+	  
       $.ajax({
         type: "POST",
         url: "/title/edit",
-        data: "title=" + newTitle,
+        data: data,
         success: function(msg){
-          $("#main-title")
+          $('h3', "#main-title")
             .empty()
-            .html("<h3>" + newTitle + "</h3>")
+            .text(newTitle)
+		  $("#main-title")
             .removeClass("editing");
         }
       });
@@ -54,6 +57,8 @@ var YAY = (function() {
       );
       return;
     });
-  })();
-
 })();
+
+function isThread() {
+	return (typeof(window.thread) == "undefined")?  false: true;
+}
