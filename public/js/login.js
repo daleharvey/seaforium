@@ -13,7 +13,7 @@ $('#login-form').live('submit', function(e) {
   }).fail(function(data) {
     $('.error').text(JSON.parse(data.responseText).error);
   }).then(function() {
-    document.location.href = '';
+    window.location.reload();
   });
 });
 
