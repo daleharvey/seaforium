@@ -35,7 +35,7 @@
 |
 | This route lets you set a "secret" word that will trigger the
 | scaffolding feature for added security. Note: Scaffolding must be
-| enabled in the controller in which you intend to use it.   The reserved 
+| enabled in the controller in which you intend to use it.   The reserved
 | routes must come before any wildcard or regular expression routes.
 |
 */
@@ -48,6 +48,7 @@ $route['f/(:any)'] = "welcome/index/0/$1"; // filter
 $route['f/(:any)/(:any)/(:any)'] = "welcome/index/0/$1/$2/$3"; // filter, order
 
 $route['o/(:any)/(:any)'] = "welcome/index/0/all/$1/$2"; // order
+$route['p/(:num)/(:any)'] = "welcome/index/$1/$2"; // page, filter
 
 $route['p/(:num)/(:any)/(:any)'] = "welcome/index/$1/all/$2/$3"; // page, order
 $route['p/(:num)/(:any)/(:any)/(:any)'] = "welcome/index/$1/$2/$3/$4"; // page, filter, order
