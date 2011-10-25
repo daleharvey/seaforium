@@ -118,6 +118,14 @@ $logged_in = $this->sauth->is_logged_in();
 						<li><a href="/f/favorites">Favourite Threads</a></li>
 						<?php } ?>
 					</ul>
+					<ul id="search-title">
+						<li>
+						<strong>Search Thread Titles</strong><br/>
+							<form name="search-box" id="search-box" method="" action="">
+								<input type="text" value="" name="search-phrase" id="search-phrase" />
+								<input type="submit" value="Go" />
+							</form>
+					</ul>
 					<?php if ($logged_in) { ?>
                                         <hr />
 					<a id="toggle-html">Turn <?php echo $this->session->userdata('view_html') == '1' ? 'off' : 'on'; ?> html</a>

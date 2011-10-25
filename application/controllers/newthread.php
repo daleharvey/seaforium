@@ -34,11 +34,11 @@ class Newthread extends Controller {
 				'subject' => $subject,
 				'content' => purify($content)
 			);
-
+			
 			$comment['thread_id'] = $this->thread_dal->new_thread($comment);
 
 			$this->thread_dal->new_comment($comment);
-
+			//echo "RAN";
 			redirect('/thread/'.$comment['thread_id'].'/'.url_title($subject, 'dash', TRUE));
 		}
 

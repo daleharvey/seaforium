@@ -65,6 +65,9 @@ $route['thread/(:num)/p/(:num)'] = "thread/load/$1/$2";
 // let them pass, they'll be redirected home anyways
 $route['thread/(:any)'] = "thread/load/$1";
 
+// new route for finding threads by title
+$route['find/(:any)'] = "find";
+
 $route['user/(:any)'] = "user/load/$1";
 
 $route['message/(:num)'] = "message/load/$1";

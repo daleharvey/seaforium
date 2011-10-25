@@ -296,4 +296,60 @@ class Thread_dal extends Model
 
 		return $this->db->affected_rows();
 	}
+	function find_thread_by_title($user_id, $limit, $span, $filtering = '', $ordering = '', $search_phrase)
+	{
+		//return $this->db->query("SELECT * FROM `threads` WHERE MATCH(subject) AGAINST(?)", $search_phrase);
+		
+		$sql = "
+			SELECT
+				threads.subject,
+				threads.created,
+				threads.nsfw,
+				threads.thread_id,
+				categories.name AS category,
+				authors.username AS author_name,
+				authors.username AS author_name,
+				responders.username AS responder_name,
+				responses.created AS response_created,
+				IFNULL(acquaintances.type, 0) AS acq,
+				(
+					SELECT
+						count(comments.comment_id)
+					FROM comments
+					WHERE comments.thread_id = threads.thread_id
+				) AS response_count
+			FROM threads
+			JOIN comments AS responses
+				ON responses.comment_id = threads.last_comment_id
+			JOIN users AS authors
+				ON threads.user_id = authors.id
+			JOIN users AS responders
+				ON responses.user_id = responders.id
+			LEFT JOIN categories
+				ON threads.category = categories.category_id
+			LEFT JOIN acquaintances
+				ON acquaintances.acq_user_id = authors.id AND acquaintances.user_id = ?
+			WHERE match(threads.subject) AGAINST('" . $search_phrase . "')
+			". $filtering ."
+			". $ordering ."
+			
+			LIMIT ?, ?";
+
+		return $this->db->query($sql, array(
+			$user_id,
+			(int)$limit,
+			(int)$span
+		));
+		
+	
+	}
+	function find_thread_by_title_rows($search_phrase)
+	{
+		$this->db->query("SELECT * FROM `threads` WHERE MATCH(subject) AGAINST(?)", $search_phrase);
+		return $this->db->affected_rows();
+		
+		
+
+	
+	}
 }
