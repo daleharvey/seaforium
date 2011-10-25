@@ -239,6 +239,7 @@
 							<input type="password" name="password2" id="password2" value="" />
 						</div>
 
+						<?php echo form_submit('submit', 'Save'); ?>
 						<br />
 						<div class="blueline"></div>
 
@@ -281,6 +282,7 @@
 							<?php echo form_input('rss_feed_3', $user_preferences->rss_feed_3); ?>
 						</div>
 
+						<?php echo form_submit('submit', 'Save'); ?>
 						<br />
 						<div class="blueline"></div>
 
@@ -315,6 +317,7 @@
 							<?php echo form_input('msn', $user_preferences->msn); ?>
 						</div>
 
+						<?php echo form_submit('submit', 'Save'); ?>
 						<br />
 						<div class="blueline"></div>
 
@@ -350,7 +353,7 @@
 						</div>
 
 
-						<?php echo form_submit('submit', 'Submit'); ?>
+						<?php echo form_submit('submit', 'Save'); ?>
 					<?php echo form_close(); ?>
 
 				</div>
