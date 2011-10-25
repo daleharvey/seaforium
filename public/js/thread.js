@@ -185,6 +185,10 @@ function insertAtCaret(areaId,text) {
   var strPos = 0;
   var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?
 	    "ff" : (document.selection ? "ie" : false ) );
+
+  var quote = text.indexOf('"');
+  quote = quote == -1 ? 0 : text.length - quote - 1;
+		
   if (br == "ie") {
     txtarea.focus();
     var range = document.selection.createRange();
@@ -196,7 +200,8 @@ function insertAtCaret(areaId,text) {
   var front = (txtarea.value).substring(0,strPos);
   var back = (txtarea.value).substring(strPos,txtarea.value.length);
   txtarea.value=front+text+back;
-  strPos = strPos + text.length;
+  strPos = strPos + text.length - quote;
+  
   if (br == "ie") {
     txtarea.focus();
     var range = document.selection.createRange();
@@ -210,5 +215,6 @@ function insertAtCaret(areaId,text) {
     txtarea.selectionEnd = strPos;
     txtarea.focus();
   }
+  
   txtarea.scrollTop = scrollPos;
 }
