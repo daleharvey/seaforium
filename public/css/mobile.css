@@ -93,7 +93,7 @@ color: #F06171;
     font-weight:bold;
 }
 .subject { 
-    margin-bottom:3px;
+    margin: 0 25px 3px 0;      
 }
 .username, .two { 
     float:left;
