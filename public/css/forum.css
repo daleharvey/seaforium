@@ -773,6 +773,10 @@ margin-top: 10px;
 width: 150px;
 }
 
+#preferences input[type=submit] {
+	margin-bottom: 15px;
+}
+
 div.tquote {
     padding:2px 6px;
     margin:6px;

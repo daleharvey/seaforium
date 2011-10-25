@@ -185,18 +185,42 @@ function insertAtCaret(areaId,text) {
   var strPos = 0;
   var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?
 	    "ff" : (document.selection ? "ie" : false ) );
+
   if (br == "ie") {
     txtarea.focus();
     var range = document.selection.createRange();
+	var selection = range.text;
     range.moveStart ('character', -txtarea.value.length);
     strPos = range.text.length;
+	
   }
-  else if (br == "ff") strPos = txtarea.selectionStart;
+  else if (br == "ff") {
+	strPos = txtarea.selectionStart;
+	var selection = (txtarea.value).substring(strPos, txtarea.selectionEnd);
+  }
+  
+  var cursorOffset = text.indexOf('"');
+  if(cursorOffset == -1 && !selection) {
+	cursorOffset = text.indexOf('<', 1) - 1;
+  }
+  cursorOffset = cursorOffset == -1 ? 0 : text.length - cursorOffset - 1;
+  
+  var closeTag = text.indexOf("<", 1);
+  if(closeTag == -1) {
+	var removeOffset = 0;
+  } else {
+	text = text.substring(0, closeTag) + selection + text.substring(closeTag);
+	if(cursorOffset) {
+		cursorOffset += selection.length;
+	}
+	var removeOffset = selection.length;
+  }
 
   var front = (txtarea.value).substring(0,strPos);
-  var back = (txtarea.value).substring(strPos,txtarea.value.length);
+  var back = (txtarea.value).substring(strPos + removeOffset);
   txtarea.value=front+text+back;
-  strPos = strPos + text.length;
+  strPos = strPos + text.length - cursorOffset;
+  
   if (br == "ie") {
     txtarea.focus();
     var range = document.selection.createRange();
@@ -210,5 +234,6 @@ function insertAtCaret(areaId,text) {
     txtarea.selectionEnd = strPos;
     txtarea.focus();
   }
+  
   txtarea.scrollTop = scrollPos;
 }
