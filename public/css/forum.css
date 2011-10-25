@@ -258,6 +258,10 @@ font-size: 10px;
     color: #959595;
 }
 
+.category a {
+	text-decoration:none;
+}
+
 .blueline {
     background-color: #ACE1F9;
     height: 1px;
