@@ -9,14 +9,21 @@ $use_notifier = $logged_in &&
 ?>
 
 <div id="thread">
-  <div id="main-title">
-    <h3><?php echo $info['title'] ?></h3>
+  <div id="main-title"<?=$logged_in ? ' class="changeling"':''?>><h3><?php echo $info['title'] ?></h3>
     <?php if ($logged_in) { ?>
       <a class="favourite<?php echo $favorite; ?>"
          rel="<?php echo $thread_id; ?>"></a>
     <?php } ?>
   </div>
 
+  <?php if ($logged_in) { ?>
+		<script type="text/html" id="title-input">
+			<input type="text" id="title-input" />
+			<input type="submit" value="Save" id="save-title" />
+			<input type="button" value="Cancel" id="cancel-title" />
+		</script>
+  <?php }?>
+	
   <div class="pagination top">
     <?php echo $pagination; ?>
   </div>
@@ -316,7 +323,7 @@ $content = array(
          }
       );
     }
-    return;
+    return false;
   });
 </script>
 <?php } ?>

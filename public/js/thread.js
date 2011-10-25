@@ -176,6 +176,11 @@ thread = {
 	thread.view_source(comment_id);
       });
     }
+  },
+  
+  id: function()
+  {
+	return $('.favourite').attr('rel');
   }
 }
 
