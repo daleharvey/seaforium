@@ -84,7 +84,7 @@ class Preferences extends Controller {
 				$this->load->library('upload', array(
 					'upload_path' => './img/emoticons/',
 					'allowed_types' => 'gif|png',
-					'max_size' => 3,
+					'max_size' => 10,
 					'max_width' => 16,
 					'max_height' => 16,
 					'overwrite' => TRUE,
