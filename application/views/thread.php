@@ -78,7 +78,7 @@ foreach($comment_result->result() as $row) {
     <div class="user-block">
       <div class="username<?php echo $acq; ?>">
         <a href="/user/<?php echo $url_safe_username; ?>">
-          <?php echo $url_safe_username;?>
+          <?php echo $row->username;?>
         </a>
       </div>
       <div class="time"><?php echo timespan(strtotime($row->created), time()) ?></div>
