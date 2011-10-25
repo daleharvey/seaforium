@@ -43,7 +43,10 @@ class Ajax extends Controller
       $new_posts = $db_count - $current_count;
       $title = url_title($this->thread_dal->get_thread_information($this->session->userdata('user_id'), $thread_id)->row()->subject, 'dash', TRUE);
       $shown = $this->session->userdata('comments_shown');
-      $count = ceil($db_count / $shown);
+      if (!$shown) {
+        $shown = 25;
+      }
+      $count = (ceil($db_count / $shown) -1) * $shown;
 
       echo '<div id="notifier"><a id="notify" href="/thread/'. $thread_id .
         '/'. $title . '/p/'. $count .'/r'. mt_rand(10000, 99999) .'#bottom">' .
