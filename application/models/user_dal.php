@@ -343,8 +343,6 @@ class User_dal extends Model
    */
   function get_profile_information($user_id)
   {
-    $ident = !is_numeric($user_id) ? 'username' : 'id';
-
     $sql = "
 			SELECT
 				users.id,
@@ -381,7 +379,7 @@ class User_dal extends Model
 			LEFT JOIN user_profiles ON user_profiles.user_id = users.id
 			LEFT JOIN comments ON comments.user_id = users.id
 			LEFT JOIN threads ON threads.user_id = users.id
-			WHERE users.". $ident ." = ?";
+			WHERE users.username = ?";
 
     return $this->db->query($sql, $user_id);
 
