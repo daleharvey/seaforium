@@ -489,7 +489,8 @@ float: left;
 }
 
 .thread .one, .thread .two, .thread .three {
-padding: 6px 0 0 0;
+padding: 6px 0;
+line-height:16px;
 }
 
 .thread .one {
