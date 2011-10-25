@@ -33,6 +33,10 @@ a:hover{
     background-color:#494949;
 }
 
+b, strong {
+	font-weight:bolder;
+}
+
 ol, ul {
     list-style: none;
 }
