@@ -42,6 +42,7 @@ foreach($thread_result->result() as $row) {
 		for($p=1; $p<=$tmplast_pagenumber; ++$p)
 		{
 			$n_page = ($p * $display - $display);
+			if ($p > 1) $printpages .= ',';
 			$printpages .= ' <a href="'.$link_text.'/p/'.$n_page.'">'.$p.'</a>';
 		}
 		if ($last_pagenumber > 8)
