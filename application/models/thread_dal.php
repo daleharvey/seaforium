@@ -329,7 +329,7 @@ class Thread_dal extends Model
 				ON threads.category = categories.category_id
 			LEFT JOIN acquaintances
 				ON acquaintances.acq_user_id = authors.id AND acquaintances.user_id = ?
-			WHERE match(threads.subject) AGAINST('" . $search_phrase . "')
+			WHERE match(threads.subject) AGAINST('" . $search_phrase . "' WITH QUERY EXPANSION)
 			". $filtering ."
 			". $ordering ."
 			
