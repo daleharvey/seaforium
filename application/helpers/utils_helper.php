@@ -24,4 +24,8 @@ function utc_time()
   return $t + date("Z", $t);
 }
 
+function utf8decode($string) {
+	return preg_replace("/%u([0-9a-f]{3,4})/i","&#x\\1;",$string);
+}
+
 ?>

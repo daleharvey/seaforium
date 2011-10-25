@@ -28,7 +28,7 @@ class Title extends Controller
     if ($this->form_validation->run() &&
         $this->sauth->is_logged_in()) { 
       
-      $title = $this->input->post('title');
+      $title = utf8decode($this->input->post('title'));
       $auth_id = $this->session->userdata('user_id');
 
       $sql = "INSERT INTO titles(title_text, author_id) VALUES(?, ?)";
