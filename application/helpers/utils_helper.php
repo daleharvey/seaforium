@@ -24,4 +24,22 @@ function utc_time()
   return $t + date("Z", $t);
 }
 
+function utf8_unescape($string) {
+	return preg_replace("/%u([0-9a-f]{3,4})/i","&#x\\1;", $string);
+}
+
+function utf8_entities($string) {
+	// decode three byte unicode characters 
+    $string = preg_replace("/([\340-\357])([\200-\277])([\200-\277])/e",        
+    "'&#'.((ord('\\1')-224)*4096 + (ord('\\2')-128)*64 + (ord('\\3')-128)).';'",    
+    $string); 
+
+    // decode two byte unicode characters 
+    $string = preg_replace("/([\300-\337])([\200-\277])/e", 
+    "'&#'.((ord('\\1')-192)*64+(ord('\\2')-128)).';'", 
+    $string); 
+
+    return $string; 
+}
+
 ?>

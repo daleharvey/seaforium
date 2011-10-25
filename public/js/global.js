@@ -28,7 +28,7 @@ var YAY = (function() {
       $.ajax({
         type: "POST",
         url: "/title/edit",
-        data: "title=" + newTitle,
+        data: "title=" + escape(newTitle),
         success: function(msg){
           $("#main-title")
             .empty()
