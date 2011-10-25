@@ -13,7 +13,6 @@ $categories = array(
 		'name' => 'category[]',
 		'id' => 'cat-discussions',
 		'value' => '1',
-		'selected' => null,
 	),
 	'projects' => array(
 		'name' => 'category[]',
