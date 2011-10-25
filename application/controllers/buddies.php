@@ -55,7 +55,7 @@ class Buddies extends Controller {
 		$this->load->view('buddies', array(
 			'buddies' => $this->user_dal->get_buddies($user_id),
 			'enemies' => $this->user_dal->get_enemies($user_id),
-			'username' => $username
+			'username' => str_replace('-', ' ', $username)
 		));
 		$this->load->view('shared/footer');
 	}
