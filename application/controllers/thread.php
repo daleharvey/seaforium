@@ -48,7 +48,8 @@ class Thread extends Controller {
                                   'nsfw' => $thread_info->nsfw,
                                   'closed' => $thread_info->closed,
                                   'category' => $thread_info->category,
-                                  'acq_type' => (int) $thread_info->type
+                                  'acq_type' => (int) $thread_info->type,
+								  'user_id' => $thread_info->user_id
                                   ),
                   'thread_id' => $thread_id,
                   'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id']))

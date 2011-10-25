@@ -104,6 +104,7 @@ class Thread_dal extends Model
 	{
 		$sql = "
 			SELECT
+				threads.user_id,
 				subject,
 				closed,
 				nsfw,
