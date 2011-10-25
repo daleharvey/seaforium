@@ -7,3 +7,4 @@ tests/pytests/*.pyc
 
 .DS_Store
 .#*
++/*.htaccess
