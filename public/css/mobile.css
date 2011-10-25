@@ -151,6 +151,11 @@ color: #F06171;
 #thread form textarea {
     margin-bottom:10px;
 }
+
+#thread img{
+    max-width: 100%;
+}
+
 .pagination.bottom { 
     padding:10px 0 10px 10px;
 }
