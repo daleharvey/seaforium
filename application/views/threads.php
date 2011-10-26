@@ -16,9 +16,9 @@ $use_random_title = $this->session->userdata('random_titles') !== '0';
 
 				<div class="thread" id="thread-headers">
 					<div class="one">Thread Title &amp; Category</div>
-					<div class="two"><a href="<?php echo $tab_links; ?>started/<?php echo $tab_orders['started']; ?>">Started By</a></div>
-					<div class="three"><a href="<?php echo $tab_links; ?>latest/<?php echo $tab_orders['started']; ?>">Last Post</a></div>
-					<div class="four"><a href="<?php echo $tab_links; ?>posts/<?php echo $tab_orders['started']; ?>">Posts</a></div>
+					<div class="two"><a href="<?php echo $tab_links; ?>started/<?php echo $tab_orders['started']; ?><?php if ($tab_orders['startedby']!='') {echo '/'.$tab_orders['startedby'];} ?>">Started By</a></div>
+					<div class="three"><a href="<?php echo $tab_links; ?>latest/<?php echo $tab_orders['latest']; ?><?php if ($tab_orders['startedby']!='') {echo '/'.$tab_orders['startedby'];} ?>">Last Post</a></div>
+					<div class="four"><a href="<?php echo $tab_links; ?>posts/<?php echo $tab_orders['posts']; ?><?php if ($tab_orders['startedby']!='') {echo '/'.$tab_orders['startedby'];} ?>">Posts</a></div>
 				</div>
 
 <?php

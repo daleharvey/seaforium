@@ -53,6 +53,11 @@ $route['p/(:num)/(:any)'] = "welcome/index/$1/$2"; // page, filter
 $route['p/(:num)/(:any)/(:any)'] = "welcome/index/$1/all/$2/$3"; // page, order
 $route['p/(:num)/(:any)/(:any)/(:any)'] = "welcome/index/$1/$2/$3/$4"; // page, filter, order
 
+$route['started'] = "welcome/index/0/started/latest/desc"; // startedby no specific user
+$route['started/(:any)'] = "welcome/index/0/started/latest/desc/$1"; // startedby
+$route['p/(:num)/(:any)/(:any)/(:any)/(:any)'] = "welcome/index/$1/$2/$3/$4/$5"; // page, filter, order, startedby
+$route['f/(:any)/(:any)/(:any)/(:any)'] = "welcome/index/0/$1/$2/$3"; // filter, order, startedby
+
 // subject | no paging
 $route['thread/(:num)/:any'] = "thread/load/$1/0";
 
