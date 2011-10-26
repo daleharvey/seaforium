@@ -184,14 +184,14 @@ hr {
     text-transform:uppercase;
     border-bottom:1px dotted #959595;
 }
-#special-threads { 
+#special-threads {
 	border-bottom:1px dotted #959595;
 }
 #special-threads a {
     color: #959595;
 }
-#search-title { 
-      
+#search-title {
+
 }
 #toggle-html {
 font-size: 10px;
@@ -1183,4 +1183,14 @@ spoiler {
 
 .spoiler-content {
     visibility:hidden;
+}
+
+.error {
+    margin: 0px;
+    font-size: 16px;
+    border: 1px dashed red;
+    padding:10px;
+    background:#EEE;
+    font-weight: bold;
+    float:right;
 }

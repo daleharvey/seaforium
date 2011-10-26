@@ -49,6 +49,7 @@ $content = array(
 
   <form method="post" action="/newthread">
     <div class="inp">
+      <?php echo form_error('category[]'); ?>
       <?php echo form_label('Step 1: Pick a category'); ?>
       <div id="category-selector">
         <?php echo form_radio($categories['discussions']); ?>
@@ -62,10 +63,12 @@ $content = array(
       </div>
     </div>
     <div class="inp">
+      <?php echo form_error('subject'); ?>
       <?php echo form_label('Step 2: Write a thread title', $subject['id']); ?>
       <?php echo form_input($subject); ?>
     </div>
     <div class="inp">
+      <?php echo form_error('content'); ?>
       <?php echo form_label('Step 3: Type the content of your thread ', $content['id']); ?>
       <div id="pinkies">
         <a href="javascript:insertAtCaret('thread-content-input', '[:)]');">
