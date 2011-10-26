@@ -76,6 +76,47 @@ $("#comment-form").live("submit", function() {
   this.submit();
 });
 
+selected = {
+  html: null,
+  comment_id: null
+};
+
+$('.content').click(function() {
+	selected.html = null;
+	selected.comment_id = null;
+
+	if(window.getSelection) {
+		// not IE case
+		selObj = window.getSelection();
+		if(selObj.focusNode) {
+			selRange = selObj.getRangeAt(0);
+			
+			p = selRange.commonAncestorContainer;
+			while(p.parentNode && !$(p).hasClass("comment-container")) {
+				p = p.parentNode;
+			}
+			
+			if(p.id) {
+				dash = p.id.lastIndexOf('-');
+			
+				if(dash != -1) {
+					selected.comment_id = p.id.substring(dash+1);
+					
+					fragment = selRange.cloneContents();
+					e = document.createElement('b');
+					e.appendChild(fragment);
+					selected.html = e.innerHTML;
+				}
+			}
+			
+			//selObj.removeAllRanges();
+		}
+	} else if (document.selection && document.selection.createRange && document.selection.type != "None") {
+		// IE case
+		selected.html = document.selection.createRange().htmlText;
+	}
+});
+
 thread = {
   status_text: {'nsfw': ['Unmark Naughty', 'Mark Naughty'], 'closed': ['Open Thread', 'Close Thread']},
   comments: [],
@@ -107,21 +148,30 @@ thread = {
   {
     if (thread.comments[comment_id] != undefined)
     {
-      html = "<blockquote title=\"" + $.trim(thread.comments[comment_id].author) + "\">\n" + thread.comments[comment_id].data.content + "\n</blockquote>";
+		if(selected.comment_id && selected.comment_id != comment_id || !selected.html) {
+			content = thread.comments[comment_id].data.content;
+		} else {
+			content = selected.html;
+		}
+		
+		selected.html = null;
+		selected.comment_id = null;
 
-      $("#thread-content-input").val($("#thread-content-input").val() + html);
+		html = "<blockquote title=\"" + $.trim(thread.comments[comment_id].author) + "\">\n" + content + "\n</blockquote>";
+
+		$("#thread-content-input").val($("#thread-content-input").val() + html);
+		
+		$(window).scrollTop($("#thread-content-input").offset().top);
+		$("#thread-content-input").focus();
+		$("#thread-content-input").scrollTop($("#thread-content-input")[0].scrollHeight - $("#thread-content-input").height());
+		$("#thread-content-input").selectRange($("#thread-content-input").val().length);
     }
     else
     {
       thread.get_comment_details(comment_id, function(){
-	thread.quote(comment_id);
+		thread.quote(comment_id);
       });
     }
-	
-	$(window).scrollTop($("#thread-content-input").offset().top);
-	$("#thread-content-input").focus();
-	$("#thread-content-input").scrollTop($("#thread-content-input")[0].scrollHeight - $("#thread-content-input").height());
-	$("#thread-content-input").selectRange($("#thread-content-input").val().length);
   },
 
   save: function(comment_id)
@@ -219,7 +269,6 @@ function insertAtCaret(areaId,text) {
 	var selection = range.text;
     range.moveStart ('character', -txtarea.value.length);
     strPos = range.text.length;
-	
   }
   else if (br == "ff") {
 	strPos = txtarea.selectionStart;
