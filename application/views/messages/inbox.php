@@ -43,7 +43,7 @@ $unread = $row->read === '0' ? ' unread' : '';
 							<?php echo anchor('/message/'. $row->message_id, $row->subject); ?> 
 						</div>
 						<div class="sender">
-							<?php echo $row->username; ?> 
+							<a href="/user/<?php echo $row->username; ?>"><?php echo $row->username; ?></a> 
 						</div>
 						<div class="time">
 							<?php echo _format_pm_time($row->created); ?> 
