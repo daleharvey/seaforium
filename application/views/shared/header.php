@@ -21,7 +21,7 @@ $logged_in = $this->sauth->is_logged_in();
     <meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	
+
     <link rel="stylesheet" type="text/css" href="/css/<?php echo $css; ?>" />
     <script type="text/javascript" src="/js/jquery-1.6.4.min.js"></script>
 
@@ -39,7 +39,7 @@ $logged_in = $this->sauth->is_logged_in();
 			<div id="left-column">
 
 				<a href="/" id="header">New Yay</a>
-			
+
 				<a href="#bottom" id="jumpdown">&darr;</a>
 
 				<?php
@@ -109,10 +109,10 @@ $logged_in = $this->sauth->is_logged_in();
 				<div class="lc-node" id="threads">
 					<h3><a href="/">Threads</a></h3>
 					<ul id="thread-categories">
-						<li><a href="/f/discussions">Discussions</a> <?php echo timespan(strtotime($this->latest_dal->get_latest('discussions')), time()) ?></li>
-						<li><a href="/f/projects">Projects</a> <?php echo timespan(strtotime($this->latest_dal->get_latest('projects')), time()) ?></li>
-						<li><a href="/f/advice">Advice</a> <?php echo timespan(strtotime($this->latest_dal->get_latest('advice')), time()) ?></li>
-						<li><a href="/f/meaningless">Meaningless</a> <?php echo timespan(strtotime($this->latest_dal->get_latest('meaningless')), time()) ?></li>
+  <li><a href="/f/discussions">Discussions</a> (<?php echo timespan(strtotime($this->latest_dal->get_latest('discussions')), time()) ?>)</li>
+  <li><a href="/f/projects">Projects</a> (<?php echo timespan(strtotime($this->latest_dal->get_latest('projects')), time()) ?>)</li>
+  <li><a href="/f/advice">Advice</a> (<?php echo timespan(strtotime($this->latest_dal->get_latest('advice')), time()) ?>)</li>
+  <li><a href="/f/meaningless">Meaningless</a> (<?php echo timespan(strtotime($this->latest_dal->get_latest('meaningless')), time()) ?>)</li>
 					</ul>
 					<ul id="special-threads">
 						<li><a href="/">All Forums</a></li>

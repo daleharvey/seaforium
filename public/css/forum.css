@@ -188,9 +188,9 @@ hr {
 #thread-categories {
     border-bottom:1px dotted #959595;
 	color:#777777;
-	font-size:9px;	
+	font-size:9px;
 }
-#thread-categories li {
+#thread-categories li a {
     text-transform:uppercase;
 	margin-bottom:5px;
 }
