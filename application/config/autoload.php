@@ -108,7 +108,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('user_dal', 'message_dal');
+$autoload['model'] = array('user_dal', 'latest_dal', 'message_dal');
 
 
 
