@@ -242,7 +242,9 @@ class Sauth
   {
     // not logged in (as any user)
     if (!$this->is_logged_in() AND !$this->is_logged_in(FALSE)) {
+
       $this->ci->load->helper('cookie');
+
       if ($cookie = get_cookie('autologin', TRUE)) {
 
         $data = unserialize($cookie);
@@ -250,28 +252,28 @@ class Sauth
         if (isset($data['key']) AND isset($data['user_id'])) {
 
           $this->ci->load->model('auth/user_autologin');
-          $user = $this->ci->user_autologin->get($data['user_id'],md5($data['key']));
-          if (!is_null($user)) {
+          $user = $this->ci->user_dal->get_user_by_id($data['user_id']);
 
-            // Login user
-            $this->ci->session->set_userdata(array(
-              'user_id' => $user->id,
-              'username' => $user->username,
-              'status'	=> 1,
-            ));
+          $data = array(
+            'user_id' => $user->id,
+            'username' => $user->username,
+            'status' => ($user->activated == 1) ? 1 : 0,
+            'threads_shown' => $user->threads_shown,
+            'comments_shown' => $user->comments_shown,
+            'view_html' => $user->view_html,
+            'new_post_notification' => $user->new_post_notification,
+            'random_titles' => $user->random_titles,
+            'emoticon' => $user->emoticon
+          );
 
-            // Renew users cookie to prevent it from expiring
-            set_cookie(array(
-              'name' => 'autologin',
-              'value' => $cookie,
-              'expire' => 5356800,
-            ));
+          // This should just be global data, does not need to go through
+          // cookies as it is read on every page request
+          $this->ci->session->set_userdata($data);
 
-            $ip = $this->ci->config->item('login_record_ip', 'auth');
-            $time = $this->ci->config->item('login_record_time', 'auth');
-            $this->ci->user_dal->update_login_info($user->id, $ip, $time);
-            return TRUE;
-          }
+          $ip = $this->ci->config->item('login_record_ip', 'auth');
+          $time = $this->ci->config->item('login_record_time', 'auth');
+          $this->ci->user_dal->update_login_info($user->id, $ip, $time);
+          return TRUE;
         }
       }
     }
