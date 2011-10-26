@@ -16,7 +16,7 @@ function format_special(element)
     $(this).replaceWith(html);
   });
 
-  pattern = new RegExp('(?:")?http(?:s)?://(?:www.)?youtu(?:be)?.(?:[a-z]){2,3}(?:[a-z/?=]+)([a-zA-Z0-9-_]{11})(?:[a-z0-9?&-_=]+)?');
+  pattern = new RegExp('(?:")?http(?:s)?://(?:www.)?youtu(?:be)?.(?:[a-z]){2,3}(?:[a-z/?=]+)([a-zA-Z0-9-_]{11})(?:[a-z0-9\?\&\-_=]+)?');
 
   $(element).each(function(){
     // auto-embed youtube videos
@@ -176,6 +176,11 @@ thread = {
 	thread.view_source(comment_id);
       });
     }
+  },
+  
+  id: function()
+  {
+	return $('.favourite').attr('rel');
   }
 }
 

@@ -22,27 +22,49 @@ class Title extends Controller
 
   function edit() {
 
-    $rules = 'required|min_length[1]|max_length[36]';    
-    $this->form_validation->set_rules('title', 'Title', $rules);
-    
-    if ($this->form_validation->run() &&
-        $this->sauth->is_logged_in()) { 
-      
-      $title = $this->input->post('title');
-      $auth_id = $this->session->userdata('user_id');
+	$thread_id = $this->input->post('thread_id');
+	
+	if($thread_id) {
+		$rules = 'required|min_length[1]|max_length[64]';    
+		$this->form_validation->set_rules('title', 'Title', $rules);
+		
+		if ($this->form_validation->run() &&
+			$this->sauth->is_logged_in()) { 
+		  
+		  $title = $this->input->post('title');
+		  $user_id = $this->session->userdata('user_id');
 
-      $sql = "INSERT INTO titles(title_text, author_id) VALUES(?, ?)";
+		  $this->load->model('thread_dal');
+		  $this->thread_dal->update_subject($thread_id, $title, $user_id);
+		  
+		  echo "saved";
 
-      $this->db->query($sql, array(
-			  $title,
-			  $auth_id
-      ));
-      
-      echo "saved";
+		} else { 
+		  echo "error";
+		}
+	} else {
+		$rules = 'required|min_length[1]|max_length[36]';    
+		$this->form_validation->set_rules('title', 'Title', $rules);
+		
+		if ($this->form_validation->run() &&
+			$this->sauth->is_logged_in()) { 
+		  
+		  $title = $this->input->post('title');
+		  $auth_id = $this->session->userdata('user_id');
 
-    } else { 
-      echo "error";
-    }
+		  $sql = "INSERT INTO titles(title_text, author_id) VALUES(?, ?)";
+
+		  $this->db->query($sql, array(
+				  $title,
+				  $auth_id
+		  ));
+		  
+		  echo "saved";
+
+		} else { 
+		  echo "error";
+		}
+	}
   }
 }
 

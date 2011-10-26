@@ -104,6 +104,7 @@ class Thread_dal extends Model
 	{
 		$sql = "
 			SELECT
+				threads.user_id,
 				subject,
 				closed,
 				nsfw,
@@ -225,6 +226,25 @@ class Thread_dal extends Model
 			$user_id
 		));
 
+		return $this->db->affected_rows() === 1;
+	}
+	
+	/**
+	 * Update the thread subject
+	 *
+	 * @param	int
+	 * @param	string
+	 * @param	int
+	 * @return	bool
+	 */
+	function update_subject($thread_id, $subject, $user_id)
+	{
+		$this->db->query("UPDATE threads SET subject = ? WHERE thread_id = ? AND user_id = ?", array(
+			$subject,
+			$thread_id,
+			$user_id
+		));
+		
 		return $this->db->affected_rows() === 1;
 	}
 
