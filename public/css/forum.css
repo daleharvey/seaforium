@@ -544,6 +544,18 @@ clear: both;
 	display:none;
 }
 
+#show_mobile {
+	display:block;
+    margin-top:10px;
+    font-weight:bold;
+    text-decoration:underline;
+}
+
+#reload_mobile {
+    background-color:#333;
+	color:#DDD;
+}
+
 .comment, .test-comment {
 margin-bottom: 2px;
 border-bottom: solid 1px #CCCCCC;

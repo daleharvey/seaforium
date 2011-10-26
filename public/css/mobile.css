@@ -301,6 +301,6 @@ form .textarea {
 #thread-control, #threads h3, .welcome h4, .welcome > a, 
 .welcome ul li:first-child, .paging-text, #threads, #new-thread p:first-child,
 #post-shortcuts, #pinkies, #reply-rc p, #this-is-you, #information, #stats h3, 
-#information-bio, #information-desc, #information-widget, #latest-posts    { 
+#information-bio, #information-desc, #information-widget, #latest-posts, #show_mobile { 
     display:none; 
 }
