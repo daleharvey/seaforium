@@ -1185,7 +1185,12 @@ spoiler {
     visibility:hidden;
 }
 
-.error {
+#preferences .error {
+    float:none;
+    margin:15px;
+}
+
+div.error {
     margin: 0px;
     font-size: 16px;
     border: 1px dashed red;
