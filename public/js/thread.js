@@ -6,6 +6,23 @@ jQuery.fn.reverse = function() {
     return this.pushStack(this.get().reverse(), arguments);
 };
 
+$.fn.selectRange = function(start, end) {
+	if(!end) end = start;
+	
+    return this.each(function() {
+        if (this.setSelectionRange) {
+            this.focus();
+            this.setSelectionRange(start, end);
+        } else if (this.createTextRange) {
+            var range = this.createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', end);
+            range.moveStart('character', start);
+            range.select();
+        }
+    });
+};
+
 function format_special(element)
 {
   $('spoiler').each(function() {
@@ -100,6 +117,11 @@ thread = {
 	thread.quote(comment_id);
       });
     }
+	
+	$(window).scrollTop($("#thread-content-input").offset().top);
+	$("#thread-content-input").focus();
+	$("#thread-content-input").scrollTop($("#thread-content-input")[0].scrollHeight - $("#thread-content-input").height());
+	$("#thread-content-input").selectRange($("#thread-content-input").val().length);
   },
 
   save: function(comment_id)
