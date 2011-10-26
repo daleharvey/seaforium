@@ -72,6 +72,19 @@
     });
 })();
 
+  (function () {
+    $('#show_mobile').bind('click', function(){
+      button = $(this);
+      $.get(
+	'/ajax/show_mobile/'+ session_id,
+	function(data) {
+	  button.html(data);
+	}
+      );
+      return;
+    });
+})();
+
 function isThread() {
 	return (typeof(window.thread) == "undefined")?  false: true;
 }
