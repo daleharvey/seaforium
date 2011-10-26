@@ -154,6 +154,7 @@ color: #F06171;
 
 #thread img{
     max-width: 100%;
+    height: auto;
 }
 
 .content-block a{
