@@ -24,7 +24,7 @@
 							&rarr; <a href='/messages/send/<?php echo $this->uri->segment(2) ?>'>Send a message</a><br/>
 							&rarr; <a href='/buddies/<?php echo $user_data->username; ?>'>Change buddy status</a><br/>
 							<?php } ?>
-							&rarr; <a href='/f/started'>View threads started</a>
+							&rarr; <a href='/started/<?php echo $user_data->username; ?>'>View threads started</a>
 						</div>
 						<div id="stats" class="standard_profile_info_box">
 							<h3>Stats</h3>

@@ -16,14 +16,16 @@ class Welcome extends Controller {
     // set all this so we dont have to continually call functions through session
     $this->meta = array(
       'user_id' => (int) $this->session->userdata('user_id'),
+      'username' => $this->session->userdata('username'),
       'threads_shown' => $this->session->userdata('threads_shown')
     );
   }
 
-  function index($pagination = 0, $filter = '', $ordering = '', $dir = 'desc')
+  function index($pagination = 0, $filter = '', $ordering = '', $dir = 'desc', $whostarted = '')
   {
 
-    $filtering = $this->_ready_filters($filter, $ordering, $dir);
+	if (strtolower($filter)=='started'&&$whostarted=='') $whostarted = $this->meta['username'];
+    $filtering = $this->_ready_filters($filter, $ordering, $dir, $whostarted);
 
     // get a thread count from the database
     $thread_count = $this->thread_dal->get_thread_count($filtering['filter']);
@@ -55,7 +57,8 @@ class Welcome extends Controller {
                                        'tab_orders' => array(
                                                              'started' => $ordering == 'started' && $dir == 'desc' ? 'asc' : 'desc',
                                                              'latest' => $ordering == 'latest' && $dir == 'desc' ? 'asc' : 'desc',
-                                                             'posts' => $ordering == 'posts' && $dir == 'desc' ? 'asc' : 'desc'
+                                                             'posts' => $ordering == 'posts' && $dir == 'desc' ? 'asc' : 'desc',
+                                                             'startedby' => $whostarted
                                                              ),
                                        'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id']))
                                        ));
@@ -63,7 +66,7 @@ class Welcome extends Controller {
     $this->load->view('shared/footer');
   }
 
-  function _ready_filters($filter, $ordering, $dir)
+  function _ready_filters($filter, $ordering, $dir, $whostarted)
   {
     // switch through the filters
     switch(strtolower($filter))
@@ -90,7 +93,13 @@ class Welcome extends Controller {
         $sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_favorites($this->meta['user_id']) .")";
         break;
       case 'started':
-        $sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_started_threads($this->meta['user_id']) .")";
+		if ($whostarted!='') {
+			$whostartedid = $this->user_dal->get_user_id_by_username($whostarted);
+			if ($whostartedid===FALSE) $whostartedid = $this->meta['user_id'];
+		}else{
+			$whostartedid = $this->meta['user_id'];
+		}
+        $sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_started_threads($whostartedid) .")";
         break;
       case 'all':
       default:
@@ -123,6 +132,7 @@ class Welcome extends Controller {
                  'url_suffix' => (strlen($filter) > 0 ? '/'.$filter : '')
                  . (strlen($ordering) > 0 ? '/'.$ordering : '')
                  . (strlen($dir) > 0 ? '/'.$dir : '')
+                 . (strlen($whostarted) > 0 ? '/'.$whostarted : '')
                  );
   }
 }
