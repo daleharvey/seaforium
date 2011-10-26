@@ -79,6 +79,10 @@ code {
     width: 200px;
 }
 
+#jumpdown {
+	display:none; 
+}
+
 .welcome {
     border: 1px dotted #959595;
     padding:10px;
@@ -534,6 +538,10 @@ padding: 30px 0 10px 0;
 font-size: 11px;
 color: #999999;
 clear: both;
+}
+
+#show_desktop, #reload_desktop {
+	display:none;
 }
 
 .comment, .test-comment {

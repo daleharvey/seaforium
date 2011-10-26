@@ -46,6 +46,21 @@ a {
     right:5px;
 }
 
+#jumpdown {
+    position:absolute;
+    top:5px;
+    right:76px;
+    background: #444;
+    color:#EEE;
+    font-size:12px;
+    /* border: 1px solid #AAA; */
+    display: block;
+    padding: 4px 6px;
+    margin:8px;
+    border-radius:5px;
+    -moz-border-radius:5px;
+}
+
 .thread, .comment { 
     overflow:auto;
     position:relative;
@@ -86,7 +101,17 @@ display: none;
 color: #F06171;
 }
 
+#show_desktop {
+    display:block;
+    margin-top:10px;
+    font-weight:bold;
+    text-decoration:underline;
+}
 
+#reload_desktop {
+    background-color:#333;
+	color:#DDD;
+}
 
 .subject-text {
     font-size: 18px; 

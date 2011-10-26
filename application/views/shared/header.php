@@ -1,6 +1,8 @@
 <?php
 
 $css = $this->agent->is_mobile() ? "mobile.css" : "forum.css";
+$user_view_desktop = $this->session->userdata('view_desktop');
+if ($user_view_desktop==1) $css = 'forum.css';
 $username = $this->session->userdata('username');
 $user_id = $this->session->userdata('user_id');
 
@@ -36,7 +38,9 @@ $logged_in = $this->sauth->is_logged_in();
 
 			<div id="left-column">
 
-			  <a href="/" id="header">New Yay</a>
+				<a href="/" id="header">New Yay</a>
+			
+				<a href="#bottom" id="jumpdown">&darr;</a>
 
 				<?php
 					if (!$logged_in) {

@@ -59,6 +59,19 @@
     });
 })();
 
+  (function () {
+    $('#show_desktop').bind('click', function(){
+      button = $(this);
+      $.get(
+	'/ajax/show_desktop/'+ session_id,
+	function(data) {
+	  button.html(data);
+	}
+      );
+      return;
+    });
+})();
+
 function isThread() {
 	return (typeof(window.thread) == "undefined")?  false: true;
 }
