@@ -186,8 +186,13 @@ hr {
     font-size:10px;
 }
 #thread-categories {
-    text-transform:uppercase;
     border-bottom:1px dotted #959595;
+	color:#777777;
+	font-size:9px;	
+}
+#thread-categories li {
+    text-transform:uppercase;
+	margin-bottom:5px;
 }
 #special-threads {
 	border-bottom:1px dotted #959595;

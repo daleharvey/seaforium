@@ -24,4 +24,41 @@ function utc_time()
   return $t + date("Z", $t);
 }
 
+if ( ! function_exists('timespan'))
+{
+	function timespan($seconds = 1, $time = '')
+	{
+		if (!is_numeric($seconds)) return '';
+		$CI =& get_instance();
+		$CI->lang->load('date');
+		
+		$timespan = $time - $seconds;
+		
+		if ($timespan < 60)
+		{
+			$return = $timespan.' '.$CI->lang->line((($timespan > 1) ? 'date_seconds' : 'date_second'));
+		}
+		elseif ($timespan < 3600)
+		{
+			$return = floor($timespan / 60);
+			
+			$return = $return.' '.$CI->lang->line((($return > 1) ? 'date_minutes' : 'date_minute'));
+		}
+		elseif ($timespan < 86400)
+		{
+			$return = floor($timespan / 3600);
+			
+			$return = $return.' '.$CI->lang->line((($return > 1) ? 'date_hours' : 'date_hour'));
+		}
+		else
+		{
+			$return = floor($timespan / 86400);
+			
+			$return = $return.' '.$CI->lang->line((($return > 1) ? 'date_days' : 'date_day'));
+		}
+		
+		return $return.' '.$CI->lang->line('ago');
+	}
+}
+
 ?>
