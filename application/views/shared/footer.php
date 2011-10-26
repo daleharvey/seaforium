@@ -8,6 +8,9 @@
 	
 	<div id="bottom">
 	</div>
+
+	<a id="show_desktop">Switch to Desktop version</a>
+
 	<script type="text/javascript">
 		session_id = '<?php echo $this->session->userdata('session_id'); ?>';
 	</script>
