@@ -21,7 +21,7 @@ input {
 }
 
 a { 
-    text-decoration:none;
+    text-decoration: none;
     color:#494949;
     outline:none;
 }
@@ -93,7 +93,7 @@ color: #F06171;
     font-weight:bold;
 }
 .subject { 
-    margin-bottom:3px;
+    margin: 0 25px 3px 0;      
 }
 .username, .two { 
     float:left;
@@ -151,6 +151,15 @@ color: #F06171;
 #thread form textarea {
     margin-bottom:10px;
 }
+
+#thread img{
+    max-width: 100%;
+}
+
+.content-block a{
+    text-decoration: underline;
+}
+
 .pagination.bottom { 
     padding:10px 0 10px 10px;
 }
