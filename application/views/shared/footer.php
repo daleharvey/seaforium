@@ -9,8 +9,10 @@
 	<div id="bottom">
 	</div>
 
-	<a id="show_desktop">Switch to Desktop version</a>
-	<?php if ($this->agent->is_mobile()) { ?><a id="show_mobile">Switch to Mobile version</a><?php } ?>
+	<?php if ($this->agent->is_mobile()) { ?>
+	<a id="show_desktop">Switch to Desktop version</a> 
+	<a id="show_mobile">Switch to Mobile version</a>
+	<?php } ?>
 
 	<script type="text/javascript">
 		session_id = '<?php echo $this->session->userdata('session_id'); ?>';
