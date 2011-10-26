@@ -6,7 +6,7 @@ class Newthread extends Controller {
 	{
 		parent::Controller();
 
-		$this->load->helper(array('form', 'url', 'htmlpurifier'));
+		$this->load->helper(array('form', 'url', 'htmlpurifier', 'content_render'));
 		$this->load->library('form_validation');
 		$this->load->model('thread_dal');
 
@@ -32,9 +32,9 @@ class Newthread extends Controller {
 				'user_id' => $this->session->userdata('user_id'),
 				'category' => (int)$category[0],
 				'subject' => $subject,
-				'content' => purify($content)
+				'content' => _ready_for_save($content)
 			);
-			
+
 			$comment['thread_id'] = $this->thread_dal->new_thread($comment);
 
 			$this->thread_dal->new_comment($comment);
