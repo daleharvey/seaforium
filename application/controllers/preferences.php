@@ -1,4 +1,4 @@
-B0;95;c<?php
+<?php
 
 class Preferences extends Controller {
 
