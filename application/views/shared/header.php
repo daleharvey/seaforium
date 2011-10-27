@@ -16,10 +16,16 @@ if ($this->session->userdata('custom_css')) {
 
 $latest_comment_timestamps = $this->latest_dal->get_latest();
 if ($latest_comment_timestamps->num_rows() > 0) {
-	foreach($latest_comment_timestamps->result() as $row) {
-		$latest_comment[strtolower($row->name)] = timespan(strtotime($row->last_comment_created), time());
-	}
+  foreach($latest_comment_timestamps->result() as $row) {
+    if (substr($row->last_comment_created, 0, 4) == '0000') {
+      $latest_comment[strtolower($row->name)] = "";
+    } else {
+      $latest_comment[strtolower($row->name)] = '(' .
+        timespan(strtotime($row->last_comment_created), time()) . ')';
+    }
+  }
 }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -42,90 +48,88 @@ if ($latest_comment_timestamps->num_rows() > 0) {
 
 <body>
 
-	<a name="top"></a>
+  <a name="top"></a>
 
-	<div id="wrapper">
+  <div id="wrapper">
+    <div id="middle">
+      <div id="left-column">
+        <a href="/" id="header">New Yay</a>
+        <a href="#bottom" id="jumpdown">&darr;</a>
 
-		<div id="middle">
+<?php if (!$logged_in) {
+$button_texts = array("Get In!", "Do it!", "Booya!", "Push Me",
+                      "Zippity!", "Engage!");
+$login_txt = $button_texts[array_rand($button_texts)];
+?>
 
-			<div id="left-column">
+        <div class="lc-node login" id="login-box">
+          <h5>Not a member?</h5>
+          <p><img src="/img/pinkies/07.gif" width="14" height="14" align="absmiddle"/>
+            <a href="/auth/register" class="white">Click to register, n00b!</a></p>
+	  <p class="error"></p>
+          <form action="/auth/login" method="post" id="login-form">
+	    <div>
+	      <label>U:</label>
+              <input type="text" name="username" tabindex="1" id="username" />
+              <button tabindex="3" type="submit"><?php echo $login_txt ?></button>
+	    </div>
+	    <div>
+	      <label>P:</label>
+              <input type="password" name="password" tabindex="2" id="password" />
+              <a href="#" id="forgot-password">Forgot it?</a>
+            </div>
+          </form>
+	</div>
+        <script type="text/javascript" src="/js/login.js"></script>
 
-				<a href="/" id="header">New Yay</a>
+<?php } else { ?>
 
-				<a href="#bottom" id="jumpdown">&darr;</a>
+        <div class="lc-node welcome">
+          <h4>
+            Hi, <a href="/user/<?php echo $username; ?>"><?php echo $username; ?></a>
+          </h4>
+          <a href="/user/<?php echo $username; ?>">
+	    <img src="/img/emoticons/<?php echo $this->session->userdata('emoticon') ? $user_id : 0; ?>.gif" class="main_avatar" />
+          </a>
+          <ul>
+	    <li><a href="/preferences" id="preferences">Preferences</a></li>
+            <li><form action='/auth/logout' method='POST'>
+              <input type='submit' id="logout_btn" value="logout" /></form></li>
+          </ul>
+        </div>
+<?php }
 
-				<?php
-					if (!$logged_in) {
+if ($logged_in) {
+  $unread_messages = $this->message_dal->unread_messages($user_id);
 
-						$button_texts = array(
-							"Get In!",
-							"Let's Go!",
-							"Do it!",
-							"Booya!",
-							"Push Me",
-							"Zippity!",
-							"Engage!",
-							"Go For It!"
-						);
+  if ($unread_messages === 0) {
+    $unread_msg = "No New Messages";
+  } else {
+    $unread_msg = $unread_messages .' Unread Message' .
+      ($unread_messages === 1 ? '' : 's');
+  }
 
-					?>
-
-				<div class="lc-node login" id="login-box">
-					<h5>Not a member?</h5>
-					<p><img src="/img/pinkies/07.gif" width="14" height="14" align="absmiddle"/> <a href="/auth/register" class="white">Click to register, n00b!</a></p>
-					<p class="error"></p>
-
-					<form action="/auth/login" method="post" id="login-form">
-						<div>
-							<label>U:</label><input type="text" name="username" tabindex="1" id="username" /><button tabindex="3" type="submit"><?php echo $button_texts[array_rand($button_texts)]; ?></button>
-						</div>
-						<div>
-							<label>P:</label><input type="password" name="password" tabindex="2" id="password" /><a href="#" id="forgot-password">Forgot it?</a>
-						</div>
-					</form>
-				</div>
-				<script type="text/javascript" src="/js/login.js"></script>
-
-				<?php } else { ?>
-				<div class="lc-node welcome">
-					<h4>
-						Hi, <a href="/user/<?php echo $username; ?>">
-							<?php echo $username; ?>
-						</a>
-					</h4>
-
-					<a href="/user/<?php echo $username; ?>">
-						<img src="/img/emoticons/<?php echo $this->session->userdata('emoticon') ? $user_id : 0; ?>.gif" class="main_avatar" />
-					</a>
-
-					<ul>
-						<li><a href="/preferences" id="preferences">Preferences</a></li>
-                                   <li><form action='/auth/logout' method='POST'><input type='submit' id="logout_btn" value="logout" /></form></li>
-					</ul>
-
-				</div>
-				<?php } ?>
-
-				<?php if ($logged_in) {
-					$unread_messages = $this->message_dal->unread_messages($user_id);
-				?>
-
-				<div class="lc-node" id="messaging">
-					<ul>
-						<li class="messages"><a href="/messages/inbox"><?php if ($unread_messages === 0) { echo "No New Messages"; } else { echo $unread_messages .' Unread Message' .($unread_messages === 1 ? '' : 's'); } ?></a></li>
-					</ul>
-				</div>
-
-				<?php } ?>
-
-				<div class="lc-node" id="threads">
-					<h3><a href="/">Threads</a></h3>
-					<ul id="thread-categories">
-						<li><a href="/f/discussions">Discussions</a> <?php echo $latest_comment['discussions']; ?></li>
-						<li><a href="/f/projects">Projects</a> <?php echo $latest_comment['projects']; ?></li>
-						<li><a href="/f/advice">Advice</a> <?php echo $latest_comment['advice']; ?></li>
-						<li><a href="/f/meaningless">Meaningless</a> <?php echo $latest_comment['meaningless']; ?></li>
-					</ul>
+?>
+        <div class="lc-node" id="messaging">
+          <ul>
+            <li class="messages">
+              <a href="/messages/inbox"><?php echo $unread_msg ?></a>
+            </li>
+          </ul>
+        </div>
+<?php } ?>
+        <div class="lc-node" id="threads">
+          <h3><a href="/">Threads</a></h3>
+          <ul id="thread-categories">
+            <li><a href="/f/discussions">Discussions</a>
+              <?php echo $latest_comment['discussions']; ?></li>
+            <li><a href="/f/projects">Projects</a>
+              <?php echo $latest_comment['projects']; ?></li>
+            <li><a href="/f/advice">Advice</a>
+              <?php echo $latest_comment['advice']; ?></li>
+            <li><a href="/f/meaningless">Meaningless</a>
+              <?php echo $latest_comment['meaningless']; ?></li>
+          </ul>
 					<ul id="special-threads">
 						<li><a href="/">All Forums</a></li>
 						<li><a href="/f/meaningful">All But Meaningless</a></li>
