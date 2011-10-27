@@ -1151,6 +1151,19 @@ margin-right: 8px;
 font-size: 9px;
 }
 
+#logout_btn {
+    color: #ED135A;
+    padding: 0px;
+    margin: 0px;
+    text-decoration: underline;
+    background: none;
+    border: 0px;
+    font-size: 8px !important;
+    text-transform: uppercase;
+}
+#preferences {
+    margin-left: 2px;
+}
 /*************************************************************
    USER PREFERENCES
 *************************************************************/

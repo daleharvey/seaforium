@@ -66,8 +66,10 @@ class Auth extends Controller
    */
   function logout()
   {
-    $this->sauth->logout();
-    return redirect('/');
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $this->sauth->logout();
+      return redirect('/');
+    }
   }
 
   /**

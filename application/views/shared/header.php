@@ -94,8 +94,8 @@ if ($this->session->userdata('custom_css')) {
 					</a>
 
 					<ul>
-						<li><a href="/preferences">Preferences</a></li>
-						<li><a href="/auth/logout" class="logout">Logout</a></li>
+						<li><a href="/preferences" id="preferences">Preferences</a></li>
+                                   <li><form action='/auth/logout' method='POST'><input type='submit' id="logout_btn" value="logout" /></form></li>
 					</ul>
 
 				</div>
