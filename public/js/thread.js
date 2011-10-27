@@ -41,7 +41,7 @@ function format_special(element)
   $(element).each(function(){
 
     // auto-embed youtube/vimeo videos
-    $(this).html($(this).html().replace(youtube, function(a, b) {
+    $(this).html($(this).html().replace(ytube, function(a, b) {
       return (a.indexOf("\"") != -1) ? a :
         '<iframe width="425" height="349" src="http://www.youtube.com/embed/' +
         b+'" frameborder="0" allowfullscreen></iframe><br />';

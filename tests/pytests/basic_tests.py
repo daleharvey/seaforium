@@ -45,7 +45,7 @@ class TestBasicFunction(unittest.TestCase):
         self.assertFalse(YayClient.is_logged_in(self.opts, failed_login.cookies))
 
         # perform activation
-        activate_url = OldYayClient.read_last_pm_link('dh', 'hail99')
+        activate_url = OldYayClient.read_last_pm_link('yayname', 'yaypass')
         activate = requests.get(activate_url)
         self.assertEqual(activate.status_code, 200)
 

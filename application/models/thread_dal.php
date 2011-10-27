@@ -20,7 +20,7 @@ class Thread_dal extends Model
 				(user_id, subject, category, created)
 			VALUES
 				(?, ?, ?, ?)";
-				
+
 		$this->db->query($sql, array(
 			$data['user_id'],
 			$data['subject'],
@@ -238,7 +238,7 @@ class Thread_dal extends Model
 
 		return $this->db->affected_rows() === 1;
 	}
-	
+
 	/**
 	 * Update the thread subject
 	 *
@@ -254,7 +254,7 @@ class Thread_dal extends Model
 			$thread_id,
 			$user_id
 		));
-		
+
 		return $this->db->affected_rows() === 1;
 	}
 
@@ -306,20 +306,20 @@ class Thread_dal extends Model
 
 		return $this->db->affected_rows();
 	}
-	
+
 	function change_deleted($user_id, $thread_id, $status)
 	{
-		if($status != 1) {
-			return 0;
-		}
-		
-		$this->db->query("UPDATE threads SET deleted = ? WHERE thread_id = ? AND user_id = ? AND created > DATE_SUB(NOW(), INTERVAL 5 MINUTE) LIMIT 1", array(
+          if($status != 1) {
+            return 0;
+          }
+
+          $this->db->query("UPDATE threads SET deleted = ? WHERE thread_id = ? AND user_id = ? AND created > DATE_SUB(NOW(), INTERVAL 5 MINUTE) LIMIT 1", array(
 			$status,
 			$thread_id,
 			$user_id
 		));
 
-		return $this->db->affected_rows();
+          return $this->db->affected_rows();
 	}
 
 	function get_favorites($user_id)
@@ -341,11 +341,11 @@ class Thread_dal extends Model
 
 		return $this->db->affected_rows();
 	}
-	
+
 	function find_thread_by_title($user_id, $limit, $span, $filtering = '', $ordering = '', $search_phrase)
 	{
 		//return $this->db->query("SELECT * FROM `threads` WHERE MATCH(subject) AGAINST(?)", $search_phrase);
-		
+
 		$sql = "
 			SELECT
 				threads.subject,
@@ -378,7 +378,7 @@ class Thread_dal extends Model
 			WHERE match(threads.subject) AGAINST('" . $search_phrase . "' WITH QUERY EXPANSION)
 			". $filtering ."
 			". $ordering ."
-			
+
 			LIMIT ?, ?";
 
 		return $this->db->query($sql, array(
@@ -386,16 +386,16 @@ class Thread_dal extends Model
 			(int)$limit,
 			(int)$span
 		));
-		
-	
+
+
 	}
 	function find_thread_by_title_rows($search_phrase)
 	{
 		$this->db->query("SELECT * FROM `threads` WHERE MATCH(subject) AGAINST(?)", $search_phrase);
 		return $this->db->affected_rows();
-		
-		
 
-	
+
+
+
 	}
 }
