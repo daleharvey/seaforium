@@ -1,12 +1,17 @@
 <?php
+$css = $this->agent->is_mobile() ? "/css/mobile.css" : "/css/forum.css";
 
-$css = $this->agent->is_mobile() ? "mobile.css" : "forum.css";
 $user_view_desktop = $this->session->userdata('view_desktop');
 if ($user_view_desktop==1) $css = 'forum.css';
 $username = $this->session->userdata('username');
 $user_id = $this->session->userdata('user_id');
 
 $logged_in = $this->sauth->is_logged_in();
+
+if ($this->session->userdata('custom_css')) {
+  $css = $this->session->userdata('custom_css');
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -22,7 +27,7 @@ $logged_in = $this->sauth->is_logged_in();
           content="width=device-width, initial-scale=1, maximum-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-    <link rel="stylesheet" type="text/css" href="/css/<?php echo $css; ?>" />
+    <link rel="stylesheet" type="text/css" href="<?php echo $css; ?>" />
     <script type="text/javascript" src="/js/jquery-1.6.4.min.js"></script>
 
     <base href="<?php echo site_url(); ?>" />

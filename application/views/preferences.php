@@ -332,10 +332,10 @@
 <?php echo form_label('New Post Notification', 'new_post_notification'); ?>
 <?php echo form_checkbox('new_post_notification', "1", $user_preferences->new_post_notification); ?>
 </div>
-<?php /*<div class="input text">
+<div class="input text">
 <?php echo form_label('Custom CSS', 'custom_css'); ?>
 <?php echo form_input('custom_css', $user_preferences->custom_css); ?>
-</div>*/ ?>
+</div>
 
 <div class="input text">
 <?php echo form_label('Threads Shown', 'threads_shown'); ?>

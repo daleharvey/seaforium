@@ -69,6 +69,7 @@ class Preferences extends Controller {
         'comments_shown' => $this->form_validation->set_value('comments_shown'),
         'email' => $this->form_validation->set_value('email'),
         'random_titles' => $this->form_validation->set_value('random_titles'),
+        'custom_css' => $this->form_validation->set_value('custom_css'),
         'new_post_notification' =>
           $this->form_validation->set_value('new_post_notification'),
       );
@@ -79,7 +80,6 @@ class Preferences extends Controller {
         'rss_feed_1' => $this->form_validation->set_value('rss_feed_1'),
         'rss_feed_2' => $this->form_validation->set_value('rss_feed_2'),
         'rss_feed_3' => $this->form_validation->set_value('rss_feed_3'),
-        'custom_css' => $this->form_validation->set_value('custom_css'),
         'about_blurb' => $this->form_validation->set_value('about_blurb'),
         'flickr_username' => $this->form_validation->set_value('flickr_username'),
         'delicious_username' => $this->form_validation->set_value('delicious_username'),

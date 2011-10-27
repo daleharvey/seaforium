@@ -263,7 +263,8 @@ class Sauth
             'view_html' => $user->view_html,
             'new_post_notification' => $user->new_post_notification,
             'random_titles' => $user->random_titles,
-            'emoticon' => $user->emoticon
+            'emoticon' => $user->emoticon,
+            'custom_css' => $user->custom_css
           );
 
           // This should just be global data, does not need to go through
