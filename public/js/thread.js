@@ -71,10 +71,12 @@ format_special('.comment .content');
 
 $('#preview-button').live('click', function(e){
   e.preventDefault();
-
-  $("#comment-preview .content").html($("#thread-content-input").val());
-  format_special("#comment-preview .content");
-  $("#comment-preview").show();
+  var post = $("#thread-content-input").val();
+  $.post('/ajax/preview', {content: post}).then(function(data) {
+    $("#comment-preview .content").html(data);
+    format_special("#comment-preview .content");
+    $("#comment-preview").show();
+  });
 });
 
 $("#comment-form").live("submit", function() {
