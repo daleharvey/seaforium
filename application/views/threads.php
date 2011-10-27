@@ -1,7 +1,7 @@
 <?php
 
 $logged_in = $this->sauth->is_logged_in();
-$use_random_title = $this->session->userdata('random_titles') !== '0';
+$use_random_title = !($logged_in && $this->session->userdata('random_titles') !== '1');
 
 if (!isset($tab_orders['startedby'])) {
   $tab_orders['startedby'] = '';
