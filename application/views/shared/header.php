@@ -2,7 +2,9 @@
 $css = $this->agent->is_mobile() ? "/css/mobile.css" : "/css/forum.css";
 
 $user_view_desktop = $this->session->userdata('view_desktop');
-if ($user_view_desktop==1) $css = 'forum.css';
+if ($user_view_desktop==1) {
+  $css = '/css/forum.css';
+}
 $username = $this->session->userdata('username');
 $user_id = $this->session->userdata('user_id');
 
