@@ -36,14 +36,22 @@ function format_special(element)
 
   var ytube = new RegExp('(?:")?http(?:s)?://(?:www.)?youtu(?:be)?.(?:[a-z]){2,3}' +
                          '(?:[a-z/?=]+)([a-zA-Z0-9-_]{11})(?:[a-z0-9\?\&\-_=]+)?');
+  var vimeo = new RegExp('http(?:s)?://(?:www.)?vimeo.com/([0-9]+)(?:#[a-z0-9\?\&\-_=]*)?');
 
   $(element).each(function(){
 
-    // auto-embed youtube videos
-    $(this).html($(this).html().replace(ytube, function(a, b) {
+    // auto-embed youtube/vimeo videos
+    $(this).html($(this).html().replace(youtube, function(a, b) {
       return (a.indexOf("\"") != -1) ? a :
         '<iframe width="425" height="349" src="http://www.youtube.com/embed/' +
-        b + '" frameborder="0" allowfullscreen></iframe><br />';
+        b+'" frameborder="0" allowfullscreen></iframe><br />';
+    }));
+
+    $(this).html($(this).html().replace(vimeo, function(a, b){
+      return (a.indexOf("\"") != -1) ? a :
+        '<iframe src="http://player.vimeo.com/video/' + b +
+        '?title=0&amp;byline=0&amp;portrait=0" width="400" height="225" ' +
+        'frameborder="0" webkitAllowFullScreen allowFullScreen></iframe><br />';
     }));
 
     // Reverse so we handle nested quotes
@@ -198,15 +206,19 @@ thread = {
     $.get(
       '/ajax/set_thread_status/'+ thread_id +'/'+ keyword +'/'+ status +'/'+ key,
       function(data) {
-	if (data == 1)
-	{
-	  status = status == 1 ? 0 : 1;
+		if (data == 1)
+		{
+			if(keyword == 'deleted') {
+				location = '/';
+			} else {
+				status = status == 1 ? 0 : 1;
 
-	  $('#control-'+ keyword +' span').unbind('click').bind('click', function(){
-	    thread.set_status(thread_id, keyword, status, key);
-	    return false;
-	  }).html(thread.status_text[keyword][status]);
-	}
+				$('#control-'+ keyword +' span').unbind('click').bind('click', function(){
+					thread.set_status(thread_id, keyword, status, key);
+					return false;
+				}).html(thread.status_text[keyword][status]);
+			}
+		}
       }
     );
   },

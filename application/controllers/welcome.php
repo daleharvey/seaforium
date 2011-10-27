@@ -105,6 +105,9 @@ class Welcome extends Controller {
       default:
         $filter = $sql = '';
       }
+	  
+	$sql .= $sql ? ' AND' : 'WHERE';
+	$sql .= ' threads.deleted = 0';
 
     // make sure the direction is one or the other
     if (!in_array(strtolower($dir), array('desc', 'asc')))
