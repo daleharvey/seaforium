@@ -123,6 +123,7 @@ class Sauth
     }
 
     $is_yay_name = $this->ci->user_dal->is_yay_username($username);
+	if (!$this->config->item('yay_import')) $is_yay_name = FALSE;
 
     $hasher = new PasswordHash(8, FALSE);
     $user = array(

@@ -31,9 +31,7 @@ if ($latest_comment_timestamps->num_rows() > 0) {
 <html>
 
   <head>
-    <title><?php if (isset($page_title)) { echo $page_title . ' |'; } ?>
-      YayHooray 2.0
-    </title>
+    <title><?php if (isset($page_title)) { echo $page_title . ' |'; } echo $this->config->item('site_name'); ?></title>
 
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="viewport"

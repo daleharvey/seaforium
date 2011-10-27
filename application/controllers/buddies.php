@@ -32,8 +32,8 @@ class Buddies extends Controller {
 
 				if ($command === 1)
 				{
-					$profile = 'http://yayhooray.net/user/'.url_title($me, 'dash', TRUE);
-					$buddy_link = 'http://yayhooray.net/buddies/'.url_title($me, 'dash', TRUE);
+					$profile = $this->config->item('base_url_pm').'user/'.url_title($me, 'dash', TRUE);
+					$buddy_link = $this->config->item('base_url_pm').'buddies/'.url_title($me, 'dash', TRUE);
 
 					$message = array(
 						'sender' => $user_id,
