@@ -27,6 +27,10 @@ class User extends Controller {
 
     $data['user_data'] = $query->row();
 
+	if (is_null($data['user_data']->username)||$data['user_data']->username=='') {
+		redirect('/');
+	}
+
     $time_registered =
       (ceil((time() - strtotime($data['user_data']->created)) / 86400));
 
