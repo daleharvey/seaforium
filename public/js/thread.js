@@ -8,7 +8,7 @@ jQuery.fn.reverse = function() {
 
 $.fn.selectRange = function(start, end) {
 	if(!end) end = start;
-	
+
     return this.each(function() {
         if (this.setSelectionRange) {
             this.focus();
@@ -25,6 +25,7 @@ $.fn.selectRange = function(start, end) {
 
 function format_special(element)
 {
+
   $('spoiler').each(function() {
     var html = '<div class="spoiler">' +
       '<div class="spoiler-disclaimer">Warning! May contain spoilers</div>' +
@@ -33,31 +34,31 @@ function format_special(element)
     $(this).replaceWith(html);
   });
 
-  pattern = new RegExp('(?:")?http(?:s)?://(?:www.)?youtu(?:be)?.(?:[a-z]){2,3}(?:[a-z/?=]+)([a-zA-Z0-9-_]{11})(?:[a-z0-9\?\&\-_=]+)?');
+  var ytube = new RegExp('(?:")?http(?:s)?://(?:www.)?youtu(?:be)?.(?:[a-z]){2,3}' +
+                         '(?:[a-z/?=]+)([a-zA-Z0-9-_]{11})(?:[a-z0-9\?\&\-_=]+)?');
 
   $(element).each(function(){
+
     // auto-embed youtube videos
-    $(this).html($(this).html().replace(pattern, function(a, b){return (a.indexOf("\"") != -1) ? a : '<iframe width="425" height="349" src="http://www.youtube.com/embed/'+b+'" frameborder="0" allowfullscreen></iframe><br />';}));
+    $(this).html($(this).html().replace(ytube, function(a, b) {
+      return (a.indexOf("\"") != -1) ? a :
+        '<iframe width="425" height="349" src="http://www.youtube.com/embed/' +
+        b + '" frameborder="0" allowfullscreen></iframe><br />';
+    }));
 
-    // formatting for nickoislazy style quotes
-    children = $(this).find('blockquote');
-
-    if (children.length > 0)
-    {
-      children.reverse().each(function(){
-
-	$(this).after(
-	  $('<div>', {
-	    'class': 'tquote',
-	    'html': '<div class="tqname">'+$(this).attr('title')+' said:</div>'+$(this).html()
-	  })
-	);
-
-	$(this).remove();
-      });
-    }
+    // Reverse so we handle nested quotes
+    $(this).find('blockquote').reverse().each(function(){
+      var user = $(this).attr('title') || 'Someone';
+      $(this).after(
+	$('<div>', {
+	  'class': 'tquote',
+	  'html': '<div class="tqname">' + user + ' said:</div>'+$(this).html()
+	})
+      ).remove();
+    });
   });
 }
+
 format_special('.comment .content');
 
 $('#preview-button').live('click', function(e){
@@ -90,25 +91,25 @@ $('.content').click(function() {
 		selObj = window.getSelection();
 		if(selObj.focusNode) {
 			selRange = selObj.getRangeAt(0);
-			
+
 			p = selRange.commonAncestorContainer;
 			while(p.parentNode && !$(p).hasClass("comment-container")) {
 				p = p.parentNode;
 			}
-			
+
 			if(p.id) {
 				dash = p.id.lastIndexOf('-');
-			
+
 				if(dash != -1) {
 					selected.comment_id = p.id.substring(dash+1);
-					
+
 					fragment = selRange.cloneContents();
 					e = document.createElement('b');
 					e.appendChild(fragment);
 					selected.html = e.innerHTML;
 				}
 			}
-			
+
 			//selObj.removeAllRanges();
 		}
 	} else if (document.selection && document.selection.createRange && document.selection.type != "None") {
@@ -153,14 +154,14 @@ thread = {
 		} else {
 			content = selected.html;
 		}
-		
+
 		selected.html = null;
 		selected.comment_id = null;
 
 		html = "<blockquote title=\"" + $.trim(thread.comments[comment_id].author) + "\">\n" + content + "\n</blockquote>";
 
 		$("#thread-content-input").val($("#thread-content-input").val() + html);
-		
+
 		$(window).scrollTop($("#thread-content-input").offset().top);
 		$("#thread-content-input").focus();
 		$("#thread-content-input").scrollTop($("#thread-content-input")[0].scrollHeight - $("#thread-content-input").height());
