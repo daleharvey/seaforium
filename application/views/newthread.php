@@ -5,7 +5,8 @@ $subject = array(
 	'id'	=> 'subject',
 	'value' => set_value('subject'),
 	'maxlength'	=> 64,
-	'size'	=> 30
+	'size'	=> 30,
+        'tabindex' => 5
 );
 
 $categories = array(
@@ -13,28 +14,33 @@ $categories = array(
 		'name' => 'category[]',
 		'id' => 'cat-discussions',
 		'value' => '1',
+                'tabindex' => 1
 	),
 	'projects' => array(
 		'name' => 'category[]',
 		'id' => 'cat-projects',
-		'value' => '2'
+		'value' => '2',
+                'tabindex' => 2
 	),
 	'advice' => array(
 		'name' => 'category[]',
 		'id' => 'cat-advice',
-		'value' => '3'
+		'value' => '3',
+                'tabindex' => 3
 	),
 	'meaningless' => array(
 		'name' => 'category[]',
 		'id' => 'cat-meaningless',
-		'value' => '4'
+		'value' => '4',
+                'tabindex' => 4
 	)
 );
 
 $content = array(
-	'name'	=> 'content',
-	'id'	=> 'thread-content-input',
-	'value' => set_value('content')
+  'tabindex' => 6,
+  'name'	=> 'content',
+  'id'	=> 'thread-content-input',
+  'value' => set_value('content')
 );
 
 ?>
@@ -126,7 +132,7 @@ $content = array(
       </div>
       </div>
     </div>
-    <?php echo form_submit('submit', 'Post Thread'); ?>
+  <?php echo form_submit(array('type'=>'submit', 'value' => 'Post Thread', 'tabindex' => 7)); ?>
   </form>
 </div>
 <script src="/js/thread.js"></script>

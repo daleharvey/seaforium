@@ -168,9 +168,10 @@ if (!$logged_in || $info['closed'] === '1' || $info['acq_type'] === 2) {
 
 // and now the reply form
 $content = array(
-	'name'	=> 'content',
-	'id'	=> 'thread-content-input',
-	'value' => set_value('content')
+  'tabindex' => 1,
+  'name'	=> 'content',
+  'id'	=> 'thread-content-input',
+  'value' => set_value('content')
 );
 
 ?>
@@ -260,7 +261,7 @@ $content = array(
   <p>I, <?php echo $this->session->userdata('username'); ?>,
     do solemnly swear that in posting this comment I promise to be nice.</p>
 
-  <button type="submit" id="submit-button">
+  <button type="submit" id="submit-button" tabindex='2'>
     Agree &amp; Post
   </button>
   <button type="button" id="preview-button">Preview</button>
