@@ -11,24 +11,44 @@ font-size:			12px;
 color:				#000;
 }
 
-#content  {
-border:				#999 1px solid;
-background-color:	#fff;
-padding:			20px 20px 12px 20px;
+#theimg {
+	background-image:url('/img/errorpage_icon.gif');
+	position:fixed;
+	top:50%;
+	left:50%;
+	width:400px;
+	height:100px;
+	overflow:hidden;
+	margin-top: -50px;
+	margin-left: -200px;
+	z-index:80;
+}
+
+#content {
+	position:fixed;
+	top:50%;
+	left:50%;
+	width:400px;
+	height:100px;
+	overflow:hidden;
+	margin-top: -40px;
+	margin-left: -100px;
+	z-index:90;
 }
 
 h1 {
 font-weight:		normal;
 font-size:			14px;
 color:				#990000;
-margin: 			0 0 4px 0;
 }
 </style>
 </head>
 <body>
+	<div id="theimg"></div>
 	<div id="content">
 		<h1><?php echo $heading; ?></h1>
 		<?php echo $message; ?>
+		<p>(<a href="/">Return to homepage</a>)</p>
 	</div>
 </body>
 </html>

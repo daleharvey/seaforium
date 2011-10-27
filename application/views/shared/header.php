@@ -54,7 +54,7 @@ if ($latest_comment_timestamps->num_rows() > 0) {
     <div id="middle">
       <div id="left-column">
         <a href="/" id="header">New Yay</a>
-        <a href="#bottom" id="jumpdown">&darr;</a>
+        <a href="javascript:;" onclick="document.location.hash='bottom';" id="jumpdown">&darr;</a>
 
 <?php if (!$logged_in) {
 $button_texts = array("Get In!", "Do it!", "Booya!", "Push Me",
