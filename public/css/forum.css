@@ -568,6 +568,12 @@ border-bottom: solid 1px #CCCCCC;
 position:relative;
 }
 
+.test-comment {
+border-top: solid 1px #CCCCCC;
+border-bottom: 0px;
+margin-top: 30px;
+}
+
 .comment.enemy .comment-container {
 display: none;
 }

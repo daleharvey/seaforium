@@ -182,24 +182,6 @@ $content = array(
 
 ?>
 
-<div id="comment-preview" class="test-comment" style="display: none;">
-  <div class="comment-container">
-    <div class="user-block">
-      <div class="username">You!</div>
-      <div class="time">Seconds from now</div>
-
-      <div class="user-information" style="background: url(/img/noavatar.gif);">
-      <ul>
-        <li>&nbsp;</li>
-        <li>&nbsp;</li>
-      </ul>
-    </div>
-  </div>
-  <div class="content-block">
-    <div class="content"></div>
-  </div>
-  <div style="clear: both;"></div>
-</div>
 </div>
 
 <div id="reply-lc">
@@ -272,6 +254,25 @@ $content = array(
   </button>
   <button type="button" id="preview-button">Preview</button>
 </form>
+
+<div id="comment-preview" class="test-comment" style="display: none;">
+  <div class="comment-container">
+    <div class="user-block">
+      <div class="username">You!</div>
+      <div class="time">Seconds from now</div>
+
+      <div class="user-information" style="background: url(/img/noavatar.gif);">
+      <ul>
+        <li>&nbsp;</li>
+        <li>&nbsp;</li>
+      </ul>
+    </div>
+  </div>
+  <div class="content-block">
+    <div class="content"></div>
+  </div>
+  <div style="clear: both;"></div>
+</div>
 
 </div>
 
