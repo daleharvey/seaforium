@@ -22,13 +22,14 @@ class User extends Controller {
       ->get_profile_information(str_replace('-', ' ', $username));
 
     if ($query->result_id->num_rows === 0) {
-      redirect('/');
+      show_404('/user/'.$username);
     }
 
     $data['user_data'] = $query->row();
 
 	if (is_null($data['user_data']->username)||$data['user_data']->username=='') {
-		redirect('/');
+		//redirect('/');
+		show_404('/user/'.$username);
 	}
 
     $time_registered =
