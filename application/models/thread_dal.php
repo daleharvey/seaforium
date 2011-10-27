@@ -304,7 +304,7 @@ class Thread_dal extends Model
 			return 0;
 		}
 		
-		$this->db->query("UPDATE threads SET deleted = ? WHERE thread_id = ? AND user_id = ? LIMIT 1", array(
+		$this->db->query("UPDATE threads SET deleted = ? WHERE thread_id = ? AND user_id = ? AND created > DATE_SUB(NOW(), INTERVAL 5 MINUTE) LIMIT 1", array(
 			$status,
 			$thread_id,
 			$user_id
