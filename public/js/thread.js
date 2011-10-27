@@ -176,7 +176,7 @@ thread = {
 
   save: function(comment_id)
   {
-    data = {
+    var post_data = {
       comment_id: comment_id,
       content: $('#comment-'+comment_id+' .content textarea').val()
     }
@@ -184,10 +184,10 @@ thread = {
     $.ajax({
       type: 'POST',
       url: '/ajax/comment_save/'+comment_id,
-      data: data,
+      data: post_data,
       success: function(data){
 	format_special($('#comment-'+comment_id+' .content').html(data));
-	thread.comments[comment_id].content = data.content;
+        delete thread.comments[comment_id];
       }
     });
   },
@@ -212,8 +212,10 @@ thread = {
 
   view_original: function(comment_id)
   {
-    if (thread.comments[comment_id] != undefined)
-      $('#comment-'+comment_id+' .content').html(thread.comments[comment_id].rendered);
+    if (thread.comments[comment_id] != undefined) {
+      $('#comment-' + comment_id + ' .content')
+        .html(thread.comments[comment_id].rendered);
+    }
   },
 
   view_source: function(comment_id)
@@ -229,7 +231,7 @@ thread = {
       }
 
       comment.container.html($('<textarea>', {
-	'id': 'comment-'+comment_id+'-source',
+	'id': 'comment-' + comment_id + '-source',
 	'val': comment.data.content
       }));
 
@@ -249,7 +251,7 @@ thread = {
       });
     }
   },
-  
+
   id: function()
   {
 	return $('.favourite').attr('rel');
@@ -274,13 +276,13 @@ function insertAtCaret(areaId,text) {
 	strPos = txtarea.selectionStart;
 	var selection = (txtarea.value).substring(strPos, txtarea.selectionEnd);
   }
-  
+
   var cursorOffset = text.indexOf('"');
   if(cursorOffset == -1 && !selection) {
 	cursorOffset = text.indexOf('<', 1) - 1;
   }
   cursorOffset = cursorOffset == -1 ? 0 : text.length - cursorOffset - 1;
-  
+
   var closeTag = text.indexOf("<", 1);
   if(closeTag == -1) {
 	var removeOffset = 0;
@@ -296,7 +298,7 @@ function insertAtCaret(areaId,text) {
   var back = (txtarea.value).substring(strPos + removeOffset);
   txtarea.value=front+text+back;
   strPos = strPos + text.length - cursorOffset;
-  
+
   if (br == "ie") {
     txtarea.focus();
     var range = document.selection.createRange();
@@ -310,6 +312,6 @@ function insertAtCaret(areaId,text) {
     txtarea.selectionEnd = strPos;
     txtarea.focus();
   }
-  
+
   txtarea.scrollTop = scrollPos;
 }

@@ -24,7 +24,7 @@
 				
 				<div id="pm-message-meta">
 					<span><span>Subject:</span> <?php echo $message->subject; ?></span> | 
-					<span><span>From:</span> <?php echo $message->username; ?></span> |
+					<span><span>From:</span> <a href="/user/<?php echo $message->username; ?>"><?php echo $message->username; ?></a></span> |
 					<span><span>Received:</span> <?php echo _format_pm_time($message->created); ?></span>
 				</div>
 				

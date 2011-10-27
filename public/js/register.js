@@ -17,6 +17,7 @@ $('#register-form').bind('submit', function(e){
     if (data.method === 'plain') {
       document.location.href = '';
     } else {
+      $("#register-form").remove();
       $('#register-notice').html('SUCCESS: You need to activate your account, an activation link has been sent to as a pm on <a href="http://yayhooray.com">yayhooray.com</a>').show();
     }
   });
