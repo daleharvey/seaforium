@@ -25,7 +25,7 @@ class Thread_dal extends Model
 			$data['user_id'],
 			$data['subject'],
 			$data['category'],
-                        date("Y-m-d H:i:s", utc_time())
+			date("Y-m-d H:i:s", utc_time())
 		));
 
 		return $this->db->insert_id();
@@ -129,19 +129,28 @@ class Thread_dal extends Model
 	 */
 	function new_comment($data)
 	{
+		$whattime = date("Y-m-d H:i:s", utc_time());
 		$sql = "INSERT INTO comments (thread_id, user_id, content, created) VALUES (?, ?, ?, ?)";
 
 		$this->db->query($sql, array(
 			$data['thread_id'],
 			$data['user_id'],
 			$data['content'],
-                        date("Y-m-d H:i:s", utc_time())
+			$whattime
 		));
 
-		$sql = "UPDATE threads SET last_comment_id = ? WHERE thread_id = ?";
+		$sql = "UPDATE threads SET last_comment_id = ?,last_comment_created = ? WHERE thread_id = ?";
 
 		$this->db->query($sql, array(
 			$this->db->insert_id(),
+			$whattime,
+			$data['thread_id']
+		));
+
+		$sql = "UPDATE categories SET last_comment_created = ? WHERE category_id = (SELECT category FROM threads WHERE thread_id = ?)";
+
+		$this->db->query($sql, array(
+			$whattime,
 			$data['thread_id']
 		));
 	}

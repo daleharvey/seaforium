@@ -14,7 +14,12 @@ if ($this->session->userdata('custom_css')) {
   $css = $this->session->userdata('custom_css');
 }
 
-
+$latest_comment_timestamps = $this->latest_dal->get_latest();
+if ($latest_comment_timestamps->num_rows() > 0) {
+	foreach($latest_comment_timestamps->result() as $row) {
+		$latest_comment[strtolower($row->name)] = timespan(strtotime($row->last_comment_created), time());
+	}
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -116,10 +121,10 @@ if ($this->session->userdata('custom_css')) {
 				<div class="lc-node" id="threads">
 					<h3><a href="/">Threads</a></h3>
 					<ul id="thread-categories">
-  <li><a href="/f/discussions">Discussions</a> (<?php echo timespan(strtotime($this->latest_dal->get_latest('discussions')), time()) ?>)</li>
-  <li><a href="/f/projects">Projects</a> (<?php echo timespan(strtotime($this->latest_dal->get_latest('projects')), time()) ?>)</li>
-  <li><a href="/f/advice">Advice</a> (<?php echo timespan(strtotime($this->latest_dal->get_latest('advice')), time()) ?>)</li>
-  <li><a href="/f/meaningless">Meaningless</a> (<?php echo timespan(strtotime($this->latest_dal->get_latest('meaningless')), time()) ?>)</li>
+						<li><a href="/f/discussions">Discussions</a> <?php echo $latest_comment['discussions']; ?></li>
+						<li><a href="/f/projects">Projects</a> <?php echo $latest_comment['projects']; ?></li>
+						<li><a href="/f/advice">Advice</a> <?php echo $latest_comment['advice']; ?></li>
+						<li><a href="/f/meaningless">Meaningless</a> <?php echo $latest_comment['meaningless']; ?></li>
 					</ul>
 					<ul id="special-threads">
 						<li><a href="/">All Forums</a></li>
