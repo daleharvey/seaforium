@@ -33,12 +33,14 @@ function format_special(element)
     $(this).replaceWith(html);
   });
 
-  pattern = new RegExp('(?:")?http(?:s)?://(?:www.)?youtu(?:be)?.(?:[a-z]){2,3}(?:[a-z/?=]+)([a-zA-Z0-9-_]{11})(?:[a-z0-9\?\&\-_=]+)?');
+  youtube = new RegExp('(?:")?http(?:s)?://(?:www.)?youtu(?:be)?.(?:[a-z]){2,3}(?:[a-z/?=]+)([a-zA-Z0-9-_]{11})(?:[a-z0-9\?\&\-_=]+)?');
+  vimeo = new RegExp('http(?:s)?://(?:www.)?vimeo.com/([0-9]+)(?:#[a-z0-9\?\&\-_=]*)?');
 
   $(element).each(function(){
-    // auto-embed youtube videos
-    $(this).html($(this).html().replace(pattern, function(a, b){return (a.indexOf("\"") != -1) ? a : '<iframe width="425" height="349" src="http://www.youtube.com/embed/'+b+'" frameborder="0" allowfullscreen></iframe><br />';}));
-
+    // auto-embed youtube/vimeo videos
+    $(this).html($(this).html().replace(youtube, function(a, b){return (a.indexOf("\"") != -1) ? a : '<iframe width="425" height="349" src="http://www.youtube.com/embed/'+b+'" frameborder="0" allowfullscreen></iframe><br />';}));
+	$(this).html($(this).html().replace(vimeo, function(a, b){return (a.indexOf("\"") != -1) ? a : '<iframe src="http://player.vimeo.com/video/'+b+'?title=0&amp;byline=0&amp;portrait=0" width="400" height="225" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe><br />';}));
+	
     // formatting for nickoislazy style quotes
     children = $(this).find('blockquote');
 
