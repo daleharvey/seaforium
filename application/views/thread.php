@@ -10,7 +10,7 @@ $owner = $logged_in && $this->session->userdata('user_id') == $info['user_id'];
 ?>
 
 <div id="thread">
-  <div id="main-title"<?php echo $owner ? ' class="changeling"':''?>><h3><?php echo $info['title'] ?></h3>
+  <div id="main-title"<?php echo $owner && $info['editable'] ? ' class="changeling"':''?>><h3><?php echo $info['title'] ?></h3>
     <?php if ($logged_in) { ?>
       <a class="favourite<?php echo $favorite; ?>"
          rel="<?php echo $thread_id; ?>"></a>
@@ -118,6 +118,9 @@ if ($my_thread && $i === 0 && $starting === 0) {
      <ul>
        <li id="control-nsfw">&middot; <span><?php echo $nsfw_text; ?></span></li>
        <li id="control-closed">&middot; <span><?php echo $closed_text; ?></span></li>
+	   <?php if($info['editable']) {?>
+		<li id="control-delete">&middot; <span>Delete Thread</span></li>
+	   <? }?>
      </ul>
   </div>
 
@@ -127,6 +130,9 @@ if ($my_thread && $i === 0 && $starting === 0) {
     });
     $('#control-closed span').bind('click', function(){
         thread.set_status(<?php echo $row->thread_id; ?>, 'closed', <?php echo $set_closed_status; ?>, '<?php echo $session_id; ?>');
+    });
+	$('#control-delete span').bind('click', function(){
+        thread.set_status(<?php echo $row->thread_id; ?>, 'deleted', 1, '<?php echo $session_id; ?>');
     });
   </script>
 

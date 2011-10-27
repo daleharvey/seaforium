@@ -35,6 +35,7 @@ class Title extends Controller
 		  $user_id = $this->session->userdata('user_id');
 
 		  $this->load->model('thread_dal');
+		  
 		  $this->thread_dal->update_subject($thread_id, $title, $user_id);
 		  
 		  echo "saved";

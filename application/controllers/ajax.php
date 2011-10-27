@@ -136,6 +136,8 @@ class Ajax extends Controller
         echo $this->thread_dal->change_nsfw($user_id, $thread_id, $status);
       } elseif ($keyword == 'closed') {
         echo $this->thread_dal->change_closed($user_id, $thread_id, $status);
+      } elseif ($keyword == 'deleted') {
+        echo $this->thread_dal->change_deleted($user_id, $thread_id, $status);
       }
     }
   }

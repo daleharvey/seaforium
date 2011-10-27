@@ -108,6 +108,7 @@ class Thread_dal extends Model
 				subject,
 				closed,
 				nsfw,
+				created,
 				categories.name AS category,
 				IFNULL(acquaintances.type, 1) AS type
 			FROM threads
@@ -116,7 +117,7 @@ class Thread_dal extends Model
 			LEFT JOIN acquaintances
 				ON acquaintances.user_id = threads.user_id
 				AND acquaintances.acq_user_id = ?
-			WHERE thread_id = ?";
+			WHERE thread_id = ? AND threads.deleted != 1";
 
 		return $this->db->query($sql, array($user_id, $thread_id));
 	}
@@ -239,7 +240,7 @@ class Thread_dal extends Model
 	 */
 	function update_subject($thread_id, $subject, $user_id)
 	{
-		$this->db->query("UPDATE threads SET subject = ? WHERE thread_id = ? AND user_id = ?", array(
+		$this->db->query("UPDATE threads SET subject = ? WHERE thread_id = ? AND user_id = ? AND created > DATE_SUB(NOW(), INTERVAL 5 MINUTE)", array(
 			$subject,
 			$thread_id,
 			$user_id
@@ -265,13 +266,13 @@ class Thread_dal extends Model
 
 	function get_participated_threads($user_id)
 	{
-		$participated = $this->db->query("SELECT GROUP_CONCAT(DISTINCT thread_id) AS thread_ids FROM comments WHERE user_id = ?", $user_id)->row()->thread_ids;
+		$participated = $this->db->query("SELECT GROUP_CONCAT(DISTINCT comments.thread_id) AS thread_ids FROM comments,threads WHERE comments.user_id = ? AND comments.thread_id = threads.thread_id AND threads.deleted = 0", $user_id)->row()->thread_ids;
 		return strlen($participated) > 0 ? $participated : '0';
 	}
 
 	function get_started_threads($user_id)
 	{
-		$started = $this->db->query("SELECT GROUP_CONCAT(DISTINCT thread_id) AS thread_ids FROM threads WHERE user_id = ?", $user_id)->row()->thread_ids;
+		$started = $this->db->query("SELECT GROUP_CONCAT(DISTINCT thread_id) AS thread_ids FROM threads WHERE user_id = ? AND deleted = 0", $user_id)->row()->thread_ids;
 		return strlen($started) > 0 ? $started : '0';
 	}
 
@@ -296,10 +297,25 @@ class Thread_dal extends Model
 
 		return $this->db->affected_rows();
 	}
+	
+	function change_deleted($user_id, $thread_id, $status)
+	{
+		if($status != 1) {
+			return 0;
+		}
+		
+		$this->db->query("UPDATE threads SET deleted = ? WHERE thread_id = ? AND user_id = ? AND created > DATE_SUB(NOW(), INTERVAL 5 MINUTE) LIMIT 1", array(
+			$status,
+			$thread_id,
+			$user_id
+		));
+
+		return $this->db->affected_rows();
+	}
 
 	function get_favorites($user_id)
 	{
-		$favorites = $this->db->query("SELECT GROUP_CONCAT(thread_id) AS favorites FROM favorites WHERE user_id = ?", $user_id)->row()->favorites;
+		$favorites = $this->db->query("SELECT GROUP_CONCAT(favorites.thread_id) AS favorites FROM favorites,threads WHERE favorites.user_id = ? AND favorites.thread_id = threads.thread_id AND threads.deleted = 0", $user_id)->row()->favorites;
 		return strlen($favorites) > 0 ? $favorites : '0';
 	}
 
@@ -316,6 +332,7 @@ class Thread_dal extends Model
 
 		return $this->db->affected_rows();
 	}
+	
 	function find_thread_by_title($user_id, $limit, $span, $filtering = '', $ordering = '', $search_phrase)
 	{
 		//return $this->db->query("SELECT * FROM `threads` WHERE MATCH(subject) AGAINST(?)", $search_phrase);
