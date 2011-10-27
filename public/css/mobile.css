@@ -303,6 +303,8 @@ form .textarea {
 .quote { margin-left: 20px;}
 
 .content textarea {
+    height:200px;
+    width:300px;
     display:block;
 }
 
