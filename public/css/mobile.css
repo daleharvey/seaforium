@@ -1,9 +1,9 @@
-* { 
+* {
     margin: 0px;
     padding: 0px;
 }
 
-body { 
+body {
 }
 
 body, div, td, input, select, textarea {
@@ -12,15 +12,15 @@ body, div, td, input, select, textarea {
     font-size:16px;
 }
 
-h1 { 
+h1 {
     margin-bottom:20px;
 }
 
-input { 
-    font-size:16px; 
+input {
+    font-size:16px;
 }
 
-a { 
+a {
     text-decoration: none;
     color:#494949;
     outline:none;
@@ -31,7 +31,7 @@ a {
     padding-bottom:20px;
 }
 
-#secluded-login { 
+#secluded-login {
     padding:20px;
 }
 
@@ -40,7 +40,7 @@ a {
     margin-bottom:10px;
 }
 
-.welcome { 
+.welcome {
     position:absolute;
     top:5px;
     right:5px;
@@ -61,13 +61,13 @@ a {
     -moz-border-radius:5px;
 }
 
-.thread, .comment { 
+.thread, .comment {
     overflow:auto;
     position:relative;
     padding:5px 10px;
 }
 
-.comment { 
+.comment {
     border-bottom: 1px solid #ACE1F9;
 }
 
@@ -81,7 +81,7 @@ a {
 .thread {
     background-color: #F5FBFE;
     margin:2px 0 2px 0;
-    overflow:auto; 
+    overflow:auto;
 }
 
 .thread.alt {
@@ -114,49 +114,49 @@ color: #F06171;
 }
 
 .subject-text {
-    font-size: 18px; 
+    font-size: 18px;
     font-weight:bold;
 }
-.subject { 
-    margin: 0 25px 3px 0;      
+.subject {
+    margin: 0 25px 3px 0;
 }
-.username, .two { 
+.username, .two {
     float:left;
 }
 
 .two {
     width: 140px;
 }
-.two .username:before { 
+.two .username:before {
     content: "By: ";
 }
-.three .username:before { 
+.three .username:before {
     content: "Last: ";
 }
-.three .username:after, .two .username:after { 
+.three .username:after, .two .username:after {
     content: ", ";
 }
 
-.two div, .three div { 
+.two div, .three div {
     font-size:11px;
 }
-.two div, .three div, .two a, .three a { 
+.two div, .three div, .two a, .three a {
     color:#999;
 }
 
-.four { 
+.four {
     position:absolute;
     top: 15px;
     right:10px;
 }
 
-.user-block .username a { 
+.user-block .username a {
     font-weight:bold;
 }
-.user-block { 
+.user-block {
     overflow:auto;
 }
-.user-block .time { 
+.user-block .time {
     margin-top:4px;
     font-size:12px;
     color:#999;
@@ -164,13 +164,13 @@ color: #F06171;
 .username {
     margin-right:2px;
 }
-.comment .content { 
+.comment .content {
     padding: 5px 0 0 0;
 }
 .secluded-input {
     margin-bottom: 20px;
 }
-#thread form { 
+#thread form {
     margin: 10px;
 }
 #thread form textarea {
@@ -186,7 +186,7 @@ color: #F06171;
     text-decoration: underline;
 }
 
-.pagination.bottom { 
+.pagination.bottom {
     padding:10px 0 10px 10px;
 }
 
@@ -199,7 +199,7 @@ color: #F06171;
     border-bottom:1px solid #DCD4C9;
 }
 
-#threads, .welcome { 
+#threads, .welcome {
     overflow:auto;
 }
 #threads li, .welcome li {
@@ -217,7 +217,7 @@ color: #F06171;
     border-radius:5px;
     -moz-border-radius:5px;
 }
-.main-pagination { 
+.main-pagination {
     overflow:auto;
 }
 .main-pagination a, .main-pagination div {
@@ -228,7 +228,7 @@ color: #F06171;
     float:left;
     margin-right:10px;
 }
-.main-pagination div { 
+.main-pagination div {
     background: #666;
 }
 
@@ -239,41 +239,41 @@ color: #F06171;
     text-decoration:underline;
 }
 
-#new-thread form input[type="submit"] { 
+#new-thread form input[type="submit"] {
     margin-left:10px;
 }
 
-.inp { 
+.inp {
     padding:10px;
 }
 label { display:block; margin-bottom:5px; font-weight:bold;}
 
-#category-selector { 
+#category-selector {
     overflow:auto;
 }
-#category-selector input { 
-    display:block; 
-    float:left; 
-    width: 15px; 
+#category-selector input {
+    display:block;
+    float:left;
+    width: 15px;
     padding-top:5px;
-    margin-right:10px; 
+    margin-right:10px;
     height:20px;
 }
-#category-selector label { 
-    display:block; 
-    float:left; 
-    width: 60px; 
-    padding-bottom:15px; 
-    margin-right:50px; 
+#category-selector label {
+    display:block;
+    float:left;
+    width: 60px;
+    padding-bottom:15px;
+    margin-right:50px;
     font-weight:normal;
 }
 
 #reply-lc { padding-left:10px; }
 
-#main-title { 
+#main-title {
     display:none;
 }
-#thread #main-title { 
+#thread #main-title {
     display:block;
     padding:10px 10px;
     text-align:center;
@@ -281,26 +281,37 @@ label { display:block; margin-bottom:5px; font-weight:bold;}
     border-bottom: 1px solid #ACE1F9;
 }
 
-#stats { 
+#stats {
     padding:10px;
 }
 
-form .textarea { 
+form .textarea {
     padding-right:5px;
 }
-    
+
 #thread-content-input {
-    
+
     height:120px;
     width:100%;
 }
 
+.cmd-bar {
+    float:right;
+    font-size: 10px;
+}
+
+.quote { margin-left: 20px;}
+
+.content textarea {
+    display:block;
+}
+
 #secluded-invite, #messaging, #buddy-list,
-.pagination.top, #thread-headers, .thread .category, .fourr, .five, 
-#special-threads, .user-information, .cmd-bar, 
-#thread-control, #threads h3, .welcome h4, .welcome > a, 
+.pagination.top, #thread-headers, .thread .category, .fourr, .five,
+#special-threads, .user-information,
+#thread-control, #threads h3, .welcome h4, .welcome > a,
 .welcome ul li:first-child, .paging-text, #threads, #new-thread p:first-child,
-#post-shortcuts, #pinkies, #reply-rc p, #this-is-you, #information, #stats h3, 
-#information-bio, #information-desc, #information-widget, #latest-posts, #show_mobile { 
-    display:none; 
+#post-shortcuts, #pinkies, #reply-rc p, #this-is-you, #information, #stats h3,
+#information-bio, #information-desc, #information-widget, #latest-posts, #show_mobile {
+    display:none;
 }
