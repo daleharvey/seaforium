@@ -197,15 +197,19 @@ thread = {
     $.get(
       '/ajax/set_thread_status/'+ thread_id +'/'+ keyword +'/'+ status +'/'+ key,
       function(data) {
-	if (data == 1)
-	{
-	  status = status == 1 ? 0 : 1;
+		if (data == 1)
+		{
+			if(keyword == 'deleted') {
+				location = '/';
+			} else {
+				status = status == 1 ? 0 : 1;
 
-	  $('#control-'+ keyword +' span').unbind('click').bind('click', function(){
-	    thread.set_status(thread_id, keyword, status, key);
-	    return false;
-	  }).html(thread.status_text[keyword][status]);
-	}
+				$('#control-'+ keyword +' span').unbind('click').bind('click', function(){
+					thread.set_status(thread_id, keyword, status, key);
+					return false;
+				}).html(thread.status_text[keyword][status]);
+			}
+		}
       }
     );
   },

@@ -43,17 +43,18 @@ class Thread extends Controller {
 
     // alright we're clear, set some data for the view
     $data = array(
-                  'info' => array(
-                                  'title' => $thread_info->subject,
-                                  'nsfw' => $thread_info->nsfw,
-                                  'closed' => $thread_info->closed,
-                                  'category' => $thread_info->category,
-                                  'acq_type' => (int) $thread_info->type,
-								  'user_id' => $thread_info->user_id
-                                  ),
-                  'thread_id' => $thread_id,
-                  'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id']))
-                  );
+        'info' => array(
+			'title' => $thread_info->subject,
+			'nsfw' => $thread_info->nsfw,
+			'closed' => $thread_info->closed,
+			'category' => $thread_info->category,
+			'acq_type' => (int) $thread_info->type,
+			'user_id' => $thread_info->user_id,
+			'editable' => time() - strtotime($thread_info->created) < 300
+		),
+		'thread_id' => $thread_id,
+		'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id']))
+	);
 
     // if the thread is closed then we're not accepting any new data
     if ($thread_info->closed === '0' || (int) $thread_info->type == 2) {

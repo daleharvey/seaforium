@@ -31,6 +31,9 @@ class Latest_dal extends Model
 			default:
 				$sql = '';
 		}
+		
+		$sql .= $sql ? ' AND' : 'WHERE';
+		$sql .= ' threads.deleted = 0';
 
 		$sql = "
 			SELECT

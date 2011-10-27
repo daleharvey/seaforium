@@ -458,7 +458,8 @@ class User_dal extends Model
 			LEFT JOIN threads
 				ON comments.thread_id = threads.thread_id
 			WHERE comments.user_id = ?
-				AND deleted != 0
+				AND comments.deleted != 0
+				AND threads.deleted != 1
 			ORDER BY comment_id DESC
 			LIMIT 10";
 
