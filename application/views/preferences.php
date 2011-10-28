@@ -214,7 +214,7 @@
 
 <div id="main-title"><h3>Pimpin' ain't easy... but editing your profile is!</h3></div>
 
-<p><strong>This is the page where you can edit your profile and change your YH settings. Your profile lets people learn a little about you. Tweak your YH settings to browse yay the way you want to.</strong></p>
+				<p class="prefpink"><strong>This is the page where you can edit your profile and change your YH settings.</strong> Your profile lets people learn a little about you. Tweak your YH settings to browse yay the way you want to.</p>
 
 <div class="dotted-bar"></div>
 
@@ -337,12 +337,6 @@
 <?php echo form_input('custom_css', $user_preferences->custom_css); ?>
 </div>
 
-<<<<<<< HEAD
-						<?php /*<div class="input text">
-							<?php echo form_label('Custom CSS', 'custom_css'); ?>
-							<?php echo form_input('custom_css', $user_preferences->custom_css); ?>
-						</div>*/ ?>
-=======
 <div class="input text">
 <?php echo form_label('Threads Shown', 'threads_shown'); ?>
 <?php echo form_dropdown('threads_shown', $elements_shown_options, $this->session->userdata('threads_shown').''); ?>
@@ -351,7 +345,6 @@
 <?php echo form_label('Comments Shown', 'comments_shown'); ?>
 <?php echo form_dropdown('comments_shown', $elements_shown_options, $this->session->userdata('comments_shown').''); ?>
 </div>
->>>>>>> a1b56ceeeeb1b03b72972fbb37a0437ecf5a8ea4
 
 <div class="input text">
 <label for="emot_upload">Avatar</label>
