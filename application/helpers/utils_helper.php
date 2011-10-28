@@ -59,4 +59,14 @@ if ( ! function_exists('timespan'))
   }
 }
 
+function make_link($str)
+{
+  if ($str != '' && (substr($str, 0, 7) !== 'http://' ||
+                     substr($str, 0, 8) !== 'https://')) {
+    return 'http://' . $str;
+  } else {
+    return $str;
+  }
+}
+
 ?>
