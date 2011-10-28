@@ -499,7 +499,7 @@ float: left;
 }
 
 .thread .one, .thread .two, .thread .three {
-padding: 6px 0;
+padding: 6px 0 0 0;
 line-height:16px;
 }
 
@@ -1166,6 +1166,7 @@ font-size: 9px;
     border: 0px;
     font-size: 8px !important;
     text-transform: uppercase;
+    cursor: pointer;
 }
 #logout_btn::-moz-focus-inner{
     padding: 0 !important;
@@ -1244,4 +1245,8 @@ div.error {
     background:#EEE;
     font-weight: bold;
     float:right;
+}
+
+.prefpink {
+	color: #ED135A;
 }
