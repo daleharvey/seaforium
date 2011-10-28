@@ -115,7 +115,7 @@ class Auth extends Controller
       return send_json($this->output, 412, array('error' => $this->sauth->error));
     }
 
-    if ($this->user_dal->is_yay_username($username)) {
+    if ($this->config->item('yay_import')&&$this->user_dal->is_yay_username($username)) {
       $this->send_activate_link($username);
       return send_json($this->output, 201, array('ok' => true, 'method' => 'yaypm'));
     }
@@ -129,6 +129,9 @@ class Auth extends Controller
   {
     $invite_id = random_string('alnum', 32);
 
+	if (!$this->config->item('yay_import')) {
+		return FALSE;
+	}
     if (!$this->user_dal->create_yh_invite($username, $invite_id)) {
       return FALSE;
     }
@@ -143,7 +146,7 @@ class Auth extends Controller
       {$uri}
 
      Love,
-     The guys at YayHooray.net
+     The guys at {$this->config->item('email_signature')}
 EOT;
 
       $this->yayhooray->login($this->config->item('yay_username'),
@@ -196,7 +199,7 @@ EOT;
     // reset it!
     $this->sauth->reset_password($data);
 
-    $this->email->from('dale@arandomurl.com', 'YayHooray.net');
+    $this->email->from($this->config->item('email_addy'), $this->config->item('email_signature'));
     $this->email->to($email);
     $this->email->subject('Your new password!');
     $this->email->message($this->load->view('emails/forgot_password', $data, true));

@@ -41,9 +41,7 @@ if ($body_class === '') {
 <html>
 
   <head>
-    <title><?php if (isset($page_title)) { echo $page_title . ' |'; } ?>
-      YayHooray 2.0
-    </title>
+    <title><?php if (isset($page_title)) { echo $page_title . ' |'; } echo $this->config->item('site_name'); ?></title>
 
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="viewport"

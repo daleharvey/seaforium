@@ -52,7 +52,7 @@
 					<? //echo $pagination; ?>
 
 					<?php if(!$recent_posts): ?>
-						<h1>This user has posted absolutely nothing on YayHooray!</h1>
+						<h1>This user has posted absolutely nothing on <?php echo $this->config->item('site_name'); ?>!</h1>
 					<?php else:
 						foreach($recent_posts as $post):
 					?>

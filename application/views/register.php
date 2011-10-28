@@ -1,7 +1,7 @@
 <div id="main-title"><h3>OMG, you can Register?</h3></div>
 
 <div id="new-thread">
-
+<?php if ($this->config->item('yay_import')) { ?>
    <p>If you register using an existing username on yayhooray.com you will have
      to activate your account to use that username, the link will be sent to
      <a href="http://www.yayhooray.com/messages">yayhooray.com/messages</a>.
@@ -11,7 +11,7 @@
      <a href="http://dh.yayhooray.com">dh</a> for access. Cheers</p>
 
   <div class="dotted-bar"></div>
-
+<?php } ?>
    <div id="register-notice">Error: That Username is taken</div>
 
   <form method="post" action="/newthread" id="register-form">
@@ -34,4 +34,13 @@
     <input type="submit" value="Register" />
   </form>
 </div>
+<script type="text/javascript">
+<?php
+if ($this->config->item('yay_import')) {
+	echo "var yay_import = 'true';";
+}else{
+	echo "var yay_import = 'false';";
+}
+?>
+</script>
 <script src="/js/register.js"></script>
