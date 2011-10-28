@@ -113,8 +113,8 @@ if ($logged_in) {
   if ($unread_messages === 0) {
     $unread_msg = "No New Messages";
   } else {
-    $unread_msg = $unread_messages .' Unread Message' .
-      ($unread_messages === 1 ? '' : 's');
+    $unread_msg = $unread_messages .'<span> Unread Message' .
+      ($unread_messages === 1 ? '' : 's') . '</span>';
   }
 
 ?>
