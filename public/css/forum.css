@@ -1045,6 +1045,12 @@ list-style: disc;
 font-size: 11px;
 }
 
+.error_alert {
+color:#C00;
+padding:10px 0;
+font-weight:bold;
+}
+
 #buddy-input {
 margin-bottom: 4px;
 }

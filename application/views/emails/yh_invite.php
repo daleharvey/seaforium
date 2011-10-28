@@ -2,10 +2,10 @@
 
 <p>Here's a link for you to register at the new board we've got!</p>
 
-<p><a href="http://yayhooray.net/auth/register/<?php echo $invite_id; ?>">http://yayhooray.net/auth/register/<?php echo $invite_id; ?></a></p>
+<p><a href="<?php echo $this->config->item('base_url_pm'); ?>auth/register/<?php echo $invite_id; ?>"><?php echo $this->config->item('base_url_pm'); ?>auth/register/<?php echo $invite_id; ?></a></p>
 
 <p>cheers!,</p>
 
 <p>Love,<br />
-The guys at YayHooray.net<br />
-http://www.yayhooray.net</p>
+The guys at <?php echo $this->config->item('email_signature'); ?><br />
+<?php echo $this->config->item('base_url_pm'); ?></p>
