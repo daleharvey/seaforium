@@ -23,7 +23,7 @@ $use_random_title = $this->session->userdata('random_titles') !== '0';
 			
 <?php 
 
-$display = $this->session->userdata('threads_shown') == false ? 50 : $this->session->userdata('threads_shown');
+$display = $this->session->userdata('comments_shown') == false ? 50 : $this->session->userdata('comments_shown');
 
 foreach($thread_result->result() as $row) { 
 	$alt = (!isset($alt) || $alt === false ? true : false);
