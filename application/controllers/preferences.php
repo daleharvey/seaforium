@@ -6,7 +6,7 @@ class Preferences extends Controller {
   {
     parent::Controller();
 
-    $this->load->helper(array('form', 'url'));
+    $this->load->helper(array('form', 'url', 'utils'));
     $this->load->library('form_validation');
     $this->load->model('auth/user_dal');
 
@@ -74,12 +74,12 @@ class Preferences extends Controller {
           $this->form_validation->set_value('new_post_notification'),
       );
       $data_profile = array (
-        'website_1' => $this->form_validation->set_value('website_1'),
-        'website_2' => $this->form_validation->set_value('website_2'),
-        'website_3' => $this->form_validation->set_value('website_3'),
-        'rss_feed_1' => $this->form_validation->set_value('rss_feed_1'),
-        'rss_feed_2' => $this->form_validation->set_value('rss_feed_2'),
-        'rss_feed_3' => $this->form_validation->set_value('rss_feed_3'),
+        'website_1' => make_link($this->form_validation->set_value('website_1')),
+        'website_2' => make_link($this->form_validation->set_value('website_2')),
+        'website_3' => make_link($this->form_validation->set_value('website_3')),
+        'rss_feed_1' => make_link($this->form_validation->set_value('rss_feed_1')),
+        'rss_feed_2' => make_link($this->form_validation->set_value('rss_feed_2')),
+        'rss_feed_3' => make_link($this->form_validation->set_value('rss_feed_3')),
         'about_blurb' => $this->form_validation->set_value('about_blurb'),
         'flickr_username' => $this->form_validation->set_value('flickr_username'),
         'delicious_username' => $this->form_validation->set_value('delicious_username'),
