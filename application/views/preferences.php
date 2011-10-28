@@ -234,12 +234,17 @@
 </div>
 
 <div class="input text">
-  <label for="password">Change Password</label>
+  <label for="old_password">Original Password</label>
+  <input type="password" name="old_password" id="old_password" value="" />
+</div>
+
+<div class="input text">
+  <label for="password">New Password</label>
   <input type="password" name="password" id="password" value="" />
 </div>
 
 <div class="input text">
-  <label for="password2">Verify Password</label>
+  <label for="password2">Confirm New Password</label>
   <input type="password" name="password2" id="password2" value="" />
 </div>
 
