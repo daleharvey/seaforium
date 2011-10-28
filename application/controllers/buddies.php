@@ -24,6 +24,9 @@ class Buddies extends Controller {
                         $acq_id = $acq_id = $this->user_dal->get_user_id_by_username($this->form_validation->set_value('username'));
 			if ($acq_id  && $user_id != $acq_id)
 			{
+				if ($this->user_dal->acquaintance_exists($user_id,$acq_id)) {
+					redirect('/buddies/error/1');
+				}
 				$me = $this->session->userdata('username');
 				$key = md5($me.$acq_id);
 				$command = (int)$this->form_validation->set_value('command');
@@ -72,6 +75,23 @@ class Buddies extends Controller {
 			echo $this->user_dal->delete_acquaintance(md5($this->session->userdata('username').$user_id));
 			return;
 		}
+	}
+
+	function error($error_id = 0)
+	{
+		$user_id = (int)$this->session->userdata('user_id');
+		$error_id = (int) $error_id;
+		if ($error_id === 1) {
+			$error_alert = 'That user is already your buddy/enemy.';
+		}
+		$this->load->view('shared/header');
+		$this->load->view('buddies', array(
+			'buddies' => $this->user_dal->get_buddies($user_id),
+			'enemies' => $this->user_dal->get_enemies($user_id),
+			'username' => '',
+			'error_alert' => $error_alert;
+		));
+		$this->load->view('shared/footer');
 	}
 }
 
