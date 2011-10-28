@@ -1,1 +1,10 @@
-application/controllers/invite.php
+application/logs
+
+build
+public/img/emoticons
+tests/pytests/*.pyc
+
+
+.DS_Store
+.#*
++/*.htaccess

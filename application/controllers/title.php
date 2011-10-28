@@ -2,19 +2,19 @@
 
 class Title extends Controller
 {
-	function Title()
-	{
-		parent::__construct();
-		
-		$this->load->library('form_validation');
-		$this->load->model('thread_dal');
-	}
+  function Title()
+  {
+    parent::__construct();
 
-	function index() {
+    $this->load->library('form_validation');
+    $this->load->model('thread_dal');
+  }
+
+  function index() {
     $query = $this->db->query("SELECT users.username, titles.title_text FROM ".
                               "titles LEFT JOIN users ON titles.author_id = ".
                               "users.id");
-          
+
     foreach ($query->result() as $row) {
       echo $row->username . " - " . $row->title_text . "<br />";
     }
@@ -22,26 +22,46 @@ class Title extends Controller
 
   function edit() {
 
-    $rules = 'required|min_length[1]|max_length[36]';    
-    $this->form_validation->set_rules('title', 'Title', $rules);
-    
-    if ($this->form_validation->run() &&
-        $this->sauth->is_logged_in()) { 
-      
-      $title = $this->input->post('title');
-      $auth_id = $this->session->userdata('user_id');
+    $thread_id = $this->input->post('thread_id');
 
-      $sql = "INSERT INTO titles(title_text, author_id) VALUES(?, ?)";
+    if($thread_id) {
+      $rules = 'required|min_length[1]|max_length[64]';
+      $this->form_validation->set_rules('title', 'Title', $rules);
 
-      $this->db->query($sql, array(
-			  $title,
-			  $auth_id
-      ));
-      
-      echo "saved";
+      if ($this->form_validation->run() &&
+          $this->sauth->is_logged_in()) {
 
-    } else { 
-      echo "error";
+        $title = $this->input->post('title');
+        $user_id = $this->session->userdata('user_id');
+
+        $this->load->model('thread_dal');
+
+        echo $this->thread_dal->update_subject($thread_id, $title, $user_id)
+          ? "saved" : "error";
+
+      } else {
+        echo "error";
+      }
+    } else {
+
+      $rules = 'required|min_length[1]|max_length[36]';
+      $this->form_validation->set_rules('title', 'Title', $rules);
+
+      if ($this->form_validation->run() &&
+          $this->sauth->is_logged_in()) {
+
+        $title = $this->input->post('title');
+        $auth_id = $this->session->userdata('user_id');
+
+        $sql = "INSERT INTO titles(title_text, author_id) VALUES(?, ?)";
+
+        $this->db->query($sql, array($title, $auth_id));
+
+        echo "saved";
+
+      } else {
+        echo "error";
+      }
     }
   }
 }

@@ -2,245 +2,209 @@
 
 class Auth extends Controller
 {
-	function __construct()
-	{
-		parent::__construct();
+  function __construct()
+  {
+    parent::__construct();
 
-		$this->load->helper(array('form', 'url', 'string'));
-		$this->load->library(array('form_validation', 'sauth', 'yayhooray', 'email'));
-		$this->load->model('user_dal');
-	}
+    $this->load->helper(array('form', 'url', 'string', 'utils'));
+    $this->load->library(array('form_validation', 'sauth', 'yayhooray', 'email'));
+    $this->load->model('user_dal');
+  }
 
-	function index()
-	{
-		redirect('/auth/login');
-	}
+  /**
+   * Login user on the site
+   *
+   * @return void
+   */
+  function login()
+  {
+    $this->form_validation->set_rules('username', 'Username', 'trim|xss_clean');
+    $this->form_validation->set_rules('password', 'Password', 'trim|xss_clean');
 
-	/**
-	 * Login user on the site
-	 *
-	 * @return void
-	 */
-	function login()
-	{
-		$this->form_validation->set_rules('username', 'Username', 'trim|xss_clean');
-		$this->form_validation->set_rules('password', 'Password', 'trim|xss_clean');
-		
-		if ($this->form_validation->run()) {
-			if ($this->sauth->login($this->form_validation->set_value('username'), $this->form_validation->set_value('password')))
-			{
-				echo 1;
-				return;
-			}
-			else
-			{
-				echo 0;
-				return;
-			}
-		}
-		
-		echo 0;
-	}
+    if (!$this->form_validation->run()) {
+      return send_json($this->output, 412, array('error' => 'invalid login details'));
+    }
 
-	/**
-	 * Logout user
-	 *
-	 * @return void
-	 */
-	function logout()
-	{
-		$this->sauth->logout();
+    $username = $this->form_validation->set_value('username');
+    $password = $this->form_validation->set_value('password');
 
-		redirect('/');
-	}
+    if (!$this->sauth->login($username, $password)) {
+      $json = array('error' => $this->sauth->error['msg']);
+      return send_json($this->output, 401, $json);
+    }
 
-	/**
-	 * Register user on the site
-	 *
-	 * @return void
-	 */
-	function register($key = '')
-	{
-		if ($this->sauth->is_logged_in())
-		{
-			redirect('');
-		}
-		else
-		{
-			//$this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|min_length[2]|max_length[18]|alpha_dash');
-			$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
-			$this->form_validation->set_rules('password2', 'Confirm Password', 'trim|required|xss_clean|matches[password]');
-			$this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|valid_email');
-			$this->form_validation->set_rules('key', 'Key', 'trim|required|xss_clean');
-			
-			$data['errors'] = array();
-			
-			if ($this->form_validation->run())
-			{
-				$username = $this->user_dal->get_username_from_authkey($this->form_validation->set_value('key'));
-				
-				if ($username !== 0)
-				{
-					if ($this->sauth->create_user(
-							$username,
-							$this->form_validation->set_value('email'),
-							$this->form_validation->set_value('password'),
-							$this->form_validation->set_value('key')))
-					{
-						
-						$this->sauth->login($username, $this->form_validation->set_value('password'));
-						
-						redirect('');
-					}
-					else
-					{
-						$data['errors'] = $this->sauth->get_error_message();
-					}
-				}
-				else
-				{
-					$data['errors'] = "No authkey found";
-				}
-			}
-			
-			$data['key'] = $key;
-			
-			$this->load->view('shared/header');
-			$this->load->view('auth/register', $data);
-			$this->load->view('shared/footer');
-		}
-	}
-	
-	function forgot_password()
-	{
-		// set validation for the form
-		$this->form_validation->set_rules('email', 'Email', 'required');
-		$this->form_validation->set_rules('key', 'Key', 'required');
-		
-		// if the form was actually submitted
-		if ($this->form_validation->run())
-		{
-			// get the values
-			$email = $this->form_validation->set_value('email');
-			$key = $this->form_validation->set_value('key');
-			
-			// make sure the session key matches
-			if ($key === $this->session->userdata('session_id'))
-			{
-				// find the user
-				$user = $this->user_dal->get_user_by_email($email);
-				
-				// if user exists
-				if ($user)
-				{
-					$passwords = array(
-						'airplane',
-						'apple',
-						'booger',
-						'bug',
-						'burrito',
-						'catapult',
-						'dude',
-						'godzilla',
-						'hamburger',
-						'jabba',
-						'jacket',
-						'peach',
-						'red',
-						'silly',
-						'stupid',
-						'sunshine',
-						'taco',
-						'threadless',
-						'wookie',
-						'yes'
-					);
-					
-					// make some data to throw at auth
-					$data = array(
-						'id' => $user->id,
-						'password' => $passwords[mt_rand(0, 19)] . mt_rand(10, 99) . $passwords[mt_rand(0, 19)]
-					);
-					
-					// reset it!
-					$this->sauth->reset_password($data);
-					
-					$this->email->from('castis@gmail.com', 'YayHooray.net');
-					$this->email->to($email);
-					$this->email->subject('Your new password!');
-					$this->email->message($this->load->view('emails/forgot_password', $data, true));
-					
-					$this->email->send();
-					
-					$this->load->view('forgot_password/success', array('email' => $email));
-				}
-				else
-				{
-					$this->load->view('forgot_password/request', array('error' => "Hmm, I couldn't find any accounts with that email address. Are you sure that's the one you signed up with?"));
-				}
-			}
-			
-			// YOU GET NOTHING, SIR!
-		}
-		else
-		{
-			$this->load->view('forgot_password/request', array('error' => ''));
-		}
-	}
-	
-	/**
-	 * Invites a user based on their YH username
-	 *
-	 * @return void
-	 */
-	/*
-	function invite()
-	{
-		if ($this->sauth->is_logged_in())
-		{
-			redirect('');
-		}
-		else
-		{
-			$this->form_validation->set_rules('yhuser', 'Username', 'trim|required|xss_clean|min_length[2]|max_length[18]');
-			
-			$data['errors'] = array();
-			
-			if ($this->form_validation->run())
-			{
-				$invite_id = random_string('alnum', 32);
-				
-				if ($this->sauth->yh_invite(
-					$this->form_validation->set_value('yhuser'),
-					$invite_id))
-				{
-						$message = <<<EOT
-Hey {$this->form_validation->set_value('yhuser')},
+    return send_json($this->output, 200, array('ok' => true));
+  }
 
-Heres a link for you to register at the new board we've got!
+  function activate($key)
+  {
+    $username = $this->user_dal->get_username_from_authkey($key);
 
-http://sparklebacon.net/auth/register/{$invite_id}
+    if (!$username || $this->user_dal->is_yh_invite_used($key)) {
+      $this->output->set_status_header(401);
+      $this->load->view('shared/header');
+      $this->load->view('notice', array('header' => 'Activation Error',
+                                        'msg' => "Invalid key"));
+      $this->load->view('shared/footer');
+      return;
+    }
 
-castis
+    $this->user_dal->activate_user($username);
+    $this->user_dal->set_yh_invite_used($key);
+
+
+    $this->load->view('shared/header');
+    $this->load->view('notice', array('header' => 'Activation Successful',
+                                      'msg' => "You will now be able to login"));
+    $this->load->view('shared/footer');
+  }
+
+  /**
+   * Logout user
+   *
+   * @return void
+   */
+  function logout()
+  {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $this->sauth->logout();
+      return redirect('/');
+    }
+  }
+
+  /**
+   * Register user on the site
+   *
+   * @return void
+   */
+  function register()
+  {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+      $this->load->view('shared/header');
+      $this->load->view('register');
+      $this->load->view('shared/footer');
+      return;
+    }
+
+    if ($this->sauth->is_logged_in()) {
+      return send_json($this->output, 412, array('error' => 'already logged in'));
+    }
+
+    $this->form_validation->set_rules('username', 'usename',
+                                      'trim|required|xss_clean');
+    $this->form_validation->set_rules('email', 'Email',
+                                      'trim|required|xss_clean|valid_email');
+    $this->form_validation->set_rules('password', 'Password',
+                                      'trim|required|xss_clean');
+    $this->form_validation->set_rules('password_confirm', 'Confirm Password',
+                                      'trim|required|xss_clean|matches[password]');
+
+    if (!$this->form_validation->run()) {
+      return send_json($this->output, 401, array('error' => 'invalid login details'));
+    }
+
+    $username = $this->form_validation->set_value('username');
+    $email = $this->form_validation->set_value('email');
+    $password = $this->form_validation->set_value('password');
+
+    if (!valid_username($username)) {
+      return send_json($this->output, 401, array('error' => 'invalid username'));
+    }
+
+    if (!$this->sauth->create_user($username, $email, $password)) {
+      return send_json($this->output, 412, array('error' => $this->sauth->error));
+    }
+
+    if ($this->user_dal->is_yay_username($username)) {
+      $this->send_activate_link($username);
+      return send_json($this->output, 201, array('ok' => true, 'method' => 'yaypm'));
+    }
+
+    $this->sauth->login($username, $password);
+    return send_json($this->output, 201, array('ok' => true, 'method' => 'plain'));
+  }
+
+
+  function send_activate_link($username)
+  {
+    $invite_id = random_string('alnum', 32);
+
+    if (!$this->user_dal->create_yh_invite($username, $invite_id)) {
+      return FALSE;
+    }
+
+    $uri = 'http://' . $_SERVER['SERVER_NAME'] . '/auth/activate/' . $invite_id;
+
+    $message = <<<EOT
+      Hey {$username},
+
+      Click this link to activate your yay2.0 account
+
+      {$uri}
+
+     Love,
+     The guys at YayHooray.net
 EOT;
-					
-					$this->yayhooray->login('castis', '');
-					$this->yayhooray->send_message($this->form_validation->set_value('yhuser'), 'Your invite to the new board', $message);
-					
-					$data['errors'] = $this->sauth->get_confirmation_message();
-				}
-				else
-				{
-					$data['errors'] = $this->sauth->get_error_message();
-				}
-			}
-			
-			$this->load->view('shared/secluded_header');
-			$this->load->view('auth/login', $data);
-			$this->load->view('shared/secluded_footer');
-		}
-	}
-	*/
+
+      $this->yayhooray->login($this->config->item('yay_username'),
+                              $this->config->item('yay_password'));
+      $this->yayhooray->send_message($username, 'Activation link', $message);
+
+    return TRUE;
+  }
+
+  function forgot_password()
+  {
+    // set validation for the form
+    $this->form_validation->set_rules('email', 'Email', 'required');
+    $this->form_validation->set_rules('key', 'Key', 'required');
+
+    // Sends the initial form if a plain GET request
+    if (!$this->form_validation->run()) {
+      $this->load->view('forgot_password/request', array('error' => ''));
+      return;
+    }
+
+    // get the values
+    $email = $this->form_validation->set_value('email');
+    $key = $this->form_validation->set_value('key');
+
+    // make sure the session key matches
+    if (!$key === $this->session->userdata('session_id')) {
+      return send_json($this->output, 412, array('error' => "invalid key"));
+    }
+
+    // find the user
+    $user = $this->user_dal->get_user_by_email($email);
+
+    // if user exists
+    if (!$user) {
+      $err = "Hmm, I couldn't find any accounts with that email address. Are you "
+        . "sure that's the one you signed up with?";
+      return send_json($this->output, 412, array('error' => $err));
+    }
+
+    $passwords = array('airplane', 'apple', 'booger', 'bug', 'burrito',
+                       'catapult', 'dude', 'godzilla', 'hamburger',
+                       'jabba', 'jacket', 'peach', 'red', 'silly', 'stupid',
+                       'sunshine', 'taco', 'threadless', 'wookie', 'yes');
+
+    $password = $passwords[mt_rand(0, 19)] . mt_rand(10, 99) .
+      $passwords[mt_rand(0, 19)];
+    $data = array('id' => $user->id, 'password' => $password);
+
+    // reset it!
+    $this->sauth->reset_password($data);
+
+    $this->email->from('dale@arandomurl.com', 'YayHooray.net');
+    $this->email->to($email);
+    $this->email->subject('Your new password!');
+    $this->email->message($this->load->view('emails/forgot_password', $data, true));
+
+    $this->email->send();
+
+    return send_json($this->output, 200, array('ok' => true));
+  }
 }
 
 /* End of file auth.php */

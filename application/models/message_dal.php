@@ -6,17 +6,17 @@ class Message_dal extends Model
 	{
 		parent::__construct();
 	}
-	
+
 	function unread_messages($user_id)
 	{
 		return (int)$this->db->query("SELECT count(inbox_id) AS msg_count FROM pm_inbox WHERE pm_inbox.read = 0 AND to_id = ?", $user_id)->row()->msg_count;
 	}
-	
+
 	function set_read($user_id, $message_id)
 	{
 		$this->db->query("UPDATE pm_inbox SET pm_inbox.read = 1 WHERE message_id = ? AND to_id = ?", array((int)$message_id, $user_id));
 	}
-	
+
 	function get_message($user_id, $message_id)
 	{
 		$sql = "
@@ -39,16 +39,16 @@ class Message_dal extends Model
 				AND (pm_inbox.to_id = ? OR pm_inbox.from_id = ?)
 				AND pm_inbox.deleted = 0
 			GROUP BY pm_content.message_id";
-		
+
 		$result = $this->db->query($sql, array(
 			$message_id,
 			$user_id,
 			$user_id
 		));
-		
+
 		return $result->num_rows === 1 ? $result : FALSE;
 	}
-	
+
 	function get_inbox($user_id)
 	{
 		$sql = "
@@ -66,10 +66,10 @@ class Message_dal extends Model
 			WHERE pm_inbox.to_id = ?
 			AND pm_inbox.deleted = 0
 			ORDER BY pm_content.created DESC";
-		
+
 		return $this->db->query($sql, $user_id);
 	}
-	
+
 	function get_outbox($user_id)
 	{
 		$sql = "
@@ -87,26 +87,27 @@ class Message_dal extends Model
 			AND pm_outbox.deleted = 0
 			GROUP BY pm_content.message_id
 			ORDER BY pm_content.created DESC";
-		
+
 		return $this->db->query($sql, $user_id);
 	}
-	
+
 	function new_message($data)
 	{
 		$sql = "
 			INSERT INTO pm_content
 				(subject, content, created)
 			VALUES
-			(?, ?, NOW())";
-		
+			(?, ?, ?)";
+
 		$this->db->query($sql, array(
-			$data['subject'], 
-			$data['content']
+			$data['subject'],
+			$data['content'],
+                        date("Y-m-d H:i:s", utc_time())
 		));
-		
+
 		return $this->db->insert_id();
 	}
-	
+
 	function new_inbox($recipient, $message, $read_receipt)
 	{
 		$sql = "
@@ -114,15 +115,15 @@ class Message_dal extends Model
 				(to_id, from_id, message_id, read_receipt)
 			VALUES
 			(?, ?, ?, ?)";
-		
+
 		$this->db->query($sql, array(
-			$recipient, 
-			$message['sender'], 
+			$recipient,
+			$message['sender'],
 			$message['id'],
 			$read_receipt == 'receipt' ? '1' : '0'
 		));
 	}
-	
+
 	function new_outbox($recipient, $message)
 	{
 		$sql = "
@@ -130,10 +131,10 @@ class Message_dal extends Model
 				(to_id, from_id, message_id)
 			VALUES
 			(?, ?, ?)";
-		
+
 		$this->db->query($sql, array(
-			$recipient, 
-			$message['sender'], 
+			$recipient,
+			$message['sender'],
 			$message['id']
 		));
 	}

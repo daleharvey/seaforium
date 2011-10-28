@@ -29,23 +29,22 @@
  */
 class Controller extends CI_Base {
 
-	var $_ci_scaffolding	= FALSE;
-	var $_ci_scaff_table	= FALSE;
-	
-	/**
-	 * Constructor
-	 *
-	 * Calls the initialize() function
-	 */
-	function Controller()
-	{	
-		parent::CI_Base();
-		$this->_ci_initialize();
-		log_message('debug', "Controller Class Initialized");
-	}
+  var $_ci_scaffolding	= FALSE;
+  var $_ci_scaff_table	= FALSE;
 
-	// --------------------------------------------------------------------
+  /**
+   * Constructor
+   *
+   * Calls the initialize() function
+   */
+  function Controller()
+  {
+    parent::CI_Base();
+    $this->_ci_initialize();
+    log_message('debug', "Controller Class Initialized");
+  }
 
+<<<<<<< HEAD
 	/**
 	 * Initialize
 	 *
@@ -89,6 +88,41 @@ class Controller extends CI_Base {
 			}
 		}
 	}
+=======
+  // --------------------------------------------------------------------
+
+  /**
+   * Initialize
+   *
+   * Assigns all the bases classes loaded by the front controller to
+   * variables in this class.  Also calls the autoload routine.
+   *
+   * @access	private
+   * @return	void
+   */
+  function _ci_initialize()
+  {
+    // Assign all the class objects that were instantiated by the
+    // front controller to local class variables so that CI can be
+    // run as one big super object.
+    $classes = array('config' => 'Config',
+                     'input' => 'Input',
+                     'benchmark' => 'Benchmark',
+                     'uri' => 'URI',
+                     'output' => 'Output',
+                     'lang' => 'Language',
+                     'router' => 'Router'
+                     );
+
+    foreach ($classes as $var => $class) {
+      $this->$var =& load_class($class);
+    }
+
+    $this->load =& load_class('Loader');
+    $this->load->_ci_autoloader();
+
+  }
+>>>>>>> a1b56ceeeeb1b03b72972fbb37a0437ecf5a8ea4
 
 }
 // END _Controller class
