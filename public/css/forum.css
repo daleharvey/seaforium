@@ -180,7 +180,7 @@ hr {
     margin-top:7px;
 }
 #threads li {
-    margin: 4px 0;
+    margin: 2px 0;
 }
 #threads ul a {
     font-size:10px;
@@ -289,7 +289,7 @@ font-size: 10px;
 }
 
 .favourite.added {
-    background: url(../img/b-remove.gif) center no-repeat;
+    background: url(../img/close.gif) center no-repeat;
 }
 
 /*************************************************************
@@ -499,7 +499,7 @@ float: left;
 }
 
 .thread .one, .thread .two, .thread .three {
-padding: 6px 0;
+padding: 6px 0 0 0;
 line-height:16px;
 }
 
