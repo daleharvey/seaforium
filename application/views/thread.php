@@ -76,7 +76,7 @@ foreach($comment_result->result() as $row) {
     </div>
 
 <?php } ?>
-    <div id="comment-<?php echo $row->comment_id; ?>" class="comment">
+    <div id="comment-<?php echo $row->comment_id; ?>" class="comment <?php echo $acq; ?>">
       <div id="comment-container-<?php echo $row->comment_id; ?>"
        class="comment-container">
       <div class="cmd-bar">
