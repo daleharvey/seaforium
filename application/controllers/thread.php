@@ -74,7 +74,18 @@ class Thread extends Controller {
           'user_id' => $this->meta['user_id'],
           'content' => $content
         ));
-        redirect(uri_string() . '#bottom');
+
+        $db_count = $this->thread_dal->comment_count($thread_id);
+        $shown = $this->session->userdata('comments_shown');
+        if (!$shown) {
+          $shown = 25;
+        }
+        $count = (ceil($db_count / $shown) -1) * $shown;
+
+        $url = '/thread/'. $thread_id . '/'. $thread_info->subject .
+          '/p/'. $count .'#bottom';
+
+        redirect($url);
       }
     }
 

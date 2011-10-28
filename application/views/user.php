@@ -74,3 +74,4 @@
 				</div>
 
 
+  <script type="text/javascript" src="/js/thread.js"></script>
