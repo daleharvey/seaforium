@@ -25,11 +25,8 @@ if (!isset($tab_orders['startedby'])) {
 					<div class="four"><a href="<?php echo $tab_links; ?>posts/<?php echo $tab_orders['posts']; ?><?php if ($tab_orders['startedby']!='') {echo '/'.$tab_orders['startedby'];} ?>">Posts</a></div>
 				</div>
 
-<<<<<<< HEAD
-=======
 <?php
 
->>>>>>> a1b56ceeeeb1b03b72972fbb37a0437ecf5a8ea4
 $display = $this->session->userdata('comments_shown') == false ? 50 : $this->session->userdata('comments_shown');
 
 foreach($thread_result->result() as $row) {

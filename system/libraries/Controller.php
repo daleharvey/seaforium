@@ -37,14 +37,13 @@ class Controller extends CI_Base {
    *
    * Calls the initialize() function
    */
-  function Controller()
-  {
-    parent::CI_Base();
-    $this->_ci_initialize();
-    log_message('debug', "Controller Class Initialized");
-  }
+	function Controller()
+	{
+		parent::CI_Base();
+		$this->_ci_initialize();
+		log_message('debug', "Controller Class Initialized");
+	}
 
-<<<<<<< HEAD
 	/**
 	 * Initialize
 	 *
@@ -54,6 +53,7 @@ class Controller extends CI_Base {
 	 * @access	private
 	 * @return	void
 	 */
+	 /*
 	function _ci_initialize()
 	{
 		// Assign all the class objects that were instantiated by the
@@ -87,8 +87,8 @@ class Controller extends CI_Base {
 				redirect('/beta/');
 			}
 		}
-	}
-=======
+	}*/
+
   // --------------------------------------------------------------------
 
   /**
@@ -122,7 +122,6 @@ class Controller extends CI_Base {
     $this->load->_ci_autoloader();
 
   }
->>>>>>> a1b56ceeeeb1b03b72972fbb37a0437ecf5a8ea4
 
 }
 // END _Controller class
