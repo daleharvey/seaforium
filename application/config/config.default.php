@@ -4,6 +4,20 @@
 $config['yay_username'] = '';
 $config['yay_password'] = '';
 
+//name of site
+$config['site_name'] = 'YayHooray';
+
+//Do you want to allow new users to register with their yH1 accounts
+$config['yay_import'] = FALSE;
+
+//name for emails and admin email address
+$config['email_signature'] = 'YayHooray.net';
+$config['email_addy'] = 'dale@arandomurl.com';
+
+//base url for the PM notices an email links
+//WITH a trailing slash
+$config['base_url_pm'] = 'http://yayhooray.net/';
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL

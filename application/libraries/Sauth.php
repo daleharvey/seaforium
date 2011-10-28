@@ -123,6 +123,9 @@ class Sauth
     }
 
     $is_yay_name = $this->ci->user_dal->is_yay_username($username);
+    if (!$this->ci->config->item('yay_import')) {
+      $is_yay_name = FALSE;
+    }
 
     $hasher = new PasswordHash(8, FALSE);
     $user = array(
@@ -254,27 +257,31 @@ class Sauth
           $this->ci->load->model('auth/user_autologin');
           $user = $this->ci->user_dal->get_user_by_id($data['user_id']);
 
-          $data = array(
-            'user_id' => $user->id,
-            'username' => $user->username,
-            'status' => ($user->activated == 1) ? 1 : 0,
-            'threads_shown' => $user->threads_shown,
-            'comments_shown' => $user->comments_shown,
-            'view_html' => $user->view_html,
-            'new_post_notification' => $user->new_post_notification,
-            'random_titles' => $user->random_titles,
-            'emoticon' => $user->emoticon,
-            'custom_css' => $user->custom_css
-          );
+          if ($user) {
+            $data = array(
+              'user_id' => $user->id,
+              'username' => $user->username,
+              'status' => ($user->activated == 1) ? 1 : 0,
+              'threads_shown' => $user->threads_shown,
+              'comments_shown' => $user->comments_shown,
+              'view_html' => $user->view_html,
+              'new_post_notification' => $user->new_post_notification,
+              'random_titles' => $user->random_titles,
+              'emoticon' => $user->emoticon,
+              'custom_css' => $user->custom_css
+            );
 
-          // This should just be global data, does not need to go through
-          // cookies as it is read on every page request
-          $this->ci->session->set_userdata($data);
+            // This should just be global data, does not need to go through
+            // cookies as it is read on every page request
+            $this->ci->session->set_userdata($data);
 
-          $ip = $this->ci->config->item('login_record_ip', 'auth');
-          $time = $this->ci->config->item('login_record_time', 'auth');
-          $this->ci->user_dal->update_login_info($user->id, $ip, $time);
-          return TRUE;
+            $ip = $this->ci->config->item('login_record_ip', 'auth');
+            $time = $this->ci->config->item('login_record_time', 'auth');
+            $this->ci->user_dal->update_login_info($user->id, $ip, $time);
+            return TRUE;
+          }
+        } else {
+          return FALSE;
         }
       }
     }

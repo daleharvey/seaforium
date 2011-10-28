@@ -214,7 +214,11 @@
 
 <div id="main-title"><h3>Pimpin' ain't easy... but editing your profile is!</h3></div>
 
+<<<<<<< HEAD
 				<p class="prefpink"><strong>This is the page where you can edit your profile and change your YH settings.</strong> Your profile lets people learn a little about you. Tweak your YH settings to browse yay the way you want to.</p>
+=======
+<p class="prefpink"><strong>This is the page where you can edit your profile and change your YH settings. </strong>Your profile lets people learn a little about you. Tweak your YH settings to browse yay the way you want to.</strong></p>
+>>>>>>> 8dce16a940accc20c2f241fdaae0fd55e03597c0
 
 <div class="dotted-bar"></div>
 
@@ -234,12 +238,17 @@
 </div>
 
 <div class="input text">
-  <label for="password">Change Password</label>
+  <label for="old_password">Original Password</label>
+  <input type="password" name="old_password" id="old_password" value="" />
+</div>
+
+<div class="input text">
+  <label for="password">New Password</label>
   <input type="password" name="password" id="password" value="" />
 </div>
 
 <div class="input text">
-  <label for="password2">Verify Password</label>
+  <label for="password2">Confirm New Password</label>
   <input type="password" name="password2" id="password2" value="" />
 </div>
 

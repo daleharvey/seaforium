@@ -41,9 +41,7 @@ if ($body_class === '') {
 <html>
 
   <head>
-    <title><?php if (isset($page_title)) { echo $page_title . ' |'; } ?>
-      YayHooray 2.0
-    </title>
+    <title><?php if (isset($page_title)) { echo $page_title . ' |'; } echo $this->config->item('site_name'); ?></title>
 
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="viewport"
@@ -115,8 +113,8 @@ if ($logged_in) {
   if ($unread_messages === 0) {
     $unread_msg = "No New Messages";
   } else {
-    $unread_msg = $unread_messages .' Unread Message' .
-      ($unread_messages === 1 ? '' : 's');
+    $unread_msg = $unread_messages .'<span> Unread Message' .
+      ($unread_messages === 1 ? '' : 's') . '</span>';
   }
 
 ?>

@@ -1,5 +1,7 @@
 <?php
 
+require_once(APPPATH . '/libraries/phpass-0.1/PasswordHash.php');
+
 class Preferences extends Controller {
 
   function Preferences()
@@ -23,6 +25,8 @@ class Preferences extends Controller {
   function index()
   {
     $user_id = $this->session->userdata('user_id');
+    $user = $this->user_dal->get_user_by_id($user_id);
+
     $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
     $this->form_validation->set_rules('threads_shown', 'Threads Shown',
@@ -60,7 +64,8 @@ class Preferences extends Controller {
                                       'trim|xss_clean');
     $this->form_validation->set_rules('password2', 'Verify Password',
                                       'trim|xss_clean');
-
+    $this->form_validation->set_rules('old_password', 'Old Password',
+                                      'trim|xss_clean');
     $error = false;
 
     if ($this->form_validation->run()) {
@@ -114,17 +119,27 @@ class Preferences extends Controller {
         }
       }
 
+      $old_password = $this->form_validation->set_value('old_password');
       $password = $this->form_validation->set_value('password');
       $password2 = $this->form_validation->set_value('password2');
 
-      if (isset($password) && isset($password2)) {
-        if ($password === $password2) {
-          $this->sauth->reset_password(array(
-            'id' => $user_id,
-            'password' => $password
-          ));
-        } else {
+      if (isset($old_password) || isset($password) || isset($password2)) {
+
+        if ($password2 === '') {
+          $error = "Your password cannot be empty";
+        } else if ($password !== $password2) {
           $error = "Your passwords do not match";
+        } else {
+          $hasher = new PasswordHash(8, FALSE);
+          if (!$hasher->CheckPassword($old_password, $user->password)) {
+            $error = "Incorrect password";
+          } else {
+            $this->sauth->reset_password(array(
+              'id' => $user_id,
+              'password' => $password
+            ));
+            $error = "Your password has been changed";
+          }
         }
       }
 

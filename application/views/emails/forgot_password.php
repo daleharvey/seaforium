@@ -1,4 +1,4 @@
-<p><img src="http://yayhooray.net/img/logo.gif" /></p>
+<p><img src="<?php echo $this->config->item('base_url_pm'); ?>img/logo.gif" /></p>
 
 <p>Hey dude, your new password is "<?php echo $password ?>"</p>
 
@@ -8,5 +8,5 @@ Cool!</p>
 <p>That's it for now!</p>
 
 <p>Love,<br />
-The guys at YayHooray.net<br />
-http://www.yayhooray.net</p>
+The guys at <?php echo $this->config->item('email_signature'); ?><br />
+<?php echo $this->config->item('base_url_pm'); ?></p>

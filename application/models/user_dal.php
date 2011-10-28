@@ -379,9 +379,9 @@ class User_dal extends Model
 			LEFT JOIN user_profiles ON user_profiles.user_id = users.id
 			LEFT JOIN comments ON comments.user_id = users.id
 			LEFT JOIN threads ON threads.user_id = users.id
-			WHERE users.username = ?";
+			WHERE LOWER(users.username) = ?";
 
-    return $this->db->query($sql, $user_id);
+    return $this->db->query($sql, strtolower($user_id));
 
   }
 
