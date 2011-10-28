@@ -21,10 +21,16 @@ class Buddies extends Controller {
 
 		if ($this->form_validation->run())
 		{
-                        $acq_id = $acq_id = $this->user_dal->get_user_id_by_username($this->form_validation->set_value('username'));
+			$acq_id = $acq_id = $this->user_dal->get_user_id_by_username($this->form_validation->set_value('username'));
+			if ($acq_id  && $user_id == $acq_id) {
+				//Don't buddy yourself
+				redirect('/buddies/error/2');
+			}
+
 			if ($acq_id  && $user_id != $acq_id)
 			{
 				if ($this->user_dal->acquaintance_exists($user_id,$acq_id)) {
+					//already have this user buddied/enemied
 					redirect('/buddies/error/1');
 				}
 				$me = $this->session->userdata('username');
@@ -58,7 +64,8 @@ class Buddies extends Controller {
 		$this->load->view('buddies', array(
 			'buddies' => $this->user_dal->get_buddies($user_id),
 			'enemies' => $this->user_dal->get_enemies($user_id),
-			'username' => str_replace('-', ' ', $username)
+			'username' => str_replace('-', ' ', $username),
+			'error_alert' => ''
 		));
 		$this->load->view('shared/footer');
 	}
@@ -81,15 +88,18 @@ class Buddies extends Controller {
 	{
 		$user_id = (int)$this->session->userdata('user_id');
 		$error_id = (int) $error_id;
+		$error_alert = '';
 		if ($error_id === 1) {
 			$error_alert = 'That user is already your buddy/enemy.';
-		}
+		} elseif ($error_id === 2) {
+				$error_alert = 'Please don\'t buddy/enemy yourself.';
+			}
 		$this->load->view('shared/header');
 		$this->load->view('buddies', array(
 			'buddies' => $this->user_dal->get_buddies($user_id),
 			'enemies' => $this->user_dal->get_enemies($user_id),
 			'username' => '',
-			'error_alert' => $error_alert;
+			'error_alert' => $error_alert
 		));
 		$this->load->view('shared/footer');
 	}

@@ -36,7 +36,7 @@ $commands = array(
 
 						<div class="biglabel">Add a Buddy / Enemy</div>
 						
-						<div class="error_alert"><?php echo $error_alert; ?></div>
+						<?php if ($error_alert!='') { ?><div class="error_alert"><?php echo $error_alert; ?></div><?php } ?>
 
 						<div id="buddy-input">
 							<?php echo form_label('Username:', $username['id']); ?>
