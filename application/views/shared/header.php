@@ -26,6 +26,16 @@ if ($latest_comment_timestamps->num_rows() > 0) {
   }
 }
 
+$body_class = '';
+foreach (explode('/', $_SERVER['REQUEST_URI']) as $segment) {
+  if ($segment !== '') {
+    $body_class .= "yh_$segment ";
+  }
+}
+if ($body_class === '') {
+  $body_class = 'yh_home';
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,7 +54,7 @@ if ($latest_comment_timestamps->num_rows() > 0) {
     <base href="<?php echo site_url(); ?>" />
   </head>
 
-<body>
+<body class="<?php echo trim($body_class); ?>" >
 
   <a name="top"></a>
 
