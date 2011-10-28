@@ -82,8 +82,8 @@ class Thread extends Controller {
         }
         $count = (ceil($db_count / $shown) -1) * $shown;
 
-        $url = '/thread/'. $thread_id . '/'. $thread_info->subject .
-          '/p/'. $count .'#bottom';
+        $url = '/thread/'. $thread_id . '/'.
+          url_title($thread_info->subject, 'dash', TRUE) . '/p/'. $count .'#bottom';
 
         redirect($url);
       }
