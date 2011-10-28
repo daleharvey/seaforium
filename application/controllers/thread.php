@@ -41,6 +41,7 @@ class Thread extends Controller {
 
     $thread_info = $query->row();
 
+
     // alright we're clear, set some data for the view
     $data = array(
         'info' => array(
@@ -55,6 +56,7 @@ class Thread extends Controller {
 		'thread_id' => $thread_id,
 		'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id']))
 	);
+
 
     // if the thread is closed then we're not accepting any new data
     if ($thread_info->closed === '0' || (int) $thread_info->type == 2) {
@@ -116,7 +118,7 @@ class Thread extends Controller {
 			'cur_tag_close' => '</div>',
 			'num_tag_open' => '',
 			'num_tag_close' => ''
-                                        ));
+    ));
 
     $end = min(array($limit_start + $this->meta['comments_shown'], $data['total_comments']));
     $data['pagination'] = $this->pagination->create_links() .'<span class="paging-text">'. ($limit_start + 1) .' - '. $end .' of '. $data['total_comments'] .' Posts in <a href="/">Threads</a> &gt; <a href="/f/'.strtolower($data['info']['category']).'">'.$data['info']['category'].'</a> > <a href="/thread/'. $thread_id.'/'.url_title($data['info']['title'], 'dash', TRUE) .'">'.$data['info']['title'].'</a></span>';

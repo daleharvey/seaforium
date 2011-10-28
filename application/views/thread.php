@@ -7,13 +7,17 @@ $use_notifier = $logged_in &&
     (int)$this->session->userdata('new_post_notification') === 1;
 $owner = $logged_in && $this->session->userdata('user_id') == $info['user_id'];
 
+
+$title_editable = $owner && $info['editable'] ? ' class="changeling"' : '';
+
 ?>
 
 <div id="thread">
-  <div id="main-title"<?php echo $owner ? ' class="changeling"':''?>><h3><?php echo $info['title'] ?></h3>
+  <div id="main-title"<?php echo $title_editable ?>>
+    <h3><?php echo $info['title'] ?></h3>
     <?php if ($logged_in) { ?>
       <a class="favourite<?php echo $favorite; ?>"
-         rel="<?php echo $thread_id; ?>"></a>
+        rel="<?php echo $thread_id; ?>"></a>
     <?php } ?>
   </div>
 
