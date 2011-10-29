@@ -121,8 +121,8 @@ if ($logged_in) {
 ?>
         <div class="lc-node" id="messaging">
           <ul>
-            <li class="messages">
-              <a href="/messages/inbox"><?php echo $unread_msg ?></a>
+            <li class="messages<?php if ($unread_messages > 0) { echo " new"; }?>">
+              <a href="/messages/inbox"><?php echo $unread_msg; ?></a>
             </li>
           </ul>
         </div>
