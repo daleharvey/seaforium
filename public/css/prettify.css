@@ -3,6 +3,8 @@
   padding: 0px 10px;
   color: #657B83;
   background: #eee8d5;
+  margin-bottom: 10px;
+  overflow: auto;
 }
 
 .prettyprint .pln {
