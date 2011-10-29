@@ -118,9 +118,16 @@ class Ajax extends Controller
       $content = $this->input->post('content');
       $processed = _process_post($content);
 
-      if ($this->thread_dal->update_comment($comment_id, $content, $processed,
-                                            $this->session->userdata('user_id'))) {
-        echo $processed;
+      if ((strtotime($existing->created) > time() - (60 * 60 * 24)) ||
+          $this->thread_dal->is_first_comment($existing->thread_id, $comment_id)) {
+        if ($this->thread_dal->update_comment($comment_id, $content, $processed,
+                                              $this->session->userdata('user_id'))) {
+          echo $processed;
+        } else {
+          echo "Unknown Error";
+        }
+      } else {
+        echo "Permission Denied";
       }
     }
 
