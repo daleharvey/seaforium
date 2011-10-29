@@ -10,7 +10,7 @@ function _process_post($content)
   // We cant use the dom because any dom parser is going to throw away
   // the code inside the code tags, this will currently break for nested
   // code tags and code with [[> in it
-  $content = str_replace('<code>', '<pre class="prettyprint linenums:1"><![CDATA[', $content);
+  $content = str_replace('<code>', '<pre class="prettyprint linenums"><![CDATA[', $content);
   $content = str_replace('</code>', ']]></pre>', $content);
 
   _format_pinkies($content);
