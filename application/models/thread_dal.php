@@ -119,11 +119,12 @@ class Thread_dal extends Model
   function new_comment($data)
   {
     $whattime = date("Y-m-d H:i:s", utc_time());
-    $sql = "INSERT INTO comments (thread_id, user_id, content, created) " .
-      "VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO comments (thread_id, user_id, content, original_content, "
+      . "created) VALUES (?, ?, ?, ?, ?)";
 
     $this->db->query($sql, array($data['thread_id'], $data['user_id'],
-                                 $data['content'], $whattime));
+                                 $data['content'], $data['original_content'],
+                                 $whattime));
 
     $sql = "UPDATE threads SET last_comment_id = ?,last_comment_created = ? " .
       "WHERE thread_id = ?";
@@ -164,6 +165,7 @@ class Thread_dal extends Model
 	      comments.thread_id,
 	      comments.comment_id,
 	      comments.content,
+	      comments.original_content,
 	      comments.created,
 	      comments.deleted,
 	      comments.user_id,
@@ -184,6 +186,14 @@ class Thread_dal extends Model
     return $this->db->query($sql, array($user_id, $thread_id, $start, $end));
   }
 
+  function update_comment_cache($comment_id, $content)
+  {
+    $this->db->query("UPDATE comments SET content = ? WHERE comment_id = ?",
+                     array($content, $comment_id));
+
+    return $this->db->affected_rows() === 1;
+  }
+
   /**
    * Get the content and author of a comment
    *
@@ -192,8 +202,9 @@ class Thread_dal extends Model
    */
   function get_comment($comment_id)
   {
-    return $this->db->query("SELECT content, user_id, created FROM comments WHERE " .
-                            "comment_id = ?", $comment_id);
+    return $this->db->query("SELECT content, original_content, user_id, " .
+                            "created FROM comments WHERE comment_id = ?",
+                            $comment_id);
   }
 
   /**
@@ -204,10 +215,11 @@ class Thread_dal extends Model
    * @param	int
    * @return	bool
    */
-  function update_comment($comment_id, $content, $user_id)
+  function update_comment($comment_id, $content, $processed, $user_id)
   {
-    $this->db->query("UPDATE comments SET content = ? WHERE comment_id = ? " .
-                     "AND user_id = ?", array($content, $comment_id, $user_id));
+    $this->db->query("UPDATE comments SET original_content = ?, content = ? WHERE " .
+                     "comment_id = ? AND user_id = ?",
+                     array($content, $processed, $comment_id, $user_id));
 
     return $this->db->affected_rows() === 1;
   }

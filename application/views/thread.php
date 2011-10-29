@@ -145,10 +145,18 @@ if ($my_thread && $i === 0 && $starting === 0) {
   <div class="content-block">
     <div class="content">
 <?php
-echo $this->session->userdata('view_html') === '1' ||
-      $this->session->userdata('view_html') === false
-      ? _ready_for_display($row->content, array('username'=>$row->username, "url_safe_username"=>$url_safe_username))
-      : nl2br(htmlentities($row->content));
+$view_html = ($this->session->userdata('view_html') === '1' ||
+              $this->session->userdata('view_html') === false);
+
+if ($row->content === '' && $row->original_content !== '') {
+  $content = _ready_for_display(_ready_for_save($row->original_content));
+  $thread_model->update_comment_cache($row->comment_id, $content);
+} else {
+  $content = $row->content;
+}
+
+echo $view_html ? $content : nl2br(htmlentities($content));
+
 ?>
     </div>
   </div>
@@ -183,6 +191,7 @@ $content = array(
   'id'	=> 'thread-content-input',
   'value' => set_value('content')
 );
+
 
 ?>
 
