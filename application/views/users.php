@@ -11,48 +11,48 @@
 	</form>
 
     Browse Users
-	<a href="/users/0">0</a>
+	<a href="/users/0/0">0</a>
 
-	<a href="/users/1">1</a>
-	<a href="/users/2">2</a>
-	<a href="/users/3">3</a>
-	<a href="/users/4">4</a>
-	<a href="/users/5">5</a>
-	<a href="/users/6">6</a>
+	<a href="/users/0/1">1</a>
+	<a href="/users/0/2">2</a>
+	<a href="/users/0/3">3</a>
+	<a href="/users/0/4">4</a>
+	<a href="/users/0/5">5</a>
+	<a href="/users/0/6">6</a>
 
-	<a href="/users/7">7</a>
-	<a href="/users/8">8</a>
-	<a href="/users/9">9</a>
-	<a href="/users/A">A</a>
-	<a href="/users/B">B</a>
-	<a href="/users/C">C</a>
+	<a href="/users/0/7">7</a>
+	<a href="/users/0/8">8</a>
+	<a href="/users/0/9">9</a>
+	<a href="/users/0/A">A</a>
+	<a href="/users/0/B">B</a>
+	<a href="/users/0/C">C</a>
 
-	<a href="/users/D">D</a>
-	<a href="/users/E">E</a>
-	<a href="/users/F">F</a>
-	<a href="/users/G">G</a>
-	<a href="/users/H">H</a>
-	<a href="/users/I">I</a>
+	<a href="/users/0/D">D</a>
+	<a href="/users/0/E">E</a>
+	<a href="/users/0/F">F</a>
+	<a href="/users/0/G">G</a>
+	<a href="/users/0/H">H</a>
+	<a href="/users/0/I">I</a>
 
-	<a href="/users/J">J</a>
-	<a href="/users/K">K</a>
-	<a href="/users/L">L</a>
-	<a href="/users/M">M</a>
-	<a href="/users/N">N</a>
-	<a href="/users/O">O</a>
+	<a href="/users/0/J">J</a>
+	<a href="/users/0/K">K</a>
+	<a href="/users/0/L">L</a>
+	<a href="/users/0/M">M</a>
+	<a href="/users/0/N">N</a>
+	<a href="/users/0/O">O</a>
 
-	<a href="/users/P">P</a>
-	<a href="/users/Q">Q</a>
-	<a href="/users/R">R</a>
-	<a href="/users/S">S</a>
-	<a href="/users/T">T</a>
-	<a href="/users/U">U</a>
+	<a href="/users/0/P">P</a>
+	<a href="/users/0/Q">Q</a>
+	<a href="/users/0/R">R</a>
+	<a href="/users/0/S">S</a>
+	<a href="/users/0/T">T</a>
+	<a href="/users/0/U">U</a>
 
-	<a href="/users/V">V</a>
-	<a href="/users/W">W</a>
-	<a href="/users/X">X</a>
-	<a href="/users/Y">Y</a>
-	<a href="/users/Z">Z</a>
+	<a href="/users/0/V">V</a>
+	<a href="/users/0/W">W</a>
+	<a href="/users/0/X">X</a>
+	<a href="/users/0/Y">Y</a>
+	<a href="/users/0/Z">Z</a>
 
 </div>
 
@@ -74,6 +74,9 @@
     <div class="user_logdate">Last log date
       <?php echo date('M jS y', strtotime($row['last_login'])); ?>
     </div>
+	<div class="user_logdate">
+		<?php echo $row['thread_count']; ?> threads &nbsp;|&nbsp; <?php echo $row['comment_count']; ?> posts
+	</div>
   </div>
 
 <?php } ?>

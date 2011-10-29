@@ -31,7 +31,7 @@ class Users extends Controller {
                                         'suffix' => '/'.$username_search_string
                                         ));
 
-    $users = $this->user_dal->get_users($username_search_string_sql);
+    $users = $this->user_dal->get_users($username_search_string_sql, $pagination, $display);
 
     $this->load->view('shared/header');
     $this->load->view('users', array('users' => $users,

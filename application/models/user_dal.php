@@ -88,9 +88,9 @@ class User_dal extends Model
   }
 
 
-  function get_users($username_search_string='')
+  function get_users($username_search_string='',$limit, $span)
   {
-    return $this->db->query("SELECT username, created, last_login FROM users".$username_search_string." ORDER BY username ASC;")->result_array();
+    return $this->db->query("SELECT users.username AS username, users.created AS created, users.last_login AS last_login, count(DISTINCT comments.comment_id) AS comment_count, count(DISTINCT threads.thread_id) AS thread_count FROM users LEFT JOIN comments ON comments.user_id = users.id LEFT JOIN threads ON threads.user_id = users.id".$username_search_string." GROUP BY users.id ORDER BY username ASC LIMIT ".(int)$limit.", ".(int)$span.";")->result_array();
   }
 
 
