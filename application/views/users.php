@@ -62,12 +62,29 @@
 
 <div id="users">
 
-<?php foreach($users as $row) { ?>
+<?php
+foreach($users as $row) {
+	$online_status = '<div class="offline">NOT ONLINE</div>';
+	$listing_type = 'user';
+	if ((int) $row['buddy_check'] > 0)
+	{
+		if ((int) $row['latest_activity'] > (time() - 300))
+		{
+			$online_status = '<div class="online">ONLINE</div>';
+		}
+		$listing_type = 'buddy';
+	}
+	elseif ((int) $row['enemy_check'] > 0)
+	{
+		$listing_type = 'enemy';
+	}
+?>
 
-  <div class="user-listing">
+  <div class="<?php echo $listing_type; ?>-listing">
     <div class="username"><a href="/user/<?php echo $row['username']; ?>">
        <?php echo $row['username']; ?>
     </a></div>
+	<?php echo $online_status; ?>
     <div class="user_startdate">Member since
       <?php echo date('M jS y', strtotime($row['created'])); ?>
     </div>
