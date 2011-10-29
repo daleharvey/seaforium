@@ -1115,16 +1115,16 @@ background: #EBF4DD;
 background: #FFEAEA;
 }
 
-.buddy-listing .online, .enemy-listing .online, .buddy-listing .offline, .enemy-listing .offline {
+.user-listing .online, .buddy-listing .online, .enemy-listing .online, .user-listing .offline, .buddy-listing .offline, .enemy-listing .offline {
 font-size: 10px;
 text-transform: uppercase;
 }
 
-.buddy-listing .offline, .enemy-listing .offline {
+.user-listing .offline, .buddy-listing .offline, .enemy-listing .offline {
 color: #898989;
 }
 
-.buddy-listing .online, .enemy-listing .online {
+.user-listing .online, .buddy-listing .online, .enemy-listing .online {
 color: #00AEEF;
 }
 

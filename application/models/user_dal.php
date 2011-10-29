@@ -90,7 +90,13 @@ class User_dal extends Model
 
   function get_users($username_search_string='',$limit, $span)
   {
-    return $this->db->query("SELECT users.username AS username, users.created AS created, users.last_login AS last_login, count(DISTINCT comments.comment_id) AS comment_count, count(DISTINCT threads.thread_id) AS thread_count FROM users LEFT JOIN comments ON comments.user_id = users.id LEFT JOIN threads ON threads.user_id = users.id".$username_search_string." GROUP BY users.id ORDER BY username ASC LIMIT ".(int)$limit.", ".(int)$span.";")->result_array();
+    return $this->db->query("SELECT users.username AS username, users.created AS created, users.last_login AS last_login, count(DISTINCT comments.comment_id) AS comment_count, count(DISTINCT threads.thread_id) AS thread_count, IFNULL(sessions.last_activity, 0) AS latest_activity,(SELECT count(acquaintances.user_id)
+		FROM acquaintances
+		WHERE acquaintances.acq_user_id = users.id
+		AND acquaintances.type = 1) AS buddy_check,(SELECT count(acquaintances.user_id)
+			FROM acquaintances
+			WHERE acquaintances.acq_user_id = users.id
+			AND acquaintances.type = 2) AS enemy_check FROM users LEFT JOIN comments ON comments.user_id = users.id LEFT JOIN threads ON threads.user_id = users.id LEFT JOIN sessions ON sessions.user_id = users.id".$username_search_string." GROUP BY users.id ORDER BY username ASC LIMIT ".(int)$limit.", ".(int)$span.";")->result_array();
   }
 
 
