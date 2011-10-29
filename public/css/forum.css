@@ -1259,3 +1259,13 @@ div.error {
 .prefpink {
 	color: #ED135A;
 }
+
+.bottomdashed{
+	border-bottom:1px dotted #959595;
+	height:50px;
+	margin-bottom:15px;
+}
+
+#search-box-user{
+	margin-bottom:5px;
+}
