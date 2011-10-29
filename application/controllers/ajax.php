@@ -93,7 +93,7 @@ class Ajax extends Controller
     $comment = $this->thread_dal->get_comment($comment_id)->row();
 
     $data = array(
-      'content' => _ready_for_source($comment->content),
+      'content' => $comment->original_content,
       'owner' => ($comment->user_id == $this->session->userdata('user_id') &&
                   strtotime($comment->created) > (time() - (60*60*24)))
     );
@@ -114,11 +114,13 @@ class Ajax extends Controller
     $existing = $this->thread_dal->get_comment($comment_id)->row();
 
     if ($existing->user_id === $this->session->userdata('user_id')) {
-      $content = _ready_for_save($this->input->post('content'));
 
-      if ($this->thread_dal->update_comment($comment_id, $content,
+      $content = $this->input->post('content');
+      $processed = _ready_for_display(_ready_for_save($content));
+
+      if ($this->thread_dal->update_comment($comment_id, $content, $processed,
                                             $this->session->userdata('user_id'))) {
-        echo _ready_for_display($content);
+        echo $processed;
       }
     }
 
