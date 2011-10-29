@@ -1,0 +1,1 @@
+ALTER TABLE `users`  ADD COLUMN `online` TINYINT(1) NULL DEFAULT '0' AFTER `invited_by`;
