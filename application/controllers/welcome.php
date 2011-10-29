@@ -23,7 +23,8 @@ class Welcome extends Controller {
 
   function index($pagination = 0, $filter = '', $ordering = '', $dir = 'desc', $whostarted = '')
   {
-
+	// uncomment the following line you if broke something but you can't figure out what.
+	//$this->output->enable_profiler(TRUE);
 	if (strtolower($filter)=='started'&&$whostarted=='') $whostarted = $this->meta['username'];
     $filtering = $this->_ready_filters($filter, $ordering, $dir, $whostarted);
 

@@ -335,6 +335,7 @@ class Thread_dal extends Model
   function find_thread_by_title($user_id, $limit, $span, $filtering = '',
                                 $ordering = '', $search_phrase)
   {
+  $search_phrase = "%" . $search_phrase . "%";
     $sql = "SELECT
 	      threads.subject,
 	      threads.created,
@@ -363,8 +364,8 @@ class Thread_dal extends Model
 	     ON threads.category = categories.category_id
 	   LEFT JOIN acquaintances
 	     ON acquaintances.acq_user_id = authors.id AND acquaintances.user_id = ?
-	   WHERE match(threads.subject) AGAINST('" . $search_phrase .
-                                                "' IN BOOLEAN MODE)
+	   WHERE threads.subject LIKE '" . $search_phrase .
+                                                "'
            ". $filtering ."
 	   ". $ordering ."
            LIMIT ?, ?";
@@ -374,7 +375,8 @@ class Thread_dal extends Model
 
   function find_thread_by_title_rows($search_phrase)
   {
-    $this->db->query("SELECT * FROM `threads` WHERE MATCH(subject) AGAINST(?)",
+	$search_phrase = "%" . $search_phrase . "%";
+    $this->db->query("SELECT * FROM `threads` WHERE subject LIKE ?",
                      $search_phrase);
     return $this->db->affected_rows();
   }
