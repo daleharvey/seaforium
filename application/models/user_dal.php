@@ -80,9 +80,17 @@ class User_dal extends Model
   }
 
 
+  function get_users_count($username_search_string='')
+  {
+    $count = (int)$this->db->query('SELECT count(username) AS ' .
+                                   'max_rows FROM users'.$username_search_string.';')->row()->max_rows;
+    return $count > 0 ? $count : '0';
+  }
+
+
   function get_users($username_search_string='')
   {
-    return $this->db->query("SELECT username, created, last_login FROM users".$username_search_string.";")->result_array();
+    return $this->db->query("SELECT username, created, last_login FROM users".$username_search_string." ORDER BY username ASC;")->result_array();
   }
 
 

@@ -75,7 +75,8 @@ $route['find/(:any)'] = "find";
 
 $route['user/(:any)'] = "user/load/$1";
 
-$route['users/(:any)'] = "users/index/$1";
+$route['users/(:num)'] = "users/index/$1";
+$route['users/(:num)/(:any)'] = "users/index/$1/$2";
 
 $route['message/(:num)'] = "message/load/$1";
 

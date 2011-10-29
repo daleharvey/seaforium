@@ -2,16 +2,15 @@
    <h3>How many Yay freaks does it take to screw in a light bulb?</h3>
 </div>
 
-<div class="bottomdashed" style="height:50px;">
-	<div style="margin-bottom:5px;">
+<div class="bottomdashed">
 	<form name="search-box-user" id="search-box-user" method="" action="">
 	Filter Usernames
 	<input type="text" value="" name="search-phrase-user" id="search-phrase-user" />
 	<input type="submit" value="Search" />
 	Type the first few characters of the username.
 	</form>
-	</div>
-        Browse Users
+
+    Browse Users
 	<a href="/users/0">0</a>
 
 	<a href="/users/1">1</a>
@@ -56,22 +55,11 @@
 	<a href="/users/Z">Z</a>
 
 </div>
-<!--
-<hr />
 
-<div id="threadnav" class="pagination top">
-   <div class="main-pagination">
-    <a class="pagea selected" href="http://www.yayhooray.com/users?page=1">1</a>
-    <a class="pagea " href="http://www.yayhooray.com/users?page=2">2</a>
-    <a class="pagea " href="http://www.yayhooray.com/users?page=3">3</a>
-    <a class="pagea " href="http://www.yayhooray.com/users?page=4">4</a>
-    <a class="pagea " href="http://www.yayhooray.com/users?page=5">5</a>
-    <a class="pageelipsa" href="http://www.yayhooray.com/users?page=457">...</a>
-    <a class="pagea " href="http://www.yayhooray.com/users?page=457">457</a>
-    <span class="paging-text">1 - 40 of 18,270 Users</span>
-  </div>
+<div id="thread-navigation" class="pagination top">
+	<?php echo $pagination; ?>
 </div>
--->
+
 <div id="users">
 
 <?php foreach($users as $row) { ?>
@@ -91,10 +79,7 @@
 <?php } ?>
 </div>
 
-<!--<div class="clear blueline"></div>
-
-<div id="threadfooter">
-	<div class="paging tenpx">
-		 <a class="pagea selected" href="http://www.yayhooray.com/users?page=1">1</a>  <a class="pagea " href="http://www.yayhooray.com/users?page=2">2</a>  <a class="pagea " href="http://www.yayhooray.com/users?page=3">3</a>  <a class="pagea " href="http://www.yayhooray.com/users?page=4">4</a>  <a class="pagea " href="http://www.yayhooray.com/users?page=5">5</a> <a class="pageelipsa" href="http://www.yayhooray.com/users?page=457">...</a>  <a class="pagea " href="http://www.yayhooray.com/users?page=457">457</a>		1 - 40 of 18,270 Users	</div>
-
-</div>-->
+<div class="blueline">&nbsp;</div>
+<div class="pagination bottom">
+	<?php echo $pagination; ?>
+</div>
