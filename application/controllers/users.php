@@ -11,10 +11,13 @@ class Users extends Controller {
     $this->load->library('pagination');
   }
 
-  function index()
+  function index($username_search_string = '')
   {
     // find the user
-    $users = $this->user_dal->get_users();
+	if ($username_search_string!='') {
+		$username_search_string = " WHERE LOWER(username) regexp '^".strtolower($username_search_string)."'";
+	}
+    $users = $this->user_dal->get_users($username_search_string);
 
     $this->load->view('shared/header');
     $this->load->view('users', array('users' => $users, "user_count" => 3));

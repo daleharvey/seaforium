@@ -80,9 +80,9 @@ class User_dal extends Model
   }
 
 
-  function get_users()
+  function get_users($username_search_string='')
   {
-    return $this->db->query("SELECT username, created, last_login FROM users;")->result_array();
+    return $this->db->query("SELECT username, created, last_login FROM users".$username_search_string.";")->result_array();
   }
 
 
