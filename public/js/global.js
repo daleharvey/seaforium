@@ -44,6 +44,10 @@
 		window.location.href="find/" + $('#search-phrase').val();
 		return false;
 	});
+	$('#search-box-user').submit(function() { 
+		window.location.href="users/" + $('#search-phrase-user').val();
+		return false;
+	});
   })();
 
   (function () {

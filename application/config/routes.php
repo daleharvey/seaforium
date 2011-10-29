@@ -75,6 +75,8 @@ $route['find/(:any)'] = "find";
 
 $route['user/(:any)'] = "user/load/$1";
 
+$route['users/(:any)'] = "users/index/$1";
+
 $route['message/(:num)'] = "message/load/$1";
 
 $route['buddies/remove/(:num)/(:any)'] = "buddies/remove/$1/$2";
