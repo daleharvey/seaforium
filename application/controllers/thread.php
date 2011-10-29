@@ -23,7 +23,9 @@ class Thread extends Controller {
   // throw them home
   function index()
   {
-    redirect('/');
+  
+	
+  redirect('/');
   }
 
   function load($thread_id)
