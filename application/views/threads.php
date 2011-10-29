@@ -1,5 +1,4 @@
 <?php
-
 $logged_in = $this->sauth->is_logged_in();
 $use_random_title = !($logged_in && $this->session->userdata('random_titles') !== '1');
 
