@@ -78,7 +78,7 @@ class Thread extends Controller {
         $this->thread_dal->new_comment(array(
           'thread_id' => $thread_id,
           'user_id' => $this->meta['user_id'],
-          'content' => _ready_for_display(_ready_for_save($content)),
+          'content' => _process_post($content),
           'original_content' => $content
         ));
 

@@ -116,7 +116,7 @@ class Ajax extends Controller
     if ($existing->user_id === $this->session->userdata('user_id')) {
 
       $content = $this->input->post('content');
-      $processed = _ready_for_display(_ready_for_save($content));
+      $processed = _process_post($content);
 
       if ($this->thread_dal->update_comment($comment_id, $content, $processed,
                                             $this->session->userdata('user_id'))) {
@@ -206,7 +206,7 @@ class Ajax extends Controller
 
   function preview()
   {
-    echo _ready_for_display(_ready_for_save($this->input->post('content')));
+    echo _process_post($this->input->post('content'));
   }
 
 }
