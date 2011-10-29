@@ -214,11 +214,7 @@
 
 <div id="main-title"><h3>Pimpin' ain't easy... but editing your profile is!</h3></div>
 
-<<<<<<< HEAD
 				<p class="prefpink"><strong>This is the page where you can edit your profile and change your YH settings.</strong> Your profile lets people learn a little about you. Tweak your YH settings to browse yay the way you want to.</p>
-=======
-<p class="prefpink"><strong>This is the page where you can edit your profile and change your YH settings. </strong>Your profile lets people learn a little about you. Tweak your YH settings to browse yay the way you want to.</strong></p>
->>>>>>> 8dce16a940accc20c2f241fdaae0fd55e03597c0
 
 <div class="dotted-bar"></div>
 
