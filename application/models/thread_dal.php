@@ -360,7 +360,7 @@ class Thread_dal extends Model
 	   LEFT JOIN acquaintances
 	     ON acquaintances.acq_user_id = authors.id AND acquaintances.user_id = ?
 	   WHERE match(threads.subject) AGAINST('" . $search_phrase .
-                                                "' WITH QUERY EXPANSION)
+                                                "' IN BOOLEAN MODE)
            ". $filtering ."
 	   ". $ordering ."
            LIMIT ?, ?";
