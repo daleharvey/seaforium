@@ -359,11 +359,12 @@ font-size: 12px;
 *************************************************************/
 
 .main-pagination {
-    display: inline;
+    float:left;
+    padding:4px 0 0 4px;
 }
 .main-pagination div, .main-pagination a {
     font-size: 10px;
-    color: #7E7E7E;
+    color: #494949;
     border: 1px solid #7E7E7E;
     display: block;
     float: left;
@@ -379,9 +380,17 @@ font-size: 12px;
 .paging-text {
     font-size: 10px;
     color: #7E7E7E;
-    padding-left: 4px;
-    float: left;
-    line-height: 14px;
+    padding: 4px 0;
+    margin-left:-2px;
+}
+
+.paging-text a {
+   color:#7e7e7e;
+}
+
+.paging-text a:hover {
+   color:#fff;
+   background-color:#7e7e7e;
 }
 
 .main-pagination div {
