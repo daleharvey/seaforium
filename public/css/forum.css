@@ -384,6 +384,15 @@ font-size: 12px;
     margin-left:-2px;
 }
 
+.paging-text a {
+   color:#7e7e7e;
+}
+
+.paging-text a:hover {
+   color:#fff;
+   background-color:#7e7e7e;
+}
+
 .main-pagination div {
     background-color: #7E7E7E;
     color: #FFF;
