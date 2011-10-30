@@ -412,7 +412,7 @@ font-size: 12px;
 /* table{border-collapse:collapse;border-spacing:0;} */
 /* a { cursor:pointer; } */
 #wrapper {
-width: 99%;
+width: 100%;
 margin: 0 auto;
 }
 
@@ -428,7 +428,7 @@ margin: 0 0 10px 0;
 #buddy-list div span {font-size: 11px;}
 
 #right-column {
-    margin: 25px 0 0 235px;
+    margin: 25px 0 0 240px;
     padding: 0 25px 50px 0;
 }
 
