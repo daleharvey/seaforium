@@ -23,8 +23,8 @@ class Thread extends Controller {
   // throw them home
   function index()
   {
-  
-	
+
+
   redirect('/');
   }
 
@@ -83,6 +83,8 @@ class Thread extends Controller {
           'content' => _process_post($content),
           'original_content' => $content
         ));
+
+        $this->user_dal->update_comment_count($this->meta['user_id']);
 
         $db_count = $this->thread_dal->comment_count($thread_id);
         $shown = $this->session->userdata('comments_shown');

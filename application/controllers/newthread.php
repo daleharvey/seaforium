@@ -23,27 +23,27 @@ class Newthread extends Controller {
                                       'required|exact_length[1]|integer');
     $this->form_validation->set_rules('content', 'Content', 'trim|required');
 
-    if ($this->form_validation->run())
-      {
+    if ($this->form_validation->run()) {
 
-        $subject = $this->form_validation->set_value('subject');
-        $content = $this->form_validation->set_value('content');
-        $category = $this->form_validation->set_value('category[]');
+      $subject = $this->form_validation->set_value('subject');
+      $content = $this->form_validation->set_value('content');
+      $category = $this->form_validation->set_value('category[]');
 
-        $comment = array(
-          'user_id' => $this->session->userdata('user_id'),
-          'category' => (int)$category[0],
-          'subject' => $subject,
-          'content' => _process_post($content),
-          'original_content' => $content
-        );
+      $comment = array(
+        'user_id' => $this->session->userdata('user_id'),
+        'category' => (int)$category[0],
+        'subject' => $subject,
+        'content' => _process_post($content),
+        'original_content' => $content
+      );
 
-        $comment['thread_id'] = $this->thread_dal->new_thread($comment);
+      $comment['thread_id'] = $this->thread_dal->new_thread($comment);
+      $this->user_dal->update_thread_count($comment['user_id']);
 
-        $this->thread_dal->new_comment($comment);
-        redirect('/thread/'.$comment['thread_id'] . '/' .
-                 url_title($subject, 'dash', TRUE));
-      }
+      $this->thread_dal->new_comment($comment);
+      redirect('/thread/'.$comment['thread_id'] . '/' .
+               url_title($subject, 'dash', TRUE));
+    }
     $this->load->view('shared/header');
     $this->load->view('newthread');
     $this->load->view('shared/footer');

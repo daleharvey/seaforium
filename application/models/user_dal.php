@@ -121,6 +121,18 @@ class User_dal extends Model
     return $this->db->query($sql)->result_array();
   }
 
+  function update_thread_count($user_id)
+  {
+    $sql = "UPDATE users SET threads_count = threads_count+1 WHERE id = ?";
+    return $this->db->query($sql, $user_id);
+  }
+
+  function update_comment_count($user_id)
+  {
+    $sql = "UPDATE users SET comments_count = comments_count+1 WHERE id = ?";
+    return $this->db->query($sql, $user_id);
+  }
+
 
   function get_user_ids_from_array($user_id, $usernames)
   {
