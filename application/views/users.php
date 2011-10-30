@@ -65,13 +65,13 @@
 <?php
 foreach($users as $row) {
 	$online_status = '<div class="offline">NOT ONLINE</div>';
+	if ((int) $row['latest_activity'] > (time() - 300))
+	{
+		$online_status = '<div class="online">ONLINE</div>';
+	}
 	$listing_type = 'user';
 	if ((int) $row['buddy_check'] > 0)
 	{
-		if ((int) $row['latest_activity'] > (time() - 300))
-		{
-			$online_status = '<div class="online">ONLINE</div>';
-		}
 		$listing_type = 'buddy';
 	}
 	elseif ((int) $row['enemy_check'] > 0)
