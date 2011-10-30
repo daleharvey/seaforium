@@ -960,6 +960,16 @@ h3.recent-thread-title {
 background: #FFEAEA;
 padding: 6px;
 border-bottom: solid 1px #BBBBBB;
+height: 16px;
+}
+
+#pm-box-controls .left {
+float: left;
+width:
+}
+
+#pm-box-controls .left {
+width: 60%;
 }
 
 #pm-box-controls a {
@@ -995,6 +1005,11 @@ font-size: 12px;
 font-weight: 500;
 padding: 0 !important;
 margin: 0 !important;
+}
+
+#pm-inbox .message .marker input {
+margin: 5px 5px 0 2px;
+display: block;
 }
 
 #pm-inbox .message .subject {

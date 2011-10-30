@@ -16,7 +16,20 @@ class Message_dal extends Model
 	{
 		$this->db->query("UPDATE pm_inbox SET pm_inbox.read = 1 WHERE message_id = ? AND to_id = ?", array((int)$message_id, $user_id));
 	}
-
+	
+	function set_unread_in_array($user_id, $messages) {
+		$this->db->query("UPDATE pm_inbox SET pm_inbox.read = 0 WHERE message_id IN (". implode($messages, ',') .") AND to_id = ?", array($user_id));
+	}
+	
+	function set_read_in_array($user_id, $messages) {
+		$this->db->query("UPDATE pm_inbox SET pm_inbox.read = 1 WHERE message_id IN (". implode($messages, ',') .") AND to_id = ?", array($user_id));
+	}
+	
+	function delete_in_array($user_id, $messages)
+	{
+		$this->db->query("UPDATE pm_inbox SET pm_inbox.deleted = 1 WHERE message_id IN (". implode($messages, ',') .") AND to_id = ?", array($user_id));
+	}
+	
 	function get_message($user_id, $message_id)
 	{
 		$sql = "
@@ -102,7 +115,7 @@ class Message_dal extends Model
 		$this->db->query($sql, array(
 			$data['subject'],
 			$data['content'],
-                        date("Y-m-d H:i:s", utc_time())
+			date("Y-m-d H:i:s", utc_time())
 		));
 
 		return $this->db->insert_id();

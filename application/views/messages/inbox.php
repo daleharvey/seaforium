@@ -21,15 +21,21 @@
 							<a href="/messages/outbox">Sent Items</a>
 						</div>
 						<div class="right">
-						
+							Mark <a href="#" id="inbox-mark-read">Read</a>
+							<a href="#" id="inbox-mark-unread">Unread</a>
+							|
+							<a href="#" id="inbox-delete">Delete</a>
 						</div>
 					</div>
 					
 					<div class="message header">
+						<div class="marker"><input type="checkbox" /></div>
 						<div class="subject">Subject</div>
 						<div class="sender">From</div>
 						<div class="time">Received</div>
 					</div>
+					
+					<form name="messages" id="message-form" method="post" action="/messages/action">
 					
 <?php
 
@@ -38,7 +44,10 @@ foreach($messages->result() as $row) {
 $unread = $row->read === '0' ? ' unread' : '';
 
 ?>
-					<div class="message<?php echo $unread; ?>">
+					<div class="message<?php echo $unread; ?> lineitem">
+						<div class="marker">
+							<input type="checkbox" value="<?php echo $row->message_id; ?>" name="message_ids[]" />
+						</div>
 						<div class="subject">
 							<?php echo anchor('/message/'. $row->message_id, $row->subject); ?> 
 						</div>
@@ -53,7 +62,10 @@ $unread = $row->read === '0' ? ' unread' : '';
 					<div class="blue-bar"></div>
 					
 <?php } ?> 
-
+					
+					<input type="hidden" name="action" id="message-form-action" />
+					</form>
+					
 					<div class="ctrl-bar">
 						<div class="pagination">
 						
@@ -64,3 +76,5 @@ $unread = $row->read === '0' ? ' unread' : '';
 					</div>
 					
 				</div>
+				
+				<script type="text/javascript" src="/js/messages.js"></script>

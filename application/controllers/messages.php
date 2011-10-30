@@ -150,7 +150,6 @@ class Messages extends Controller {
 
 	function inbox($pagination = 0)
 	{
-
 		$data = array();
 
 		$data['messages'] = $this->message_dal->get_inbox($this->session->userdata('user_id'));
@@ -170,6 +169,35 @@ class Messages extends Controller {
 		$this->load->view('shared/header');
 		$this->load->view('messages/outbox', $data);
 		$this->load->view('shared/footer');
+	}
+	
+	function action()
+	{
+		$this->form_validation->set_rules('action', 'action', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('message_ids[]', 'message_ids', 'required|integer');
+		
+		if ($this->form_validation->run()) {
+			
+			$action = $this->form_validation->set_value('action');
+			$message_ids = $this->form_validation->set_value('message_ids[]');
+			
+			switch($action)
+			{
+				case "unread":
+					$this->message_dal->set_unread_in_array($this->session->userdata('user_id'), $message_ids);
+					break;
+				case "read":
+					$this->message_dal->set_read_in_array($this->session->userdata('user_id'), $message_ids);
+					break;
+				case "delete":
+					$this->message_dal->delete_in_array($this->session->userdata('user_id'), $message_ids);
+					break;
+				default:
+			}
+			
+		}
+		
+		redirect("/messages/inbox");
 	}
 }
 
