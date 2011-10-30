@@ -31,12 +31,12 @@ class Users extends Controller {
                                         'suffix' => '/'.$username_search_string
                                         ));
 
-    $users = $this->user_dal->get_users($username_search_string_sql, $pagination, $display);
+    $users = $this->user_dal->get_users($username_search_string_sql, $pagination, $display, (int) $this->session->userdata('user_id'));
 
     $this->load->view('shared/header');
     $this->load->view('users', array('users' => $users,
 						'pagination' => $this->pagination->create_links().'<span class="paging-text">' . ($pagination + 1) . ' - ' . $end . ' of ' . $users_count . ' Users</span>',
-						"user_count" => $users_count));
+						'user_count' => $users_count));
     $this->load->view('shared/footer');
   }
 

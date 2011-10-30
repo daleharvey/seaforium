@@ -65,13 +65,13 @@
 <?php
 foreach($users as $row) {
 	$online_status = '<div class="offline">NOT ONLINE</div>';
+	if ((int) $row['latest_activity'] > (time() - 300))
+	{
+		$online_status = '<div class="online">ONLINE</div>';
+	}
 	$listing_type = 'user';
 	if ((int) $row['buddy_check'] > 0)
 	{
-		if ((int) $row['latest_activity'] > (time() - 300))
-		{
-			$online_status = '<div class="online">ONLINE</div>';
-		}
 		$listing_type = 'buddy';
 	}
 	elseif ((int) $row['enemy_check'] > 0)
@@ -92,8 +92,7 @@ foreach($users as $row) {
       <?php echo date('M jS y', strtotime($row['last_login'])); ?>
     </div>
 	<div class="user_logdate">
-          <?php echo isset($row['thread_count']) ? $row['thread_count'] : '0'; ?> threads &nbsp;|
-        &nbsp; <?php echo isset($row['comment_count']) ? $row['comment_count'] : '0'; ?> posts
+          <?php echo isset($row['threads_count']) ? $row['threads_count'] : '0'; ?> threads &nbsp;|&nbsp; <?php echo isset($row['comments_count']) ? $row['comments_count'] : '0'; ?> posts
 	</div>
   </div>
 
