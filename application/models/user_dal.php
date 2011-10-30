@@ -94,8 +94,8 @@ class User_dal extends Model
               users.username AS username,
               users.created AS created,
               users.last_login AS last_login,
-              /* count(DISTINCT comments.comment_id) AS comment_count, */
-              /* count(DISTINCT threads.thread_id) AS thread_count, */
+              users.threads_count AS threads_count,
+              users.comments_count AS comments_count,
               IFNULL(sessions.last_activity, 0) AS latest_activity,
               (
                 SELECT count(acquaintances.user_id)
@@ -112,8 +112,6 @@ class User_dal extends Model
 				AND acquaintances.user_id = ".$my_user_id."
               ) AS enemy_check
             FROM users
-            /* LEFT JOIN comments ON comments.user_id = users.id */
-            /* LEFT JOIN threads ON threads.user_id = users.id */
             LEFT JOIN sessions ON sessions.user_id = users.id" .
             $username_search_string .
             " GROUP BY users.id
@@ -411,12 +409,10 @@ class User_dal extends Model
 				user_profiles.name,
 				user_profiles.location,
 				users.comments_shown,
-				count(DISTINCT comments.comment_id) AS comment_count,
-				count(DISTINCT threads.thread_id) AS thread_count
+				users.threads_count AS threads_count,
+				users.comments_count AS comments_count
 			FROM users
 			LEFT JOIN user_profiles ON user_profiles.user_id = users.id
-			LEFT JOIN comments ON comments.user_id = users.id
-			LEFT JOIN threads ON threads.user_id = users.id
 			WHERE LOWER(users.username) = ?";
 
     return $this->db->query($sql, strtolower($user_id));
@@ -461,12 +457,10 @@ class User_dal extends Model
 				user_profiles.name,
 				user_profiles.location,
 				users.comments_shown,
-				count(DISTINCT comments.comment_id) AS comment_count,
-				count(DISTINCT threads.thread_id) AS thread_count
+				users.threads_count AS threads_count,
+				users.comments_count AS comments_count
 			FROM users
 			LEFT JOIN user_profiles ON user_profiles.user_id = users.id
-			LEFT JOIN comments ON comments.user_id = users.id
-			LEFT JOIN threads ON threads.user_id = users.id
 			WHERE users.id = ?";
 
     return $this->db->query($sql, $user_id);

@@ -37,8 +37,8 @@ class User extends Controller {
 
     $time_registered = $time_registered <= 0 ? 1 : $time_registered;
 
-    $ppd = ($data['user_data']->thread_count +
-            $data['user_data']->comment_count) / $time_registered;
+    $ppd = ($data['user_data']->threads_count +
+            $data['user_data']->comments_count) / $time_registered;
 
     $logged_in = date('F jS Y \a\t g:i a',
                       strtotime($data['user_data']->last_login));
@@ -60,7 +60,7 @@ class User extends Controller {
 
     $this->pagination->initialize(array(
       'base_url' => '/user/' . $data['user_data']->username . '/p/',
-      'total_rows' => $data['user_data']->comment_count,
+      'total_rows' => $data['user_data']->comments_count,
       'uri_segment' => '4',
       'per_page' => $data['user_data']->comments_shown,
       'full_tag_open' => '<div class="main-pagination">',
