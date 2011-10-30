@@ -4,14 +4,24 @@ import simplejson
 
 from urlparse import urlparse
 from yayclient import YayClient, OldYayClient
+from ConfigParser import SafeConfigParser
 
-class TestBasicFunction(unittest.TestCase):
+import DbClient
 
-    def setUp(self):
-        self.opts = dict(
-            url = 'http://yayhooray.dev/'
+
+class TestBasicFunctions(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cfg = SafeConfigParser()
+        cfg.read(['../yay.ini', 'tests/yay.ini'])
+
+        DbClient.reset_database(cfg.get('db', 'host'), cfg.get('db', 'database'),
+                                cfg.get('db', 'username'), cfg.get('db', 'password'))
+
+        cls.opts = dict(
+            url = cfg.get('site', 'url')
         )
-
 
     def test_fail_register(self):
         r = YayClient.register(self.opts, '    ', 'b@a.com', 'a', 'a')

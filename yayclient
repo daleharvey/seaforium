@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+yayclient - command-line development tool
+"""
+
+import unittest
+import getopt
+import sys
+
+sys.path.append("tests/pytests")
+
+import DbClient
+
+from basic_tests import TestBasicFunctions
+from ConfigParser import SafeConfigParser
+
+def main():
+
+    commands = {
+      'reset' : reset,
+      'test' : test
+    }
+
+    del sys.argv[0]
+    cmd = sys.argv.pop()
+    args = sys.argv
+
+    if cmd not in commands:
+        err_message = ("'%s' is not a command; see -h for more help.") % cmd
+        print err_message
+        exit
+
+    cfg = SafeConfigParser()
+    cfg.read(['tests/yay.ini'])
+
+    args.insert(0, cfg)
+    commands[cmd](*args)
+
+def reset(cfg):
+    DbClient.reset_database(cfg.get('db', 'host'), cfg.get('db', 'database'),
+                            cfg.get('db', 'username'), cfg.get('db', 'password'))
+
+def test(cfg):
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestBasicFunctions)
+    unittest.TextTestRunner(verbosity=2).run(suite)
+
+
+if __name__ == '__main__':
+    main()
+
