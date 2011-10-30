@@ -58,6 +58,8 @@ $route['started/(:any)'] = "welcome/index/0/started/latest/desc/$1"; // startedb
 $route['p/(:num)/(:any)/(:any)/(:any)/(:any)'] = "welcome/index/$1/$2/$3/$4/$5"; // page, filter, order, startedby
 $route['f/(:any)/(:any)/(:any)/(:any)'] = "welcome/index/0/$1/$2/$3"; // filter, order, startedby
 
+
+
 // subject | no paging
 $route['thread/(:num)/:any'] = "thread/load/$1/0";
 
@@ -74,6 +76,9 @@ $route['thread/(:any)'] = "thread/load/$1";
 $route['find/(:any)'] = "find";
 
 $route['user/(:any)'] = "user/load/$1";
+
+$route['users/(:num)'] = "users/index/$1";
+$route['users/(:num)/(:any)'] = "users/index/$1/$2";
 
 $route['message/(:num)'] = "message/load/$1";
 

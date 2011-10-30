@@ -40,19 +40,31 @@ function format_special(element)
 
   $(element).each(function(){
 
-    // auto-embed youtube/vimeo videos
-    $(this).html($(this).html().replace(ytube, function(a, b) {
-      return (a.indexOf("\"") != -1) ? a :
-        '<iframe width="425" height="349" src="http://www.youtube.com/embed/' +
-        b+'" frameborder="0" allowfullscreen></iframe><br />';
-    }));
+    var text = $(this).find("*").contents().each(function () {
 
-    $(this).html($(this).html().replace(vimeo, function(a, b){
-      return (a.indexOf("\"") != -1) ? a :
-        '<iframe src="http://player.vimeo.com/video/' + b +
-        '?title=0&amp;byline=0&amp;portrait=0" width="400" height="225" ' +
-        'frameborder="0" webkitAllowFullScreen allowFullScreen></iframe><br />';
-    }));
+      if (this.nodeType !== 3 || this.parentNode.nodeName === 'A') {
+        return;
+      }
+      var tmp = this.textContent;
+
+      tmp = tmp.replace(ytube, function(a, b) {
+        return (a.indexOf("\"") != -1) ? a :
+          '<iframe width="425" height="349" src="http://www.youtube.com/embed/' +
+          b+'" frameborder="0" allowfullscreen></iframe><br />';
+      });
+
+      tmp = tmp.replace(vimeo, function(a, b){
+        return (a.indexOf("\"") != -1) ? a :
+          '<iframe src="http://player.vimeo.com/video/' + b +
+          '?title=0&amp;byline=0&amp;portrait=0" width="400" height="225" ' +
+          'frameborder="0" webkitAllowFullScreen allowFullScreen></iframe><br />';
+      });
+
+      if (tmp !== this.textContent) {
+        $(this).replaceWith(tmp);
+      }
+
+    });
 
     // Reverse so we handle nested quotes
     $(this).find('blockquote').reverse().each(function(){

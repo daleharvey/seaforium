@@ -53,7 +53,7 @@ foreach($comment_result->result() as $row) {
   }
 
   $my_thread = $row->user_id == $this->session->userdata('user_id');
-  $edit_source = ($my_thread && strtotime($row->created) > time() - (60 * 60 * 24))
+  $edit_source = $my_thread && ((strtotime($row->created) > time() - (60 * 60 * 24)) || $i == 0)
     ? 'Edit Post' : 'View Source';
   $url_safe_username = url_title($row->username, 'dash');
 
@@ -145,10 +145,18 @@ if ($my_thread && $i === 0 && $starting === 0) {
   <div class="content-block">
     <div class="content">
 <?php
-echo $this->session->userdata('view_html') === '1' ||
-      $this->session->userdata('view_html') === false
-      ? _ready_for_display($row->content, array('username'=>$row->username, "url_safe_username"=>$url_safe_username))
-      : nl2br(htmlentities($row->content));
+$view_html = ($this->session->userdata('view_html') === '1' ||
+              $this->session->userdata('view_html') === false);
+
+if ($row->content === '' && $row->original_content !== '') {
+  $content = _process_post($row->original_content);
+  $thread_model->update_comment_cache($row->comment_id, $content);
+} else {
+  $content = $row->content;
+}
+
+echo $view_html ? $content : nl2br(htmlentities($content));
+
 ?>
     </div>
   </div>
@@ -184,6 +192,7 @@ $content = array(
   'value' => set_value('content')
 );
 
+
 ?>
 
 </div>
@@ -196,6 +205,8 @@ $content = array(
 <li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<a href=%22%22></a>')">URL</a></li>
 <li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<img src=%22%22 />')">Image</a></li>
 <li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<spoiler></spoiler>')">Spoiler</a></li>
+<li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<code></code>')">Code</a></li>
+
 <!--<li>&middot; <a href="#">Spoiler</a></li>-->
 </ul>
 </div>

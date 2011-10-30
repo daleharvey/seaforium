@@ -80,9 +80,57 @@ class User_dal extends Model
   }
 
 
-  function get_users()
+  function get_users_count($username_search_string='')
   {
-    return $this->db->query("SELECT username, created, last_login FROM users;")->result_array();
+    $count = (int)$this->db->query('SELECT count(username) AS ' .
+                                   'max_rows FROM users'.$username_search_string.';')->row()->max_rows;
+    return $count > 0 ? $count : '0';
+  }
+
+
+  function get_users($username_search_string='',$limit, $span, $my_user_id=0)
+  {
+    $sql = "SELECT
+              users.username AS username,
+              users.created AS created,
+              users.last_login AS last_login,
+              users.threads_count AS threads_count,
+              users.comments_count AS comments_count,
+              IFNULL(sessions.last_activity, 0) AS latest_activity,
+              (
+                SELECT count(acquaintances.user_id)
+                FROM acquaintances
+                WHERE acquaintances.acq_user_id = users.id
+                AND acquaintances.type = 1
+				AND acquaintances.user_id = ".$my_user_id."
+              ) AS buddy_check,
+              (
+                SELECT count(acquaintances.user_id)
+                FROM acquaintances
+                WHERE acquaintances.acq_user_id = users.id
+                AND acquaintances.type = 2
+				AND acquaintances.user_id = ".$my_user_id."
+              ) AS enemy_check
+            FROM users
+            LEFT JOIN sessions ON sessions.user_id = users.id" .
+            $username_search_string .
+            " GROUP BY users.id
+            ORDER BY username ASC
+            LIMIT ".(int)$limit.", ".(int)$span.";";
+
+    return $this->db->query($sql)->result_array();
+  }
+
+  function update_thread_count($user_id)
+  {
+    $sql = "UPDATE users SET threads_count = threads_count+1 WHERE id = ?";
+    return $this->db->query($sql, $user_id);
+  }
+
+  function update_comment_count($user_id)
+  {
+    $sql = "UPDATE users SET comments_count = comments_count+1 WHERE id = ?";
+    return $this->db->query($sql, $user_id);
   }
 
 
@@ -373,12 +421,10 @@ class User_dal extends Model
 				user_profiles.name,
 				user_profiles.location,
 				users.comments_shown,
-				count(DISTINCT comments.comment_id) AS comment_count,
-				count(DISTINCT threads.thread_id) AS thread_count
+				users.threads_count AS threads_count,
+				users.comments_count AS comments_count
 			FROM users
 			LEFT JOIN user_profiles ON user_profiles.user_id = users.id
-			LEFT JOIN comments ON comments.user_id = users.id
-			LEFT JOIN threads ON threads.user_id = users.id
 			WHERE LOWER(users.username) = ?";
 
     return $this->db->query($sql, strtolower($user_id));
@@ -423,12 +469,10 @@ class User_dal extends Model
 				user_profiles.name,
 				user_profiles.location,
 				users.comments_shown,
-				count(DISTINCT comments.comment_id) AS comment_count,
-				count(DISTINCT threads.thread_id) AS thread_count
+				users.threads_count AS threads_count,
+				users.comments_count AS comments_count
 			FROM users
 			LEFT JOIN user_profiles ON user_profiles.user_id = users.id
-			LEFT JOIN comments ON comments.user_id = users.id
-			LEFT JOIN threads ON threads.user_id = users.id
 			WHERE users.id = ?";
 
     return $this->db->query($sql, $user_id);

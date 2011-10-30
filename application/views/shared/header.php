@@ -41,13 +41,14 @@ if ($body_class === '') {
 <html>
 
   <head>
-    <title><?php if (isset($page_title)) { echo $page_title . ' |'; } echo $this->config->item('site_name'); ?></title>
+    <title><?php if (isset($page_title)) { echo $page_title . ' | '; } echo $this->config->item('site_name'); ?></title>
 
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
+    <link href="/css/prettify.css" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="<?php echo $css; ?>" />
     <script type="text/javascript" src="/js/jquery-1.6.4.min.js"></script>
 
@@ -120,8 +121,8 @@ if ($logged_in) {
 ?>
         <div class="lc-node" id="messaging">
           <ul>
-            <li class="messages">
-              <a href="/messages/inbox"><?php echo $unread_msg ?></a>
+            <li class="messages<?php if ($unread_messages > 0) { echo " new"; }?>">
+              <a href="/messages/inbox"><?php echo $unread_msg; ?></a>
             </li>
           </ul>
         </div>

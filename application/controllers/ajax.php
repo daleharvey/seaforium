@@ -93,7 +93,7 @@ class Ajax extends Controller
     $comment = $this->thread_dal->get_comment($comment_id)->row();
 
     $data = array(
-      'content' => _ready_for_source($comment->content),
+      'content' => $comment->original_content,
       'owner' => ($comment->user_id == $this->session->userdata('user_id') &&
                   strtotime($comment->created) > (time() - (60*60*24)))
     );
@@ -114,11 +114,20 @@ class Ajax extends Controller
     $existing = $this->thread_dal->get_comment($comment_id)->row();
 
     if ($existing->user_id === $this->session->userdata('user_id')) {
-      $content = _ready_for_save($this->input->post('content'));
 
-      if ($this->thread_dal->update_comment($comment_id, $content,
-                                            $this->session->userdata('user_id'))) {
-        echo _ready_for_display($content);
+      $content = $this->input->post('content');
+      $processed = _process_post($content);
+
+      if ((strtotime($existing->created) > time() - (60 * 60 * 24)) ||
+          $this->thread_dal->is_first_comment($existing->thread_id, $comment_id)) {
+        if ($this->thread_dal->update_comment($comment_id, $content, $processed,
+                                              $this->session->userdata('user_id'))) {
+          echo $processed;
+        } else {
+          echo "Unknown Error";
+        }
+      } else {
+        echo "Permission Denied";
       }
     }
 
@@ -204,7 +213,7 @@ class Ajax extends Controller
 
   function preview()
   {
-    echo _ready_for_display(_ready_for_save($this->input->post('content')));
+    echo _process_post($this->input->post('content'));
   }
 
 }

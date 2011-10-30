@@ -1,0 +1,66 @@
+/* Solarized for Google Code Prettify */
+.prettyprint {
+  padding: 0px 10px;
+  color: #657B83;
+  background: #eee8d5;
+  margin-bottom: 10px;
+  overflow: auto;
+}
+
+.prettyprint .pln {
+  color: inherit;
+}
+
+.prettyprint .lit {
+  color: #2aa198;
+}
+.prettyprint .str,
+.prettyprint .atv {
+  color: #d33682
+}
+
+.prettyprint .kwd {
+  color: #268bd2;
+}
+
+.prettyprint .com,
+.prettyprint .dec {
+  color: #586e75;
+  font-style: italic;
+}
+
+.prettyprint .typ {
+  color: #b58900;
+}
+
+.prettyprint .pun {
+  color: inherit;
+}
+
+.prettyprint .opn {
+  color: inherit;
+}
+
+.prettyprint .clo {
+  color: inherit;
+}
+
+.prettyprint .tag {
+  color: #268bd2;
+  font-weight: bold;
+}
+
+.prettyprint .atn {
+  color: inherit;
+}
+
+ol.linenums li {
+    padding-left: 10px;
+    background-color: #FDF6E3;
+}
+ol.linenums {
+    margin-left: 30px;
+    list-style-type: decimal;
+    background-color: #FDF6E3;
+    padding: 10px 0px;
+}

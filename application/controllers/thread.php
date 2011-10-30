@@ -6,22 +6,26 @@ class Thread extends Controller {
   {
     parent::Controller();
 
-    $this->load->helper(array('url', 'date', 'form', 'content_render', 'htmlpurifier'));
+    $this->load->helper(array('url', 'date', 'form', 'content_render',
+                              'htmlpurifier'));
     $this->load->library(array('form_validation', 'pagination'));
     $this->load->model('thread_dal');
 
     // set all this so we dont have to continually call functions through session
     $this->meta = array(
-			'user_id' => (int) $this->session->userdata('user_id'),
-			'comments_shown' => $this->session->userdata('comments_shown') == false ? 50 : (int)$this->session->userdata('comments_shown')
-                        );
+      'user_id' => (int) $this->session->userdata('user_id'),
+      'comments_shown' => $this->session->userdata('comments_shown') == false
+        ? 50 : (int)$this->session->userdata('comments_shown')
+    );
   }
 
   // if the just throw in /thread into the address bar
   // throw them home
   function index()
   {
-    redirect('/');
+
+
+  redirect('/');
   }
 
   function load($thread_id)
@@ -33,7 +37,8 @@ class Thread extends Controller {
     }
 
     // grabbing the thread information
-    $query = $this->thread_dal->get_thread_information($this->meta['user_id'], $thread_id);
+    $query = $this->thread_dal->get_thread_information($this->meta['user_id'],
+                                                       $thread_id);
 
     // does it exist?
     if ($query->num_rows === 0)
@@ -41,21 +46,23 @@ class Thread extends Controller {
 
     $thread_info = $query->row();
 
+    $favourites = explode(',',
+                          $this->thread_dal->get_favorites($this->meta['user_id']));
 
     // alright we're clear, set some data for the view
     $data = array(
-        'info' => array(
-			'title' => $thread_info->subject,
-			'nsfw' => $thread_info->nsfw,
-			'closed' => $thread_info->closed,
-			'category' => $thread_info->category,
-			'acq_type' => (int) $thread_info->type,
-			'user_id' => $thread_info->user_id,
-			'editable' => time() - strtotime($thread_info->created) < 300
-		),
-		'thread_id' => $thread_id,
-		'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id']))
-	);
+      'info' => array(
+         'title' => $thread_info->subject,
+         'nsfw' => $thread_info->nsfw,
+         'closed' => $thread_info->closed,
+         'category' => $thread_info->category,
+         'acq_type' => (int) $thread_info->type,
+         'user_id' => $thread_info->user_id,
+         'editable' => time() - strtotime($thread_info->created) < 300
+       ),
+      'thread_id' => $thread_id,
+      'favorites' => $favourites
+    );
 
 
     // if the thread is closed then we're not accepting any new data
@@ -67,13 +74,17 @@ class Thread extends Controller {
 
       // if a comment was submitted
       if ($this->form_validation->run()) {
-        $content = _ready_for_save($this->form_validation->set_value('content'));
+
+        $content = $this->form_validation->set_value('content');
 
         $this->thread_dal->new_comment(array(
           'thread_id' => $thread_id,
           'user_id' => $this->meta['user_id'],
-          'content' => $content
+          'content' => _process_post($content),
+          'original_content' => $content
         ));
+
+        $this->user_dal->update_comment_count($this->meta['user_id']);
 
         $db_count = $this->thread_dal->comment_count($thread_id);
         $shown = $this->session->userdata('comments_shown');
@@ -89,7 +100,8 @@ class Thread extends Controller {
       }
     }
 
-    $display = $this->session->userdata('comments_shown') == false ? 50 : (int)$this->session->userdata('comments_shown');
+    $display = $this->session->userdata('comments_shown') == false
+      ? 50 : (int)$this->session->userdata('comments_shown');
 
     $pseg = 0;
     $base_url = '';
@@ -113,8 +125,13 @@ class Thread extends Controller {
       $base_url .= '/p';
     }
 
-    $data['comment_result'] = $this->thread_dal->get_comments($this->meta['user_id'],
-                                                              $thread_id, $limit_start, $this->meta['comments_shown']);
+    $data['thread_model'] =& $this->thread_dal;
+
+    $data['comment_result'] =
+      $this->thread_dal->get_comments($this->meta['user_id'],
+                                      $thread_id,
+                                      $limit_start,
+                                      $this->meta['comments_shown']);
 
     $data['total_comments'] = $this->thread_dal->comment_count($thread_id);
 
@@ -131,8 +148,15 @@ class Thread extends Controller {
 			'num_tag_close' => ''
     ));
 
-    $end = min(array($limit_start + $this->meta['comments_shown'], $data['total_comments']));
-    $data['pagination'] = $this->pagination->create_links() .'<span class="paging-text">'. ($limit_start + 1) .' - '. $end .' of '. $data['total_comments'] .' Posts in <a href="/">Threads</a> &gt; <a href="/f/'.strtolower($data['info']['category']).'">'.$data['info']['category'].'</a> > <a href="/thread/'. $thread_id.'/'.url_title($data['info']['title'], 'dash', TRUE) .'">'.$data['info']['title'].'</a></span>';
+    $end = min(array($limit_start + $this->meta['comments_shown'],
+                     $data['total_comments']));
+    $data['pagination'] = $this->pagination->create_links() .
+      '<span class="paging-text">'. ($limit_start + 1) .' - '. $end .' of ' .
+      $data['total_comments'] .' Posts in <a href="/">Threads</a> &gt; ' .
+      '<a href="/f/'.strtolower($data['info']['category']).'">' .
+      $data['info']['category'].'</a> > <a href="/thread/'. $thread_id.'/' .
+      url_title($data['info']['title'], 'dash', TRUE) .'">' .
+      $data['info']['title'].'</a></span>';
 
     $data['starting'] = $limit_start;
 
