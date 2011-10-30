@@ -234,6 +234,13 @@ font-size: 10px;
     font-size:9px;
 }
 
+a:hover#post-thread {
+    background-color:#474747;
+    color:#fff;
+    padding:2px;
+    margin:2px;
+}
+
 .pagination {
     height:29px;
     overflow:auto;
