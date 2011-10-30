@@ -245,7 +245,7 @@ font-size: 10px;
 }
 
 #thread-headers {
-    min-height:0px;
+    padding:0;
     overflow:auto;
     background:transparent;
     border-bottom: 1px solid #BBBBBB;
@@ -272,7 +272,8 @@ font-size: 10px;
 }
 
 .category a {
-	text-decoration:none;
+    text-decoration:none;
+    font-size:8px;
 }
 
 .blueline {
@@ -283,9 +284,8 @@ font-size: 10px;
 }
 
 .favourite {
-    margin:12px 0 0 12px;
     display:block;
-		float:left;
+    float:left;
     width:12px;
     height:16px;
     background:url(../img/b-add.gif);
@@ -450,9 +450,9 @@ margin-right: 5px;
 
 .thread {
 background-color: #F5FBFE;
-margin:2px 0 2px 0;
-min-height: 42px;
-overflow:auto;
+margin:2px 0;
+padding:6px 0;
+overflow:hidden;
 }
 
 .thread.alt {
@@ -499,46 +499,45 @@ cursor: pointer;
 
 .thread .one, .thread .two, .thread .three, .thread .four, .thread .five{
 float: left;
-}
-
-.thread .one, .thread .two, .thread .three {
-padding: 6px 0;
 line-height:16px;
 }
 
+.thread .one, .thread .two, .thread .three {
+}
+
 .thread .one {
-width: 50%;
+width: 52%;
 }
 
 .thread .two, .thread .three {
-width: 15%;
+width: 20%;
 }
 
 .thread .four {
-width: 12%;
-text-align: center;
+width: 5%;
 }
 
 .thread .five {
-width: 6%;
-text-align: right;
+width: 3%;
+
 }
 
 .thread .five span {
-margin-right: 8px;
 }
 
 .thread .end-link {
 font-size: 10px;
+color:#959595;
+font-weight:normal;
+}
+
+.thread .end-link:hover {
+background-color:#959595;
+color:#fff;
 }
 
 .thread .subject, .thread .category {
-margin-left: 5px;
-}
-
-.thread .four {
-line-height: 40px;
-/*padding: 0 10px;*/
+margin-left: 6px;
 }
 
 #bottom {
