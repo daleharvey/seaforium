@@ -1,0 +1,8 @@
+[db]
+host = localhost
+username = username
+password = root
+database = new_forum
+
+[site]
+url = http://yayhooray.dev/

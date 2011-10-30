@@ -3,7 +3,7 @@ application/logs
 build
 public/img/emoticons
 tests/pytests/*.pyc
-
+tests/yay.ini
 
 .DS_Store
 .#*
