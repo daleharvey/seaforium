@@ -1,1 +1,1 @@
-ALTER TABLE comments ADD original_content text CHARACTER SET utf8_bin;
+ALTER TABLE comments ADD original_content text CHARACTER SET utf8 COLLATE utf8_bin;
