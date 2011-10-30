@@ -296,7 +296,11 @@ font-size: 10px;
 }
 
 #main-title .favourite, #main-title .favourite.added {
-margin:12px 0 0 12px;
+    margin:12px 0 0 12px;
+}
+
+a.favourite:hover, a.favourite.added:hover {
+    background-color:inherit;	
 }
 
 /*************************************************************
