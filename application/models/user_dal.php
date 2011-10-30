@@ -88,7 +88,7 @@ class User_dal extends Model
   }
 
 
-  function get_users($username_search_string='',$limit, $span)
+  function get_users($username_search_string='',$limit, $span, $my_user_id=0)
   {
     $sql = "SELECT
               users.username AS username,
@@ -102,12 +102,14 @@ class User_dal extends Model
                 FROM acquaintances
                 WHERE acquaintances.acq_user_id = users.id
                 AND acquaintances.type = 1
+				AND acquaintances.user_id = ".$my_user_id."
               ) AS buddy_check,
               (
                 SELECT count(acquaintances.user_id)
                 FROM acquaintances
                 WHERE acquaintances.acq_user_id = users.id
                 AND acquaintances.type = 2
+				AND acquaintances.user_id = ".$my_user_id."
               ) AS enemy_check
             FROM users
             /* LEFT JOIN comments ON comments.user_id = users.id */
