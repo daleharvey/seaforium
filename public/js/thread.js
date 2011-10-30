@@ -2,57 +2,6 @@ function cloneObj(obj) {
   return jQuery.extend(true, {}, obj);
 };
 
-// Thanks ben allman - http://benalman.com/projects/jquery-replacetext-plugin/
-$.fn.replaceText = function( search, replace, text_only ) {
-  return this.each(function(){
-    var node = this.firstChild,
-    val,
-    new_val,
-
-    // Elements to be removed at the end.
-    remove = [];
-
-    // Only continue if firstChild exists.
-    if ( node ) {
-
-      // Loop over all childNodes.
-      do {
-
-        // Only process text nodes.
-        if ( node.nodeType === 3 ) {
-
-          // The original node value.
-          val = node.nodeValue;
-
-          // The new value.
-          new_val = val.replace( search, replace );
-
-          // Only replace text if the new value is actually different!
-          if ( new_val !== val ) {
-
-            if ( !text_only && /</.test( new_val ) ) {
-              // The new value contains HTML, set it in a slower but far more
-              // robust way.
-              $(node).before( new_val );
-
-              // Don't remove the node yet, or the loop will lose its place.
-              remove.push( node );
-            } else {
-              // The new value contains no HTML, so it can be set in this
-              // very fast, simple way.
-              node.nodeValue = new_val;
-            }
-          }
-        }
-
-      } while ( node = node.nextSibling );
-    }
-
-    // Time to remove those elements!
-    remove.length && $(remove).remove();
-  });
-};
-
 jQuery.fn.reverse = function() {
     return this.pushStack(this.get().reverse(), arguments);
 };
@@ -91,17 +40,30 @@ function format_special(element)
 
   $(element).each(function(){
 
-    $(this).replaceText(ytube, function(a, b) {
-      return (a.indexOf("\"") != -1) ? a :
-        '<iframe width="425" height="349" src="http://www.youtube.com/embed/' +
-        b+'" frameborder="0" allowfullscreen></iframe><br />';
-    });
+    var text = $(this).find("*").contents().each(function () {
 
-    $(this).replaceText(vimeo, function(a, b){
-      return (a.indexOf("\"") != -1) ? a :
-        '<iframe src="http://player.vimeo.com/video/' + b +
-        '?title=0&amp;byline=0&amp;portrait=0" width="400" height="225" ' +
-        'frameborder="0" webkitAllowFullScreen allowFullScreen></iframe><br />';
+      if (this.nodeType !== 3 || this.parentNode.nodeName === 'A') {
+        return;
+      }
+      var tmp = this.textContent;
+
+      tmp = tmp.replace(ytube, function(a, b) {
+        return (a.indexOf("\"") != -1) ? a :
+          '<iframe width="425" height="349" src="http://www.youtube.com/embed/' +
+          b+'" frameborder="0" allowfullscreen></iframe><br />';
+      });
+
+      tmp = tmp.replace(vimeo, function(a, b){
+        return (a.indexOf("\"") != -1) ? a :
+          '<iframe src="http://player.vimeo.com/video/' + b +
+          '?title=0&amp;byline=0&amp;portrait=0" width="400" height="225" ' +
+          'frameborder="0" webkitAllowFullScreen allowFullScreen></iframe><br />';
+      });
+
+      if (tmp !== this.textContent) {
+        $(this).replaceWith(tmp);
+      }
+
     });
 
     // Reverse so we handle nested quotes
