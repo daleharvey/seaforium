@@ -295,6 +295,10 @@ font-size: 10px;
     background: url(../img/b-remove.gif) center no-repeat;
 }
 
+#main-title .favourite, #main-title .favourite.added {
+margin:12px 0 0 12px;
+}
+
 /*************************************************************
    New Thread
 *************************************************************/
