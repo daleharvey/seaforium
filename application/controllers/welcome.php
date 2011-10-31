@@ -41,7 +41,7 @@ class Welcome extends Controller {
       'base_url' => '/p/',
       'total_rows' => $thread_count,
       'uri_segment' => '2',
-      'num_links' => 5,
+      'num_links' => 4,
       'per_page' => $display,
       'suffix' => $filtering['url_suffix']
     ));

@@ -136,7 +136,7 @@ class Thread extends Controller {
     $data['total_comments'] = $this->thread_dal->comment_count($thread_id);
 
     $this->pagination->initialize(array(
-      'num_links' => 5,
+      'num_links' => 4,
       'base_url' => $base_url,
       'total_rows' => $data['total_comments'],
       'uri_segment' => $pseg,
