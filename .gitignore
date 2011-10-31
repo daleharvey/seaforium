@@ -7,4 +7,5 @@ tests/yay.ini
 
 .DS_Store
 .#*
-+/*.htaccess
+*.htaccess
+db_schema/_starter_data.sql
