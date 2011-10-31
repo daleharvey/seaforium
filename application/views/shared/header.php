@@ -175,10 +175,13 @@ if ($logged_in) {
 					<p>ONLINE BUDDIES (<?php echo $buddy_info['buddies']->num_rows; ?>/<?php echo $buddy_info['buddy_count']; ?>)</p>
 					<div>
 						<?php
-							foreach($buddy_info['buddies']->result() as $user)
+							$buddies = $buddy_info['buddies']->result();
+							$j = count($buddies);
+							$i = 1;
+							foreach($buddies as $user)
 							{ ?>
-						<span><?php echo anchor('/user/'.url_title($user->username, 'dash', TRUE), $user->username); ?>,</span>
-						<?php } ?>
+						<span><?php echo anchor('/user/'.url_title($user->username, 'dash', TRUE), $user->username), ($i === $j ? '' : ','); ?></span>
+						<?php ++$i; } ?>
 					</div>
 				</div>
 				<?php } ?>
