@@ -79,7 +79,7 @@ function format_special(element)
   });
 }
 
-format_special('.comment .content');
+format_special('.comment .content, .recent-post-content');
 
 $('#preview-button').live('click', function(e){
   e.preventDefault();
