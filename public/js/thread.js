@@ -40,6 +40,8 @@ function format_special(element)
 
   $(element).each(function(){
 
+    console.log("wtf");
+
     var text = $(this).find("*").contents().each(function () {
 
       if (this.nodeType !== 3 || this.parentNode.nodeName === 'A') {
@@ -79,7 +81,7 @@ function format_special(element)
   });
 }
 
-format_special('.comment .content');
+format_special('.comment .content, .recent-post-content');
 
 $('#preview-button').live('click', function(e){
   e.preventDefault();
