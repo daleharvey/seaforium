@@ -17,13 +17,13 @@ def reset_database(host, database, username, password):
     cur.execute('DROP DATABASE %s' % database)
     cur.execute('CREATE DATABASE %s;' % database)
 
-    schema_dir = "db_schema"
+    schema_dir = os.environ['yay_root'] + "/db_schema"
     cmd = "/usr/local/mysql/bin/mysql -u'%s' -p'%s' %s < %s/%s"
 
     schemas = os.listdir(schema_dir)
     for fname in schemas:
         if fname.endswith('.sql'):
-            print "Importing: %s" % fname
             call(cmd % (username, password, database, schema_dir, fname), shell=True)
 
+    print "Import Complete!"
     con.close()

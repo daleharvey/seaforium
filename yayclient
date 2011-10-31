@@ -8,15 +8,19 @@ yayclient - command-line development tool
 import unittest
 import getopt
 import sys
+import os
 
 sys.path.append("tests/pytests")
 
 import DbClient
 
+from post_tests import TestPostFunction
 from basic_tests import TestBasicFunctions
 from ConfigParser import SafeConfigParser
 
 def main():
+
+    os.environ['yay_root'] = os.getcwd()
 
     commands = {
       'reset' : reset,
@@ -43,7 +47,9 @@ def reset(cfg):
                             cfg.get('db', 'username'), cfg.get('db', 'password'))
 
 def test(cfg):
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestBasicFunctions)
+    basic = unittest.TestLoader().loadTestsFromTestCase(TestBasicFunctions)
+    post = unittest.TestLoader().loadTestsFromTestCase(TestPostFunction)
+    suite = unittest.TestSuite([basic, post])
     unittest.TextTestRunner(verbosity=2).run(suite)
 
 
