@@ -270,6 +270,8 @@ $content = array(
   <button type="button" id="preview-button">Preview</button>
 </form>
 
+</div>
+
 <div id="comment-preview" class="test-comment" style="display: none;">
   <div class="comment-container">
     <div class="user-block">
@@ -289,7 +291,6 @@ $content = array(
   <div style="clear: both;"></div>
 </div>
 
-</div>
 
 <?php if ($use_notifier) { ?>
   <div id="notifications">
