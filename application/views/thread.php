@@ -290,7 +290,7 @@ $content = array(
   </div>
   <div style="clear: both;"></div>
 </div>
-
+</div>
 
 <?php if ($use_notifier) { ?>
   <div id="notifications">
