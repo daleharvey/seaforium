@@ -314,6 +314,7 @@ class Thread_dal extends Model
                             "FROM favorites,threads WHERE favorites.user_id = ? " .
                             "AND favorites.thread_id = threads.thread_id AND " .
                             "threads.deleted = 0", $user_id)->row()->favorites;
+
     return strlen($fav) > 0 ? $fav : '0';
   }
 
@@ -330,6 +331,31 @@ class Thread_dal extends Model
     $this->db->query("DELETE FROM favorites WHERE favorite_id = ?", $favorite_id);
 
     return $this->db->affected_rows();
+  }
+
+  function get_hidden($user_id)
+  {
+    $hidden = $this->db->query("SELECT GROUP_CONCAT(hidden_threads.thread_id) AS hidden_threads " .
+                            "FROM hidden_threads,threads WHERE hidden_threads.user_id = ? " .
+                            "AND hidden_threads.thread_id = threads.thread_id AND " .
+                            "threads.deleted = 0", $user_id)->row()->hidden_threads;
+
+    return strlen($hidden) > 0 ? $hidden : '0';
+  }
+
+  function add_hide_thread($hide_id, $user_id, $thread_id)
+  {
+    $this->db->query("INSERT INTO hidden_threads (hidden_id, user_id, thread_id) ".
+					 "VALUES (?, ?, ?)", array($hide_id, $user_id, $thread_id));
+	
+	return $this->db->affected_rows();
+  }
+
+  function remove_hide_thread($hide_id)
+  {
+    $this->db->query("DELETE FROM hidden_threads WHERE hidden_id = ?", $hide_id);
+	
+	return $this->db->affected_rows();
   }
 
   function find_thread_by_title($user_id, $limit, $span, $filtering = '',

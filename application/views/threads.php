@@ -81,6 +81,7 @@ foreach($thread_result->result() as $row) {
 	}
 
 	$favorite = in_array($row->thread_id, $favorites) ? ' added' : '';
+	$hidden = in_array($row->thread_id, $hidden_threads) ? ' added' : '';
 
 ?>
 
@@ -100,7 +101,12 @@ foreach($thread_result->result() as $row) {
 					<div class="four">
 						<span><?php echo $row->response_count ?></span>
 					</div>
-					<?php if ($logged_in) { ?><div class="five"><a class="favourite<?php echo $favorite; ?>" rel="<?php echo $row->thread_id; ?>"></a></div><?php } ?>
+					<?php if ($logged_in) { ?>
+					<div class="five">
+						<a class="favourite<?php echo $favorite; ?>" rel="<?php echo $row->thread_id; ?>"></a>
+						<a class="hide-thread<?php echo $hidden; ?>" rel="<?php echo $row->thread_id; ?>"></a>
+					</div>
+					<?php } ?>
 				</div>
 
 				<div class="blueline">&nbsp;</div>
@@ -120,7 +126,27 @@ foreach($thread_result->result() as $row) {
 
 				<script type="text/javascript">
 					session_id = '<?php echo $this->session->userdata('session_id'); ?>';
-
+					
+					$('.hide-thread').bind('click', function(){
+						button = $(this);
+						
+						url = !$(this).hasClass('added') 
+							? '/ajax/hide_thread/'+ $(this).attr('rel') +'/'+ session_id
+							: '/ajax/unhide_thread/'+ $(this).attr('rel') +'/'+ session_id
+						
+						$.get(
+							url,
+							function(data) {
+								if (data == 1)
+								{
+									button.parent('.five').parent('.thread').slideUp().next().slideUp();
+								}
+							}
+						);
+						
+						return;
+					});
+					
 					$('.favourite').bind('click', function(){
 						button = $(this);
 

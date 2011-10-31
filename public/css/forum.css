@@ -296,6 +296,15 @@ a:hover#post-thread {
     width:12px;
     height:16px;
     background:url(../img/b-add.gif);
+margin-right: 5px;
+}
+
+.hide-thread {
+    display:block;
+    float:left;
+    width:12px;
+    height:16px;
+    background:url(../img/hide-thread.gif);
 }
 
 .favourite.added {
@@ -534,15 +543,15 @@ width: 52%;
 }
 
 .thread .two, .thread .three {
-width: 20%;
+width: 19%;
 }
 
 .thread .four {
-width: 5%;
+width: 6%;
 }
 
 .thread .five {
-width: 3%;
+width: 4%;
 
 }
 

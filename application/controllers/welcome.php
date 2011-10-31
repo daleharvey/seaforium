@@ -25,7 +25,9 @@ class Welcome extends Controller {
   {
 	// uncomment the following line you if broke something but you can't figure out what.
 	//$this->output->enable_profiler(TRUE);
-	if (strtolower($filter)=='started'&&$whostarted=='') $whostarted = $this->meta['username'];
+	if (strtolower($filter) == 'started' && $whostarted == '')
+		$whostarted = $this->meta['username'];
+	
     $filtering = $this->_ready_filters($filter, $ordering, $dir, $whostarted);
 
     // get a thread count from the database
@@ -61,7 +63,8 @@ class Welcome extends Controller {
                                                              'posts' => $ordering == 'posts' && $dir == 'desc' ? 'asc' : 'desc',
                                                              'startedby' => $whostarted
                                                              ),
-                                       'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id']))
+                                       'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id'])),
+                                       'hidden_threads' => explode(',', $this->thread_dal->get_hidden($this->meta['user_id']))
                                        ));
 
     $this->load->view('shared/footer');
@@ -71,7 +74,7 @@ class Welcome extends Controller {
   {
     // switch through the filters
     switch(strtolower($filter))
-      {
+    {
       case 'discussions':
         $sql = "WHERE threads.category = 1";
         break;
@@ -93,6 +96,9 @@ class Welcome extends Controller {
       case 'favorites':
         $sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_favorites($this->meta['user_id']) .")";
         break;
+      case 'hidden':
+        $sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_hidden($this->meta['user_id']) .")";
+        break;
       case 'started':
 		if ($whostarted!='') {
 			$whostartedid = $this->user_dal->get_user_id_by_username($whostarted);
@@ -105,10 +111,18 @@ class Welcome extends Controller {
       case 'all':
       default:
         $filter = $sql = '';
-      }
-	  
+    }
+	
 	$sql .= $sql ? ' AND' : 'WHERE';
-	$sql .= ' threads.deleted = 0';
+	
+	if (strtolower($filter) != 'hidden')
+	{
+		$sql .= "  NOT EXISTS (SELECT hidden_threads.hidden_id FROM hidden_threads WHERE hidden_threads.user_id = ". $this->meta['user_id'] ." AND hidden_threads.thread_id = threads.thread_id) ";
+		$sql .= ' AND threads.deleted = 0';
+	} else {
+		$sql .= ' threads.deleted = 0';
+	}
+	
 
     // make sure the direction is one or the other
     if (!in_array(strtolower($dir), array('desc', 'asc')))

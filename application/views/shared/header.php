@@ -145,6 +145,7 @@ if ($logged_in) {
 <?php if ($logged_in) { ?>
             <li><a href="/f/participated">Participated Threads</a></li>
             <li><a href="/f/favorites">Favourite Threads</a></li>
+            <li><a href="/f/hidden">Hidden Threads</a></li>
             <li><a href="/started/<?php echo $username; ?>">Started Threads</a></li>
 <?php } ?>
           </ul>
@@ -176,7 +177,7 @@ if ($logged_in) {
 						<?php
 							foreach($buddy_info['buddies']->result() as $user)
 							{ ?>
-						<span><?php echo anchor('/user/'.url_title($user->username, 'dash', TRUE), $user->username); ?></span>
+						<span><?php echo anchor('/user/'.url_title($user->username, 'dash', TRUE), $user->username); ?>,</span>
 						<?php } ?>
 					</div>
 				</div>

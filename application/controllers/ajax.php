@@ -163,7 +163,7 @@ class Ajax extends Controller
 
     echo 0;
   }
-
+  
   function unfavorite_thread($thread_id, $key)
   {
     if ($key === $this->session->userdata('session_id')) {
@@ -173,6 +173,33 @@ class Ajax extends Controller
     }
 
     echo 0;
+  }
+
+  function hide_thread($thread_id, $key)
+  {
+    if ($key == $this->session->userdata('session_id'))
+	{
+      $thread_id = (int) $thread_id;
+      $user_id = (int) $this->session->userdata('user_id');
+	
+	  $data = $this->session->userdata('username') . $thread_id;
+	  echo $this->thread_dal->add_hide_thread(md5($data), $user_id, $thread_id);
+	  return;
+	}
+	
+	echo 0;
+  }
+
+  function unhide_thread($thread_id, $key)
+  {
+    if ($key == $this->session->userdata('session_id'))
+	{
+	  $data = $this->session->userdata('username') . $thread_id;
+	  echo $this->thread_dal->remove_hide_thread(md5($data));
+	  return;
+	}
+	
+	echo 0;
   }
 
   function toggle_html($key)

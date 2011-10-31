@@ -63,7 +63,8 @@ class Find extends Controller {
                                                              'latest' => $ordering == 'latest' && $dir == 'desc' ? 'asc' : 'desc',
                                                              'posts' => $ordering == 'posts' && $dir == 'desc' ? 'asc' : 'desc'
                                                              ),
-                                       'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id']))
+                                       'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id'])),
+                                       'hidden_threads' => explode(',', $this->thread_dal->get_hidden($this->meta['user_id']))
                                        ));
 	
 	
