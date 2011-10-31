@@ -16,14 +16,15 @@ def reset_database(host, database, username, password):
     cur = con.cursor()
     cur.execute('DROP DATABASE %s' % database)
     cur.execute('CREATE DATABASE %s;' % database)
-
-    schema_dir = "db_schema"
+	
+    schema_dir = os.environ['yay_root'] + "/db_schema"
     cmd = "/usr/local/mysql/bin/mysql -u'%s' -p'%s' %s < %s/%s"
 
     schemas = os.listdir(schema_dir)
     for fname in schemas:
-        if fname.endswith('.sql'):
-            print "Importing: %s" % fname
+        if fname.endswith('.sql') and not fname == "13_import_yayusers.sql":
             call(cmd % (username, password, database, schema_dir, fname), shell=True)
 
+    print "Import Complete!"
+	
     con.close()

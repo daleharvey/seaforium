@@ -120,14 +120,9 @@ class Ajax extends Controller
 
       if ((strtotime($existing->created) > time() - (60 * 60 * 24)) ||
           $this->thread_dal->is_first_comment($existing->thread_id, $comment_id)) {
-		  
-		  // castis: i went ahead and remove the conditional here, if someone
-		  //   is trying something fishy, they'll just see their content in the field
-		  //   but it wont actually be saved. this fixes https://github.com/daleharvey/seaforium/issues/127
-		  //   where saving the original content results in an 'unknown error'
-		  $this->thread_dal->update_comment($comment_id, $content, $processed,
+		    $this->thread_dal->update_comment($comment_id, $content, $processed,
                                               $this->session->userdata('user_id'));
-          echo $processed;
+            echo $processed;
       } else {
         echo "Permission Denied";
       }
