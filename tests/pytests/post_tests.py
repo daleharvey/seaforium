@@ -2,23 +2,30 @@ import unittest
 import requests
 import simplejson
 import lxml
+import DbClient
+
 
 from lxml import html
 from urlparse import urlparse
 from yayclient import YayClient, OldYayClient
+from ConfigParser import SafeConfigParser
 
 class TestPostFunction(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-
+        cfg = SafeConfigParser()
+        cfg.read(['../yay.ini', 'tests/yay.ini'])
         cls.opts = dict(
-            url = 'http://yayhooray.dev/'
+            url = cfg.get('site', 'url')
         )
+
+        DbClient.reset_database(cfg.get('db', 'host'), cfg.get('db', 'database'),
+                                cfg.get('db', 'username'), cfg.get('db', 'password'))
+
 
         user = YayClient.register(cls.opts, 'yay2tester', 'a@a.com', 'a', 'a')
         thread = YayClient.post_thread(cls.opts, user.cookies, 2, "Test", "Test")
-
         cls.cookies = user.cookies
         cls.thread = urlparse(thread.url).path[1:]
 
