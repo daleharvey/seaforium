@@ -16,7 +16,7 @@ def reset_database(host, database, username, password):
     cur = con.cursor()
     cur.execute('DROP DATABASE %s' % database)
     cur.execute('CREATE DATABASE %s;' % database)
-	
+
     schema_dir = os.environ['yay_root'] + "/db_schema"
     cmd = "/usr/local/mysql/bin/mysql -u'%s' -p'%s' %s < %s/%s"
 
