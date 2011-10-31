@@ -22,7 +22,7 @@ def reset_database(host, database, username, password):
 
     schemas = os.listdir(schema_dir)
     for fname in schemas:
-        if fname.endswith('.sql'):
+        if fname.endswith('.sql') and not fname == "13_import_yayusers.sql":
             call(cmd % (username, password, database, schema_dir, fname), shell=True)
 
     print "Import Complete!"

@@ -122,9 +122,10 @@ class Sauth
       return FALSE;
     }
 
-    $is_yay_name = $this->ci->user_dal->is_yay_username($username);
-    if (!$this->ci->config->item('yay_import')) {
-      $is_yay_name = FALSE;
+
+    $is_yay_name = false;
+    if ($this->ci->config->item('yay_import')) {
+      $is_yay_name = $this->ci->user_dal->is_yay_username($username);
     }
 
     $hasher = new PasswordHash(8, FALSE);
