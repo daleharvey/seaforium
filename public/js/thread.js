@@ -40,8 +40,6 @@ function format_special(element)
 
   $(element).each(function(){
 
-    console.log("wtf");
-
     var text = $(this).find("*").contents().each(function () {
 
       if (this.nodeType !== 3 || this.parentNode.nodeName === 'A') {
