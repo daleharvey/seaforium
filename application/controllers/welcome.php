@@ -93,6 +93,9 @@ class Welcome extends Controller {
       case 'participated':
         $sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_participated_threads($this->meta['user_id']) .")";
         break;
+      case 'mentioned':
+        $sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_mentioned_threads($this->meta['username']) .")";
+        break;
       case 'favorites':
         $sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_favorites($this->meta['user_id']) .")";
         break;
