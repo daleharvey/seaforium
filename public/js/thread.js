@@ -87,6 +87,7 @@ $('#preview-button').live('click', function(e){
   $.post('/ajax/preview', {content: post}).then(function(data) {
     $("#comment-preview .content").html(data);
     format_special("#comment-preview .content");
+    prettyPrint();
     $("#comment-preview").show();
   });
 });
