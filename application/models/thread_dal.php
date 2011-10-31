@@ -52,8 +52,8 @@ class Thread_dal extends Model
 	      threads.created,
 	      threads.nsfw,
 	      threads.thread_id,
+              threads.user_id,
 	      categories.name AS category,
-	      authors.username AS author_name,
 	      authors.username AS author_name,
 	      responders.username AS responder_name,
 	      responses.created AS response_created,
@@ -347,14 +347,14 @@ class Thread_dal extends Model
   {
     $this->db->query("INSERT INTO hidden_threads (hidden_id, user_id, thread_id) ".
 					 "VALUES (?, ?, ?)", array($hide_id, $user_id, $thread_id));
-	
+
 	return $this->db->affected_rows();
   }
 
   function remove_hide_thread($hide_id)
   {
     $this->db->query("DELETE FROM hidden_threads WHERE hidden_id = ?", $hide_id);
-	
+
 	return $this->db->affected_rows();
   }
 

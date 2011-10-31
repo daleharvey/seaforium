@@ -82,10 +82,10 @@ foreach($thread_result->result() as $row) {
 
 	$favorite = in_array($row->thread_id, $favorites) ? ' added' : '';
 	$hidden = in_array($row->thread_id, $hidden_threads) ? ' added' : '';
-
+        $my_thread = $row->user_id == $this->session->userdata('user_id');
 ?>
 
-				<div id="thread-<?php echo $row->thread_id; ?>" class="thread<?php echo $alt === false ? '' : ' alt'; echo $acq; echo $nsfw; ?>">
+				<div id="thread-<?php echo $row->thread_id; ?>" class="thread<?php echo $alt === false ? '' : ' alt'; echo $acq; echo $nsfw; echo $my_thread ? ' mythread' : ''; ?>">
 					<div class="one">
 						<div class="subject"><span class="subject-text"><a href="<?php echo $link_text; ?>"><?php echo $row->subject; ?></a></span> <?php echo $nsfw_tag.' '. '<a href="'.$link_text.'/p/'.$last_page.'#bottom'; ?>" class='end-link'>#</a></div>
 						<div class="category"><?php echo $row->category.$printpages ?></div>
@@ -126,14 +126,14 @@ foreach($thread_result->result() as $row) {
 
 				<script type="text/javascript">
 					session_id = '<?php echo $this->session->userdata('session_id'); ?>';
-					
+
 					$('.hide-thread').bind('click', function(){
 						button = $(this);
-						
-						url = !$(this).hasClass('added') 
+
+						url = !$(this).hasClass('added')
 							? '/ajax/hide_thread/'+ $(this).attr('rel') +'/'+ session_id
 							: '/ajax/unhide_thread/'+ $(this).attr('rel') +'/'+ session_id
-						
+
 						$.get(
 							url,
 							function(data) {
@@ -143,10 +143,10 @@ foreach($thread_result->result() as $row) {
 								}
 							}
 						);
-						
+
 						return;
 					});
-					
+
 					$('.favourite').bind('click', function(){
 						button = $(this);
 

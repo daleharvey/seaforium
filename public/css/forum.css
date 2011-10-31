@@ -316,7 +316,7 @@ margin-right: 5px;
 }
 
 a.favourite:hover, a.favourite.added:hover {
-    background-color:inherit;	
+    background-color:inherit;
 }
 
 /*************************************************************
@@ -492,7 +492,7 @@ overflow:hidden;
 background-color: #F9FCFE;
 }
 
-.thread.buddy {
+.thread.buddy, .thread.mythread {
 background-color: #EDF5E1;
 }
 
