@@ -27,7 +27,7 @@ class Welcome extends Controller {
 	//$this->output->enable_profiler(TRUE);
 	if (strtolower($filter) == 'started' && $whostarted == '')
 		$whostarted = $this->meta['username'];
-	
+
     $filtering = $this->_ready_filters($filter, $ordering, $dir, $whostarted);
 
     // get a thread count from the database
@@ -38,12 +38,13 @@ class Welcome extends Controller {
 
     // init the pagination library
     $this->pagination->initialize(array(
-                                        'base_url' => '/p/',
-                                        'total_rows' => $thread_count,
-                                        'uri_segment' => '2',
-                                        'per_page' => $display,
-                                        'suffix' => $filtering['url_suffix']
-                                        ));
+      'base_url' => '/p/',
+      'total_rows' => $thread_count,
+      'uri_segment' => '2',
+      'num_links' => 5,
+      'per_page' => $display,
+      'suffix' => $filtering['url_suffix']
+    ));
 
     // load up the header
     $this->load->view('shared/header');
@@ -112,9 +113,9 @@ class Welcome extends Controller {
       default:
         $filter = $sql = '';
     }
-	
+
 	$sql .= $sql ? ' AND' : 'WHERE';
-	
+
 	if (strtolower($filter) != 'hidden')
 	{
 		$sql .= "  NOT EXISTS (SELECT hidden_threads.hidden_id FROM hidden_threads WHERE hidden_threads.user_id = ". $this->meta['user_id'] ." AND hidden_threads.thread_id = threads.thread_id) ";
@@ -122,7 +123,7 @@ class Welcome extends Controller {
 	} else {
 		$sql .= ' threads.deleted = 0';
 	}
-	
+
 
     // make sure the direction is one or the other
     if (!in_array(strtolower($dir), array('desc', 'asc')))

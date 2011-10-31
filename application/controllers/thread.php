@@ -136,16 +136,17 @@ class Thread extends Controller {
     $data['total_comments'] = $this->thread_dal->comment_count($thread_id);
 
     $this->pagination->initialize(array(
-			'base_url' => $base_url,
-			'total_rows' => $data['total_comments'],
-			'uri_segment' => $pseg,
-			'per_page' => $this->meta['comments_shown'],
-			'full_tag_open' => '<div class="main-pagination">',
-			'full_tag_close' => '</div>',
-			'cur_tag_open' => '<div class="selected-page">',
-			'cur_tag_close' => '</div>',
-			'num_tag_open' => '',
-			'num_tag_close' => ''
+      'num_links' => 5,
+      'base_url' => $base_url,
+      'total_rows' => $data['total_comments'],
+      'uri_segment' => $pseg,
+      'per_page' => $this->meta['comments_shown'],
+      'full_tag_open' => '<div class="main-pagination">',
+      'full_tag_close' => '</div>',
+      'cur_tag_open' => '<div class="selected-page">',
+      'cur_tag_close' => '</div>',
+      'num_tag_open' => '',
+      'num_tag_close' => ''
     ));
 
     $end = min(array($limit_start + $this->meta['comments_shown'],
