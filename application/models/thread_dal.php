@@ -367,6 +367,7 @@ class Thread_dal extends Model
 	      threads.created,
 	      threads.nsfw,
 	      threads.thread_id,
+	      threads.user_id,
 	      categories.name AS category,
 	      authors.username AS author_name,
 	      authors.username AS author_name,
