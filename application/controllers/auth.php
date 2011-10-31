@@ -115,9 +115,12 @@ class Auth extends Controller
       return send_json($this->output, 412, array('error' => $this->sauth->error));
     }
 
-    if ($this->config->item('yay_import')&&$this->user_dal->is_yay_username($username)) {
-      $this->send_activate_link($username);
-      return send_json($this->output, 201, array('ok' => true, 'method' => 'yaypm'));
+    if ($this->config->item('yay_import')) {
+      if ($this->user_dal->is_yay_username($username)) {
+        $this->send_activate_link($username);
+        return send_json($this->output, 201,
+                         array('ok' => true, 'method' => 'yaypm'));
+      }
     }
 
     $this->sauth->login($username, $password);
