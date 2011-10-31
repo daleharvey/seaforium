@@ -611,7 +611,8 @@ class User_dal extends Model
 			ON sessions.user_id = users.id
 			WHERE acquaintances.user_id = ?
 			AND acquaintances.type = 1
-			GROUP BY users.id", $user_id);
+			GROUP BY users.id 
+			ORDER BY users.username ASC", $user_id);
 
     return $result->num_rows > 0 ? $result : FALSE;
   }
