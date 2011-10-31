@@ -389,7 +389,7 @@ class User_dal extends Model
    * @param	string
    * @return	object
    */
-  function get_profile_information($user_id)
+  function get_profile_information($username, $user_id)
   {
     $sql = "
 			SELECT
@@ -422,12 +422,29 @@ class User_dal extends Model
 				user_profiles.location,
 				users.comments_shown,
 				users.threads_count AS threads_count,
-				users.comments_count AS comments_count
+				users.comments_count AS comments_count,
+				IFNULL(sessions.last_activity, 0) AS latest_activity,
+              (
+                SELECT count(acquaintances.user_id)
+                FROM acquaintances
+                WHERE acquaintances.acq_user_id = users.id
+                AND acquaintances.type = 1
+				AND acquaintances.user_id = ?
+              ) AS buddy_check,
+             (
+                SELECT count(acquaintances.user_id)
+                FROM acquaintances
+                WHERE acquaintances.acq_user_id = users.id
+                AND acquaintances.type = 2
+				AND acquaintances.user_id = ?
+              ) AS enemy_check
 			FROM users
 			LEFT JOIN user_profiles ON user_profiles.user_id = users.id
-			WHERE LOWER(users.username) = ?";
+			LEFT JOIN sessions ON sessions.user_id = users.id
+			WHERE LOWER(users.username) = ?
+			GROUP BY users.id";
 
-    return $this->db->query($sql, strtolower($user_id));
+    return $this->db->query($sql, array($user_id, $user_id, strtolower($username)));
 
   }
 

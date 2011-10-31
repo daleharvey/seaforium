@@ -19,7 +19,7 @@ class User extends Controller {
   function load($username)
   {
     $query = $this->user_dal
-      ->get_profile_information(str_replace('-', ' ', $username));
+      ->get_profile_information(str_replace('-', ' ', $username), (int) $this->session->userdata('user_id'));
 
     if ($query->result_id->num_rows === 0) {
       show_404('/user/'.$username);
@@ -48,7 +48,18 @@ class User extends Controller {
       (strtotime($data['user_data']->last_login) == null)
       ? " hasn't logged in yet."
       : ' last logged in on ' . $logged_in .'.';
-
+	
+	$data['user_data']->online_status = ((int) $data['user_data']->latest_activity) > (time() - 300) ? 'ONLINE' : 'NOT ONLINE';
+	
+	$data['user_data']->friendly_status = "";
+	if ($data['user_data']->buddy_check == '1')
+	{
+		$data['user_data']->friendly_status = "BUDDY";
+	} elseif ($data['user_data']->enemy_check == '1')
+	{
+		$data['user_data']->friendly_status = "ENEMY";
+	}
+	
     $data['recent_posts'] = $this->user_dal
       ->get_user_recent_posts((int)$data['user_data']->id);
 

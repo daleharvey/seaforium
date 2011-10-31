@@ -19,7 +19,10 @@
 						<?php } ?>
 						<div id="information" class="standard_profile_info_box">
 						<h3><?php echo $user_data->username ?></h3>
-						<span class='small_profile_caps'>BUDDY NOT ONLINE!</span><br/>
+						<span class="small_profile_caps">
+							<span class="<?php echo strtolower($user_data->friendly_status); ?>"><?php echo $user_data->friendly_status; ?></span> 
+							<span class="<?php echo strtolower(str_replace(' ', '_', $user_data->online_status)); ?>"><?php echo $user_data->online_status; ?>!</span>
+							</span><br/>
 							<?php if ($this->sauth->is_logged_in()) { ?>
 							&rarr; <a href='/messages/send/<?php echo $this->uri->segment(2) ?>'>Send a message</a><br/>
 							&rarr; <a href='/buddies/<?php echo $user_data->username; ?>'>Change buddy status</a><br/>

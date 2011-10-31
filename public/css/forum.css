@@ -941,6 +941,9 @@ h3.recent-thread-title {
 	font-size: 10px;
 	text-transforum: uppercase;
 }
+.small_profile_caps .buddy, .small_profile_caps .online {color: #00AEEF;}
+.small_profile_caps .enemy {color: #ED135A;}
+
 .standard_profile_info_box h3 {
 	border-bottom: dotted 1px #545454;
 	margin-bottom: 3px;
