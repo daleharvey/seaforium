@@ -271,6 +271,15 @@ class Thread_dal extends Model
     return strlen($qry) > 0 ? $qry : '0';
   }
 
+  function get_mentioned_threads($username)
+  {
+    $qry = $this->db->query("SELECT GROUP_CONCAT(DISTINCT comments.thread_id) AS " .
+                            "thread_ids FROM comments,threads WHERE " .
+                            "comments.content LIKE \"%@".$username."%\" AND comments.thread_id = " .
+                            "threads.thread_id AND threads.deleted = 0;")->row()->thread_ids;
+    return strlen($qry) > 0 ? $qry : '0';
+  }
+
   function get_started_threads($user_id)
   {
     $started = $this->db->query("SELECT GROUP_CONCAT(DISTINCT thread_id) AS " .

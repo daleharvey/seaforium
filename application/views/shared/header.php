@@ -144,6 +144,7 @@ if ($logged_in) {
             <li><a href="/f/meaningful">All But Meaningless</a></li>
 <?php if ($logged_in) { ?>
             <li><a href="/f/participated">Participated Threads</a></li>
+            <li><a href="/f/mentioned">@Mentioned Threads</a></li>
             <li><a href="/f/favorites">Favourite Threads</a></li>
             <li><a href="/started/<?php echo $username; ?>">Started Threads</a></li>
 <?php } ?>
