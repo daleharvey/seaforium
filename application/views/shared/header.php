@@ -182,7 +182,9 @@ if ($logged_in) {
 				</div>
 				<?php } ?>
 				
-				<a href="http://patrickobrienfoundation.org/"><img src="/img/pobf.gif" /></a>
+				<?php if (!$this->agent->is_mobile()) { ?>
+					<a href="http://patrickobrienfoundation.org/"><img src="/img/pobf.gif" /></a>
+				<?php } ?>
 				
 			</div>
 
