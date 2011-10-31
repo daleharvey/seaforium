@@ -126,7 +126,7 @@ class Ajax extends Controller
 		  //   but it wont actually be saved. this fixes https://github.com/daleharvey/seaforium/issues/127
 		  //   where saving the original content results in an 'unknown error'
 		  $this->thread_dal->update_comment($comment_id, $content, $processed,
-                                              $this->session->userdata('user_id'))
+                                              $this->session->userdata('user_id'));
           echo $processed;
       } else {
         echo "Permission Denied";
