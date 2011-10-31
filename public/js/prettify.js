@@ -1376,7 +1376,10 @@ var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|\\!|\\!=|\\!==|\\#|\\%|\\%=|&|&&|&
       for (; k < elements.length && clock['now']() < endTime; k++) {
         var cs = elements[k];
         var className = cs.className;
-        if (className.indexOf('prettyprint') >= 0) {
+        if (className.indexOf('prettyprint') >= 0
+            && cs.className.indexOf('prettified') == -1 ) {
+
+          cs.className = cs.className + ' prettified'
           // If the classes includes a language extensions, use it.
           // Language extensions can be specified like
           //     <pre class="prettyprint lang-cpp">
