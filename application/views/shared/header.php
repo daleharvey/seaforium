@@ -181,7 +181,9 @@ if ($logged_in) {
 					</div>
 				</div>
 				<?php } ?>
-
+				
+				<a href="http://patrickobrienfoundation.org/"><img src="/img/pobf.gif" /></a>
+				
 			</div>
 
 			<div id="right-column">

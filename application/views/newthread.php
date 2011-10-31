@@ -133,7 +133,7 @@ $content = array(
       </div>
       </div>
     </div>
-  <?php echo form_submit(array('type'=>'submit', 'value' => 'Post Thread', 'tabindex' => 7)); ?>
+  <button type="submit" name="" tabindex="7">Post Thread</button>
   <button type="button" id="preview-button">Preview</button>
 
   </form>
