@@ -91,11 +91,12 @@ class Ajax extends Controller
     }
 
     $comment = $this->thread_dal->get_comment($comment_id)->row();
-
+    $is_first = $this->thread_dal->is_first_comment($comment->thread_id,
+                                                    $comment_id);
     $data = array(
       'content' => $comment->original_content,
       'owner' => ($comment->user_id == $this->session->userdata('user_id') &&
-                  strtotime($comment->created) > (time() - (60*60*24)))
+         ($is_first || strtotime($comment->created) > (time() - (60*60*24))))
     );
 
     echo '('. json_encode($data) .')';
