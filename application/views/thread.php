@@ -76,7 +76,7 @@ foreach($comment_result->result() as $row) {
     </div>
 
 <?php } ?>
-    <div id="comment-<?php echo $row->comment_id; ?>" class="comment userid-<?php echo $row->user_id, $acq; ?>">
+    <div id="comment-<?php echo $row->comment_id; ?>" class="comment userid-<?php echo $row->user_id, $acq; echo $my_thread ? ' mycomment' : ''; ?>">
       <div id="comment-container-<?php echo $row->comment_id; ?>"
        class="comment-container">
       <div class="cmd-bar">
@@ -270,6 +270,8 @@ $content = array(
   <button type="button" id="preview-button">Preview</button>
 </form>
 
+</div>
+
 <div id="comment-preview" class="test-comment" style="display: none;">
   <div class="comment-container">
     <div class="user-block">
@@ -288,7 +290,6 @@ $content = array(
   </div>
   <div style="clear: both;"></div>
 </div>
-
 </div>
 
 <?php if ($use_notifier) { ?>
