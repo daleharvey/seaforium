@@ -1,27 +1,19 @@
 <?php
 
-$favorite = in_array($thread_id, $favorites) ? ' added' : '';
-$session_id = $this->session->userdata('session_id');
 $logged_in = $this->sauth->is_logged_in();
-$use_notifier = $logged_in &&
-    (int)$this->session->userdata('new_post_notification') === 1;
-$owner = $logged_in && $this->session->userdata('user_id') == $info['user_id'];
-
-
-$title_editable = $owner && $info['editable'] ? ' class="changeling"' : '';
+$owner = $logged_in && $this->meta['user_id'] == $info['user_id'];
 
 ?>
 
 <div id="thread">
-  <div id="main-title"<?php echo $title_editable ?>>
+  <div id="main-title"<?php echo $owner && $info['editable'] ? ' class="changeling"' : '' ?>>
     <h3><?php echo $info['title'] ?></h3>
     <?php if ($logged_in) { ?>
-      <a class="favourite<?php echo $favorite; ?>"
-        rel="<?php echo $thread_id; ?>"></a>
+      <a class="favourite<?php echo in_array($thread_id, $favorites) ? ' added' : ''; ?>" rel="<?php echo $thread_id; ?>"></a>
     <?php } ?>
   </div>
 
-  <?php if ($logged_in) { ?>
+  <?php if ($logged_in && $owner) { ?>
 		<script type="text/html" id="title-input">
 			<input type="text" id="title-input" />
 			<input type="submit" value="Save" id="save-title" />
@@ -44,17 +36,14 @@ foreach($comment_result->result() as $row) {
   // go ahead and just put the deleted thing and start the loop over
   if ($row->deleted == '1') {
 ?>
-    <div class="comment deleted">
-      comment by <?php echo $row->username; ?> deleted
-    </div>
+  <div class="comment deleted">
+    comment by <?php echo $row->username; ?> deleted
+  </div>
 <?php
 
     continue;
   }
 
-  $my_thread = $row->user_id == $this->session->userdata('user_id');
-  $edit_source = $my_thread && ((strtotime($row->created) > time() - (60 * 60 * 24)) || $i == 0)
-    ? 'Edit Post' : 'View Source';
   $url_safe_username = url_title($row->username, 'dash');
 
   switch($row->acq_type) {
@@ -67,83 +56,79 @@ foreach($comment_result->result() as $row) {
   default:
     $acq = null;
   }
-
-  if ($row->acq_type == 2) {
-?>
-
-    <div id="ignore-for-<?php echo $row->comment_id; ?>" class="ignore-container"
-      onclick="$('#comment-container-<?php echo $row->comment_id; ?>').toggle();">
-    </div>
-
+  
+  // if the comment belongs to someone you've enemied
+  if ($row->acq_type == 2)
+  { ?>
+  <div id="ignore-for-<?php echo $row->comment_id; ?>" class="ignore-container"
+    onclick="$('#comment-container-<?php echo $row->comment_id; ?>').toggle();"></div>
 <?php } ?>
-    <div id="comment-<?php echo $row->comment_id; ?>" class="comment userid-<?php echo $row->user_id, $acq; echo $my_thread ? ' mycomment' : ''; ?>">
-      <div id="comment-container-<?php echo $row->comment_id; ?>"
-       class="comment-container">
+
+  <div id="comment-<?php echo $row->comment_id; ?>" class="comment userid-<?php echo $row->user_id, $acq; echo $owner ? ' mycomment' : ''; ?>">
+    <div id="comment-container-<?php echo $row->comment_id; ?>" class="comment-container">
       <div class="cmd-bar">
-       <span><a class="view-source" onclick="thread.view_source(<?php echo $row->comment_id; ?>); return false;"><?php echo $edit_source; ?></a></span>
-                                                                                     <?php if ($logged_in) { ?>
-       <a class="quote" onclick="thread.quote(<?php echo $row->comment_id; ?>);">
-         Quote
-       </a>
-<?php } ?>
-    </div>
-    <div class="user-block">
-      <div class="username<?php echo $acq; ?>">
-        <a href="/user/<?php echo $url_safe_username; ?>">
-          <?php echo $row->username;?>
+        <span>
+          <a class="view-source" onclick="thread.view_source(<?php echo $row->comment_id; ?>); return false;">
+          <?php echo $owner && ((strtotime($row->created) > time() - (60 * 60 * 24)) || $i == 0) 
+            ? 'Edit Post' 
+            : 'View Source'; ?>
+          </a>
+        </span>
+      <?php if ($logged_in) { ?>
+        <a class="quote" onclick="thread.quote(<?php echo $row->comment_id; ?>);">
+          Quote
         </a>
+      <?php } ?>
       </div>
-      <div class="time"><?php echo timespan(strtotime($row->created), time()) ?></div>
-      <div class="user-information" style="background: url(/img/emoticons/<?php echo (int)$row->emoticon === 1 ? $row->id : '0'; ?>.gif);">
-      <ul>
-<?php if ($logged_in) { ?>
-        <li><a href="/buddies/<?php echo $url_safe_username; ?>"><?php echo ($acq)? "Your $acq!" : 'BUDDY? ENEMY?'; ?></a></li>
-        <li><a href="/messages/send/<?php echo $url_safe_username; ?>">SEND A MESSAGE</a></li>
-<?php } else { ?>                                                                            <li>&nbsp;</li>
-        <li>&nbsp;</li>
-<?php } ?>
-     </ul>
-   </div>
+      <div class="user-block">
+        <div class="username<?php echo $acq; ?>">
+          <a href="/user/<?php echo $url_safe_username; ?>">
+            <?php echo $row->username;?>
+          </a>
+        </div>
+        <div class="time"><?php echo timespan(strtotime($row->created), time()) ?></div>
+        <div class="user-information" style="background: url(/img/emoticons/<?php echo (int)$row->emoticon === 1 ? $row->id : '0'; ?>.gif);">
+          <ul>
+          <?php if ($logged_in) { ?>
+            <li><a href="/buddies/<?php echo $url_safe_username; ?>"><?php echo ($acq)? "Your $acq!" : 'BUDDY? ENEMY?'; ?></a></li>
+            <li><a href="/messages/send/<?php echo $url_safe_username; ?>">SEND A MESSAGE</a></li>
+          <?php } else { ?>
+            <li>&nbsp;</li>
+            <li>&nbsp;</li>
+          <?php } ?>
+          </ul>
+        </div>
 
-<?php
+        <?php if ($owner && $i === 0 && $starting === 0) { ?>
+          <div id="thread-control">
+            <p>THREAD ADMIN</p>
+            <ul>
+              <li id="control-nsfw">&middot; <span><?php echo $info['nsfw'] === '1' ? 'Unmark Naughty' : 'Mark Naughty'; ?></span></li>
+              <li id="control-closed">&middot; <span><?php echo $info['closed'] === '1' ? 'Open Thread' : 'Close Thread'; ?></span></li>
+            <?php if($info['editable']) {?>
+              <li id="control-delete">&middot; <span>Delete Thread</span></li>
+            <?php }?>
+            </ul>
+          </div>
 
-if ($my_thread && $i === 0 && $starting === 0) {
+          <script type="text/javascript">
+            $('#control-nsfw span').bind('click', function(){
+              thread.set_status(<?php echo $row->thread_id; ?>, 'nsfw', <?php echo $info['nsfw'] === '1' ? 0 : 1; ?>, session_id)
+            });
+            $('#control-closed span').bind('click', function(){
+              thread.set_status(<?php echo $row->thread_id; ?>, 'closed', <?php echo $info['closed'] === '1' ? 0 : 1; ?>, session_id);
+            });
+            $('#control-delete span').bind('click', function(){
+              thread.set_status(<?php echo $row->thread_id; ?>, 'deleted', 1, session_id);
+            });
+          </script>
 
-  $session_id = $this->session->userdata('session_id');
-  $set_nsfw_status = $info['nsfw'] === '1' ? 0 : 1;
-  $set_closed_status = $info['closed'] === '1' ? 0 : 1;
-  $nsfw_text = $info['nsfw'] === '1' ? 'Unmark Naughty' : 'Mark Naughty';
-  $closed_text = $info['closed'] === '1' ? 'Open Thread' : 'Close Thread';
+        <?php } // end ($owner && $i === 0 && $starting === 0) ?>
 
-?>
-
-  <div id="thread-control">
-     <p>THREAD ADMIN</p>
-     <ul>
-       <li id="control-nsfw">&middot; <span><?php echo $nsfw_text; ?></span></li>
-       <li id="control-closed">&middot; <span><?php echo $closed_text; ?></span></li>
-	   <?php if($info['editable']) {?>
-		<li id="control-delete">&middot; <span>Delete Thread</span></li>
-	   <?php }?>
-     </ul>
-  </div>
-
-  <script type="text/javascript">
-    $('#control-nsfw span').bind('click', function(){
-        thread.set_status(<?php echo $row->thread_id; ?>, 'nsfw', <?php echo $set_nsfw_status; ?>, '<?php echo $session_id; ?>')
-    });
-    $('#control-closed span').bind('click', function(){
-        thread.set_status(<?php echo $row->thread_id; ?>, 'closed', <?php echo $set_closed_status; ?>, '<?php echo $session_id; ?>');
-    });
-	$('#control-delete span').bind('click', function(){
-        thread.set_status(<?php echo $row->thread_id; ?>, 'deleted', 1, '<?php echo $session_id; ?>');
-    });
-  </script>
-
-<?php }	?>
-  </div>
-  <div class="content-block">
-    <div class="content">
+      </div>
+  
+      <div class="content-block">
+        <div class="content">
 <?php
 $view_html = ($this->session->userdata('view_html') === '1' ||
               $this->session->userdata('view_html') === false);
@@ -158,11 +143,11 @@ if ($row->content === '' && $row->original_content !== '') {
 echo $view_html ? $content : nl2br(htmlentities($content));
 
 ?>
+        </div>
+      </div>
+      <div style="clear: both;"></div>
     </div>
   </div>
-  <div style="clear: both;"></div>
-</div>
-</div>
 <?php ++$i; } ?>
 
 <div class="pagination bottom">
@@ -192,24 +177,23 @@ $content = array(
   'value' => set_value('content')
 );
 
-
 ?>
 
 </div>
 
 <div id="reply-lc">
-<h4>Post A Reply</h4>
-<div id="post-shortcuts">
-<p>SHORTCUTS!</p>
-<ul>
-<li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<a href=%22%22></a>')">URL</a></li>
-<li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<img src=%22%22 />')">Image</a></li>
-<li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<spoiler></spoiler>')">Spoiler</a></li>
-<li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<code></code>')">Code</a></li>
+  <h4>Post A Reply</h4>
+  <div id="post-shortcuts">
+    <p>SHORTCUTS!</p>
+    <ul>
+      <li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<a href=%22%22></a>')">URL</a></li>
+      <li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<img src=%22%22 />')">Image</a></li>
+      <li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<spoiler></spoiler>')">Spoiler</a></li>
+      <li>&middot; <a href="javascript:insertAtCaret('thread-content-input', '<code></code>')">Code</a></li>
 
-<!--<li>&middot; <a href="#">Spoiler</a></li>-->
-</ul>
-</div>
+      <!--<li>&middot; <a href="#">Spoiler</a></li>-->
+    </ul>
+  </div>
 </div>
 <div id="reply-rc">
 <div id="pinkies">
@@ -292,7 +276,12 @@ $content = array(
 </div>
 </div>
 
-<?php if ($use_notifier) { ?>
+<?php 
+
+// start notifier
+if ($logged_in && (int) $this->session->userdata('new_post_notification') === 1) {
+
+?>
   <div id="notifications">
     <a id="closenotify"></a>
   </div>
@@ -301,33 +290,36 @@ $content = array(
     var originalTitle = document.title,
       currentNotification;
 
-  function thread_notifier() {
-    $.ajax({
-      url: '/ajax/thread_notifier/<?php echo $thread_id; ?>/<?php echo $total_comments; ?>',
-      success: function(data) {
-        if (data) {
-          var text = $(data).text();
-          document.title = text.replace(" added", "") + " | " + originalTitle;
-          if (text !== currentNotification) {
-	    $("#notifier").remove();
-            currentNotification = text;
-            $('#notifications').append(data).show();
+    function thread_notifier() {
+      $.ajax({
+        url: '/ajax/thread_notifier/<?php echo $thread_id; ?>/<?php echo $total_comments; ?>',
+        success: function(data)
+        {
+          if (data)
+          {
+            var text = $(data).text();
+            document.title = text.replace(" added", "") + " | " + originalTitle;
+            if (text !== currentNotification)
+            {
+              $("#notifier").remove();
+              currentNotification = text;
+              $('#notifications').append(data).show();
+            }
           }
         }
-     }
-   });
-  }
+      });
+    }
 
-  $("#closenotify").live("click", function() {
+    $("#closenotify").live("click", function() {
       $('#notifications').remove();
       clearTimeout(notification);
       document.title = originalTitle;
-  });
+    });
 
-  var notification = setInterval("thread_notifier()",10000);
+    var notification = setInterval("thread_notifier()", 10000);
   </script>
 
-<?php } ?>
+<?php } // end notifier ?>
 <?php } ?>
 
   <script type="text/javascript" src="/js/thread.js"></script>
@@ -338,12 +330,12 @@ $content = array(
        button = $(this);
        if (!$(this).hasClass('added')) {
          $.get('/ajax/favorite_thread/'+ $(this).attr('rel') +
-               '/<?php echo $session_id; ?>', function(data) {
+               session_id, function(data) {
            if (data == 1) button.addClass('added');
          });
        } else {
          $.get('/ajax/unfavorite_thread/'+ $(this).attr('rel') +
-               '/<?php echo $session_id; ?>', function(data) {
+               '/'+session_id, function(data) {
            if (data == 1) button.removeClass('added');
          }
       );

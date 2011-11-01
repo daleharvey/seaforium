@@ -6,7 +6,7 @@ class Thread extends Controller {
   {
     parent::Controller();
 
-    $this->load->helper(array('url', 'date', 'form', 'content_render',
+    $this->load->helper(array('url', 'date', 'form', 'content_render', 
                               'htmlpurifier'));
     $this->load->library(array('form_validation', 'pagination'));
     $this->load->model('thread_dal');
@@ -14,6 +14,7 @@ class Thread extends Controller {
     // set all this so we dont have to continually call functions through session
     $this->meta = array(
       'user_id' => (int) $this->session->userdata('user_id'),
+      'session_id' => $this->session->userdata('session_id'),
       'comments_shown' => $this->session->userdata('comments_shown') == false
         ? 50 : (int)$this->session->userdata('comments_shown')
     );
@@ -23,18 +24,15 @@ class Thread extends Controller {
   // throw them home
   function index()
   {
-
-
-  redirect('/');
+    redirect('/');
   }
 
   function load($thread_id)
   {
     // if they roll in with something unexpected
     // send them home
-    if (!is_numeric($thread_id)) {
+    if (!is_numeric($thread_id))
       redirect('/');
-    }
 
     // grabbing the thread information
     $query = $this->thread_dal->get_thread_information($this->meta['user_id'],
@@ -61,7 +59,8 @@ class Thread extends Controller {
          'editable' => time() - strtotime($thread_info->created) < 300
        ),
       'thread_id' => $thread_id,
-      'favorites' => $favourites
+      'favorites' => $favourites,
+	  'meta' => $this->meta
     );
 
 
@@ -87,7 +86,7 @@ class Thread extends Controller {
         $this->user_dal->update_comment_count($this->meta['user_id']);
 
         $db_count = $this->thread_dal->comment_count($thread_id);
-        $shown = $this->session->userdata('comments_shown');
+        $shown = $this->meta['comments_shown'];
         if (!$shown) {
           $shown = 25;
         }
@@ -99,9 +98,6 @@ class Thread extends Controller {
         redirect($url);
       }
     }
-
-    $display = $this->session->userdata('comments_shown') == false
-      ? 50 : (int)$this->session->userdata('comments_shown');
 
     $pseg = 0;
     $base_url = '';
@@ -121,9 +117,8 @@ class Thread extends Controller {
       }
     }
 
-    if ($pseg === 0) {
+    if ($pseg === 0)
       $base_url .= '/p';
-    }
 
     $data['thread_model'] =& $this->thread_dal;
 
