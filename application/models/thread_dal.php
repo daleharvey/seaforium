@@ -394,6 +394,7 @@ class Thread_dal extends Model
 	   WHERE threads.subject LIKE '" . $search_phrase .
                                                 "'
            ". $filtering ."
+	   AND threads.deleted = 0
 	   ". $ordering ."
            LIMIT ?, ?";
 
