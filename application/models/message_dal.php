@@ -27,7 +27,7 @@ class Message_dal extends Model
 	
 	function delete_in_array($user_id, $messages)
 	{
-		$this->db->query("UPDATE pm_inbox SET pm_inbox.deleted = 1 WHERE message_id IN (". implode($messages, ',') .") AND to_id = ?", array($user_id));
+		$this->db->query("UPDATE pm_inbox SET pm_inbox.deleted = 1, pm_inbox.read = 1 WHERE message_id IN (". implode($messages, ',') .") AND to_id = ?", array($user_id));
 	}
 	
 	function get_message($user_id, $message_id)
