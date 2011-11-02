@@ -29,10 +29,24 @@ $owner = $logged_in && $this->meta['user_id'] == $info['user_id'];
 
 $i = 0;
 $previous_created = "";
+
 // loop through and print out all the comments
 foreach($comment_result->result() as $row) {
 	//checking if last post was older than 36 hours ago
-	if ($previous_created!=''&&is_numeric($previous_created)&&is_numeric(strtotime($row->created))&&((int)(strtotime($row->created) - $previous_created) > 129600)) echo '<div class="comment later-comment"><div class="comment-container">'.timespan($previous_created, strtotime($row->created), 'later').'</div></div>';
+  
+  $created = strtotime($row->created);
+  
+  if ($i > 0 && $created - $previous_created > 129600)
+  {
+?>
+    <div class="comment later-comment">
+      <div class="comment-container">
+        <?php echo timespan($previous_created, strtotime($row->created), 'later');; ?>
+      </div>
+    </div>
+<?php
+  }
+  
 	$previous_created = strtotime($row->created);
 
   // if the comment has been deleted,
