@@ -71,6 +71,18 @@ a {
     border-bottom: 1px solid #ACE1F9;
 }
 
+.comment.later-comment {
+	margin-top:-2px;
+}
+
+.comment.later-comment .comment-container {
+	text-align:center;
+	font-size:9px;
+	padding:2px;
+	color:#000;
+	background:#EEE;
+}
+
 .blueline {
     background-color: #ACE1F9;
     height: 1px;
