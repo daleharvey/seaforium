@@ -558,7 +558,8 @@ class User_dal extends Model
 			WHERE acquaintances.user_id = ?
 			AND sessions.user_id != 0
 			AND sessions.last_activity > (UNIX_TIMESTAMP() - 300)
-			AND acquaintances.type = 1";
+			AND acquaintances.type = 1
+			ORDER BY users.username ASC";
 
     $data['buddies'] = $this->db->query($sql, $user_id);
 
