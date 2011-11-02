@@ -149,7 +149,7 @@ $view_html = ($this->session->userdata('view_html') === '1' ||
               $this->session->userdata('view_html') === false);
 
 if ($row->content === '' && $row->original_content !== '') {
-  $content = _process_post($row->original_content);
+  $content = _process_post($row->original_content, $row->username);
   $thread_model->update_comment_cache($row->comment_id, $content);
 } else {
   $content = $row->content;
