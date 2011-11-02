@@ -13,7 +13,8 @@ class Thread extends Controller {
 
     // set all this so we dont have to continually call functions through session
     $this->meta = array(
-      'user_id' => (int) $this->session->userdata('user_id'),
+      'user_id' => (int) $this->session->userdata('user_id')	,
+      'username' => $this->session->userdata('username'),
       'comments_shown' => $this->session->userdata('comments_shown') == false
         ? 50 : (int)$this->session->userdata('comments_shown')
     );
@@ -80,7 +81,7 @@ class Thread extends Controller {
         $this->thread_dal->new_comment(array(
           'thread_id' => $thread_id,
           'user_id' => $this->meta['user_id'],
-          'content' => _process_post($content),
+          'content' => _process_post($content, $this->meta['username']),
           'original_content' => $content
         ));
 

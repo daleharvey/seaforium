@@ -33,7 +33,7 @@ class Newthread extends Controller {
         'user_id' => $this->session->userdata('user_id'),
         'category' => (int)$category[0],
         'subject' => $subject,
-        'content' => _process_post($content),
+        'content' => _process_post($content, $this->session->userdata('username')),
         'original_content' => $content
       );
 

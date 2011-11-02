@@ -117,7 +117,7 @@ class Ajax extends Controller
     if ($existing->user_id === $this->session->userdata('user_id')) {
 
       $content = $this->input->post('content');
-      $processed = _process_post($content);
+      $processed = _process_post($content, $this->session->userdata('username'));
 
       if ((strtotime($existing->created) > time() - (60 * 60 * 24)) ||
           $this->thread_dal->is_first_comment($existing->thread_id, $comment_id)) {
@@ -238,7 +238,7 @@ class Ajax extends Controller
 
   function preview()
   {
-    echo _process_post($this->input->post('content'));
+    echo _process_post($this->input->post('content'), $this->session->userdata('username'));
   }
 
 }
