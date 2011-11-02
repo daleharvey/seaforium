@@ -26,7 +26,7 @@ function utc_time()
 
 if ( ! function_exists('timespan'))
 {
-  function timespan($seconds = 1, $time = '')
+  function timespan($seconds = 1, $time = '', $ending = 'ago')
   {
     if (!is_numeric($seconds)) {
       return '';
@@ -55,7 +55,7 @@ if ( ! function_exists('timespan'))
         $CI->lang->line((($return > 1) ? 'date_days' : 'date_day'));
     }
 
-    return $return.' '.$CI->lang->line('ago');
+    return $return.' '.$CI->lang->line($ending);
   }
 }
 

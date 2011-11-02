@@ -22,6 +22,7 @@ class Messages extends Controller {
 
 	function send($to = '')
 	{
+    $user_id = (int)$this->session->userdata('user_id');
 
 		$data = array('to' => str_replace('-', ' ', $to));
 
@@ -114,7 +115,9 @@ class Messages extends Controller {
 				$data['errors'] = validation_errors();
 			}
 		}
-
+    
+    $data['buddies'] = $this->user_dal->get_buddies($user_id)->result();
+    
 		$this->load->view('shared/header');
 		$this->load->view('messages/send', $data);
 		$this->load->view('shared/footer');

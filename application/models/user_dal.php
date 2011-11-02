@@ -558,7 +558,8 @@ class User_dal extends Model
 			WHERE acquaintances.user_id = ?
 			AND sessions.user_id != 0
 			AND sessions.last_activity > (UNIX_TIMESTAMP() - 300)
-			AND acquaintances.type = 1";
+			AND acquaintances.type = 1
+			ORDER BY LOWER(users.username) ASC";
 
     $data['buddies'] = $this->db->query($sql, $user_id);
 
@@ -612,7 +613,7 @@ class User_dal extends Model
 			WHERE acquaintances.user_id = ?
 			AND acquaintances.type = 1
 			GROUP BY users.id 
-			ORDER BY users.username ASC", $user_id);
+			ORDER BY LOWER(users.username) ASC", $user_id);
 
     return $result->num_rows > 0 ? $result : FALSE;
   }
@@ -645,7 +646,8 @@ class User_dal extends Model
 			ON sessions.user_id = users.id
 			WHERE acquaintances.user_id = ?
 			AND acquaintances.type = 2
-			GROUP BY users.id", $user_id);
+			GROUP BY users.id
+			ORDER BY LOWER(users.username) ASC", $user_id);
 
     return $result->num_rows > 0 ? $result : FALSE;
   }

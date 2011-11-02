@@ -18,6 +18,16 @@ $config['email_addy'] = 'dale@arandomurl.com';
 //WITH a trailing slash
 $config['base_url_pm'] = 'http://yayhooray.net/';
 
+$config['recaptcha'] = array(
+  'public' => '',
+  'private' => '',
+  'RECAPTCHA_API_SERVER' => 'http://www.google.com/recaptcha/api',
+  'RECAPTCHA_API_SECURE_SERVER' => 'https://www.google.com/recaptcha/api',
+  'RECAPTCHA_VERIFY_SERVER' => 'www.google.com',
+  'RECAPTCHA_SIGNUP_URL' => 'https://www.google.com/recaptcha/admin/create',
+  'theme' => 'red'
+);
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL

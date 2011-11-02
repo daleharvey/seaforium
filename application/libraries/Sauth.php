@@ -111,18 +111,6 @@ class Sauth
    */
   function create_user($username, $email, $password)
   {
-    if ((strlen($username) > 0) AND
-        !$this->ci->user_dal->is_username_available($username)) {
-      $this->error = 'That username is already in use';
-      return false;
-    }
-
-    if (!$this->ci->user_dal->is_email_available($email)) {
-      $this->error = 'That email address is already in use';
-      return FALSE;
-    }
-
-
     $is_yay_name = false;
     if ($this->ci->config->item('yay_import')) {
       $is_yay_name = $this->ci->user_dal->is_yay_username($username);
