@@ -18,7 +18,7 @@ class Newthread extends Controller {
   {
     $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
     $this->form_validation->set_rules('subject', 'Subject',
-                                      'trim|required|xss_clean');
+                                      'trim|required|xss_clean|strip_tags');
     $this->form_validation->set_rules('category[]', 'Category',
                                       'required|exact_length[1]|integer');
     $this->form_validation->set_rules('content', 'Content', 'trim|required');

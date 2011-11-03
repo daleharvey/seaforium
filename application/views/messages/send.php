@@ -61,8 +61,13 @@ if (isset($errors) && strlen($errors) > 0)
 						<div class="inp">
 							<?php echo form_label('To: (comma delimited usernames)', $recipients['id']); ?>
 							<?php echo form_input($recipients); ?>
+              
+              <div id="recipient-buddies">
+                <?php foreach($buddies as $buddy){ ?>
+                <a rel="<?php echo $buddy->username; ?>">+<?php echo $buddy->username; ?></a>,
+                <?php } ?>
+              </div>
 						</div>
-						
 						<div class="inp">
 							<div class="cbx">
 								<?php echo form_label('Save copy in sent folder?', $save_sent['id']); ?>
