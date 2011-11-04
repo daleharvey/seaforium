@@ -1,12 +1,9 @@
 <?php
 
-$recip_input = set_value('recipients');
-
 $recipients = array(
 	'name'	=> 'recipients',
 	'id'	=> 'pm-recipients',
-  'value' => set_value('recipients', $message['recipients']),
-	//'value' => isset($recip_input) && strlen($recip_input) > 0 ? $recip_input : $to,
+  'value' => set_value('recipients', strlen($message['recipients']) === 0 ? $to : $message['recipients']),
 	'size'	=> 30
 );
 
