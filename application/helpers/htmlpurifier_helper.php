@@ -56,7 +56,7 @@ function purify($dirty_html)
   $config = HTMLPurifier_Config::createDefault();
   $config->set('HTML.Doctype', 'XHTML 1.0 Strict');
   $config->set('AutoFormat.Linkify', true);
-  $config->set('AutoFormat.AutoParagraph', true);
+  $config->set('Output.Newline', '<br />');
   $config->set('Filter.YouTube', true);
   $def = $config->getHTMLDefinition(true);
   $def->addElement(
