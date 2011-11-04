@@ -81,7 +81,7 @@ class Message extends Controller {
       'to' => str_replace('-', ' ', $to),
       
       // this is only used by /reply but we're using the same view to make things easier
-      'message' => array('recipients' => '', 'subject' => '', 'content' => '')
+      'message' => array('recipients' => str_replace('-', ' ', $to), 'subject' => '', 'content' => '')
       );
 
 		$this->form_validation->set_message('required', "%s is required");
