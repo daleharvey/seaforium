@@ -134,7 +134,7 @@ $content = array(
       </div>
     </div>
   <button type="submit" name="" tabindex="7">Post Thread</button>
-  <button type="button" id="preview-button">Preview</button>
+  <button type="button" id="preview-button"  tabindex="8">Preview</button>
 
   </form>
 

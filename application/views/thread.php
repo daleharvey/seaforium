@@ -269,7 +269,7 @@ $content = array(
   <button type="submit" id="submit-button" tabindex='2'>
     Agree &amp; Post
   </button>
-  <button type="button" id="preview-button">Preview</button>
+  <button type="button" id="preview-button" tabindex="3">Preview</button>
 </form>
 
 </div>
