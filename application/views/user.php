@@ -24,7 +24,7 @@
 							<span class="<?php echo strtolower(str_replace(' ', '_', $user_data->online_status)); ?>"><?php echo $user_data->online_status; ?>!</span>
 							</span><br/>
 							<?php if ($this->sauth->is_logged_in()) { ?>
-							&rarr; <a href='/messages/send/<?php echo $this->uri->segment(2) ?>'>Send a message</a><br/>
+							&rarr; <a href='/message/send/<?php echo $this->uri->segment(2) ?>'>Send a message</a><br/>
 							&rarr; <a href='/buddies/<?php echo $user_data->username; ?>'>Change buddy status</a><br/>
 							<?php } ?>
 							&rarr; <a href='/started/<?php echo $user_data->username; ?>'>View threads started</a>
