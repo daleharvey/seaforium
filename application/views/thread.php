@@ -33,9 +33,10 @@ $previous_created = "";
 // loop through and print out all the comments
 foreach($comment_result->result() as $row) {
 	//checking if last post was older than 36 hours ago
-  
+
   $created = strtotime($row->created);
-  
+  $comment_owner = $row->user_id == $this->meta['user_id'];
+
   if ($i > 0 && $created - $previous_created > 129600)
   {
 ?>
@@ -46,7 +47,7 @@ foreach($comment_result->result() as $row) {
     </div>
 <?php
   }
-  
+
 	$previous_created = strtotime($row->created);
 
   // if the comment has been deleted,
@@ -73,7 +74,7 @@ foreach($comment_result->result() as $row) {
   default:
     $acq = null;
   }
-  
+
   // if the comment belongs to someone you've enemied
   if ($row->acq_type == 2)
   { ?>
@@ -81,13 +82,13 @@ foreach($comment_result->result() as $row) {
     onclick="$('#comment-container-<?php echo $row->comment_id; ?>').toggle();"></div>
 <?php } ?>
 
-  <div id="comment-<?php echo $row->comment_id; ?>" class="comment userid-<?php echo $row->user_id, $acq; echo $owner ? ' mycomment' : ''; ?>">
+  <div id="comment-<?php echo $row->comment_id; ?>" class="comment userid-<?php echo $row->user_id, $acq; echo $comment_owner ? ' mycomment' : ''; ?>">
     <div id="comment-container-<?php echo $row->comment_id; ?>" class="comment-container">
       <div class="cmd-bar">
         <span>
           <a class="view-source" onclick="thread.view_source(<?php echo $row->comment_id; ?>); return false;">
-          <?php echo $owner && ((strtotime($row->created) > time() - (60 * 60 * 24)) || $i == 0) 
-            ? 'Edit Post' 
+          <?php echo $comment_owner && ((strtotime($row->created) > time() - (60 * 60 * 24)) || $i == 0)
+            ? 'Edit Post'
             : 'View Source'; ?>
           </a>
         </span>
@@ -143,7 +144,7 @@ foreach($comment_result->result() as $row) {
         <?php } // end ($owner && $i === 0 && $starting === 0) ?>
 
       </div>
-  
+
       <div class="content-block">
         <div class="content">
 <?php
@@ -293,7 +294,7 @@ $content = array(
 </div>
 </div>
 
-<?php 
+<?php
 
 // start notifier
 if ($logged_in && (int) $this->session->userdata('new_post_notification') === 1) {

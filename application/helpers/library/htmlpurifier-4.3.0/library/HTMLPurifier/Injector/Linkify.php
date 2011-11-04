@@ -33,7 +33,8 @@ class HTMLPurifier_Injector_Linkify extends HTMLPurifier_Injector
                 if ($bits[$i] === '') continue;
                 $token[] = new HTMLPurifier_Token_Text($bits[$i]);
             } else {
-              if (strpos($bits[$i], 'youtube') !== false) {
+              if (strpos($bits[$i], 'youtube') !== false ||
+                  strpos($bits[$i], 'youtu.be') !== false) {
                 $token[] = new HTMLPurifier_Token_Text($bits[$i]);
               } else {
                 $token[] = new HTMLPurifier_Token_Start('a', array('href' => $bits[$i]));
