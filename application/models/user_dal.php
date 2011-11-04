@@ -115,7 +115,7 @@ class User_dal extends Model
             LEFT JOIN sessions ON sessions.user_id = users.id" .
             $username_search_string .
             " GROUP BY users.id
-            ORDER BY username ASC
+            ORDER BY LOWER(username) ASC
             LIMIT ".(int)$limit.", ".(int)$span.";";
 
     return $this->db->query($sql)->result_array();
