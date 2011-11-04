@@ -8,7 +8,7 @@
 						<a href="/messages/inbox" class="nobox">Go back to Inbox</a>
 					</div>
 					<div class="new-message">
-						<a href="/messages/reply/<?php echo $message->message_id; ?>">REPLY</a>
+						<a href="/message/reply/<?php echo $message->message_id; ?>">REPLY</a>
 					</div>
 				</div>
 				
@@ -37,7 +37,7 @@
 						<a href="/messages/inbox" class="nobox">Go back to Inbox</a>
 					</div>
 					<div class="new-message">
-						<a href="/messages/reply/<?php echo $message->message_id; ?>">REPLY</a>
+						<a href="/message/reply/<?php echo $message->message_id; ?>">REPLY</a>
 					</div>
 				</div>
 			</div>

@@ -5,15 +5,8 @@ $recip_input = set_value('recipients');
 $recipients = array(
 	'name'	=> 'recipients',
 	'id'	=> 'pm-recipients',
-	'value' => isset($recip_input) && strlen($recip_input) > 0 ? $recip_input : $to,
-	'size'	=> 30
-);
-
-$subject = array(
-	'name'	=> 'subject',
-	'id'	=> 'pm-subject',
-	'value' => set_value('subject'),
-	'maxlength'	=> 64,
+  'value' => set_value('recipients', $message['recipients']),
+	//'value' => isset($recip_input) && strlen($recip_input) > 0 ? $recip_input : $to,
 	'size'	=> 30
 );
 
@@ -31,10 +24,18 @@ $read_receipt = array(
 	'checked'	=> FALSE
 );
 
+$subject = array(
+	'name'	=> 'subject',
+	'id'	=> 'pm-subject',
+	'value' => set_value('subject', $message['subject']),
+	'maxlength'	=> 64,
+	'size'	=> 30
+);
+
 $content = array(
 	'name'	=> 'content',
 	'id'	=> 'pm-content-input',
-	'value' => set_value('content')
+	'value' => set_value('content', $message['content'])
 );
 
 $err_display = '';
@@ -56,16 +57,16 @@ if (isset($errors) && strlen($errors) > 0)
 					
 					<div class="dotted-bar"></div>
 					
-					<?php echo form_open('/messages/send'); ?>
+					<?php echo form_open('/message/send'); ?>
 						
 						<div class="inp">
 							<?php echo form_label('To: (comma delimited usernames)', $recipients['id']); ?>
 							<?php echo form_input($recipients); ?>
               
               <div id="recipient-buddies">
-                <?php foreach($buddies as $buddy){ ?>
+                <?php /*foreach($buddies as $buddy){ ?>
                 <a rel="<?php echo $buddy->username; ?>">+<?php echo $buddy->username; ?></a>,
-                <?php } ?>
+                <?php }*/ ?>
               </div>
 						</div>
 						<div class="inp">

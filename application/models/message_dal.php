@@ -18,16 +18,21 @@ class Message_dal extends Model
 	}
 	
 	function set_unread_in_array($user_id, $messages) {
-		$this->db->query("UPDATE pm_inbox SET pm_inbox.read = 0 WHERE message_id IN (". implode($messages, ',') .") AND to_id = ?", array($user_id));
+		$this->db->query("UPDATE pm_inbox SET pm_inbox.read = 0 WHERE message_id IN (". implode($messages, ',') .") AND to_id = ?", $user_id);
 	}
 	
 	function set_read_in_array($user_id, $messages) {
-		$this->db->query("UPDATE pm_inbox SET pm_inbox.read = 1 WHERE message_id IN (". implode($messages, ',') .") AND to_id = ?", array($user_id));
+		$this->db->query("UPDATE pm_inbox SET pm_inbox.read = 1 WHERE message_id IN (". implode($messages, ',') .") AND to_id = ?", $user_id);
 	}
 	
-	function delete_in_array($user_id, $messages)
+	function delete_in_array_inbox($user_id, $messages)
 	{
-		$this->db->query("UPDATE pm_inbox SET pm_inbox.deleted = 1, pm_inbox.read = 1 WHERE message_id IN (". implode($messages, ',') .") AND to_id = ?", array($user_id));
+		$this->db->query("UPDATE pm_inbox SET pm_inbox.deleted = 1, pm_inbox.read = 1 WHERE message_id IN (". implode($messages, ',') .") AND to_id = ?", $user_id);
+	}
+  
+	function delete_in_array_outbox($user_id, $messages)
+	{
+		$this->db->query("UPDATE pm_outbox SET pm_outbox.deleted = 1 WHERE message_id IN (". implode($messages, ',') .") AND from_id = ?", $user_id);
 	}
 	
 	function get_message($user_id, $message_id)
@@ -46,11 +51,13 @@ class Message_dal extends Model
 			FROM pm_inbox
 			LEFT JOIN pm_content
 				ON pm_inbox.message_id = pm_content.message_id
+			LEFT JOIN pm_outbox
+				ON pm_outbox.message_id = pm_content.message_id
 			LEFT JOIN users
 				ON pm_inbox.from_id = users.id
 			WHERE pm_content.message_id = ?
 				AND (pm_inbox.to_id = ? OR pm_inbox.from_id = ?)
-				AND pm_inbox.deleted = 0
+				AND (pm_inbox.deleted = 0 OR pm_outbox.deleted = 0)
 			GROUP BY pm_content.message_id";
 
 		$result = $this->db->query($sql, array(

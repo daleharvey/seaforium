@@ -1,7 +1,3 @@
-<?php
-
-?>
-
 				<div id="main-title"><h3>Well aren't you Mr. Popular?</h3></div>
 				
 				<div id="pm-inbox">
@@ -11,7 +7,7 @@
 						
 						</div>
 						<div class="new-message">
-							<a href="/messages/send">NEW MESSAGE</a>
+							<a href="/message/send">NEW MESSAGE</a>
 						</div>
 					</div>
 					
@@ -35,7 +31,7 @@
 						<div class="time">Received</div>
 					</div>
 					
-					<form name="messages" id="message-form" method="post" action="/messages/action">
+					<form name="messages" id="message-form" method="post" action="/messages/action/inbox">
 					
 <?php
 
@@ -71,7 +67,7 @@ $unread = $row->read === '0' ? ' unread' : '';
 						
 						</div>
 						<div class="new-message">
-							<a href="/messages/send">NEW MESSAGE</a>
+							<a href="/message/send">NEW MESSAGE</a>
 						</div>
 					</div>
 					
