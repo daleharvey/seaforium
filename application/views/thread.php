@@ -109,7 +109,7 @@ foreach($comment_result->result() as $row) {
           <ul>
           <?php if ($logged_in) { ?>
             <li><a href="/buddies/<?php echo $url_safe_username; ?>"><?php echo ($acq)? "Your $acq!" : 'BUDDY? ENEMY?'; ?></a></li>
-            <li><a href="/messages/send/<?php echo $url_safe_username; ?>">SEND A MESSAGE</a></li>
+            <li><a href="/message/send/<?php echo $url_safe_username; ?>">SEND A MESSAGE</a></li>
           <?php } else { ?>
             <li>&nbsp;</li>
             <li>&nbsp;</li>
