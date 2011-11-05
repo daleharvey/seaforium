@@ -3,7 +3,7 @@ import requests
 import simplejson
 
 from urlparse import urlparse
-from yayclient import YayClient, OldYayClient
+from yayclient import YayClient
 from ConfigParser import SafeConfigParser
 
 import DbClient

@@ -7,7 +7,7 @@ import DbClient
 
 from lxml import html
 from urlparse import urlparse
-from yayclient import YayClient, OldYayClient
+from yayclient import YayClient
 from ConfigParser import SafeConfigParser
 
 class TestPostFunction(unittest.TestCase):
