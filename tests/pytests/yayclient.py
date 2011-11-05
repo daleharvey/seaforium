@@ -1,5 +1,6 @@
 import requests
 import lxml
+import time
 
 from urlparse import urlparse
 from lxml import html
@@ -17,25 +18,36 @@ class YayClient:
             "content": content,
             "subject": subject
         }
-        return requests.post(opts['url'] + 'newthread', data, cookies=cookies)
+        return YayClient.time_req(opts, 'post', 'newthread', data, cookies)
+
+    @staticmethod
+    def time_req(opts, method, path, data, cookies=None):
+        if ("timer_file" in opts):
+            time0 = time.time()
+            ret = requests.request(method, opts['url'] + path, data=data, cookies=cookies)
+            time1 = time.time()
+            opts['timer_file'].write('%f,%f,%s,%s\n' % (time1-time0, time.time(), method, path))
+            return ret
+        else:
+            return requests.request(method, opts['url'] + path, data=data, cookies=cookies)
 
     @staticmethod
     def post_reply(opts, cookies, thread, content):
         data = {"content": content}
-        return requests.post(opts['url'] + thread, data, cookies=cookies)
+        return YayClient.time_req(opts, 'post', thread, data, cookies)
 
     @staticmethod
-    def register(details, username, email, password, confirm_password):
+    def register(opts, username, email, password, confirm_password):
         creds = dict(username = username,
                      email = email,
                      password = password)
-        creds["confirm-password"] = confirm_password;
-        return requests.post(details['url'] + 'auth/register', creds)
+        creds["confirm-password"] = confirm_password
+        return YayClient.time_req(opts, 'post', 'auth/register', data=creds)
 
     @staticmethod
-    def login(details, username, password):
+    def login(opts, username, password):
         creds = dict(username = username, password = password)
-        return requests.post(details['url'] + 'auth/login', creds)
+        return YayClient.time_req(opts, 'post', 'auth/login', creds)
 
 
     @staticmethod
@@ -44,7 +56,7 @@ class YayClient:
         tree = lxml.html.fromstring(keyreq.content)
         key = tree.get_element_by_id('forgot-key').value
         creds = dict(email = email, key = key)
-        return requests.post(opts['url'] + 'auth/forgot_password', creds)
+        return YayClient.time_req(opts, 'post', 'auth/forgot_password', creds)
 
 
     @staticmethod

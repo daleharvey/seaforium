@@ -33,7 +33,8 @@ def read_config():
     cfg = SafeConfigParser()
     cfg.read(['../yay.ini', 'tests/yay.ini'])
     return dict(
-        url = cfg.get('site', 'url')
+        url = cfg.get('site', 'url'),
+        timer_file = open('timer.log', 'w')
     )
 
 
