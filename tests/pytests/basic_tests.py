@@ -25,18 +25,13 @@ class TestBasicFunctions(unittest.TestCase):
 
     def test_fail_register(self):
         r = YayClient.register(self.opts, '    ', 'b@a.com', 'a', 'a')
-        j = simplejson.loads(r.content)
-        self.assertEqual(r.status_code, 401)
+        self.assertFalse(YayClient.is_logged_in(self.opts, r.cookies))
         r = YayClient.register(self.opts, 'my\'name', 'c@a.com', 'a', 'a')
-        j = simplejson.loads(r.content)
-        self.assertEqual(r.status_code, 401)
+        self.assertFalse(YayClient.is_logged_in(self.opts, r.cookies))
 
 
     def test_new_register(self):
         r = YayClient.register(self.opts, 'neudjcshfo', 'a@a.com', 'a', 'a')
-        j = simplejson.loads(r.content)
-        self.assertEqual(j['method'], 'plain')
-        self.assertEqual(r.status_code, 201)
         self.assertTrue(YayClient.is_logged_in(self.opts, r.cookies))
 
 

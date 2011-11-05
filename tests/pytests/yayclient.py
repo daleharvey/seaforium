@@ -28,8 +28,8 @@ class YayClient:
     def register(details, username, email, password, confirm_password):
         creds = dict(username = username,
                      email = email,
-                     password = password,
-                     password_confirm = confirm_password)
+                     password = password)
+        creds["confirm-password"] = confirm_password;
         return requests.post(details['url'] + 'auth/register', creds)
 
     @staticmethod
