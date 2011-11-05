@@ -52,19 +52,3 @@ class YayClient:
         r = requests.get(details['url'] + 'f/discussions', cookies=cookies)
         tree = lxml.html.fromstring(r.content)
         return not not tree.cssselect(".welcome")
-
-
-class OldYayClient:
-
-    @staticmethod
-    def read_last_pm_link(username, password):
-        host = 'http://yayhooray.com'
-        r = requests.post(host, dict(username=username,
-                                     password=password,
-                                     action='login'))
-        messages = requests.get("%s/messages" % host, cookies=r.cookies)
-        tree = lxml.html.fromstring(messages.content)
-        message_url = tree.find_class("message")[0].cssselect("a")[0].get('href')
-        message = requests.get("%s/%s" % (host, message_url), cookies=r.cookies)
-        tree2 = lxml.html.fromstring(message.content)
-        return tree2.cssselect(".messageoriginal a")[0].get('href')
