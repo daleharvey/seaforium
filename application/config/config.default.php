@@ -7,6 +7,9 @@ $config['yay_password'] = '';
 //name of site
 $config['site_name'] = 'YayHooray';
 
+// Require captchas during registration
+$config['use_captcha'] = FALSE;
+
 //Do you want to allow new users to register with their yH1 accounts
 $config['yay_import'] = FALSE;
 
