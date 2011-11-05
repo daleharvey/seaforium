@@ -13,6 +13,7 @@ import os
 sys.path.append("tests/pytests")
 
 import DbClient
+import load_generator
 
 from post_tests import TestPostFunction
 from basic_tests import TestBasicFunctions
@@ -24,11 +25,13 @@ def main():
 
     commands = {
       'reset' : reset,
-      'test' : test
+      'test' : test,
+      'bootstrap': bootstrap
     }
 
     del sys.argv[0]
-    cmd = sys.argv.pop()
+    cmd = sys.argv[0]
+    del sys.argv[0]
     args = sys.argv
 
     if cmd not in commands:
@@ -52,6 +55,9 @@ def test(cfg):
     suite = unittest.TestSuite([basic, post])
     unittest.TextTestRunner(verbosity=2).run(suite)
 
+def bootstrap(cfg, users=5, threads=10, replies=100):
+    reset(cfg)
+    load_generator.bootstrap(int(users), int(threads), int(replies))
 
 if __name__ == '__main__':
     main()
