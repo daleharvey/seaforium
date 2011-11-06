@@ -13,9 +13,35 @@ function _process_post($content)
   $content = str_replace('<code>', '<pre class="prettyprint linenums"><![CDATA[', $content);
   $content = str_replace('</code>', ']]></pre>', $content);
 
+  _format_lists($content);
   _format_pinkies($content);
   $content = purify($content);
   return $content;
+}
+
+function _format_lists(&$content)
+{
+  $nlines = array();
+  $lines = explode("\n", $content);
+  $list_started = false;
+  $list = "";
+
+  foreach($lines as $line) {
+    if (substr($line, 0, 3) === " * ") {
+      if (!$list_started) {
+        $list = "<ul>";
+        $list_started = true;
+      }
+      $list .= "<li>" . substr($line, 3) . "</li>";
+    } else {
+      if ($list_started) {
+        $nlines[] = $list . "</ul>";
+        $list_started = false;
+      }
+      $nlines[] = $line;
+    }
+  }
+  $content = implode("\n", $nlines);
 }
 
 /**
