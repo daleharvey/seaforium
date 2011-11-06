@@ -41,6 +41,10 @@ function _format_lists(&$content)
       $nlines[] = $line;
     }
   }
+  if ($list_started) {
+    $nlines[] = $list . "</ul>";
+    $list_started = false;
+  }
   $content = implode("\n", $nlines);
 }
 
