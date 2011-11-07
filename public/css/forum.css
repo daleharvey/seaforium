@@ -1346,3 +1346,18 @@ div.error {
 #search-box-user{
 	margin-bottom:5px;
 }
+
+.toggle-enemy {
+background: #FAA4A4;
+font-size: 10px;
+float: right;
+padding: 4px 5px;
+color: #FFFFFF;
+cursor: pointer;
+text-decoration: underline;
+}
+
+.toggle-enemy:hover {
+background: #FFFFFF;
+color: #494949;
+}

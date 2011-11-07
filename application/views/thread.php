@@ -29,6 +29,7 @@ $owner = $logged_in && $this->meta['user_id'] == $info['user_id'];
 
 $i = 0;
 $previous_created = "";
+$enemies = 0;
 
 // loop through and print out all the comments
 foreach($comment_result->result() as $row) {
@@ -77,11 +78,12 @@ foreach($comment_result->result() as $row) {
 
   // if the comment belongs to someone you've enemied
   if ($row->acq_type == 2)
-  { 
+  {
   
     if ($this->meta['hide_enemy_posts'] === '1')
       continue;
-  
+    
+    ++$enemies;
   ?>
   <div id="ignore-for-<?php echo $row->comment_id; ?>" class="ignore-container"
     onclick="$('#comment-container-<?php echo $row->comment_id; ?>').toggle();"></div>
@@ -175,6 +177,18 @@ echo $view_html ? $content : nl2br(htmlentities($content));
 
 <div class="pagination bottom">
   <?php echo $pagination; ?>
+  
+  <?php if ($enemies > 0) { ?>
+  <div class="toggle-enemy" id="toggle-enemy">
+    <?php echo $enemies ?> ENEMY POST <?php echo $enemies == 1 ? '' : 'S'; ?> IGNORED
+  </div>
+  
+  <script type="text/javascript">
+    $('#toggle-enemy').live('click', function(){
+      $('.ignore-container').click();
+    }).clone().appendTo('.pagination.top');
+  </script>
+  <?php } ?>
 </div>
 
 <div class="dotted-bar replypad"></div>
