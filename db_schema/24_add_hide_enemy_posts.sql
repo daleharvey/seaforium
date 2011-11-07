@@ -1,0 +1,1 @@
+ALTER TABLE users ADD COLUMN hide_enemy_posts TINYINT(1) NOT NULL DEFAULT '0';
