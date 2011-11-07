@@ -464,6 +464,7 @@ class User_dal extends Model
 				users.last_login,
 				users.email,
 				users.new_post_notification,
+				users.hide_enemy_posts,
 				users.random_titles,
 				users.custom_css,
 				users.timezone,

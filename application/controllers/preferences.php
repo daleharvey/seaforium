@@ -40,6 +40,9 @@ class Preferences extends Controller {
     $this->form_validation->set_rules('new_post_notification',
                                       'New Post Notification',
                                       'trim|xss_clean|integer');
+    $this->form_validation->set_rules('hide_enemy_posts',
+                                      'Hide Enemy Posts',
+                                      'trim|xss_clean|integer');
     $this->form_validation->set_rules('website_1','Website 1', 'trim|xss_clean');
     $this->form_validation->set_rules('website_2','Website 2', 'trim|xss_clean');
     $this->form_validation->set_rules('website_3','Website 3', 'trim|xss_clean');
@@ -77,6 +80,8 @@ class Preferences extends Controller {
         'custom_css' => $this->form_validation->set_value('custom_css'),
         'new_post_notification' =>
           $this->form_validation->set_value('new_post_notification'),
+        'hide_enemy_posts' =>
+          $this->form_validation->set_value('hide_enemy_posts'),
       );
       $data_profile = array (
         'website_1' => make_link($this->form_validation->set_value('website_1')),

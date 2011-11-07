@@ -77,7 +77,12 @@ foreach($comment_result->result() as $row) {
 
   // if the comment belongs to someone you've enemied
   if ($row->acq_type == 2)
-  { ?>
+  { 
+  
+    if ($this->meta['hide_enemy_posts'] === '1')
+      continue;
+  
+  ?>
   <div id="ignore-for-<?php echo $row->comment_id; ?>" class="ignore-container"
     onclick="$('#comment-container-<?php echo $row->comment_id; ?>').toggle();"></div>
 <?php } ?>

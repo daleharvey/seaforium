@@ -16,7 +16,6 @@ if (!isset($tab_orders['startedby'])) {
 					<?php echo $pagination; ?>
 				</div>
 
-
 				<div class="thread" id="thread-headers">
 					<div class="one">Thread Title &amp; Category</div>
 					<div class="two"><a href="<?php echo $tab_links; ?>started/<?php echo $tab_orders['started']; ?><?php if ($tab_orders['startedby']!='') {echo '/'.$tab_orders['startedby'];} ?>">Started By</a></div>
@@ -70,10 +69,14 @@ foreach($thread_result->result() as $row) {
 
 	$nsfw = $row->nsfw === '1' ? ' nsfw' : '';
 	$nsfw_tag = $row->nsfw === '1' ? ' <span class="naughty-tag">[NAUGHTY!]</span>' : '';
-
+  
 	if ($row->acq == 2)
-	{
-?>
+	{ 
+  
+    if ($this->meta['hide_enemy_posts'] === '1')
+      continue;
+  
+  ?>
 
 				<div id="ignore-for-<?php echo $row->thread_id; ?>" class="ignore-container" onclick="$('#thread-<?php echo $row->thread_id; ?>').toggle();"></div>
 

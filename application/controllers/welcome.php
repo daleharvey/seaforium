@@ -17,6 +17,7 @@ class Welcome extends Controller {
     $this->meta = array(
       'user_id' => (int) $this->session->userdata('user_id'),
       'username' => $this->session->userdata('username'),
+      'hide_enemy_posts' => $this->session->userdata('hide_enemy_posts'),
       'threads_shown' => $this->session->userdata('threads_shown')
     );
   }

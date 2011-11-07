@@ -15,6 +15,7 @@ class Thread extends Controller {
     $this->meta = array(
       'user_id' => (int) $this->session->userdata('user_id'),
       'session_id' => $this->session->userdata('session_id'),
+      'hide_enemy_posts' => $this->session->userdata('hide_enemy_posts'),
       'comments_shown' => $this->session->userdata('comments_shown') == false
         ? 50 : (int)$this->session->userdata('comments_shown')
     );

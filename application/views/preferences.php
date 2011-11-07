@@ -338,6 +338,10 @@
 <?php echo form_checkbox('new_post_notification', "1", $user_preferences->new_post_notification); ?>
 </div>
 <div class="input text">
+<?php echo form_label('Hide Enemy Posts', 'hide_enemy_posts'); ?>
+<?php echo form_checkbox('hide_enemy_posts', "1", $user_preferences->hide_enemy_posts); ?>
+</div>
+<div class="input text">
 <?php echo form_label('Custom CSS', 'custom_css'); ?>
 <?php echo form_input('custom_css', $user_preferences->custom_css); ?>
 </div>
