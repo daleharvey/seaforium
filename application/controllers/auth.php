@@ -70,7 +70,7 @@ class Auth extends Controller
       return redirect('/');
     }
   }
-  
+
   /**
    * Register user on the site
    *
@@ -81,9 +81,9 @@ class Auth extends Controller
     $data = array(
       'recaptcha' => $this->recaptcha->get_html()
     );
-    
+
     $view = "auth/register";
-    
+
     $this->form_validation->set_rules('username', 'Username',
                                       'trim|required|xss_clean|callback_valid_username');
     $this->form_validation->set_rules('email', 'Email',
@@ -92,19 +92,20 @@ class Auth extends Controller
                                       'trim|required|xss_clean');
     $this->form_validation->set_rules('confirm-password', 'Confirm Password',
                                       'trim|required|xss_clean|matches[password]');
-    $this->form_validation->set_rules('recaptcha_response_field', 'Recaptcha',
-                                       'required|callback_check_captcha');
 
-    if ($this->form_validation->run())
-    {
+    if ($this->config->item('use_captcha')) {
+      $this->form_validation->set_rules('recaptcha_response_field', 'Recaptcha',
+                                        'required|callback_check_captcha');
+    }
+
+    if ($this->form_validation->run()) {
       $username = $this->form_validation->set_value('username');
       $email = $this->form_validation->set_value('email');
       $password = $this->form_validation->set_value('password');
-      
+
       $this->sauth->create_user($username, $email, $password);
-      
-      if ($this->config->item('yay_import') && $this->user_dal->is_yay_username($username))
-      {
+
+      if ($this->config->item('yay_import') && $this->user_dal->is_yay_username($username)) {
         $this->send_activate_link($username);
         $view = "auth/registered";
       } else {
@@ -112,12 +113,12 @@ class Auth extends Controller
         redirect('/');
       }
     }
-    
+
     $this->load->view('shared/header');
     $this->load->view($view, $data);
     $this->load->view('shared/footer');
   }
-  
+
   function send_activate_link($username)
   {
     $invite_id = random_string('alnum', 32);
@@ -201,11 +202,11 @@ EOT;
 
     return send_json($this->output, 200, array('ok' => true));
   }
-  
+
   /*
    * Callbacks
    */
-  
+
   // callback for username validation rules
   function valid_username($str)
   {
@@ -220,10 +221,10 @@ EOT;
       $this->form_validation->set_message('valid_username', "That username is already in use");
       return FALSE;
     }
-    
+
     return TRUE;
   }
-  
+
   // callback for email validation
   function valid_email($str)
   {
@@ -232,14 +233,14 @@ EOT;
       $this->form_validation->set_message('valid_email', "That email address is already in use");
       return FALSE;
     }
-    
+
     return TRUE;
   }
-  
+
   // callback for recaptcha validation
 	function check_captcha($val)
   {
-	  if ($this->recaptcha->check_answer($this->input->ip_address(), 
+	  if ($this->recaptcha->check_answer($this->input->ip_address(),
                                        $this->input->post('recaptcha_challenge_field'), $val)) {
 	    return TRUE;
 	  } else {

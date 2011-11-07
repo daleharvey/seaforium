@@ -274,7 +274,7 @@ $content = array(
   <button type="submit" id="submit-button" tabindex='2'>
     Agree &amp; Post
   </button>
-  <button type="button" id="preview-button">Preview</button>
+  <button type="button" id="preview-button" tabindex="3">Preview</button>
 </form>
 
 </div>
@@ -350,16 +350,18 @@ if ($logged_in && (int) $this->session->userdata('new_post_notification') === 1)
 <?php if ($logged_in) { ?>
   <script type="text/javascript">
      $('.favourite').bind('click', function(){
-       button = $(this);
-       if (!$(this).hasClass('added')) {
-         $.get('/ajax/favorite_thread/'+ $(this).attr('rel') +
-               session_id, function(data) {
-           if (data == 1) button.addClass('added');
+       var $button = $(this);
+       if (!$button.hasClass('added')) {
+         $.get('/ajax/favorite_thread/'+ $button.attr('rel') + '/' + session_id, function(data) {
+           if (data == 1) {
+             $button.addClass('added');
+           }
          });
        } else {
-         $.get('/ajax/unfavorite_thread/'+ $(this).attr('rel') +
-               '/'+session_id, function(data) {
-           if (data == 1) button.removeClass('added');
+         $.get('/ajax/unfavorite_thread/'+ $button.attr('rel') + '/' + session_id, function(data) {
+           if (data == 1) {
+             $button.removeClass('added');
+           }
          }
       );
     }

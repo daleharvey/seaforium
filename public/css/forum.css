@@ -719,6 +719,15 @@ display: block;
 padding: 10px 0;
 }
 
+.content ul {
+    margin: 5px 30px;
+    list-style: disc outside none;
+}
+
+.content ul li {
+    margin: 5px 0;
+}
+
 .comment .content-block code br {
 display: none;
 }
