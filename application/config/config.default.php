@@ -33,7 +33,6 @@ $config['recaptcha'] = array(
 
 //Flickr API details
 $config['flickr_key'] = '';
-$config['flickr_secret'] = '';
 
 /*
 |--------------------------------------------------------------------------
