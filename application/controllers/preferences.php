@@ -64,7 +64,7 @@ class Preferences extends Controller {
     $this->form_validation->set_rules('real_name','MSN username', 'trim|xss_clean');
     $this->form_validation->set_rules('location','MSN username', 'trim|xss_clean');
     $this->form_validation->set_rules('password', 'Change Password',
-                                      'trim|xss_clean');
+                                      'trim|min_length[5]|xss_clean');
     $this->form_validation->set_rules('password2', 'Verify Password',
                                       'trim|xss_clean');
     $this->form_validation->set_rules('old_password', 'Old Password',
