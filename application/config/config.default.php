@@ -31,6 +31,10 @@ $config['recaptcha'] = array(
   'theme' => 'red'
 );
 
+//Flickr API details
+$config['flickr_key'] = '';
+$config['flickr_secret'] = '';
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
