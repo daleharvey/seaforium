@@ -2,9 +2,29 @@
 				<div id="main-title"><h3><?php echo $user_data->username ?></h3></div>
 
 				<div id="user">
-					<div class="photostream">
+					<?php
+					$flickr_nsid = '';
+					$latestposts_css = '';
+					if (strlen($user_data->flickr_username) > 0&&$this->config->item('flickr_key')!='') {
+                                          $update = @file_get_contents('http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key='.$this->config->item('flickr_key').'&username='.urlencode($user_data->flickr_username).'&format=php_serial');
+						$update = @unserialize($update);
+						if ($update!==false) {
+							if (isset($update['user']['nsid'])) {
+								$flickr_nsid = $update['user']['nsid'];
+								$flickr_nsid = str_replace('@', '%40', $flickr_nsid);
+							}
+						}
+					}
 
+					if ($flickr_nsid!='') {
+						$latestposts_css = '-withflickr';
+					?>
+					<div id="photostream">From Flickr:
+						<div id="flickr_badge_uber_wrapper"><div id="flickr_badge_wrapper">
+						<script type="text/javascript" src="http://www.flickr.com/badge_code_v2.gne?count=10&display=latest&size=s&layout=x&source=user&user=<?php echo $flickr_nsid; ?>"></script>
+						</div></div>
 					</div>
+					<?php } ?>
 
 					<div class="personal_info_box">
 
@@ -20,7 +40,7 @@
 						<div id="information" class="standard_profile_info_box">
 						<h3><?php echo $user_data->username ?></h3>
 						<span class="small_profile_caps">
-							<span class="<?php echo strtolower($user_data->friendly_status); ?>"><?php echo $user_data->friendly_status; ?></span> 
+							<span class="<?php echo strtolower($user_data->friendly_status); ?>"><?php echo $user_data->friendly_status; ?></span>
 							<span class="<?php echo strtolower(str_replace(' ', '_', $user_data->online_status)); ?>"><?php echo $user_data->online_status; ?>!</span>
 							</span><br/>
 							<?php if ($this->sauth->is_logged_in()) { ?>
@@ -48,10 +68,44 @@
 							<h3>Description</h3>
 							<?php echo $user_data->about_blurb; ?>
 						</div>
+						<?php if (strlen($user_data->lastfm) > 0) { ?>
+						<div id="information-desc" class="standard_profile_info_box">
+							<h3>Listening to...</h3>
+							<?php
+							$listingto = '';
+							// sets played date using PHP date
+							$date_format = 'M j, y g:ia';
+
+							$update = @file_get_contents("http://ws.audioscrobbler.com/1.0/user/".$user_data->lastfm."/recenttracks.txt");
+							$update = str_replace( '–', '-', $update ); // replaces en dash with regular dash
+							$update = explode("\n", $update);
+
+							$track_num = 1; // starting track number
+							foreach($update as $data)
+							{
+							if(!empty( $data ))
+							{
+							$info = explode(",", $data, 2); // sperates date by only seperating at fist instance of a comma (since some artist/track have comma in their names
+
+							$played_time = $info[0];
+							$info_track = explode(" - ", $info[1]); // seperates artist and title
+
+							$artist = $info_track[0];
+							$title = $info_track[1];
+
+							$listingto .= '<div class="lastfm_listing"><span class="lastfm_artist">'.$artist.'</span> - <span class="lastfm_title">'.$title.'</span> <span class="lastfm_date">'.date("$date_format", $played_time).'</span></div>';
+							$track_num++; // adds 1 to track number
+							}
+							}
+							echo $listingto;
+							echo '<a href="http://last.fm/user/'.$user_data->lastfm.'" title="Last.FM profile.">See '.$user_data->username.' on last.fm</a>';
+							?>
+						</div>
+						<?php } ?>
 
 					</div>
 
-					<div id="latest-posts">
+					<div id="latest-posts<?php echo $latestposts_css; ?>">
 					<? //echo $pagination; ?>
 
 					<?php if(!$recent_posts): ?>

@@ -902,6 +902,21 @@ div.tquote div.tqname {
     font-weight: bold;
 }
 /*------- profile information -------- */
+#photostream {
+	float: left;
+	width:85px;
+	border:1px solid #eee;
+	background-color:#fafafa;
+	text-align:center;
+	overflow:hidden;
+	margin-right:10px;
+}
+#flickr_badge_uber_wrapper {
+	text-align:center;
+	width:67px;
+	margin-left:4px;
+}
+
 .personal_info_box {
 	width: 220px;
 	float: left;
@@ -910,7 +925,11 @@ div.tquote div.tqname {
 	width: 80%;
 	margin-left: 235px;
 }
-#latest-posts hr {
+#latest-posts-withflickr {
+	width: 70%;
+	margin-left: 330px;
+}
+#latest-posts hr, #latest-posts-withflickr hr {
 	border: none;
 	border-bottom: solid 1px #ccc;
 }
@@ -987,6 +1006,22 @@ h3.recent-thread-title {
 	line-height: 18px;
 	padding: 8px;
 	width: 200px;
+}
+
+.lastfm_listing {
+	border-bottom: solid 1px #DDDDDD;
+	padding:4px 0;
+	line-height: normal;
+}
+.lastfm_artist {
+	font-size:11px;
+}
+.lastfm_title {
+	font-size:11px;
+}
+.lastfm_date {
+	font-size:9px;
+	color:#aaaaaa;
 }
 
 #pm-box-controls {
