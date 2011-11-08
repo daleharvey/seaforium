@@ -902,7 +902,7 @@ div.tquote div.tqname {
     font-weight: bold;
 }
 /*------- profile information -------- */
-.photostream {
+#photostream {
 	float: left;
 	width:85px;
 	border:1px solid #eee;
@@ -925,7 +925,11 @@ div.tquote div.tqname {
 	width: 80%;
 	margin-left: 235px;
 }
-#latest-posts hr {
+#latest-posts-withflickr {
+	width: 70%;
+	margin-left: 330px;
+}
+#latest-posts hr, #latest-posts-withflickr hr {
 	border: none;
 	border-bottom: solid 1px #ccc;
 }

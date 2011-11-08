@@ -3,27 +3,26 @@
 
 				<div id="user">
 					<?php
+					$flickr_nsid = '';
 					if (strlen($user_data->flickr_username) > 0&&$this->config->item('flickr_key')!='') {
-								$update = @file_get_contents('http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key='.$this->config->item('flickr_key').'&username='.$user_data->flickr_username.'&format=php_serial');
-								$update = @unserialize($update);
-								if ($update!==false) {
-									if (isset($update['user']['nsid'])) {
-										$flickr_nsid = $update['user']['nsid'];
-										$flickr_nsid = str_replace('@', '%40', $flickr_nsid);
-									}
-								}
+						$update = @file_get_contents('http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key='.$this->config->item('flickr_key').'&username='.$user_data->flickr_username.'&format=php_serial');
+						$update = @unserialize($update);
+						if ($update!==false) {
+							if (isset($update['user']['nsid'])) {
+								$flickr_nsid = $update['user']['nsid'];
+								$flickr_nsid = str_replace('@', '%40', $flickr_nsid);
+							}
+						}
+					}
+					
+					if ($flickr_nsid!='') {
+						$latestposts_css = '-withflickr';
 					?>
-					<div class="photostream">From Flickr: 
+					<div id="photostream">From Flickr: 
 						<div id="flickr_badge_uber_wrapper"><div id="flickr_badge_wrapper">
 						<script type="text/javascript" src="http://www.flickr.com/badge_code_v2.gne?count=10&display=latest&size=s&layout=x&source=user&user=<?php echo $flickr_nsid; ?>"></script>
 						</div></div>
 					</div>
-					<style type="text/css">
-					#latest-posts {
-						width: 70%;
-						margin-left: 330px;
-					}
-					</style>
 					<?php } ?>
 
 					<div class="personal_info_box">
@@ -105,7 +104,7 @@
 
 					</div>
 
-					<div id="latest-posts">
+					<div id="latest-posts<?php echo $latestposts_css; ?>">
 					<? //echo $pagination; ?>
 
 					<?php if(!$recent_posts): ?>
