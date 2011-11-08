@@ -1,0 +1,4 @@
+ALTER TABLE `hidden_threads` ADD CONSTRAINT `FK_hidden_threads_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `hidden_threads` ADD CONSTRAINT `FK_hidden_threads_threads` FOREIGN KEY (`thread_id`) REFERENCES `threads` (`thread_id`) ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `favorites` ADD CONSTRAINT `FK_favorites_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `favorites` ADD CONSTRAINT `FK_favorites_threads` FOREIGN KEY (`thread_id`) REFERENCES `threads` (`thread_id`) ON UPDATE NO ACTION ON DELETE NO ACTION;
