@@ -4,6 +4,7 @@
 				<div id="user">
 					<?php
 					$flickr_nsid = '';
+					$latestposts_css = '';
 					if (strlen($user_data->flickr_username) > 0&&$this->config->item('flickr_key')!='') {
 						$update = @file_get_contents('http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key='.$this->config->item('flickr_key').'&username='.$user_data->flickr_username.'&format=php_serial');
 						$update = @unserialize($update);
