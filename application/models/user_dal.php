@@ -146,6 +146,7 @@ class User_dal extends Model
             LEFT JOIN sessions ON sessions.user_id = users.id
             WHERE acquaintances.acq_user_id = (SELECT id FROM users WHERE username = ?)
             AND acquaintances.type = ?
+            GROUP BY username
             ORDER BY LOWER(username)
             LIMIT ?, ?';
             
