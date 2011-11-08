@@ -6,7 +6,7 @@
 					$flickr_nsid = '';
 					$latestposts_css = '';
 					if (strlen($user_data->flickr_username) > 0&&$this->config->item('flickr_key')!='') {
-						$update = @file_get_contents('http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key='.$this->config->item('flickr_key').'&username='.$user_data->flickr_username.'&format=php_serial');
+                                          $update = @file_get_contents('http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key='.$this->config->item('flickr_key').'&username='.urlencode($user_data->flickr_username).'&format=php_serial');
 						$update = @unserialize($update);
 						if ($update!==false) {
 							if (isset($update['user']['nsid'])) {
@@ -15,11 +15,11 @@
 							}
 						}
 					}
-					
+
 					if ($flickr_nsid!='') {
 						$latestposts_css = '-withflickr';
 					?>
-					<div id="photostream">From Flickr: 
+					<div id="photostream">From Flickr:
 						<div id="flickr_badge_uber_wrapper"><div id="flickr_badge_wrapper">
 						<script type="text/javascript" src="http://www.flickr.com/badge_code_v2.gne?count=10&display=latest&size=s&layout=x&source=user&user=<?php echo $flickr_nsid; ?>"></script>
 						</div></div>
@@ -40,7 +40,7 @@
 						<div id="information" class="standard_profile_info_box">
 						<h3><?php echo $user_data->username ?></h3>
 						<span class="small_profile_caps">
-							<span class="<?php echo strtolower($user_data->friendly_status); ?>"><?php echo $user_data->friendly_status; ?></span> 
+							<span class="<?php echo strtolower($user_data->friendly_status); ?>"><?php echo $user_data->friendly_status; ?></span>
 							<span class="<?php echo strtolower(str_replace(' ', '_', $user_data->online_status)); ?>"><?php echo $user_data->online_status; ?>!</span>
 							</span><br/>
 							<?php if ($this->sauth->is_logged_in()) { ?>
