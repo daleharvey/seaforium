@@ -4,15 +4,14 @@
 
 <div class="bottomdashed">
 	<form name="search-box-user" id="search-box-user" method="" action="">
-	Filter Usernames
-	<input type="text" value="" name="search-phrase-user" id="search-phrase-user" />
-	<input type="submit" value="Search" />
-	Type the first few characters of the username.
+    Filter Usernames
+    <input type="text" value="" name="search-phrase-user" id="search-phrase-user" />
+    <input type="submit" value="Search" />
+    Type the first few characters of the username.
 	</form>
 
-    Browse Users
+  Browse Users
 	<a href="/users/0/0">0</a>
-
 	<a href="/users/0/1">1</a>
 	<a href="/users/0/2">2</a>
 	<a href="/users/0/3">3</a>
@@ -48,7 +47,6 @@
 	<a href="/users/0/X">X</a>
 	<a href="/users/0/Y">Y</a>
 	<a href="/users/0/Z">Z</a>
-
 </div>
 
 <div id="thread-navigation" class="pagination top">
@@ -64,16 +62,9 @@ foreach($users as $row) {
 	{
 		$online_status = '<div class="online">ONLINE</div>';
 	}
-	$listing_type = 'user';
-	if ((int) $row['buddy_check'] > 0)
-	{
-		$listing_type = 'buddy';
-	}
-	elseif ((int) $row['enemy_check'] > 0)
-	{
-		$listing_type = 'enemy';
-	}
-?>
+  
+  $listing_type = $type == 2 ? 'enemy' : 'buddy';
+ ?>
 
   <div class="<?php echo $listing_type; ?>-listing">
     <div class="username"><a href="/user/<?php echo $row['username']; ?>">

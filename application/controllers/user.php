@@ -89,6 +89,44 @@ class User extends Controller {
     $this->load->view('user', $data);
     $this->load->view('shared/footer');
   }
+  
+  function check($username, $filter, $pagination = 0)
+  {
+    switch($filter)
+    {
+      case 'enemyof':
+        $type = 2;
+        break;
+      case 'buddyof':
+        $type = 1;
+        break;
+      default:
+        $type = 1;
+        $filter = 'buddyof';
+    }
+    
+
+    $users_count = $this->user_dal->get_acquaintance_count($username, $type);
+    $display = 40;
+    $end = min(array($pagination + $display, $users_count));
+    
+    $this->pagination->initialize(array(
+                                        'base_url' => '/user/'. $username .'/'. $filter .'/p/',
+                                        'total_rows' => $users_count,
+                                        'uri_segment' => '2',
+                                        'per_page' => $display
+                                        ));
+    
+    $users = $this->user_dal->get_acquaintance_information($username, $type, (int)$pagination, $display);
+    
+    $this->load->view('shared/header');
+    $this->load->view('acquaintances', array('users' => $users,
+						'pagination' => $this->pagination->create_links().'<span class="paging-text">' . ($pagination + 1) . ' - ' . $end . ' of ' . $users_count . ' Users</span>',
+						'user_count' => $users_count,
+            'type' => $type));
+    $this->load->view('shared/footer');
+    
+  }
 }
 
 /* End of file user.php */
