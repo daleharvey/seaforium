@@ -86,7 +86,18 @@ class User_dal extends Model
                                    'max_rows FROM users'.$username_search_string.';')->row()->max_rows;
     return $count > 0 ? $count : '0';
   }
-
+  
+  function get_acquaintance_count($username, $type)
+  {
+    return 
+      (int)$this->db->query("SELECT
+      count(users.username) AS count
+      FROM users
+      LEFT JOIN acquaintances ON users.id = acquaintances.user_id
+      LEFT JOIN sessions ON sessions.user_id = users.id
+      WHERE acquaintances.acq_user_id = (SELECT id FROM users WHERE username = ?)
+      AND acquaintances.type = ?", array($username, $type))->row()->count;
+  }
 
   function get_users($username_search_string='',$limit, $span, $my_user_id=0)
   {
@@ -121,6 +132,26 @@ class User_dal extends Model
     return $this->db->query($sql)->result_array();
   }
 
+  function get_acquaintance_information($username, $type, $pagination, $display)
+  {
+    $sql = 'SELECT
+            users.username AS username,
+            users.created AS created,
+            users.last_login AS last_login,
+            users.comments_count AS comments_count,
+            users.threads_count AS threads_count,
+            IFNULL(sessions.last_activity, 0) AS latest_activity
+            FROM users
+            LEFT JOIN acquaintances ON users.id = acquaintances.user_id
+            LEFT JOIN sessions ON sessions.user_id = users.id
+            WHERE acquaintances.acq_user_id = (SELECT id FROM users WHERE username = ?)
+            AND acquaintances.type = ?
+            ORDER BY LOWER(username)
+            LIMIT ?, ?';
+            
+    return $this->db->query($sql, array($username, $type, $pagination, $display))->result_array();
+  }
+
   function update_thread_count($user_id)
   {
     $sql = "UPDATE users SET threads_count = threads_count+1 WHERE id = ?";
@@ -136,7 +167,6 @@ class User_dal extends Model
 
   function get_user_ids_from_array($user_id, $usernames)
   {
-
     $usernames = array_map('strtolower', $usernames);
     $usernames = array_map('trim', $usernames);
 
@@ -664,7 +694,7 @@ class User_dal extends Model
 			AND acquaintances.type = 2";
 
     $data['enemy_count'] = $this->db->query($sql, $user_id)->row()->enemy_count;
-	return $data['enemy_count'];
+    return $data['enemy_count'];
   }
 
   function toggle_html($user_id, $view_html)

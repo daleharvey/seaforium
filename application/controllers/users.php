@@ -13,14 +13,14 @@ class Users extends Controller {
 
   function index($pagination = 0, $username_search_string = '')
   {
-	$username_search_string_sql = '';
-	if ($username_search_string!='') {
-		$username_search_string_sql = " WHERE LOWER(username) regexp '^".strtolower($username_search_string)."'";
-	}
+    $username_search_string_sql = '';
+    if ($username_search_string!='') {
+      $username_search_string_sql = " WHERE LOWER(username) regexp '^".strtolower($username_search_string)."'";
+    }
 
-	$users_count = $this->user_dal->get_users_count($username_search_string_sql);
-	$display = 40;
-	$end = min(array($pagination + $display, $users_count));
+    $users_count = $this->user_dal->get_users_count($username_search_string_sql);
+    $display = 40;
+    $end = min(array($pagination + $display, $users_count));
 
     // init the pagination library
     $this->pagination->initialize(array(
