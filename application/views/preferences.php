@@ -325,6 +325,10 @@
 <?php echo form_label('MSN username', 'msn'); ?>
 <?php echo form_input('msn', $user_preferences->msn); ?>
 </div>
+<div class="input text">
+<?php echo form_label('Twitter', 'twitter'); ?>
+<?php echo form_input('twitter', $user_preferences->twitter); ?>
+</div>
 <br />
 <div class="blueline"></div>
 <div style="float:right;margin-top:10px;"><?php echo form_submit('submit', 'Save'); ?></div>

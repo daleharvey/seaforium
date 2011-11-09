@@ -1008,6 +1008,13 @@ h3.recent-thread-title {
 	width: 200px;
 }
 
+.standard_profile_info_box #social_icons a:link 
+.standard_profile_info_box #social_icons a:visited, 
+.standard_profile_info_box #social_icons a:hover {
+	text-decoration: none;
+	background: #F9F9f9;
+}
+
 .lastfm_listing {
 	border-bottom: solid 1px #DDDDDD;
 	padding:4px 0;
@@ -1395,4 +1402,65 @@ text-decoration: underline;
 .toggle-enemy:hover {
 background: #FFFFFF;
 color: #494949;
+}
+
+
+/*************************************************************
+   TWITTER WIDGET ON PROFILE PAGE
+*************************************************************/
+#information-desc .twtr-widget, 
+#information-desc .twtr-doc {
+    width: 200px;
+    height: auto;
+	margin: 0 auto;
+}
+
+#information-desc .twtr-hd {
+    background: #F9F9f9;
+    color: #333333;
+}
+
+#information-desc .twtr-hd *, 
+#information-desc .twtr-hd h4 a {
+    background: #F9F9f9 !important;
+}
+
+#information-desc .twtr-hd h3, 
+#information-desc .twtr-hd h4 {
+    font-weight: normal;
+    text-align: center;
+}
+
+#information-desc .twtr-hd h3 {
+    background: #F9F9f9 !important;
+    color: #333333 !important;
+    font-size: 1.5em !important;
+    padding: 0.2em !important;
+}
+
+#information-desc .twtr-tweet {
+    background: #F9F9f9;
+}
+
+#information-desc .twtr-tweet a:link, 
+#information-desc .twtr-tweet a:visited, 
+#information-desc .twtr-tweet a:hover {
+    color: #000000 !important;
+	background:transparent !important;
+}
+
+#information-desc .twtr-tweet .twtr-tweet-text {
+    padding-bottom: 4px !important;
+}
+
+#information-desc .twtr-tweet .twtr-tweet-text p {
+    color: #333333 !important;
+}
+
+#information-desc .twtr-ft img {
+	display:none;
+}
+
+#information-desc .twtr-ft a {
+	background:transparent !important;
 }
