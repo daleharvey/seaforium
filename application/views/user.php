@@ -145,7 +145,7 @@
 						    live: false,
 						    behavior: 'all'
 						  }
-						}).render().setUser('roypd').start();
+						}).render().setUser('<?php echo $user_data->twitter ?>').start();
 						</script>
 						</div>
 						<?php } ?>
