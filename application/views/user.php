@@ -67,7 +67,7 @@
 							<?php if (strlen($user_data->aim) > 0) { ?><a href="aim:goim?screenname=<?php echo $user_data->aim; ?>"><img src="/img/social_icons/aol-icon.png" alt="AOL IM." class="info_icon" /></a> <?php } ?>
 							<?php if (strlen($user_data->delicious_username) > 0) { ?><a href="http://delicious.com/<?php echo $user_data->delicious_username; ?>"><img src="/img/social_icons/delicious-icon.png" alt="Delicious." class="info_icon" /></a> <?php } ?>
 							<?php if (strlen($user_data->facebook) > 0) { ?><a href="http://facebook.com/<?php echo $user_data->facebook; ?>"><img src="/img/social_icons/facebook-icon.png" alt="Facebook." class="info_icon" /></a> <?php } ?>
-							<?php if (strlen($user_data->flickr_username) > 0) { ?><a href="http://www.flickr.com/photos/<?php echo $user_data->flickr_username; ?>"><img src="/img/social_icons/flickr-icon.png" alt="Flickr." class="info_icon" /></a> <?php } ?>
+							<?php if ($flickr_nsid!='') { ?><a href="http://www.flickr.com/photos/<?php echo $flickr_nsid; ?>"><img src="/img/social_icons/flickr-icon.png" alt="Flickr." class="info_icon" /></a> <?php } ?>
 							<?php if (strlen($user_data->gchat) > 0) { ?><a href="gtalk:chat?jid=<?php echo $user_data->gchat; ?>"><img src="/img/social_icons/google-icon.png" alt="Google Chat." class="info_icon" /></a> <?php } ?>
 							<?php if (strlen($user_data->lastfm) > 0) { ?><a href="http://www.last.fm/user/<?php echo $user_data->lastfm; ?>"><img src="/img/social_icons/lastfm-icon.png" alt="LastFM." class="info_icon" /></a> <?php } ?>
 							<?php if (strlen($user_data->msn) > 0) { ?><a href="msnim:chat?contact=<?php echo $user_data->msn; ?>"><img src="/img/social_icons/msn-icon.png" alt="MSN Messenger." class="info_icon" /></a> <?php } ?>
