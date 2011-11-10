@@ -25,7 +25,7 @@ class Title extends Controller
     $thread_id = $this->input->post('thread_id');
 
     if($thread_id) {
-      $rules = 'required|min_length[1]|max_length[64]|xss_clean';
+      $rules = 'required|min_length[1]|max_length[64]|xss_clean|strip_tags';
       $this->form_validation->set_rules('title', 'Title', $rules);
 
       if ($this->form_validation->run() &&
@@ -44,7 +44,7 @@ class Title extends Controller
       }
     } else {
 
-      $rules = 'required|min_length[1]|max_length[36]|xss_clean';
+      $rules = 'required|min_length[1]|max_length[36]|xss_clean|strip_tags';
       $this->form_validation->set_rules('title', 'Title', $rules);
 
       if ($this->form_validation->run() &&
