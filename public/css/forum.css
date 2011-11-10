@@ -1008,8 +1008,8 @@ h3.recent-thread-title {
 	width: 200px;
 }
 
-.standard_profile_info_box #social_icons a:link 
-.standard_profile_info_box #social_icons a:visited, 
+.standard_profile_info_box #social_icons a:link
+.standard_profile_info_box #social_icons a:visited,
 .standard_profile_info_box #social_icons a:hover {
 	text-decoration: none;
 	background: #F9F9f9;
@@ -1408,7 +1408,7 @@ color: #494949;
 /*************************************************************
    TWITTER WIDGET ON PROFILE PAGE
 *************************************************************/
-#information-desc .twtr-widget, 
+#information-desc .twtr-widget,
 #information-desc .twtr-doc {
     width: 200px;
     height: auto;
@@ -1420,12 +1420,12 @@ color: #494949;
     color: #333333;
 }
 
-#information-desc .twtr-hd *, 
+#information-desc .twtr-hd *,
 #information-desc .twtr-hd h4 a {
     background: #F9F9f9 !important;
 }
 
-#information-desc .twtr-hd h3, 
+#information-desc .twtr-hd h3,
 #information-desc .twtr-hd h4 {
     font-weight: normal;
     text-align: center;
@@ -1442,8 +1442,8 @@ color: #494949;
     background: #F9F9f9;
 }
 
-#information-desc .twtr-tweet a:link, 
-#information-desc .twtr-tweet a:visited, 
+#information-desc .twtr-tweet a:link,
+#information-desc .twtr-tweet a:visited,
 #information-desc .twtr-tweet a:hover {
     color: #000000 !important;
 	background:transparent !important;
@@ -1463,4 +1463,27 @@ color: #494949;
 
 #information-desc .twtr-ft a {
 	background:transparent !important;
+}
+
+/*************************************************************
+   YOUTUBE PLACEHOLDER
+*************************************************************/
+
+.youtube_wrapper {
+    position:relative;
+    cursor: pointer;
+}
+
+.youtube_placeholder {
+    width: 100%;
+    height: 100%;
+}
+
+.youtube_playbutton {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    background:url(../img/playbutton.png) center center no-repeat;
+    top: 0px;
+
 }

@@ -48,9 +48,46 @@ function format_special(element)
       var tmp = this.textContent;
 
       tmp = tmp.replace(ytube, function(a, b) {
-        return (a.indexOf("\"") != -1) ? a :
-          '<iframe width="425" height="349" src="http://www.youtube.com/embed/' +
-          b+'" frameborder="0" allowfullscreen></iframe><br />';
+
+        var url_items = a.substring(a.indexOf('?') + 1).split('&');
+        var youtube_param = [];
+        var video_width = 425;
+        var video_height = 349;
+        var video_url_append = [];
+        var video_url_autoplay = "?autoplay=1";
+        var video_url_append_string = "";
+
+        $.each(url_items, function(index, val) {
+
+          var element = val.split('=');
+          if (element[0] == 't') {
+            video_url_append.push("t=" + element[1]);
+          }
+
+          if (element[0] == 'size') {
+            var width_height_params = element[1].split("x")
+            video_width = width_height_params[0];
+            video_height = width_height_params[1];
+          }
+        });
+
+        for (var m=0;m<video_url_append.length;m++) {
+          video_url_append_string += "#";
+          video_url_append_string += video_url_append[m];
+        }
+
+        if (a.indexOf("\"") != -1) {
+          var youtube_html = a;
+        } else {
+          var youtube_html = "<div style='width:" + video_width + "px; height:" +
+            video_height + "px' id='" + b + "' class='youtube_wrapper' " +
+            "data-extra='" + video_url_append_string + "'>" +
+            "<img src='http://img.youtube.com/vi/" + b +
+            "/0.jpg' class='youtube_placeholder' title='Click to play " +
+            "this video'/><div class='youtube_playbutton'></div></div><br/>";
+        }
+
+        return youtube_html;
       });
 
       tmp = tmp.replace(vimeo, function(a, b){
