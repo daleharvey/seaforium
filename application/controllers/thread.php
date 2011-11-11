@@ -6,7 +6,7 @@ class Thread extends Controller {
   {
     parent::Controller();
 
-    $this->load->helper(array('url', 'date', 'form', 'content_render', 
+    $this->load->helper(array('url', 'date', 'form', 'content_render',
                               'htmlpurifier'));
     $this->load->library(array('form_validation', 'pagination'));
     $this->load->model('thread_dal');
@@ -45,6 +45,9 @@ class Thread extends Controller {
 
     $thread_info = $query->row();
 
+    $hidden = explode(',',
+                      $this->thread_dal->get_hidden($this->meta['user_id']));
+
     $favourites = explode(',',
                           $this->thread_dal->get_favorites($this->meta['user_id']));
 
@@ -61,6 +64,7 @@ class Thread extends Controller {
        ),
       'thread_id' => $thread_id,
       'favorites' => $favourites,
+      'hidden' => $hidden,
 	  'meta' => $this->meta
     );
 

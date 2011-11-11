@@ -10,6 +10,8 @@ $owner = $logged_in && $this->meta['user_id'] == $info['user_id'];
     <h3><?php echo $info['title'] ?></h3>
     <?php if ($logged_in) { ?>
       <a class="favourite<?php echo in_array($thread_id, $favorites) ? ' added' : ''; ?>" rel="<?php echo $thread_id; ?>"></a>
+      <a class="hide-thread<?php echo in_array($thread_id, $hidden) ? ' added' : ''; ?>" rel="<?php echo $thread_id; ?>"></a>
+
     <?php } ?>
   </div>
 
@@ -79,10 +81,10 @@ foreach($comment_result->result() as $row) {
   // if the comment belongs to someone you've enemied
   if ($row->acq_type == 2)
   {
-  
+
     if ($this->meta['hide_enemy_posts'] === '1')
       continue;
-    
+
     ++$enemies;
   ?>
   <div id="ignore-for-<?php echo $row->comment_id; ?>" class="ignore-container"
@@ -177,12 +179,12 @@ echo $view_html ? $content : nl2br(htmlentities($content));
 
 <div class="pagination bottom">
   <?php echo $pagination; ?>
-  
+
   <?php if ($enemies > 0) { ?>
   <div class="toggle-enemy" id="toggle-enemy">
     <?php echo $enemies ?> ENEMY POST <?php echo $enemies == 1 ? '' : 'S'; ?> IGNORED
   </div>
-  
+
   <script type="text/javascript">
     $('#toggle-enemy').live('click', function(){
       $('.ignore-container').click();
@@ -360,27 +362,4 @@ if ($logged_in && (int) $this->session->userdata('new_post_notification') === 1)
 <?php } ?>
 
   <script type="text/javascript" src="/js/thread.js"></script>
-
-<?php if ($logged_in) { ?>
-  <script type="text/javascript">
-     $('.favourite').bind('click', function(){
-       var $button = $(this);
-       if (!$button.hasClass('added')) {
-         $.get('/ajax/favorite_thread/'+ $button.attr('rel') + '/' + session_id, function(data) {
-           if (data == 1) {
-             $button.addClass('added');
-           }
-         });
-       } else {
-         $.get('/ajax/unfavorite_thread/'+ $button.attr('rel') + '/' + session_id, function(data) {
-           if (data == 1) {
-             $button.removeClass('added');
-           }
-         }
-      );
-    }
-    return false;
-  });
-</script>
-<?php } ?>
 </div>

@@ -69,13 +69,13 @@ foreach($thread_result->result() as $row) {
 
 	$nsfw = $row->nsfw === '1' ? ' nsfw' : '';
 	$nsfw_tag = $row->nsfw === '1' ? ' <span class="naughty-tag">[NAUGHTY!]</span>' : '';
-  
+
 	if ($row->acq == 2)
-	{ 
-  
+	{
+
     if ($this->meta['hide_enemy_posts'] === '1')
       continue;
-  
+
   ?>
 
 				<div id="ignore-for-<?php echo $row->thread_id; ?>" class="ignore-container" onclick="$('#thread-<?php echo $row->thread_id; ?>').toggle();"></div>
@@ -129,57 +129,6 @@ foreach($thread_result->result() as $row) {
 
 				<script type="text/javascript">
 					session_id = '<?php echo $this->session->userdata('session_id'); ?>';
-
-					$('.hide-thread').bind('click', function(){
-						button = $(this);
-
-						url = !$(this).hasClass('added')
-							? '/ajax/hide_thread/'+ $(this).attr('rel') +'/'+ session_id
-							: '/ajax/unhide_thread/'+ $(this).attr('rel') +'/'+ session_id
-
-						$.get(
-							url,
-							function(data) {
-								if (data == 1)
-								{
-									button.parent('.five').parent('.thread').slideUp().next().slideUp();
-								}
-							}
-						);
-
-						return;
-					});
-
-					$('.favourite').bind('click', function(){
-						button = $(this);
-
-						if (!$(this).hasClass('added'))
-						{
-							$.get(
-							'/ajax/favorite_thread/'+ $(this).attr('rel') +'/'+ session_id,
-							function(data) {
-								if (data == 1)
-								{
-									button.addClass('added');
-								}
-							}
-							);
-						}
-						else
-						{
-							$.get(
-							'/ajax/unfavorite_thread/'+ $(this).attr('rel') +'/'+ session_id,
-							function(data) {
-								if (data == 1)
-								{
-									button.removeClass('added');
-								}
-							}
-							);
-						}
-
-						return;
-					});
 				</script>
 
 <?php } ?>

@@ -93,6 +93,43 @@
 
 
 
+$('.hide-thread').bind('click', function(){
+
+  var button = $(this);
+  var toHide = $(this).hasClass('added');
+  var url = !toHide
+    ? '/ajax/hide_thread/'+ $(this).attr('rel') +'/'+ session_id
+    : '/ajax/unhide_thread/'+ $(this).attr('rel') +'/'+ session_id
+
+  $.get(url, function(data) {
+    if (data == 1) {
+      button.toggleClass('added', !toHide);
+      button.parent('.five').parent('.thread').slideUp().next().slideUp();
+    }
+  });
+});
+
+$('.favourite').bind('click', function(){
+
+  var button = $(this);
+  var id = button.attr('rel');
+  if (!$(this).hasClass('added')) {
+    $.get('/ajax/favorite_thread/'+ id +'/'+ session_id, function(data) {
+      if (data == 1) {
+	button.addClass('added');
+      }
+    });
+  } else {
+    $.get('/ajax/unfavorite_thread/'+ id +'/'+ session_id, function(data) {
+      if (data == 1) {
+        button.removeClass('added');
+      }
+    });
+  }
+});
+
+
+
 
 function isThread() {
   return (typeof(window.thread) == "undefined")?  false: true;

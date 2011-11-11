@@ -311,7 +311,8 @@ margin-right: 5px;
     background: url(../img/b-remove.gif) center no-repeat;
 }
 
-#main-title .favourite, #main-title .favourite.added {
+#main-title .favourite, #main-title .favourite.added,
+#main-title .hide-thread, #main-title .hide-thread.added {
     margin:12px 0 0 12px;
 }
 
