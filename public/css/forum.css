@@ -1483,7 +1483,11 @@ color: #494949;
     position:absolute;
     width: 100%;
     height: 100%;
-    background:url(../img/playbutton.png) center center no-repeat;
+    background: rgba(0, 0, 0, 0.5) url(../img/darkvideo-pinkie-button.png) center center no-repeat;
     top: 0px;
 
+}
+
+.open #user_panel {
+    display: block;
 }
