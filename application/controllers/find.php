@@ -5,35 +5,37 @@ class Find extends Controller {
   function Find()
   {
     parent::Controller();
-	$this->load->library(array('form_validation', 'pagination'));	
+	$this->load->library(array('form_validation', 'pagination'));
     $this->load->helper(array('url', 'date', 'form', 'content_render', 'htmlpurifier'));
-    
+
     $this->load->model('thread_dal');
 
     // set all this so we dont have to continually call functions through session
     $this->meta = array(
-			'user_id' => (int) $this->session->userdata('user_id'),
-			'comments_shown' => $this->session->userdata('comments_shown') == false ? 50 : (int)$this->session->userdata('comments_shown'),
-			'threads_shown' => $this->session->userdata('threads_shown')
-                        );
+      'user_id' => (int) $this->session->userdata('user_id'),
+      'comments_shown' => $this->session->userdata('comments_shown') == false ? 50 : (int)$this->session->userdata('comments_shown'),
+      'hide_enemy_posts' => $this->session->userdata('hide_enemy_posts'),
+      'threads_shown' => $this->session->userdata('threads_shown')
+    );
+
   }
-  
+
 
   function index($pagination = 0, $filter = '', $ordering = '', $dir = 'desc')
   {
-  
+
    $this->load->view('shared/header', array('page_title' => 'Searching'));
-   
+
   // echo "<pre style='margin-left: 300px'>";
    if($this->uri->segment(2)) {
-	
-  
-	
-	
-	
+
+
+
+
+
 	$search_phrase = $this->uri->segment(2);
     // get a thread count from the database
-    
+
 
     // how many threads per page
     $display = $this->meta['threads_shown'] == false ? 50 : $this->meta['threads_shown'];
@@ -48,7 +50,7 @@ class Find extends Controller {
                                         'suffix' => ''
                                         ));
 
-		
+
     // end of threads
     $end = min(array($pagination + $display, $thread_count));
 
@@ -66,9 +68,9 @@ class Find extends Controller {
                                        'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id'])),
                                        'hidden_threads' => explode(',', $this->thread_dal->get_hidden($this->meta['user_id']))
                                        ));
-	
-	
-	} else { 
+
+
+	} else {
 		echo "derp";
 	}
 	//echo "</pre>";

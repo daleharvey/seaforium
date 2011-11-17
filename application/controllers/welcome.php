@@ -54,20 +54,19 @@ class Welcome extends Controller {
     $end = min(array($pagination + $display, $thread_count));
 
     $this->load->view('threads', array(
-                                       'title' => $this->thread_dal->get_front_title(),
-                                       'thread_result' => $this->thread_dal->get_threads($this->meta['user_id'], $pagination, $display, $filtering['filter'], $filtering['order']),
-                                       'pagination' => $this->pagination->create_links()
-                                       .'<span class="paging-text">' . ($pagination + 1) . ' - ' . $end . ' of ' . $thread_count . ' Threads</span>',
-                                       'tab_links' => strlen($filter) > 0 ? '/f/'.$filter.'/' : '/o/',
-                                       'tab_orders' => array(
-                                                             'started' => $ordering == 'started' && $dir == 'desc' ? 'asc' : 'desc',
-                                                             'latest' => $ordering == 'latest' && $dir == 'desc' ? 'asc' : 'desc',
-                                                             'posts' => $ordering == 'posts' && $dir == 'desc' ? 'asc' : 'desc',
-                                                             'startedby' => $whostarted
-                                                             ),
-                                       'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id'])),
-                                       'hidden_threads' => explode(',', $this->thread_dal->get_hidden($this->meta['user_id']))
-                                       ));
+      'title' => $this->thread_dal->get_front_title(),
+      'thread_result' => $this->thread_dal->get_threads($this->meta['user_id'], $pagination, $display, $filtering['filter'], $filtering['order']),
+      'pagination' => $this->pagination->create_links() . '<span class="paging-text">' . ($pagination + 1) . ' - ' . $end . ' of ' . $thread_count . ' Threads</span>',
+      'tab_links' => strlen($filter) > 0 ? '/f/'.$filter.'/' : '/o/',
+      'tab_orders' => array(
+        'started' => $ordering == 'started' && $dir == 'desc' ? 'asc' : 'desc',
+        'latest' => $ordering == 'latest' && $dir == 'desc' ? 'asc' : 'desc',
+        'posts' => $ordering == 'posts' && $dir == 'desc' ? 'asc' : 'desc',
+        'startedby' => $whostarted
+      ),
+      'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id'])),
+      'hidden_threads' => explode(',', $this->thread_dal->get_hidden($this->meta['user_id']))
+    ));
 
     $this->load->view('shared/footer');
   }
