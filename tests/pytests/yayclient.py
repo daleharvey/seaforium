@@ -24,12 +24,12 @@ class YayClient:
     def time_req(opts, method, path, data, cookies=None):
         if ("timer_file" in opts):
             time0 = time.time()
-            ret = requests.request(method, opts['url'] + path, data=data, cookies=cookies)
+            ret = requests.request(method, opts['url'] + path, data=data, cookies=cookies, allow_redirects=True)
             time1 = time.time()
             opts['timer_file'].write('%f,%f,%s,%s\n' % (time1-time0, time.time(), method, path))
             return ret
         else:
-            return requests.request(method, opts['url'] + path, data=data, cookies=cookies)
+            return requests.request(method, opts['url'] + path, data=data, cookies=cookies, allow_redirects=True)
 
     @staticmethod
     def post_reply(opts, cookies, thread, content):
