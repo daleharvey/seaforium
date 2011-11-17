@@ -4,6 +4,7 @@ build
 public/img/emoticons
 tests/pytests/*.pyc
 tests/yay.ini
+conf/yayhooray.conf
 
 .DS_Store
 .#*
