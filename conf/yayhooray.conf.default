@@ -1,18 +1,19 @@
 NameVirtualHost *:80
 
 <VirtualHost *:80>
-  ServerName www.yayhooray.dev
-  Redirect 301 / http://yayhooray.dev/
+
+  ServerName www.%HOST%
+  Redirect 301 / http://%HOST%/
 
   ServerAdmin webmaster@localhost
-  DocumentRoot /home/daleharvey/src/seaforium/public
+  DocumentRoot %ROOT_PATH%
 
   <Directory />
     Options FollowSymLinks
     AllowOverride None
   </Directory>
 
-  <Directory /home/daleharvey/src/seaforium/public>
+  <Directory %ROOT_PATH%>
     Options Indexes FollowSymLinks MultiViews
     AllowOverride AuthConfig FileInfo
     Order allow,deny
@@ -23,16 +24,16 @@ NameVirtualHost *:80
 
 <VirtualHost *:80>
 
-  ServerName yayhooray.dev
+  ServerName %HOST%
   ServerAdmin webmaster@localhost
-  DocumentRoot /home/daleharvey/src/seaforium/public
+  DocumentRoot %ROOT_PATH%
 
   <Directory />
     Options FollowSymLinks
     AllowOverride None
   </Directory>
 
-  <Directory /home/daleharvey/src/seaforium/public>
+  <Directory %ROOT_PATH%>
     Options Indexes FollowSymLinks MultiViews
     AllowOverride AuthConfig FileInfo
     Order allow,deny

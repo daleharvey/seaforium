@@ -1,8 +1,8 @@
 [db]
-host = localhost
-username = username
-password = root
-database = new_forum
+host = %MYSQL_HOST%
+username = %MYSQL_USER%
+password = %MYSQL_PASS%
+database = forum
 
 [site]
-url = http://yayhooray.dev/
+url = http://%HOST/

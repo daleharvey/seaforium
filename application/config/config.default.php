@@ -1,6 +1,17 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-// these are needed to login to yay for registration
+/*
+| URL to your CodeIgniter root. Typically this will be your base URL,
+| WITH a trailing slash:
+|
+|	http://example.com/
+|
+*/
+$config['base_url']	= '%HOST%';
+
+
+// these are needed to login to yay for registration, you can leave thease alone
+// if yay_import is false
 $config['yay_username'] = '';
 $config['yay_password'] = '';
 
@@ -33,22 +44,6 @@ $config['recaptcha'] = array(
 
 //Flickr API details
 $config['flickr_key'] = '';
-
-/*
-|--------------------------------------------------------------------------
-| Base Site URL
-|--------------------------------------------------------------------------
-|
-| URL to your CodeIgniter root. Typically this will be your base URL,
-| WITH a trailing slash:
-|
-|	http://example.com/
-|
-| If this is not set then CodeIgniter will guess the protocol, domain and
-| path to your installation.
-|
-*/
-$config['base_url']	= '';
 
 /*
 |--------------------------------------------------------------------------

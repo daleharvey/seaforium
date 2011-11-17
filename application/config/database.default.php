@@ -37,9 +37,9 @@
 $active_group = "default";
 $active_record = TRUE;
 
-$db['default']['hostname'] = "localhost";
-$db['default']['username'] = "root";
-$db['default']['password'] = "root";
+$db['default']['hostname'] = "%MYSQL_HOST%";
+$db['default']['username'] = "%MYSQL_USER%";
+$db['default']['password'] = "%MYSQL_PASSWORD%";
 $db['default']['database'] = "forum";
 $db['default']['dbdriver'] = "mysqli";
 $db['default']['dbprefix'] = "";
