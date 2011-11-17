@@ -1,1 +1,32 @@
 A YayHooray.com clone
+=====================
+
+Installing
+==========
+
+    $ sudo apt-get install tasksel
+    $ sudo apt-get install python-mysqldb python-pip python-lxml
+    $ sudo tasksel install lamp-server
+
+    $ sudo pip install requests
+
+    $ git clone git@github.com:daleharvey/seaforium.git
+
+    $ cd seaforium
+
+    $ cp conf/yayhooray.conf.default conf/yayhooray.conf
+    $ cp application/config/config.default.php application/config/config.php
+    $ cp application/config/database.default.php application/config/database.php
+    $ cp tests/yay.ini.default tests/yay.ini
+    $ %% Replace vars
+
+add 127.0.0.1 yayhooray.dev to /etc/hosts
+
+    $ sudo ln -s %FORUM_ROOT%/conf/yayhooray.conf /etc/apache2/sites-available/yayhooray.conf
+
+    $ sudo a2enmod rewrite
+    $ sudo a2ensite yayhooray.conf
+
+    $ ./yayclient reset
+
+    $ sudo service apache2 reload
