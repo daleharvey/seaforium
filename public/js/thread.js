@@ -249,6 +249,7 @@ thread = {
       success: function(data){
 	format_special($('#comment-'+comment_id+' .content').html(data));
         delete thread.comments[comment_id];
+        prettyPrint();
       }
     });
   },
