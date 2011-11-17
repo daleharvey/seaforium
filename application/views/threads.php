@@ -7,7 +7,7 @@ if (!isset($tab_orders['startedby'])) {
 }
 
 ?>
-				<div id="main-title"<?php echo $use_random_title ? ' class="changeling" title="'. $title->username .'"':''; ?>"><h3><?php echo ($use_random_title) ? $title->title_text : 'Threads'; ?></h3></div>
+				<div id="main-title"<?php echo $use_random_title ? ' class="changeling" title="'. $title->username .'"':''; ?>"><h3><?php echo ($use_random_title) ? htmlentities($title->title_text) : 'Threads'; ?></h3></div>
 
 				<div id="thread-navigation" class="pagination top">
 					<?php if ($logged_in) { ?>
@@ -30,7 +30,7 @@ $display = $this->session->userdata('comments_shown') == false ? 50 : $this->ses
 foreach($thread_result->result() as $row) {
 	$alt = (!isset($alt) || $alt === false ? true : false);
 
-	$link_text = '/thread/'.$row->thread_id.'/'.url_title($row->subject, 'dash', TRUE);
+	$link_text = '/thread/'.$row->thread_id.'/'.url_title(htmlentities($row->subject), 'dash', TRUE);
 
 	$last_pagenumber = ceil($row->response_count / $display);
 	$last_page = ($last_pagenumber * $display - $display);
@@ -90,7 +90,7 @@ foreach($thread_result->result() as $row) {
 
 				<div id="thread-<?php echo $row->thread_id; ?>" class="thread<?php echo $alt === false ? '' : ' alt'; echo $acq; echo $nsfw; echo $my_thread ? ' mythread' : ''; ?>">
 					<div class="one">
-						<div class="subject"><span class="subject-text"><a href="<?php echo $link_text; ?>"><?php echo $row->subject; ?></a></span> <?php echo $nsfw_tag.' '. '<a href="'.$link_text.'/p/'.$last_page.'#bottom'; ?>" class='end-link'>#</a></div>
+						<div class="subject"><span class="subject-text"><a href="<?php echo $link_text; ?>"><?php echo htmlentities($row->subject); ?></a></span> <?php echo $nsfw_tag.' '. '<a href="'.$link_text.'/p/'.$last_page.'#bottom'; ?>" class='end-link'>#</a></div>
 						<div class="category"><?php echo $row->category.$printpages ?></div>
 					</div>
 					<div class="two">

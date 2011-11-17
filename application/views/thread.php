@@ -7,7 +7,7 @@ $owner = $logged_in && $this->meta['user_id'] == $info['user_id'];
 
 <div id="thread">
   <div id="main-title"<?php echo $owner && $info['editable'] ? ' class="changeling"' : '' ?>>
-    <h3><?php echo $info['title'] ?></h3>
+    <h3><?php echo htmlentities($info['title']) ?></h3>
     <?php if ($logged_in) { ?>
       <a class="favourite<?php echo in_array($thread_id, $favorites) ? ' added' : ''; ?>" rel="<?php echo $thread_id; ?>"></a>
       <a class="hide-thread<?php echo in_array($thread_id, $hidden) ? ' added' : ''; ?>" rel="<?php echo $thread_id; ?>"></a>
