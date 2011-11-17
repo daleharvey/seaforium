@@ -75,3 +75,30 @@ In the above files replace the required values, replacements are marked by %REPL
     $ sudo apachectl restart
 
 Now open http://yayhooray.dev in your browser and you should be good to go :)
+
+
+Developing
+==========
+
+Contributing to the codebase is done via pull requests, this lets us test and work on the feature while it is being developed
+
+Create a feature branch
+
+    $ git remote add castis git@github.com:castis/seaforium.git
+    $ git branch -m feature
+
+Code Stuff ...
+
+    $ git stash
+    $ git pull --rebase castis master
+    $ git stash apply
+    $ git commit -m "A nice commit message"
+
+Ensure you have the up to date code before submitting, try to avoid merge commits
+
+    $ ./yayclient test
+
+The test suite must pass before any code is merged, if you are coding a new feature or fixing a bug in the server then you should make a test to verify your feature / fix works.
+
+    $ git push origin feature
+
