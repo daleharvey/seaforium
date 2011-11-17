@@ -40,7 +40,7 @@ class CI_Session {
 	var $encryption_key				= '';
 	var $flashdata_key 				= 'flash';
 	var $time_reference				= 'time';
-	var $gc_probability				= 5;
+	var $gc_probability				= 500;
 	var $userdata					= array('user_id' => 0);
 	var $CI;
 	var $now;
@@ -90,7 +90,7 @@ class CI_Session {
 		{
 			$this->sess_expiration = (60*60*24*365*2);
 		}
-		 
+
 		// Set the cookie name
 		$this->sess_cookie_name = $this->cookie_prefix.$this->sess_cookie_name;
 
@@ -276,9 +276,9 @@ class CI_Session {
 			// Serialize the custom data array so we can store it
 			$custom_userdata = $this->_serialize($custom_userdata);
 		}
-		
+
 		$user_id = strlen($this->userdata['user_id']) >= 1 ? $this->userdata['user_id'] : 0;
-		
+
 		// Run the update query
 		$this->CI->db->where('session_id', $this->userdata['session_id']);
 		$this->CI->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata, 'user_id' => $user_id));
