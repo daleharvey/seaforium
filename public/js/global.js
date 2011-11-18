@@ -172,18 +172,31 @@ function isThread() {
 
     $form.find('[type=submit]').attr('disabled', 'disabled');
 
+    var data = {
+      content: $input.val(),
+      ajax: true
+    };
+
+    if (document.location.pathname === '/newthread') {
+      data.subject = $form.find('#subject').val();
+      data['category[]'] = $form.find('input:radio[name=category[]]:checked').val();
+    }
+
     $.ajax({
       type: 'POST',
       url: $form.attr('action'),
-      data: {content: $input.val(), ajax: true},
+      data: data,
       dataType: 'json'
     }).then(function(data) {
-      if (data.ok) {
-        if (hasStorage) {
-          localStorage.removeItem(key);
-        }
-        document.location.href = data.url;
+      if (hasStorage) {
+        localStorage.removeItem(key);
       }
+      document.location.href = data.url;
+    }).fail(function(data) {
+      data = JSON.parse(data.responseText);
+      $form.find('[type=submit]').removeAttr('disabled');
+      $('#ajax_errs').remove();
+      $form.prepend('<div id="ajax_errs">' + data.reason + '</div>');
     });
   });
 

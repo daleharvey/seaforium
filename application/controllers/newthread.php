@@ -16,6 +16,8 @@ class Newthread extends Controller {
 
   function index()
   {
+    $ajax = isset($_POST['ajax']);
+
     $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
     $this->form_validation->set_rules('subject', 'Subject',
                                       'trim|required|xss_clean');
@@ -41,8 +43,18 @@ class Newthread extends Controller {
       $this->user_dal->update_thread_count($comment['user_id']);
 
       $this->thread_dal->new_comment($comment);
-      redirect('/thread/'.$comment['thread_id'] . '/' .
-               url_title($subject, 'dash', TRUE));
+      $url = '/thread/'.$comment['thread_id'] . '/' . url_title($subject, 'dash', TRUE);
+
+      if ($ajax) {
+        return send_json($this->output, 201, array('ok' => true, 'url' =>  $url));
+      } else {
+        redirect($url);
+      }
+    } else {
+      if ($_SERVER['REQUEST_METHOD'] === 'POST' && $ajax) {
+        return send_json($this->output, 400, array('error' => true,
+                                                   'reason' =>  validation_errors()));
+      }
     }
     $this->load->view('shared/header');
     $this->load->view('newthread');

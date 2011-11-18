@@ -1488,3 +1488,14 @@ color: #494949;
     top: 0px;
 
 }
+
+#ajax_errs .error {
+    float:none;
+    margin: 10px 0;
+    color:red;
+    border: 0px;
+}
+
+#ajax_errs {
+	border-bottom:1px dotted #959595;
+}
