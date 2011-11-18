@@ -179,7 +179,9 @@ function isThread() {
       dataType: 'json'
     }).then(function(data) {
       if (data.ok) {
-        localStorage.removeItem(key);
+        if (hasStorage) {
+          localStorage.removeItem(key);
+        }
         document.location.href = data.url;
       }
     });
