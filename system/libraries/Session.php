@@ -40,7 +40,7 @@ class CI_Session {
 	var $encryption_key				= '';
 	var $flashdata_key 				= 'flash';
 	var $time_reference				= 'time';
-	var $gc_probability				= 500;
+	var $gc_probability				= 50;
 	var $userdata					= array('user_id' => 0);
 	var $CI;
 	var $now;
