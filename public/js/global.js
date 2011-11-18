@@ -134,3 +134,55 @@ $('.favourite').bind('click', function(){
 function isThread() {
   return (typeof(window.thread) == "undefined")?  false: true;
 }
+
+(function() {
+
+  var $input = $('#thread-content-input');
+  var $form = $input.parents('form');
+  var key = document.title;
+
+  var hasStorage = (function() {
+    try {
+      return !!localStorage.getItem;
+    } catch(e) {
+      return false;
+    }
+  }());
+
+  if ($input.length !== 0 && hasStorage) {
+
+    if (localStorage.getItem(key)) {
+      $input.val(localStorage.getItem(key));
+    }
+
+    $input.bind('keyup change', function() {
+      localStorage.setItem(key, $input.val());
+    });
+  }
+
+
+  $form.bind('submit', function(e) {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if ($input.val().length === 0) {
+      return false;
+    }
+
+    $form.find('[type=submit]').attr('disabled', 'disabled');
+
+    $.ajax({
+      type: 'POST',
+      url: $form.attr('action'),
+      data: {content: $input.val(), ajax: true},
+      dataType: 'json'
+    }).then(function(data) {
+      if (data.ok) {
+        localStorage.removeItem(key);
+        document.location.href = data.url;
+      }
+    });
+  });
+
+})();

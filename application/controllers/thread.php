@@ -75,11 +75,13 @@ class Thread extends Controller {
       // if they're submitting data, we're going to refresh the page anyways
       // so theres no point in running the query below the form validation
       $this->form_validation->set_rules('content', 'Content', 'required');
+      $this->form_validation->set_rules('ajax', 'ajax');
 
       // if a comment was submitted
       if ($this->form_validation->run()) {
 
         $content = $this->form_validation->set_value('content');
+        $ajax = $this->form_validation->set_value('ajax');
 
         $this->thread_dal->new_comment(array(
           'thread_id' => $thread_id,
@@ -98,9 +100,14 @@ class Thread extends Controller {
         $count = (ceil($db_count / $shown) -1) * $shown;
 
         $url = '/thread/'. $thread_id . '/'.
-          url_title($thread_info->subject, 'dash', TRUE) . '/p/'. $count .'#bottom';
+          url_title($thread_info->subject, 'dash', TRUE) . '/p/'. $count . '/' .
+          $db_count . '#bottom';
 
-        redirect($url);
+        if ($ajax) {
+          return send_json($this->output, 201, array('ok' => true, 'url' =>  $url));
+        } else {
+          redirect($url);
+        }
       }
     }
 
