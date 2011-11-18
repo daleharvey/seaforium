@@ -21,7 +21,7 @@
 	<script type="text/javascript">
 		session_id = '<?php echo $this->session->userdata('session_id'); ?>';
 	</script>
-	<script type="text/javascript" src="/js/global.js"></script>
+	<script type="text/javascript" src="/js/global.js?v=<?php echo $this->config->item('version'); ?>"></script>
 <?php
   if ($this->agent->is_mobile()) {
     echo 	'<script type="text/javascript" src="/js/mobile.js"></script>';

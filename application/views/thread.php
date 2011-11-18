@@ -361,5 +361,5 @@ if ($logged_in && (int) $this->session->userdata('new_post_notification') === 1)
 <?php } // end notifier ?>
 <?php } ?>
 
-  <script type="text/javascript" src="/js/thread.js"></script>
+  <script type="text/javascript" src="/js/thread.js?v=<?php echo $this->config->item('version'); ?>"></script>
 </div>

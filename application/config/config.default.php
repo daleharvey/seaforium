@@ -9,6 +9,8 @@
 */
 $config['base_url']	= '%HOST%';
 
+// a hand written :( verion to cache bust static files when we update
+$version = '0';
 
 // these are needed to login to yay for registration, you can leave thease alone
 // if yay_import is false

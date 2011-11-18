@@ -1,4 +1,5 @@
 <?php
+
 $css = $this->agent->is_mobile() ? "/css/mobile.css" : "/css/forum.css";
 
 $user_view_desktop = $this->session->userdata('view_desktop');
@@ -49,7 +50,7 @@ if ($body_class === '') {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <link href="/css/prettify.css" type="text/css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="<?php echo $css; ?>" />
+    <link rel="stylesheet" type="text/css" href="<?php echo $css; ?>?v=<?php echo $this->config->item('version'); ?>" />
     <script type="text/javascript" src="/js/jquery-1.6.4.min.js"></script>
 
     <base href="<?php echo site_url(); ?>" />
@@ -185,11 +186,11 @@ if ($logged_in) {
 					</div>
 				</div>
 				<?php } ?>
-				
+
 				<?php if (!$this->agent->is_mobile()) { ?>
 					<a href="http://patrickobrienfoundation.org/"><img src="/img/pobf.gif" /></a>
 				<?php } ?>
-				
+
 			</div>
 
 			<div id="right-column">
