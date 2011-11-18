@@ -34,14 +34,15 @@ class Ajax extends Controller
     }
 
     // find out how many comments are in the thread
-    $db_count = $this->thread_dal->comment_count($thread_id);
+    $thread_info = $this->thread_dal->comment_count_info($thread_id);
+    $db_count = $thread_info->max_rows;
 
     // if the numbers dont match, throw out some html
     if ($db_count > $current_count) {
 
       // number of new posts
       $new_posts = $db_count - $current_count;
-      $title = url_title($this->thread_dal->get_thread_information($this->session->userdata('user_id'), $thread_id)->row()->subject, 'dash', TRUE);
+      $title = url_title($thread_info->subject, 'dash', TRUE);
       $shown = $this->session->userdata('comments_shown');
       if (!$shown) {
         $shown = 25;
@@ -163,7 +164,7 @@ class Ajax extends Controller
 
     echo 0;
   }
-  
+
   function unfavorite_thread($thread_id, $key)
   {
     if ($key === $this->session->userdata('session_id')) {
@@ -181,12 +182,12 @@ class Ajax extends Controller
 	{
       $thread_id = (int) $thread_id;
       $user_id = (int) $this->session->userdata('user_id');
-	
+
 	  $data = $this->session->userdata('username') . $thread_id;
 	  echo $this->thread_dal->add_hide_thread(md5($data), $user_id, $thread_id);
 	  return;
 	}
-	
+
 	echo 0;
   }
 
@@ -198,7 +199,7 @@ class Ajax extends Controller
 	  echo $this->thread_dal->remove_hide_thread(md5($data));
 	  return;
 	}
-	
+
 	echo 0;
   }
 

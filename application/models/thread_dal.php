@@ -150,6 +150,22 @@ class Thread_dal extends Model
     return $this->db->query($sql, $thread_id)->row()->max_rows;
   }
 
+
+  /**
+   * Get a count of all the comments for a given thread id
+   *
+   * @param	string
+   * @return	object
+   */
+  function comment_count_info($thread_id)
+  {
+    $sql = "SELECT threads.subject, count(comment_id) AS max_rows FROM threads " .
+      "LEFT JOIN comments ON comments.thread_id = threads.thread_id  WHERE " .
+      "threads.thread_id= ? LIMIT 1";
+    return $this->db->query($sql, $thread_id)->row();
+  }
+
+
   function is_first_comment($thread_id, $comment_id)
   {
     $sql = "SELECT comment_id FROM comments WHERE comments.thread_id = ? ORDER BY " .
