@@ -90,7 +90,6 @@ $login_txt = $button_texts[array_rand($button_texts)];
             </div>
           </form>
 	</div>
-        <script type="text/javascript" src="/js/login.js"></script>
 
 <?php } else { ?>
 
