@@ -210,14 +210,11 @@ EOT;
   // callback for username validation rules
   function valid_username($str)
   {
-    //return valid_username($str) && $this->user_dal->is_username_available($str)
-    if (!valid_username($str))
-    {
-      $this->form_validation->set_message('valid_username', "Username contains invalid characters");
+    if (!valid_username($str)) {
+      $this->form_validation->set_message('valid_username',
+                                          "Username contains invalid characters");
       return FALSE;
-    }
-    elseif (!$this->user_dal->is_username_available($str))
-    {
+    } elseif (!$this->user_dal->is_username_available($str)) {
       $this->form_validation->set_message('valid_username', "That username is already in use");
       return FALSE;
     }
@@ -228,8 +225,7 @@ EOT;
   // callback for email validation
   function valid_email($str)
   {
-    if (!$this->user_dal->is_email_available($str))
-    {
+    if (!$this->user_dal->is_email_available($str)) {
       $this->form_validation->set_message('valid_email', "That email address is already in use");
       return FALSE;
     }
@@ -238,16 +234,16 @@ EOT;
   }
 
   // callback for recaptcha validation
-	function check_captcha($val)
+  function check_captcha($val)
   {
-	  if ($this->recaptcha->check_answer($this->input->ip_address(),
+    if ($this->recaptcha->check_answer($this->input->ip_address(),
                                        $this->input->post('recaptcha_challenge_field'), $val)) {
-	    return TRUE;
-	  } else {
-	    $this->form_validation->set_message('check_captcha', "Captcha incorrect");
-	    return FALSE;
-	  }
-	}
+      return TRUE;
+    } else {
+      $this->form_validation->set_message('check_captcha', "Captcha incorrect");
+      return FALSE;
+    }
+  }
 }
 
 /* End of file auth.php */
