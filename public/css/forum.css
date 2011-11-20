@@ -1484,9 +1484,21 @@ color: #494949;
     position:absolute;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5) url(../img/darkvideo-pinkie-button.png) center center no-repeat;
+    background: rgba(0, 0, 0, 0.2) url(../img/darkvideo-pinkie-button.png) center center no-repeat;
     top: 0px;
 
+}
+
+.youtube_wrapper h2 {
+    position: absolute;
+    top: 0px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    font-weight: normal;
+    padding: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 999;
 }
 
 #ajax_errs .error {

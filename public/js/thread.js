@@ -81,10 +81,7 @@ function format_special(element)
         } else {
           var youtube_html = "<div style='width:" + video_width + "px; height:" +
             video_height + "px' id='" + b + "' class='youtube_wrapper' " +
-            "data-extra='" + video_url_append_string + "'>" +
-            "<img src='http://img.youtube.com/vi/" + b +
-            "/0.jpg' class='youtube_placeholder' title='Click to play " +
-            "this video'/><div class='youtube_playbutton'></div></div><br/>";
+            "data-extra='" + video_url_append_string + "'></div><br/>";
         }
 
         return youtube_html;
@@ -101,6 +98,19 @@ function format_special(element)
         $(this).replaceWith(tmp);
       }
 
+    });
+
+    $(this).find('.youtube_wrapper').each(function() {
+      var self = this;
+      $.ajax({
+        url: 'http://gdata.youtube.com/feeds/api/videos/' + $(this).attr('id') + '?v=2&alt=jsonc',
+        dataType: "jsonp",
+        success: function(data) {
+          $(self).append('<img src="' + data.data.thumbnail.hqDefault +
+                         '" class="youtube_placeholder" title="Click to play this video" /><h2>' +
+                         data.data.title + '</h2><div class="youtube_playbutton"></div>');
+        }
+      });
     });
 
     // Reverse so we handle nested quotes
