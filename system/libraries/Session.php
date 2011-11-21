@@ -735,6 +735,7 @@ class CI_Session {
 	 */
 	function _sess_gc()
 	{
+          return; // Disabled, done in cron
 		if ($this->sess_use_database != TRUE)
 		{
 			return;
