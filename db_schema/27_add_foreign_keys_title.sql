@@ -1,0 +1,1 @@
+ALTER TABLE `titles` ADD CONSTRAINT `FK_titles_users` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION;
