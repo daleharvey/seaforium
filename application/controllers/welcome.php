@@ -98,16 +98,22 @@ class Welcome extends Controller {
         $sql = "WHERE threads.category != 4";
         break;
       case 'participated':
-        $sql = "WHERE threads.thread_id IN (" .
-          $this->thread_dal->get_participated_threads($this->meta['user_id']) .")";
+        $sql = "WHERE threads.thread_id IN (SELECT DISTINCT comments.thread_id FROM "
+          ."comments, threads WHERE comments.user_id = 3 AND comments.thread_id = "
+          ."threads.thread_id AND threads.deleted = 0) AND NOT EXISTS (SELECT "
+          ."hidden_threads.hidden_id FROM hidden_threads WHERE hidden_threads.user_id "
+          ."= {$this->meta['user_id']} AND hidden_threads.thread_id = threads.thread_id)";
         break;
       case 'favorites':
-        $sql = "WHERE threads.thread_id IN (" .
-          $this->thread_dal->get_favorites($this->meta['user_id']) .")";
+        $sql = "WHERE threads.thread_id IN (SELECT DISTINCT threads.thread_id FROM "
+          ."favorites, threads WHERE favorites.user_id = {$this->meta['user_id']} AND "
+          ."favorites.thread_id = threads.thread_id AND threads.deleted = 0)";
         break;
       case 'hidden':
-        $sql = "WHERE threads.thread_id IN (" .
-          $this->thread_dal->get_hidden($this->meta['user_id']) .")";
+        $sql = "WHERE threads.thread_id IN (SELECT hidden_threads.thread_id "
+          ."FROM hidden_threads,threads WHERE hidden_threads.user_id = {$this->meta['user_id']} "
+          ."AND hidden_threads.thread_id = threads.thread_id AND "
+          ."threads.deleted = 0)";
         break;
       case 'started':
         if ($whostarted!='') {
@@ -116,8 +122,8 @@ class Welcome extends Controller {
         }else{
           $whostartedid = $this->meta['user_id'];
         }
-        $sql = "WHERE threads.thread_id IN (" .
-          $this->thread_dal->get_started_threads($whostartedid) .")";
+        $sql = "WHERE threads.thread_id IN (SELECT DISTINCT thread_id " .
+          "FROM threads WHERE user_id = {$whostartedid} AND deleted = 0)";
         break;
       case 'all':
       default:
