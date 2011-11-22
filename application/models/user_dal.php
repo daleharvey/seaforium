@@ -86,10 +86,10 @@ class User_dal extends Model
                                    'max_rows FROM users'.$username_search_string.';')->row()->max_rows;
     return $count > 0 ? $count : '0';
   }
-  
+
   function get_acquaintance_count($username, $type)
   {
-    return 
+    return
       (int)$this->db->query("SELECT
       count(users.username) AS count
       FROM users
@@ -149,7 +149,7 @@ class User_dal extends Model
             GROUP BY username
             ORDER BY LOWER(username)
             LIMIT ?, ?';
-            
+
     return $this->db->query($sql, array($username, $type, $pagination, $display))->result_array();
   }
 
@@ -591,7 +591,6 @@ class User_dal extends Model
 			ON sessions.user_id = users.id
 			WHERE acquaintances.user_id = ?
 			AND sessions.user_id != 0
-			AND sessions.last_activity > (UNIX_TIMESTAMP() - 300)
 			AND acquaintances.type = 1
 			ORDER BY LOWER(users.username) ASC";
 
@@ -646,7 +645,7 @@ class User_dal extends Model
 			ON sessions.user_id = users.id
 			WHERE acquaintances.user_id = ?
 			AND acquaintances.type = 1
-			GROUP BY users.id 
+			GROUP BY users.id
 			ORDER BY LOWER(users.username) ASC", $user_id);
 
     return $result->num_rows > 0 ? $result : FALSE;
