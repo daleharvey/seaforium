@@ -19,6 +19,5 @@ mysql -u$1 -p$2 new_forum <<< "TRUNCATE users;"
 mysql -u$1 -p$2 new_forum <<< "TRUNCATE user_autologin;"
 mysql -u$1 -p$2 new_forum <<< "TRUNCATE user_profiles;"
 mysql -u$1 -p$2 new_forum <<< "TRUNCATE yh_invites;"
-mysql -u$1 -p$2 new_forum <<< "TRUNCATE yh_whitelist;"
 
 echo "Completed reset!"

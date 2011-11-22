@@ -294,22 +294,6 @@ class User_dal extends Model
   }
 
   /**
-   * Get the whitelist from the database
-   *
-   * @return	array
-   */
-  function get_yh_whitelist()
-  {
-    $list = array();
-
-    foreach($this->db->query("SELECT * FROM yh_whitelist")->result() as $row) {
-      $list[] = strtolower($row->username);
-    }
-
-    return $list;
-  }
-
-  /**
    * Create new user record
    *
    * @param	array
