@@ -65,7 +65,7 @@ class Preferences extends Controller {
     $this->form_validation->set_rules('real_name','MSN username', 'trim|xss_clean');
     $this->form_validation->set_rules('location','MSN username', 'trim|xss_clean');
     $this->form_validation->set_rules('password', 'Change Password',
-                                      'trim|min_length[5]|xss_clean');
+                                      'trim|xss_clean');
     $this->form_validation->set_rules('password2', 'Verify Password',
                                       'trim|xss_clean');
     $this->form_validation->set_rules('old_password', 'Old Password',
@@ -132,8 +132,8 @@ class Preferences extends Controller {
 
       if (isset($old_password) || isset($password) || isset($password2)) {
 
-        if ($password2 === '') {
-          $error = "Your password cannot be empty";
+        if (strlen($password) < 3) {
+          $error = "Your password must be 3 characters at least";
         } else if ($password !== $password2) {
           $error = "Your passwords do not match";
         } else {
