@@ -34,3 +34,4 @@ ALTER TABLE  `user_autologin` CHANGE  `last_ip` `last_ip` varchar(16) COLLATE ut
 ALTER TABLE  `users` CHANGE  `last_ip` `last_ip` varchar(16) COLLATE utf8_bin NOT NULL;
 
 ALTER TABLE `sessions` ADD INDEX sessions_user_id (user_id);
+ALTER TABLE `users` ADD INDEX users_username (username);

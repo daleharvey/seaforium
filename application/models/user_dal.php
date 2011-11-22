@@ -571,10 +571,9 @@ class User_dal extends Model
 	      ON acquaintances.acq_user_id = users.id
 	      AND acquaintances.type = 1
               AND acquaintances.user_id = ?
-	    LEFT JOIN sessions
+	    INNER JOIN sessions
 	      ON sessions.user_id = users.id
-	      AND sessions.user_id != 0
-	    ORDER BY LOWER(users.username) ASC";
+	    ORDER BY users.username ASC";
 
     $data['buddies'] = $this->db->query($sql, (int)$user_id);
 
