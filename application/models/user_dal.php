@@ -565,20 +565,18 @@ class User_dal extends Model
    */
   function get_active_users($user_id)
   {
-    $sql = "
-			SELECT
-				DISTINCT users.username
-			FROM users
-			RIGHT JOIN acquaintances
-			ON acquaintances.acq_user_id = users.id
-			LEFT JOIN sessions
-			ON sessions.user_id = users.id
-			WHERE acquaintances.user_id = ?
-			AND sessions.user_id != 0
-			AND acquaintances.type = 1
-			ORDER BY LOWER(users.username) ASC";
+    $sql = "SELECT DISTINCT users.username
+	    FROM users
+	    RIGHT JOIN acquaintances
+	      ON acquaintances.acq_user_id = users.id
+	      AND acquaintances.type = 1
+              AND acquaintances.user_id = ?
+	    LEFT JOIN sessions
+	      ON sessions.user_id = users.id
+	      AND sessions.user_id != 0
+	    ORDER BY LOWER(users.username) ASC";
 
-    $data['buddies'] = $this->db->query($sql, $user_id);
+    $data['buddies'] = $this->db->query($sql, (int)$user_id);
 
     $sql = "
 			SELECT count(users.id) AS buddy_count

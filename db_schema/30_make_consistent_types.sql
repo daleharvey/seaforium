@@ -32,3 +32,5 @@ ALTER TABLE  `users` CHANGE  `password`  `password` varchar(72) COLLATE utf8_bin
 ALTER TABLE  `login_attempts` CHANGE  `ip_address` `ip_address` varchar(16) COLLATE utf8_bin NOT NULL;
 ALTER TABLE  `user_autologin` CHANGE  `last_ip` `last_ip` varchar(16) COLLATE utf8_bin NOT NULL;
 ALTER TABLE  `users` CHANGE  `last_ip` `last_ip` varchar(16) COLLATE utf8_bin NOT NULL;
+
+ALTER TABLE `sessions` ADD INDEX sessions_user_id (user_id);
