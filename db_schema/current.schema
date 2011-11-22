@@ -1,0 +1,373 @@
+-- MySQL dump 10.13  Distrib 5.5.17, for osx10.6 (i386)
+--
+-- Host: localhost    Database: forum
+-- ------------------------------------------------------
+-- Server version	5.5.17
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `acquaintances`
+--
+
+DROP TABLE IF EXISTS `acquaintances`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `acquaintances` (
+  `acq_id` varchar(32) NOT NULL,
+  `user_id` int(8) NOT NULL,
+  `acq_user_id` int(8) NOT NULL,
+  `type` tinyint(1) NOT NULL,
+  PRIMARY KEY (`acq_id`),
+  KEY `K_acq_main_user` (`user_id`,`acq_user_id`,`type`),
+  KEY `FK_acquaintances_acq_users` (`acq_user_id`),
+  CONSTRAINT `FK_acquaintances_acq_users` FOREIGN KEY (`acq_user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_acquaintances_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `categories` (
+  `category_id` int(2) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  `last_comment_created` datetime NOT NULL,
+  PRIMARY KEY (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `comments`
+--
+
+DROP TABLE IF EXISTS `comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `comments` (
+  `comment_id` int(8) NOT NULL AUTO_INCREMENT,
+  `thread_id` int(7) NOT NULL,
+  `user_id` int(8) NOT NULL,
+  `content` text CHARACTER SET utf8 COLLATE utf8_bin,
+  `created` datetime NOT NULL,
+  `deleted` enum('0','1') DEFAULT '0',
+  `original_content` text CHARACTER SET utf8 COLLATE utf8_bin,
+  PRIMARY KEY (`comment_id`),
+  KEY `user_id` (`user_id`),
+  KEY `FK_comments_threads` (`thread_id`),
+  CONSTRAINT `FK_comments_threads` FOREIGN KEY (`thread_id`) REFERENCES `threads` (`thread_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `favorites`
+--
+
+DROP TABLE IF EXISTS `favorites`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `favorites` (
+  `favorite_id` varchar(32) NOT NULL,
+  `user_id` int(8) NOT NULL,
+  `thread_id` int(7) NOT NULL,
+  PRIMARY KEY (`favorite_id`),
+  KEY `FK_favorites_users` (`user_id`),
+  KEY `FK_favorites_threads` (`thread_id`),
+  CONSTRAINT `FK_favorites_threads` FOREIGN KEY (`thread_id`) REFERENCES `threads` (`thread_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_favorites_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `hidden_threads`
+--
+
+DROP TABLE IF EXISTS `hidden_threads`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hidden_threads` (
+  `hidden_id` varchar(32) NOT NULL,
+  `user_id` int(8) NOT NULL,
+  `thread_id` int(10) DEFAULT NULL,
+  PRIMARY KEY (`hidden_id`),
+  KEY `FK_hidden_threads_users` (`user_id`),
+  KEY `FK_hidden_threads_threads` (`thread_id`),
+  CONSTRAINT `FK_hidden_threads_threads` FOREIGN KEY (`thread_id`) REFERENCES `threads` (`thread_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_hidden_threads_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `login_attempts`
+--
+
+DROP TABLE IF EXISTS `login_attempts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `login_attempts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ip_address` varchar(16) COLLATE utf8_bin NOT NULL,
+  `login` varchar(50) COLLATE utf8_bin NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pm_content`
+--
+
+DROP TABLE IF EXISTS `pm_content`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pm_content` (
+  `message_id` int(7) NOT NULL AUTO_INCREMENT,
+  `subject` varchar(42) DEFAULT NULL,
+  `content` text,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`message_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pm_inbox`
+--
+
+DROP TABLE IF EXISTS `pm_inbox`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pm_inbox` (
+  `inbox_id` int(7) NOT NULL AUTO_INCREMENT,
+  `to_id` int(8) NOT NULL,
+  `from_id` int(8) NOT NULL,
+  `message_id` int(7) NOT NULL,
+  `read` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `read_receipt` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`inbox_id`),
+  KEY `FK_pm_inbox_to_id` (`to_id`),
+  KEY `FK_pm_inbox_from_id` (`from_id`),
+  KEY `FK_pm_inbox_message_id` (`message_id`),
+  CONSTRAINT `FK_pm_inbox_message_id` FOREIGN KEY (`message_id`) REFERENCES `pm_content` (`message_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_pm_inbox_from_id` FOREIGN KEY (`from_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_pm_inbox_to_id` FOREIGN KEY (`to_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pm_outbox`
+--
+
+DROP TABLE IF EXISTS `pm_outbox`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pm_outbox` (
+  `outbox_id` int(7) NOT NULL AUTO_INCREMENT,
+  `to_id` int(8) NOT NULL,
+  `from_id` int(8) NOT NULL,
+  `message_id` int(7) NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`outbox_id`),
+  KEY `FK_pm_outbox_to_id` (`to_id`),
+  KEY `FK_pm_outbox_from_id` (`from_id`),
+  KEY `FK_pm_outbox_message_id` (`message_id`),
+  CONSTRAINT `FK_pm_outbox_message_id` FOREIGN KEY (`message_id`) REFERENCES `pm_content` (`message_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_pm_outbox_from_id` FOREIGN KEY (`from_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_pm_outbox_to_id` FOREIGN KEY (`to_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `sessions`
+--
+
+DROP TABLE IF EXISTS `sessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sessions` (
+  `session_id` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `ip_address` varchar(16) COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `user_agent` varchar(150) COLLATE utf8_bin NOT NULL,
+  `last_activity` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_data` text COLLATE utf8_bin,
+  `user_id` int(8) DEFAULT '0',
+  PRIMARY KEY (`session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `threads`
+--
+
+DROP TABLE IF EXISTS `threads`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `threads` (
+  `thread_id` int(7) NOT NULL AUTO_INCREMENT,
+  `user_id` int(8) NOT NULL,
+  `subject` varchar(64) CHARACTER SET utf8 NOT NULL,
+  `category` int(2) DEFAULT '0',
+  `created` datetime NOT NULL,
+  `last_comment_id` int(8) NOT NULL DEFAULT '0',
+  `nsfw` tinyint(1) NOT NULL DEFAULT '0',
+  `closed` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted` tinyint(4) NOT NULL DEFAULT '0',
+  `last_comment_created` datetime NOT NULL,
+  PRIMARY KEY (`thread_id`),
+  KEY `FK_threads_users` (`user_id`),
+  KEY `FK_threads_category` (`category`),
+  CONSTRAINT `FK_threads_category` FOREIGN KEY (`category`) REFERENCES `categories` (`category_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_threads_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `titles`
+--
+
+DROP TABLE IF EXISTS `titles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `titles` (
+  `title_id` int(7) NOT NULL AUTO_INCREMENT,
+  `title_text` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `author_id` int(8) NOT NULL,
+  PRIMARY KEY (`title_id`),
+  KEY `FK_titles_users` (`author_id`),
+  CONSTRAINT `FK_titles_users` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user_autologin`
+--
+
+DROP TABLE IF EXISTS `user_autologin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_autologin` (
+  `key_id` char(32) COLLATE utf8_bin NOT NULL,
+  `user_id` int(8) NOT NULL,
+  `user_agent` varchar(150) COLLATE utf8_bin NOT NULL,
+  `last_ip` varchar(16) COLLATE utf8_bin NOT NULL,
+  `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`key_id`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user_profiles`
+--
+
+DROP TABLE IF EXISTS `user_profiles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_profiles` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `user_id` int(8) NOT NULL,
+  `country` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `website` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `website_1` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `website_2` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `website_3` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `aim` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `msn` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `gchat` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `facebook` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `lastfm` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `about_blurb` text COLLATE utf8_bin,
+  `flickr_username` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `delicious_username` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `rss_feed_1` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `rss_feed_2` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `rss_feed_3` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `location` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `twitter` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_user_profiles_users` (`user_id`),
+  CONSTRAINT `FK_user_profiles_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) COLLATE utf8_bin NOT NULL,
+  `password` varchar(72) COLLATE utf8_bin NOT NULL,
+  `invites` tinyint(1) DEFAULT '0',
+  `email` varchar(100) COLLATE utf8_bin NOT NULL,
+  `activated` tinyint(1) NOT NULL DEFAULT '1',
+  `banned` tinyint(1) NOT NULL DEFAULT '0',
+  `ban_reason` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `new_password_key` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `new_password_requested` datetime DEFAULT NULL,
+  `new_email` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `new_email_key` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `last_ip` varchar(16) COLLATE utf8_bin NOT NULL,
+  `last_login` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `threads_shown` int(3) DEFAULT '50',
+  `comments_shown` int(3) DEFAULT '100',
+  `yh_username` varchar(19) COLLATE utf8_bin DEFAULT NULL,
+  `view_html` tinyint(1) NOT NULL DEFAULT '1',
+  `new_post_notification` tinyint(1) DEFAULT '1',
+  `random_titles` tinyint(1) DEFAULT '1',
+  `timezone` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `emoticon` tinyint(4) DEFAULT '0',
+  `invited_by` int(11) DEFAULT '0',
+  `custom_css` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `threads_count` int(11) NOT NULL DEFAULT '0',
+  `comments_count` int(11) NOT NULL DEFAULT '0',
+  `hide_enemy_posts` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `yh_invites`
+--
+
+DROP TABLE IF EXISTS `yh_invites`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `yh_invites` (
+  `invite_id` varchar(32) NOT NULL,
+  `yh_username` varchar(18) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `used` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`invite_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2011-11-22 16:59:49
