@@ -7,6 +7,7 @@ from yayclient import YayClient
 from ConfigParser import SafeConfigParser
 
 import DbClient
+import load_generator
 
 
 class TestBasicFunctions(unittest.TestCase):
@@ -52,6 +53,14 @@ class TestBasicFunctions(unittest.TestCase):
     def test_forgot_password_wrong_username(self):
         r = YayClient.forgot_password(self.opts, 'fake@user.com')
         self.assertEqual(r.status_code, 412)
+
+
+    def test_too_many_paricipated(self):
+        user = YayClient.register(self.opts, 'testuser', 'b@a.com', 'a', 'a')
+        self.assertTrue(YayClient.is_logged_in(self.opts, user.cookies))
+        load_generator.create_threads(self.opts, [user], 1000)
+        r = requests.get(self.opts['url'] + 'f/participated', cookies=user.cookies)
+        self.assertEqual(r.status_code, 200)
 
 
 if __name__ == '__main__':
