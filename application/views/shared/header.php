@@ -6,6 +6,7 @@ $user_view_desktop = $this->session->userdata('view_desktop');
 if ($user_view_desktop==1) {
   $css = '/css/forum.css';
 }
+
 $username = $this->session->userdata('username');
 $user_id = $this->session->userdata('user_id');
 
@@ -149,47 +150,46 @@ if ($logged_in) {
             <li><a href="/started/<?php echo $username; ?>">Started Threads</a></li>
 <?php } ?>
           </ul>
-					<ul id="search-title">
-						<li>
-						<strong>Search Thread Titles</strong><br/>
-							<form name="search-box" id="search-box" method="" action="">
-								<input type="text" value="" name="search-phrase" id="search-phrase" />
-								<input type="submit" value="Go" />
-							</form>
-					</ul>
-					<?php if ($logged_in) { ?>
-                                        <hr />
-					<a id="toggle-html">Turn <?php echo $this->session->userdata('view_html') == '1' ? 'off' : 'on'; ?> html</a>
 
-					<?php } ?>
-				</div>
+           <ul id="search-title">
+             <li>
+               <strong>Search Thread Titles</strong><br/>
+               <form name="search-box" id="search-box" method="" action="">
+                 <input type="text" value="" name="search-phrase" id="search-phrase" />
+                 <input type="submit" value="Go" />
+               </form>
+             </li>
+           </ul>
+<?php if ($logged_in) { ?>
+          <hr />
+          <a id="toggle-html">Turn <?php echo $this->session->userdata('view_html') == '1' ? 'off' : 'on'; ?> html</a>
+<?php } ?>
+         </div>
 
-				<?php if ($this->sauth->is_logged_in()) { ?>
+<?php if ($this->sauth->is_logged_in()) { ?>
 
-				<div class="lc-node" id="buddy-list">
-					<h3><a href="/buddies">Buddies</a> <a href="/users" class="users-link">(All users)</a></h3>
+         <div class="lc-node" id="buddy-list">
+           <h3><a href="/buddies">Buddies</a>
+            <a href="/users" class="users-link">(All users)</a></h3>
 
-					<?php
-						$buddy_info = $this->user_dal->get_active_users($user_id);
-					?>
-					<p>ONLINE BUDDIES (<?php echo $buddy_info['buddies']->num_rows; ?>/<?php echo $buddy_info['buddy_count']; ?>)</p>
-					<div>
-						<?php
-							$buddies = $buddy_info['buddies']->result();
-							$j = count($buddies);
-							$i = 1;
-							foreach($buddies as $user)
-							{ ?>
-						<span><?php echo anchor('/user/'.url_title($user->username, 'dash', TRUE), $user->username), ($i === $j ? '' : ','); ?></span>
-						<?php ++$i; } ?>
-					</div>
-				</div>
-				<?php } ?>
+<?php $buddy_info = $this->user_dal->get_active_users($user_id); ?>
 
-				<?php if (!$this->agent->is_mobile()) { ?>
-					<a href="http://patrickobrienfoundation.org/"><img src="/img/pobf.gif" /></a>
-				<?php } ?>
+           <p>ONLINE BUDDIES (<?php echo $buddy_info['buddies']->num_rows . "/" . $buddy_info['buddy_count']; ?>)</p>
+         <div>
+<?php
+  $buddies = $buddy_info['buddies']->result();
+  $j = count($buddies);
+  $i = 1;
+foreach($buddies as $user) { ?>
+             <span><?php echo anchor('/user/'.url_title($user->username, 'dash', TRUE), $user->username), ($i === $j ? '' : ','); ?></span>
+<?php ++$i; } ?>
+         </div>
+       </div>
 
-			</div>
+<?php } if (!$this->agent->is_mobile()) { ?>
+         <a href="http://patrickobrienfoundation.org/"><img src="/img/pobf.gif" /></a>
+<?php } ?>
 
-			<div id="right-column">
+     </div>
+
+     <div id="right-column">
