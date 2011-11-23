@@ -14,6 +14,8 @@ class Sauth
     $this->ci->load->database();
     $this->ci->load->model('user_dal');
 
+    $this->ci->user_id = NULL;
+
     // try to autologin
     $this->autologin();
   }
@@ -64,6 +66,8 @@ class Sauth
     );
 
     $this->ci->session->set_userdata($data);
+    $this->ci->user_id = $user->id;
+
     $this->create_autologin($user->id);
 
     $this->clear_login_attempts($username);
@@ -265,6 +269,7 @@ class Sauth
             // This should just be global data, does not need to go through
             // cookies as it is read on every page request
             $this->ci->session->set_userdata($data);
+            $this->ci->user_id = $user->id;
 
             $ip = $this->ci->config->item('login_record_ip', 'auth');
             $time = $this->ci->config->item('login_record_time', 'auth');

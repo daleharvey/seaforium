@@ -77,7 +77,7 @@ class Ajax extends Controller
 
     $data = array(
       'content' => $display === 0 ? $comment->content : nl2br($comment->content),
-      'owner' => ($comment->user_id == $this->session->userdata('user_id') &&
+      'owner' => ($comment->user_id == $this->user_id &&
                   strtotime($comment->created) > (time() - 3600))
     );
 
@@ -96,7 +96,7 @@ class Ajax extends Controller
                                                     $comment_id);
     $data = array(
       'content' => $comment->original_content,
-      'owner' => ($comment->user_id == $this->session->userdata('user_id') &&
+      'owner' => ($comment->user_id == $this->user_id &&
          ($is_first || strtotime($comment->created) > (time() - (60*60*24))))
     );
 
@@ -115,7 +115,7 @@ class Ajax extends Controller
 
     $existing = $this->thread_dal->get_comment($comment_id)->row();
 
-    if ($existing->user_id === $this->session->userdata('user_id')) {
+    if ($existing->user_id === $this->user_id) {
 
       $content = $this->input->post('content');
       $processed = _process_post($content);
@@ -138,7 +138,7 @@ class Ajax extends Controller
     if ($key === $this->session->userdata('session_id')) {
       $thread_id = (int) $thread_id;
       $status = (int) $status;
-      $user_id = (int) $this->session->userdata('user_id');
+      $user_id = (int) $this->user_id;
 
       if ($keyword == 'nsfw') {
         echo $this->thread_dal->change_nsfw($user_id, $thread_id, $status);
@@ -154,7 +154,7 @@ class Ajax extends Controller
   {
     if ($key === $this->session->userdata('session_id')) {
       $thread_id = (int) $thread_id;
-      $user_id = (int) $this->session->userdata('user_id');
+      $user_id = (int) $this->user_id;
 
       $md5 = md5($this->session->userdata('username').$thread_id);
 
@@ -181,7 +181,7 @@ class Ajax extends Controller
     if ($key == $this->session->userdata('session_id'))
 	{
       $thread_id = (int) $thread_id;
-      $user_id = (int) $this->session->userdata('user_id');
+      $user_id = (int) $this->user_id;
 
 	  $data = $this->session->userdata('username') . $thread_id;
 	  echo $this->thread_dal->add_hide_thread(md5($data), $user_id, $thread_id);
@@ -207,7 +207,7 @@ class Ajax extends Controller
   {
     if ($key === $this->session->userdata('session_id')) {
       $view_html = (int) $this->session->userdata('view_html');
-      $user_id = $this->session->userdata('user_id');
+      $user_id = $this->user_id;
       $results = $this->user_dal->toggle_html((int) $user_id, $view_html);
 
       if ($results === 1) {
