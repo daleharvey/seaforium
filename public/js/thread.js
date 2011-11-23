@@ -46,6 +46,7 @@ function format_special(element)
       if (this.nodeType !== 3 || this.parentNode.nodeName === 'A') {
         return;
       }
+
       var tmp = this.textContent;
 
       tmp = tmp.replace(ytube, function(a, b) {
@@ -95,7 +96,7 @@ function format_special(element)
           'frameborder="0" webkitAllowFullScreen allowFullScreen></iframe><br />';
       });
 
-      if (tmp !== this.textContent) {
+      if (tmp !== this.textContent && $('#toggle-html').data('active')) {
         $(this).replaceWith(tmp);
       }
 

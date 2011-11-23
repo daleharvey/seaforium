@@ -38,6 +38,8 @@ if ($body_class === '') {
   $body_class = 'yh_home';
 }
 
+$view_html = $this->session->userdata('view_html') == '1';
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -162,7 +164,8 @@ if ($logged_in) {
            </ul>
 <?php if ($logged_in) { ?>
           <hr />
-          <a id="toggle-html">Turn <?php echo $this->session->userdata('view_html') == '1' ? 'off' : 'on'; ?> html</a>
+          <a id="toggle-html" data-active="<?php echo $view_html ? 'true' : 'false'; ?>">
+             Turn <?php echo $view_html ? 'off' : 'on'; ?> html</a>
 <?php } ?>
          </div>
 

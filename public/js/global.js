@@ -65,7 +65,7 @@
   $('#toggle-html').bind('click', function(){
     button = $(this);
     $.get('/ajax/toggle_html/'+ session_id, function(data) {
-      button.html(data);
+      window.location.reload(true);
     });
     return;
   });
