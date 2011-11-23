@@ -77,67 +77,18 @@ class Find extends Controller {
 	$this->load->view('shared/footer');
   }
 
-   function _ready_filters($filter, $ordering, $dir)
+  function _ready_filters($filter, $ordering, $dir)
   {
-    // switch through the filters
-    switch(strtolower($filter))
-      {
-      case 'discussions':
-        $sql = "WHERE threads.category = 1";
-        break;
-      case 'projects':
-        $sql = "WHERE threads.category = 2";
-        break;
-      case 'advice':
-        $sql = "WHERE threads.category = 3";
-        break;
-      case 'meaningless':
-        $sql = "WHERE threads.category = 4";
-        break;
-      case 'meaningful':
-        $sql = "WHERE threads.category != 4";
-        break;
-      case 'participated':
-        $sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_participated_threads($this->meta['user_id']) .")";
-        break;
-      case 'favorites':
-        $sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_favorites($this->meta['user_id']) .")";
-        break;
-      case 'started':
-        $sql = "WHERE threads.thread_id IN (". $this->thread_dal->get_started_threads($this->meta['user_id']) .")";
-        break;
-      case 'all':
-      default:
-        $filter = $sql = '';
-      }
-
-    // make sure the direction is one or the other
-    if (!in_array(strtolower($dir), array('desc', 'asc')))
-      $dir = 'desc';
-
-    switch(strtolower($ordering))
-      {
-      case 'started':
-        $sql_order = "ORDER BY threads.created ". $dir;
-        break;
-      case 'latest':
-        $sql_order = "ORDER BY response_created ". $dir;
-        break;
-      case 'posts':
-        $sql_order = "ORDER BY response_count ". $dir;
-        break;
-      default:
-        $sql_order = "ORDER BY response_created DESC";
-        $ordering = $dir = '';
-      }
+    $filter = $sql = '';
+    $ordering = $dir = '';
 
     return array(
-                 'filter' => $sql,
-                 'order' => $sql_order,
-                 'url_suffix' => (strlen($filter) > 0 ? '/'.$filter : '')
-                 . (strlen($ordering) > 0 ? '/'.$ordering : '')
-                 . (strlen($dir) > 0 ? '/'.$dir : '')
-                 );
+      'filter' => $sql,
+      'order' => $sql_order,
+      'url_suffix' => (strlen($filter) > 0 ? '/'.$filter : '')
+        . (strlen($ordering) > 0 ? '/'.$ordering : '')
+        . (strlen($dir) > 0 ? '/'.$dir : '')
+    );
   }
 }
 
