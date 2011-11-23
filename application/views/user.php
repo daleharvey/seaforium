@@ -90,7 +90,7 @@
 							// sets played date using PHP date
 							$date_format = 'M j, y g:ia';
 
-							$update = @file_get_contents("http://ws.audioscrobbler.com/1.0/user/".$user_data->lastfm."/recenttracks.txt");
+							$update = @file_get_contents("http://ws.audioscrobbler.com/1.0/user/".urlencode($user_data->lastfm)."/recenttracks.txt");
 							$update = str_replace( '–', '-', $update ); // replaces en dash with regular dash
 							$update = explode("\n", $update);
 
