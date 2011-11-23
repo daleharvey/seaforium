@@ -114,6 +114,7 @@ class Auth extends Controller
       }
     }
 
+    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
     $this->load->view('shared/header');
     $this->load->view($view, $data);
     $this->load->view('shared/footer');

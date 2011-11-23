@@ -4,29 +4,25 @@ $form = array(
   'username' => array(
     'name' => 'username',
     'id' => 'username',
-    //'value' => set_value('username'),
-    'value' => 'newUsername',
+    'value' => set_value('username'),
     'maxlength' => 32,
     'size' => 30
   ),
   'email' => array(
     'name' => 'email',
     'id' => 'email',
-    //'value' => set_value('email'),
-    'value' => 'email@yayhooray.net',
+    'value' => set_value('email'),
     'maxlength' => 255,
     'size' => 30
   ),
   'password' => array(
     'name' => 'password',
     'id' => 'password',
-    'value' => 'p4ssw0rd!',
     'size' => 30
   ),
   'confirm-password' => array(
     'name' => 'confirm-password',
     'id' => 'confirm-password',
-    'value' => 'p4ssw0rd!',
     'size' => 30
   )
 );
