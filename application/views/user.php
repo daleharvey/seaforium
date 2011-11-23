@@ -1,61 +1,74 @@
+<div id="main-title"><h3><?php echo $user_data->username ?></h3></div>
 
-				<div id="main-title"><h3><?php echo $user_data->username ?></h3></div>
+<div id="user">
+<?php
 
-				<div id="user">
-					<?php
-					$flickr_nsid = '';
-					$latestposts_css = '';
-					if (strlen($user_data->flickr_username) > 0&&$this->config->item('flickr_key')!='') {
-                                          $update = @file_get_contents('http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key='.$this->config->item('flickr_key').'&username='.urlencode($user_data->flickr_username).'&format=php_serial');
-						$update = @unserialize($update);
-						if ($update!==false) {
-							if (isset($update['user']['nsid'])) {
-								$flickr_nsid = $update['user']['nsid'];
-								$flickr_nsid = str_replace('@', '%40', $flickr_nsid);
-							}
-						}
-					}
+   $flickr_nsid = '';
+   $latestposts_css = '';
 
-					if ($flickr_nsid!='') {
-						$latestposts_css = '-withflickr';
-					?>
-					<div id="photostream">From Flickr:
-						<div id="flickr_badge_uber_wrapper"><div id="flickr_badge_wrapper">
-						<script type="text/javascript" src="http://www.flickr.com/badge_code_v2.gne?count=10&display=latest&size=s&layout=x&source=user&user=<?php echo $flickr_nsid; ?>"></script>
-						</div></div>
-					</div>
-					<?php } ?>
+   if (strlen($user_data->flickr_username) > 0 &&
+       $this->config->item('flickr_key')!='') {
 
-					<div class="personal_info_box">
+     $update = @file_get_contents('http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key='.$this->config->item('flickr_key').'&username='.urlencode($user_data->flickr_username).'&format=php_serial');
 
-					<?php
+     $update = @unserialize($update);
+     if ($update !== false) {
+       if (isset($update['user']['nsid'])) {
+         $flickr_nsid = $update['user']['nsid'];
+         $flickr_nsid = str_replace('@', '%40', $flickr_nsid);
+       }
+     }
+   }
 
-					if($this->uri->segment(2) == $this->session->userdata('username')){ ?>
-						<div id="this-is-you" >
-							<strong>This is You! <a href='preferences/'>Edit this page</a></strong>
-							<br/>
+   if (strlen($user_data->flickr_username) > 0 &&
+       $this->config->item('flickr_key') != '' &&
+       strlen($flickr_nsid) <= 0) {
+   ?>
+   <div id="photostream">From Flickr:
+     <div id="flickr_badge_uber_wrapper">
+       Username Not Found :(
+     </div>
+   </div>
 
-						</div>
-						<?php } ?>
-						<div id="information" class="standard_profile_info_box">
-						<h3><?php echo $user_data->username ?></h3>
-						<span class="small_profile_caps">
-							<span class="<?php echo strtolower($user_data->friendly_status); ?>"><?php echo $user_data->friendly_status; ?></span>
-							<span class="<?php echo strtolower(str_replace(' ', '_', $user_data->online_status)); ?>"><?php echo $user_data->online_status; ?>!</span>
-							</span><br/>
-							<?php if ($this->sauth->is_logged_in()) { ?>
-							&rarr; <a href='/message/send/<?php echo $this->uri->segment(2) ?>'>Send a message</a><br/>
-							&rarr; <a href='/buddies/<?php echo $user_data->username; ?>'>Change buddy status</a><br/>
-							<?php } ?>
-							&rarr; <a href='/started/<?php echo $user_data->username; ?>'>View threads started</a>
-						</div>
-						<div id="stats" class="standard_profile_info_box">
-							<h3>Stats</h3>
-							<?php echo $user_data->username ?> is the <?php echo make_ordinal($user_data->id); ?> member of this place and has been here since <?php echo date('F jS Y', strtotime($user_data->created)); ?>.
-							Since then, <?php echo $user_data->username ?> has posted <?php echo $user_data->threads_count ?> threads and <?php echo $user_data->comments_count ?> comments.
-							That's a total of <?php echo $user_data->average_posts ?> posts per day. <?php echo $user_data->username . $user_data->last_login_text ?> Currently, <?php echo $user_data->username ?> is a friend of <?php echo $buddy_count ?> users, and is an enemy of <?php echo $enemy_count ?> users.
+   <?php } else if (strlen($flickr_nsid) > 0) {
+     $latestposts_css = '-withflickr';
+   ?>
 
-						</div>
+   <div id="photostream">From Flickr:
+     <div id="flickr_badge_uber_wrapper">
+       <div id="flickr_badge_wrapper">
+         <script type="text/javascript" src="http://www.flickr.com/badge_code_v2.gne?count=10&display=latest&size=s&layout=x&source=user&user=<?php echo $flickr_nsid; ?>"></script>
+       </div>
+    </div>
+  </div>
+  <?php } ?>
+
+  <div class="personal_info_box">
+
+  <?php if ($this->uri->segment(2) == $this->session->userdata('username')) { ?>
+  <div id="this-is-you" >
+    <strong>This is You! <a href='preferences/'>Edit this page</a></strong><br/>
+  </div>
+  <?php } ?>
+
+  <div id="information" class="standard_profile_info_box">
+    <h3><?php echo $user_data->username ?></h3>
+    <span class="small_profile_caps">
+      <span class="<?php echo strtolower($user_data->friendly_status); ?>"><?php echo $user_data->friendly_status; ?></span>
+      <span class="<?php echo strtolower(str_replace(' ', '_', $user_data->online_status)); ?>"><?php echo $user_data->online_status; ?>!</span>
+    </span><br/>
+    <?php if ($this->sauth->is_logged_in()) { ?>
+      &rarr; <a href='/message/send/<?php echo $this->uri->segment(2) ?>'>Send a message</a><br/>
+      &rarr; <a href='/buddies/<?php echo $user_data->username; ?>'>Change buddy status</a><br/>
+    <?php } ?>
+    &rarr; <a href='/started/<?php echo $user_data->username; ?>'>View threads started</a>
+    </div>
+    <div id="stats" class="standard_profile_info_box">
+      <h3>Stats</h3>
+       <?php echo $user_data->username ?> is the <?php echo make_ordinal($user_data->id); ?> member of this place and has been here since <?php echo date('F jS Y', strtotime($user_data->created)); ?>.
+       Since then, <?php echo $user_data->username ?> has posted <?php echo $user_data->threads_count ?> threads and <?php echo $user_data->comments_count ?> comments.
+      That's a total of <?php echo $user_data->average_posts ?> posts per day. <?php echo $user_data->username . $user_data->last_login_text ?> Currently, <?php echo $user_data->username ?> is a friend of <?php echo $buddy_count ?> users, and is an enemy of <?php echo $enemy_count ?> users.
+   </div>
 						<div id="information-bio" class="standard_profile_info_box">
 						<h3>Info</h3>
 							<?php if (strlen($user_data->name) > 0) { ?><span class='small_profile_caps'>NAME: <?php echo $user_data->name; ?></span><br/><?php } ?>
