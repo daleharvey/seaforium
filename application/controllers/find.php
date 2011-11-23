@@ -13,7 +13,7 @@ class Find extends Controller {
     // set all this so we dont have to continually call functions through session
     $this->meta = array(
       'user_id' => (int) $this->session->userdata('user_id'),
-      'comments_shown' => $this->session->userdata('comments_shown') == false ? 50 : (int)$this->session->userdata('comments_shown'),
+      'comments_shown' => $this->session->userdata('comments_shown'),
       'hide_enemy_posts' => $this->session->userdata('hide_enemy_posts'),
       'threads_shown' => $this->session->userdata('threads_shown')
     );
