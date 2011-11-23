@@ -184,36 +184,6 @@ class User_dal extends Model
     return $this->db->query($sql, $user_id);
   }
 
-  function get_username_from_authkey($authkey)
-  {
-    $query = $this->db->query("SELECT yh_username FROM yh_invites WHERE invite_id=?",
-                              $authkey);
-
-    if ($query->num_rows() === 1) {
-      return $query->row()->yh_username;
-    }
-
-    return FALSE;
-  }
-
-  /**
-   * Get yh username by invite id
-   *
-   * @param	string
-   * @return	object
-   */
-  function get_yh_username_by_invite($invite_id)
-  {
-    $query = $this->db->query("SELECT yh_username FROM yh_invites WHERE invite_id=?",
-                              $invite_id);
-
-    if ($query->num_rows() == 1) {
-      return $query->row()->yh_username;
-    }
-
-    return NULL;
-  }
-
   /**
    */
   function is_yay_username($username)
@@ -249,48 +219,6 @@ class User_dal extends Model
     $query = $this->db->query("SELECT 1 FROM users WHERE LOWER(email) = ?",
                               strtolower($email));
     return $query->num_rows() == 0;
-  }
-
-  /**
-   * Check if yh username available for inviting
-   *
-   * @param	string
-   * @return	bool
-   */
-  function is_yh_username_available($username)
-  {
-    $query = $this->db->query("SELECT 1 FROM yh_invites WHERE LOWER(yh_username) = ?",
-                              strtolower($username));
-
-    return $query->num_rows() == 0;
-  }
-
-  /**
-   * Check if yh invite is used
-   *
-   * @param	string
-   * @return	bool
-   */
-  function is_yh_invite_used($key)
-  {
-    $query = $this->db->query("SELECT 1 FROM yh_invites WHERE invite_id = ? AND used = 0", $key);
-
-    return $query->num_rows() == 0;
-  }
-
-  /**
-   * Create new invite for yh user
-   *
-   * @param	string
-   * @param	string
-   * @return	bool
-   */
-  function create_yh_invite($username, $invite_id)
-  {
-    $data = array($invite_id, $username, date("Y-m-d H:i:s", utc_time()));
-    $this->db->query("INSERT INTO yh_invites (invite_id, yh_username, created) " .
-                     "VALUES (?, ?, ?)", $data);
-    return TRUE;
   }
 
   /**
@@ -390,7 +318,6 @@ class User_dal extends Model
     $sql = "
 			UPDATE users
 			SET
-				new_password_key = NULL,
 				last_ip = ?,
 				last_login = ?
 			WHERE id = ?";
@@ -417,7 +344,6 @@ class User_dal extends Model
 				users.random_titles,
 				users.custom_css,
 				users.timezone,
-				users.invited_by,
 				user_profiles.country,
 				user_profiles.website_1,
 				user_profiles.website_2,
@@ -484,7 +410,6 @@ class User_dal extends Model
 				users.random_titles,
 				users.custom_css,
 				users.timezone,
-				users.invited_by,
 				user_profiles.country,
 				user_profiles.website_1,
 				user_profiles.website_2,
