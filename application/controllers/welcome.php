@@ -99,7 +99,7 @@ class Welcome extends Controller {
         break;
       case 'participated':
         $sql = "WHERE threads.thread_id IN (SELECT DISTINCT comments.thread_id FROM "
-          ."comments, threads WHERE comments.user_id = 3 AND comments.thread_id = "
+          ."comments, threads WHERE comments.user_id = {$this->meta['user_id']} AND comments.thread_id = "
           ."threads.thread_id AND threads.deleted = 0) AND NOT EXISTS (SELECT "
           ."hidden_threads.hidden_id FROM hidden_threads WHERE hidden_threads.user_id "
           ."= {$this->meta['user_id']} AND hidden_threads.thread_id = threads.thread_id)";
