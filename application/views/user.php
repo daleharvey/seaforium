@@ -69,126 +69,106 @@
        Since then, <?php echo $user_data->username ?> has posted <?php echo $user_data->threads_count ?> threads and <?php echo $user_data->comments_count ?> comments.
       That's a total of <?php echo $user_data->average_posts ?> posts per day. <?php echo $user_data->username . $user_data->last_login_text ?> Currently, <?php echo $user_data->username ?> is a friend of <?php echo $buddy_count ?> users, and is an enemy of <?php echo $enemy_count ?> users.
    </div>
-						<div id="information-bio" class="standard_profile_info_box">
-						<h3>Info</h3>
-							<?php if (strlen($user_data->name) > 0) { ?><span class='small_profile_caps'>NAME: <?php echo $user_data->name; ?></span><br/><?php } ?>
-							<?php if (strlen($user_data->location) > 0) { ?><span class='small_profile_caps'>LOC: <?php echo $user_data->location; ?></span><br/><?php } ?>
-							<?php if (strlen($user_data->website_1) > 0) { ?><span class='small_profile_caps'>URL 1: </span><a href="<?php echo $user_data->website_1; ?>"><?php echo $user_data->website_1; ?></a><br/><?php } ?>
-							<?php if (strlen($user_data->website_2) > 0) { ?><span class='small_profile_caps'>URL 1: </span><a href="<?php echo $user_data->website_2; ?>"><?php echo $user_data->website_2; ?></a><br/><?php } ?>
-							<?php if (strlen($user_data->website_3) > 0) { ?><span class='small_profile_caps'>URL 1: </span><a href="<?php echo $user_data->website_3; ?>"><?php echo $user_data->website_3; ?></a><br/><?php } ?>
-							<div id="social_icons">
-							<?php if (strlen($user_data->aim) > 0) { ?><a href="aim:goim?screenname=<?php echo $user_data->aim; ?>"><img src="/img/social_icons/aol-icon.png" alt="AOL IM." class="info_icon" /></a> <?php } ?>
-							<?php if (strlen($user_data->delicious_username) > 0) { ?><a href="http://delicious.com/<?php echo $user_data->delicious_username; ?>"><img src="/img/social_icons/delicious-icon.png" alt="Delicious." class="info_icon" /></a> <?php } ?>
-							<?php if (strlen($user_data->facebook) > 0) { ?><a href="http://facebook.com/<?php echo $user_data->facebook; ?>"><img src="/img/social_icons/facebook-icon.png" alt="Facebook." class="info_icon" /></a> <?php } ?>
-							<?php if ($flickr_nsid!='') { ?><a href="http://www.flickr.com/photos/<?php echo $flickr_nsid; ?>"><img src="/img/social_icons/flickr-icon.png" alt="Flickr." class="info_icon" /></a> <?php } ?>
-							<?php if (strlen($user_data->gchat) > 0) { ?><a href="gtalk:chat?jid=<?php echo $user_data->gchat; ?>"><img src="/img/social_icons/google-icon.png" alt="Google Chat." class="info_icon" /></a> <?php } ?>
-							<?php if (strlen($user_data->lastfm) > 0) { ?><a href="http://www.last.fm/user/<?php echo $user_data->lastfm; ?>"><img src="/img/social_icons/lastfm-icon.png" alt="LastFM." class="info_icon" /></a> <?php } ?>
-							<?php if (strlen($user_data->msn) > 0) { ?><a href="msnim:chat?contact=<?php echo $user_data->msn; ?>"><img src="/img/social_icons/msn-icon.png" alt="MSN Messenger." class="info_icon" /></a> <?php } ?>
-							<?php if (strlen($user_data->twitter) > 0) { ?><a href="https://twitter.com/#!/<?php echo $user_data->twitter; ?>"><img src="/img/social_icons/twitter-icon.png" alt="Twitter." class="info_icon" /></a> <?php } ?>
-							<?php if (strlen($user_data->rss_feed_1) > 0) { ?><a href="<?php echo $user_data->rss_feed_1; ?>"><img src="/img/social_icons/rss-icon.png" alt="RSS 1." class="info_icon" /></a> <?php } ?>
-							<?php if (strlen($user_data->rss_feed_2) > 0) { ?><a href="<?php echo $user_data->rss_feed_2; ?>"><img src="/img/social_icons/rss-icon.png" alt="RSS 2." class="info_icon" /></a> <?php } ?>
-							<?php if (strlen($user_data->rss_feed_3) > 0) { ?><a href="<?php echo $user_data->rss_feed_3; ?>"><img src="/img/social_icons/rss-icon.png" alt="RSS 3." class="info_icon" /></a><?php } ?>
-							</div>
-						</div>
-						<div id="information-desc" class="standard_profile_info_box">
-							<h3>Description</h3>
-							<?php echo $user_data->about_blurb; ?>
-						</div>
+   <div id="information-bio" class="standard_profile_info_box">
+     <h3>Info</h3>
+     <?php if (strlen($user_data->name) > 0) { ?><span class='small_profile_caps'>NAME: <?php echo $user_data->name; ?></span><br/><?php } ?>
+     <?php if (strlen($user_data->location) > 0) { ?><span class='small_profile_caps'>LOC: <?php echo $user_data->location; ?></span><br/><?php } ?>
+     <?php if (strlen($user_data->website_1) > 0) { ?><span class='small_profile_caps'>URL 1: </span><a href="<?php echo $user_data->website_1; ?>"><?php echo $user_data->website_1; ?></a><br/><?php } ?>
+     <?php if (strlen($user_data->website_2) > 0) { ?><span class='small_profile_caps'>URL 1: </span><a href="<?php echo $user_data->website_2; ?>"><?php echo $user_data->website_2; ?></a><br/><?php } ?>
+     <?php if (strlen($user_data->website_3) > 0) { ?><span class='small_profile_caps'>URL 1: </span><a href="<?php echo $user_data->website_3; ?>"><?php echo $user_data->website_3; ?></a><br/><?php } ?>
+     <div id="social_icons">
+       <?php if (strlen($user_data->aim) > 0) { ?><a href="aim:goim?screenname=<?php echo $user_data->aim; ?>"><img src="/img/social_icons/aol-icon.png" alt="AOL IM." class="info_icon" /></a> <?php } ?>
+       <?php if (strlen($user_data->delicious_username) > 0) { ?><a href="http://delicious.com/<?php echo $user_data->delicious_username; ?>"><img src="/img/social_icons/delicious-icon.png" alt="Delicious." class="info_icon" /></a> <?php } ?>
+       <?php if (strlen($user_data->facebook) > 0) { ?><a href="http://facebook.com/<?php echo $user_data->facebook; ?>"><img src="/img/social_icons/facebook-icon.png" alt="Facebook." class="info_icon" /></a> <?php } ?>
+       <?php if ($flickr_nsid!='') { ?><a href="http://www.flickr.com/photos/<?php echo $flickr_nsid; ?>"><img src="/img/social_icons/flickr-icon.png" alt="Flickr." class="info_icon" /></a> <?php } ?>
+       <?php if (strlen($user_data->gchat) > 0) { ?><a href="gtalk:chat?jid=<?php echo $user_data->gchat; ?>"><img src="/img/social_icons/google-icon.png" alt="Google Chat." class="info_icon" /></a> <?php } ?>
+      <?php if (strlen($user_data->lastfm) > 0) { ?><a href="http://www.last.fm/user/<?php echo $user_data->lastfm; ?>"><img src="/img/social_icons/lastfm-icon.png" alt="LastFM." class="info_icon" /></a> <?php } ?>
+      <?php if (strlen($user_data->msn) > 0) { ?><a href="msnim:chat?contact=<?php echo $user_data->msn; ?>"><img src="/img/social_icons/msn-icon.png" alt="MSN Messenger." class="info_icon" /></a> <?php } ?>
+      <?php if (strlen($user_data->twitter) > 0) { ?><a href="https://twitter.com/#!/<?php echo $user_data->twitter; ?>"><img src="/img/social_icons/twitter-icon.png" alt="Twitter." class="info_icon" /></a> <?php } ?>
+      <?php if (strlen($user_data->rss_feed_1) > 0) { ?><a href="<?php echo $user_data->rss_feed_1; ?>"><img src="/img/social_icons/rss-icon.png" alt="RSS 1." class="info_icon" /></a> <?php } ?>
+      <?php if (strlen($user_data->rss_feed_2) > 0) { ?><a href="<?php echo $user_data->rss_feed_2; ?>"><img src="/img/social_icons/rss-icon.png" alt="RSS 2." class="info_icon" /></a> <?php } ?>
+      <?php if (strlen($user_data->rss_feed_3) > 0) { ?><a href="<?php echo $user_data->rss_feed_3; ?>"><img src="/img/social_icons/rss-icon.png" alt="RSS 3." class="info_icon" /></a><?php } ?>
+    </div>
+  </div>
+  <div id="information-desc" class="standard_profile_info_box">
+    <h3>Description</h3>
+    <?php echo $user_data->about_blurb; ?>
+  </div>
 
-						<?php if (strlen($user_data->lastfm) > 0) { ?>
-						<div id="information-desc" class="standard_profile_info_box">
-							<h3>Listening to...</h3>
-							<?php
-							$listingto = '';
-							// sets played date using PHP date
-							$date_format = 'M j, y g:ia';
+  <?php if (strlen($user_data->lastfm) > 0) { ?>
+    <div id="information-desc" class="standard_profile_info_box">
+      <h3>Listening to...</h3>
+      <?php
+        $listingto = '';
+        // sets played date using PHP date
+	$date_format = 'M j, y g:ia';
 
-							$update = @file_get_contents("http://ws.audioscrobbler.com/1.0/user/".urlencode($user_data->lastfm)."/recenttracks.txt");
-							$update = str_replace( '–', '-', $update ); // replaces en dash with regular dash
-							$update = explode("\n", $update);
+        $update = @file_get_contents("http://ws.audioscrobbler.com/1.0/user/".urlencode($user_data->lastfm)."/recenttracks.txt");
+	$update = str_replace( '–', '-', $update );
+        $update = explode("\n", $update);
 
-							$track_num = 1; // starting track number
-							foreach($update as $data)
-							{
-							if(!empty( $data ))
-							{
-							$info = explode(",", $data, 2); // sperates date by only seperating at fist instance of a comma (since some artist/track have comma in their names
+        $track_num = 1; // starting track number
+	foreach($update as $data) {
+	  if(!empty( $data )) {
+	     $info = explode(",", $data, 2);
+	     $played_time = $info[0];
+	     $info_track = explode(" - ", $info[1]); // seperates artist and title
 
-							$played_time = $info[0];
-							$info_track = explode(" - ", $info[1]); // seperates artist and title
+	     $artist = $info_track[0];
+	     $title = $info_track[1];
 
-							$artist = $info_track[0];
-							$title = $info_track[1];
+	     $listingto .= '<div class="lastfm_listing"><span class="lastfm_artist">'.$artist.'</span> - <span class="lastfm_title">'.$title.'</span> <span class="lastfm_date">'.date("$date_format", $played_time).'</span></div>';
+	     $track_num++; // adds 1 to track number
+	   }
+	 }
+	 echo $listingto;
+	 echo '<a href="http://last.fm/user/'.$user_data->lastfm.'" title="Last.FM profile.">See '.$user_data->username.' on last.fm</a>';
+       ?>
+     </div>
+   <?php } ?>
+   <?php if (strlen($user_data->twitter) > 0) { ?>
+     <div id="information-desc" class="standard_profile_info_box">
+     <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+     <script>
+       new TWTR.Widget({
+         version: 2,
+	 type: 'profile',
+	 rpp: 5,
+	 interval: 30000,
+	 width: 200,
+	 height: 300,
+	 theme: {
+	   shell: { background: '#F9F9f9', color: '#333333' },
+	   tweets: { background: '#F9F9f9', color: '#333333', links: '#000000' }
+         },
+	 features: {
+	   scrollbar: false,
+	   loop: false,
+	   live: false,
+	   behavior: 'all'
+	 }
+      }).render().setUser('<?php echo $user_data->twitter ?>').start();
+    </script>
+    </div>
+  <?php } ?>
+  </div>
 
-							$listingto .= '<div class="lastfm_listing"><span class="lastfm_artist">'.$artist.'</span> - <span class="lastfm_title">'.$title.'</span> <span class="lastfm_date">'.date("$date_format", $played_time).'</span></div>';
-							$track_num++; // adds 1 to track number
-							}
-							}
-							echo $listingto;
-							echo '<a href="http://last.fm/user/'.$user_data->lastfm.'" title="Last.FM profile.">See '.$user_data->username.' on last.fm</a>';
-							?>
-						</div>
-						<?php } ?>
+  <div id="latest-posts<?php echo $latestposts_css; ?>">
+  <? //echo $pagination; ?>
+  <?php if(!$recent_posts): ?>
+    <h1>This user has posted absolutely nothing on <?php echo $this->config->item('site_name'); ?>!</h1>
+    <?php else:
+      foreach($recent_posts as $post):
+    ?>
+      <div class="post-container" id="post-<?php echo $post['comment_id']; ?>">
+      <div class="post-block">POST</div>
+      <h3 class="recent-thread-title"><a href='/thread/<?php echo $post['thread_id'] .'/'. url_title($post['subject']); ?>'><?php echo $post['subject'] ?></a></h3>
+      <div class="recent-post-content"><?php echo $post['content']; ?></div>
+   <hr/>
+   </div>
+   <?php endforeach;
+    endif; ?>
+  </div>
+</div>
 
-						<?php if (strlen($user_data->twitter) > 0) { ?>
-						<div id="information-desc" class="standard_profile_info_box">
-						<script src="http://widgets.twimg.com/j/2/widget.js"></script>
-						<script>
-						new TWTR.Widget({
-						  version: 2,
-						  type: 'profile',
-						  rpp: 5,
-						  interval: 30000,
-						  width: 200,
-						  height: 300,
-						  theme: {
-						    shell: {
-						      background: '#F9F9f9',
-						      color: '#333333'
-						    },
-						    tweets: {
-						      background: '#F9F9f9',
-						      color: '#333333',
-						      links: '#000000'
-						    }
-						  },
-						  features: {
-						    scrollbar: false,
-						    loop: false,
-						    live: false,
-						    behavior: 'all'
-						  }
-						}).render().setUser('<?php echo $user_data->twitter ?>').start();
-						</script>
-						</div>
-						<?php } ?>
-
-					</div>
-
-					<div id="latest-posts<?php echo $latestposts_css; ?>">
-					<? //echo $pagination; ?>
-
-					<?php if(!$recent_posts): ?>
-						<h1>This user has posted absolutely nothing on <?php echo $this->config->item('site_name'); ?>!</h1>
-					<?php else:
-						foreach($recent_posts as $post):
-					?>
-						<div class="post-container" id="post-<?php echo $post['comment_id']; ?>">
-						<div class="post-block">POST</div>
-						<h3 class="recent-thread-title"><a href='/thread/<?php echo $post['thread_id'] .'/'. url_title($post['subject']); ?>'><?php echo $post['subject'] ?></a></h3>
-						<div class="recent-post-content">
-							<?php echo $post['content']; ?>
-						</div>
-
-						<hr/>
-						</div>
-
-					<?php
-						endforeach;
-					 endif; ?>
-					</div>
-
-				</div>
-
-
-  <script type="text/javascript" src="/js/thread.js"></script>
+<script type="text/javascript" src="/js/thread.js"></script>
