@@ -1,16 +1,12 @@
 <?php
 
-$css = $this->agent->is_mobile() ? "/css/mobile.css" : "/css/forum.css";
-
-$user_view_desktop = $this->session->userdata('view_desktop');
-if ($user_view_desktop==1) {
-  $css = '/css/forum.css';
-}
 
 $username = $this->session->userdata('username');
 $user_id = $this->session->userdata('user_id');
 
 $logged_in = $this->sauth->is_logged_in();
+
+$css = "/css/forum.css";
 
 if ($this->session->userdata('custom_css')) {
   $css = $this->session->userdata('custom_css');
@@ -67,8 +63,6 @@ $view_html = $this->session->userdata('view_html') == '1';
     <div id="middle">
       <div id="left-column">
         <a href="/" id="header">New Yay</a>
-        <a href="javascript:;" onclick="document.location.hash='bottom';" id="jumpdown">&darr;</a>
-
 <?php if (!$logged_in) {
 $button_texts = array("Get In!", "Do it!", "Booya!", "Push Me",
                       "Zippity!", "Engage!");
@@ -189,9 +183,8 @@ foreach($buddies as $user) { ?>
          </div>
        </div>
 
-<?php } if (!$this->agent->is_mobile()) { ?>
-         <a href="http://patrickobrienfoundation.org/"><img src="/img/pobf.gif" /></a>
 <?php } ?>
+         <a href="http://patrickobrienfoundation.org/" id="pobf"><img src="/img/pobf.gif" /></a>
 
      </div>
 

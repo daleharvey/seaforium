@@ -221,22 +221,6 @@ class Ajax extends Controller
     }
   }
 
-  function show_desktop($key)
-  {
-    if ($key === $this->session->userdata('session_id')) {
-      $this->session->set_userdata('view_desktop', 1);
-      echo "<a href=\"javascript:location.reload();\" id=\"reload_desktop\">Reload the page</a>";
-    }
-  }
-
-  function show_mobile($key)
-  {
-    if ($key === $this->session->userdata('session_id')) {
-      $this->session->set_userdata('view_desktop', 0);
-      echo "<a href=\"javascript:location.reload();\" id=\"reload_mobile\">Reload the page</a>";
-    }
-  }
-
   function preview()
   {
     echo _process_post($this->input->post('content'));

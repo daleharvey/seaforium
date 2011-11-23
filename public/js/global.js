@@ -63,21 +63,6 @@ $('#toggle-html').bind('click', function(){
   });
 });
 
-$('#show_desktop').bind('click', function(){
-  button = $(this);
-  $.get('/ajax/show_desktop/'+ session_id, function(data) {
-    button.html(data);
-  });
-});
-
-$('#show_mobile').bind('click', function(){
-  button = $(this);
-  $.get('/ajax/show_mobile/'+ session_id, function(data) {
-    button.html(data);
-  });
-});
-
-
 $('.hide-thread').bind('click', function(){
 
   var button = $(this);

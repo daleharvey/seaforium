@@ -9,11 +9,6 @@
 	<div id="bottom">
 	</div>
 
-	<?php if ($this->agent->is_mobile()) { ?>
-	<a id="show_desktop">Switch to Desktop version</a>
-	<a id="show_mobile">Switch to Mobile version</a>
-	<?php } ?>
-
         <script type="text/javascript" src="/js/prettify.js"></script>
         <script>
           prettyPrint();
@@ -22,11 +17,6 @@
 		session_id = '<?php echo $this->session->userdata('session_id'); ?>';
 	</script>
 	<script type="text/javascript" src="/js/global.js?v=<?php echo $this->config->item('version'); ?>"></script>
-<?php
-  if ($this->agent->is_mobile()) {
-    echo 	'<script type="text/javascript" src="/js/mobile.js"></script>';
-  }
-?>
 
 <script type="text/javascript">
 
