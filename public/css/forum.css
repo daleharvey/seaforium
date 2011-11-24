@@ -508,6 +508,14 @@ background-position: 6px 8px;
 background-repeat: no-repeat;
 }
 
+.thread.closed * {
+    color: #999;
+}
+.thread.closed .subject-text {
+    text-decoration: line-through;
+    color: #999;
+}
+
 .thread.nsfw .subject-text a, .thread.nsfw .naughty-tag {
 color: #F06171;
 }
@@ -1612,41 +1620,6 @@ a {
     height: 1px;
     overflow: hidden;
     clear: both;
-}
-
-.thread {
-    background-color: #F5FBFE;
-    margin:2px 0 2px 0;
-    overflow:auto;
-}
-
-.thread.alt {
-    background-color: #F9FCFE;
-}
-
-.thread.buddy {
-    background-color: #EDF5E1;
-}
-
-.thread.enemy {
-    background-color: #FFEAEA;
-    display: none;
-}
-
-.thread.nsfw .subject-text a, .thread.nsfw .naughty-tag {
-    color: #F06171;
-}
-
-#show_desktop {
-    display:block;
-    margin-top:10px;
-    font-weight:bold;
-    text-decoration:underline;
-}
-
-#reload_desktop {
-    background-color:#333;
-    color:#DDD;
 }
 
 .subject-text {

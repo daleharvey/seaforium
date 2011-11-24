@@ -67,6 +67,7 @@ foreach($thread_result->result() as $row) {
 			$acq = '';
 	}
 
+	$closed = $row->closed === '1' ? ' closed' : '';
 	$nsfw = $row->nsfw === '1' ? ' nsfw' : '';
 	$nsfw_tag = $row->nsfw === '1' ? ' <span class="naughty-tag">[NAUGHTY!]</span>' : '';
 
@@ -88,7 +89,7 @@ foreach($thread_result->result() as $row) {
         $my_thread = $row->user_id == $this->session->userdata('user_id');
 ?>
 
-				<div id="thread-<?php echo $row->thread_id; ?>" class="thread<?php echo $alt === false ? '' : ' alt'; echo $acq; echo $nsfw; echo $my_thread ? ' mythread' : ''; ?>">
+				<div id="thread-<?php echo $row->thread_id; ?>" class="thread<?php echo $alt === false ? '' : ' alt'; echo $acq; echo $closed; echo $nsfw; echo $my_thread ? ' mythread' : ''; ?>">
 					<div class="one">
 						<div class="subject"><span class="subject-text"><a href="<?php echo $link_text; ?>"><?php echo htmlspecialchars($row->subject); ?></a></span> <?php echo $nsfw_tag.' '. '<a href="'.$link_text.'/p/'.$last_page.'#bottom'; ?>" class='end-link'>#</a></div>
 						<div class="category"><?php echo $row->category.$printpages ?></div>

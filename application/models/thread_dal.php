@@ -50,6 +50,7 @@ class Thread_dal extends Model
     $sql = "SELECT
 	      threads.subject,
 	      threads.created,
+	      threads.closed,
 	      threads.nsfw,
 	      threads.thread_id,
               threads.user_id,
