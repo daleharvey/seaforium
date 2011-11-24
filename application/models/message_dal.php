@@ -47,7 +47,7 @@ class Message_dal extends Model
 				pm_content.subject,
 				pm_content.content,
 				pm_content.created,
-				pm_content.message_id,
+				pm_content.message_id
 			FROM pm_inbox
 			LEFT JOIN pm_content
 				ON pm_inbox.message_id = pm_content.message_id
