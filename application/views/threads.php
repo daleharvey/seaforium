@@ -18,9 +18,16 @@ if (!isset($tab_orders['startedby'])) {
 
 				<div class="thread" id="thread-headers">
 					<div class="one">Thread Title &amp; Category</div>
+<?php if (!(isset($sort_disabled) && $sort_disabled)) { ?>
 					<div class="two"><a href="<?php echo $tab_links; ?>started/<?php echo $tab_orders['started']; ?><?php if ($tab_orders['startedby']!='') {echo '/'.$tab_orders['startedby'];} ?>">Started By</a></div>
 					<div class="three"><a href="<?php echo $tab_links; ?>latest/<?php echo $tab_orders['latest']; ?><?php if ($tab_orders['startedby']!='') {echo '/'.$tab_orders['startedby'];} ?>">Last Post</a></div>
 					<div class="four"><a href="<?php echo $tab_links; ?>posts/<?php echo $tab_orders['posts']; ?><?php if ($tab_orders['startedby']!='') {echo '/'.$tab_orders['startedby'];} ?>">Posts</a></div>
+<?php } else { ?>
+					<div class="two">Started By</div>
+					<div class="three">Last Post</div>
+					<div class="four">Posts</div>
+
+<?php } ?>
 				</div>
 
 <?php
