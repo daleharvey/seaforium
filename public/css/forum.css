@@ -1068,6 +1068,12 @@ height: 24px;
 padding-left: 4px;
 background: #F5FBFE;
 }
+#pm-inbox .message.buddy {
+background-color: #EDF5E1;
+}
+#pm-inbox .message.odd {
+background-color: #F9FCFE;
+}
 
 #pm-inbox .message.unread .subject {
 font-weight: 700;

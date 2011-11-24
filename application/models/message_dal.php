@@ -16,25 +16,25 @@ class Message_dal extends Model
 	{
 		$this->db->query("UPDATE pm_inbox SET pm_inbox.read = 1 WHERE message_id = ? AND to_id = ?", array((int)$message_id, $user_id));
 	}
-	
+
 	function set_unread_in_array($user_id, $messages) {
 		$this->db->query("UPDATE pm_inbox SET pm_inbox.read = 0 WHERE message_id IN (". implode($messages, ',') .") AND to_id = ?", $user_id);
 	}
-	
+
 	function set_read_in_array($user_id, $messages) {
 		$this->db->query("UPDATE pm_inbox SET pm_inbox.read = 1 WHERE message_id IN (". implode($messages, ',') .") AND to_id = ?", $user_id);
 	}
-	
+
 	function delete_in_array_inbox($user_id, $messages)
 	{
 		$this->db->query("UPDATE pm_inbox SET pm_inbox.deleted = 1, pm_inbox.read = 1 WHERE message_id IN (". implode($messages, ',') .") AND to_id = ?", $user_id);
 	}
-  
+
 	function delete_in_array_outbox($user_id, $messages)
 	{
 		$this->db->query("UPDATE pm_outbox SET pm_outbox.deleted = 1 WHERE message_id IN (". implode($messages, ',') .") AND from_id = ?", $user_id);
 	}
-	
+
 	function get_message($user_id, $message_id)
 	{
 		$sql = "
@@ -47,7 +47,7 @@ class Message_dal extends Model
 				pm_content.subject,
 				pm_content.content,
 				pm_content.created,
-				pm_content.message_id
+				pm_content.message_id,
 			FROM pm_inbox
 			LEFT JOIN pm_content
 				ON pm_inbox.message_id = pm_content.message_id
@@ -77,17 +77,21 @@ class Message_dal extends Model
 				pm_inbox.read,
 				pm_content.message_id,
 				pm_content.subject,
-				pm_content.created
+				pm_content.created,
+                                acquaintances.type AS buddy_type
 			FROM pm_inbox
 			RIGHT JOIN pm_content
 				ON pm_inbox.message_id = pm_content.message_id
 			LEFT JOIN users
 				ON pm_inbox.from_id = users.id
+			LEFT JOIN acquaintances
+				ON acquaintances.acq_user_id = users.id
+                                AND acquaintances.user_id = ?
 			WHERE pm_inbox.to_id = ?
 			AND pm_inbox.deleted = 0
 			ORDER BY pm_content.created DESC";
 
-		return $this->db->query($sql, $user_id);
+		return $this->db->query($sql, array($user_id, $user_id));
 	}
 
 	function get_outbox($user_id)
