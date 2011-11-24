@@ -61,10 +61,10 @@ def create_replies(opts, users, threads, num):
         YayClient.post_reply(opts, user.cookies, thread, reply_generator())
 
 def characters():
-    return 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 '
+    return 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789      '
 
 def thread_title_generator():
-    return ''.join(random.choice(characters()) for i in xrange(random.randint(10, 30)))
+    return ''.join(random.choice(characters()) for i in xrange(random.randint(10, 50)))
 
 def reply_generator():
     return ''.join(random.choice(characters()) for i in xrange(random.randint(10, 500)))
