@@ -50,6 +50,7 @@ class Preferences extends Controller {
     $this->form_validation->set_rules('rss_feed_2','Rss Feed 2', 'trim|xss_clean');
     $this->form_validation->set_rules('rss_feed_3','Rss Feed 3', 'trim|xss_clean');
     $this->form_validation->set_rules('custom_css','Custom CSS', 'trim|xss_clean');
+    $this->form_validation->set_rules('custom_js','Custom JS', 'trim|xss_clean');
     $this->form_validation->set_rules('about_blurb','Tell us about yourself',
                                       'trim|xss_clean');
     $this->form_validation->set_rules('flickr_username','Flickr Username',
@@ -79,6 +80,7 @@ class Preferences extends Controller {
         'email' => $this->form_validation->set_value('email'),
         'random_titles' => $this->form_validation->set_value('random_titles'),
         'custom_css' => $this->form_validation->set_value('custom_css'),
+        'custom_js' => $this->form_validation->set_value('custom_js'),
         'new_post_notification' =>
           $this->form_validation->set_value('new_post_notification'),
         'hide_enemy_posts' =>

@@ -349,6 +349,10 @@
 <?php echo form_label('Custom CSS', 'custom_css'); ?>
 <?php echo form_input('custom_css', $user_preferences->custom_css); ?>
 </div>
+<div class="input text">
+<?php echo form_label('Custom JavaScript', 'custom_js'); ?>
+<?php echo form_input('custom_js', $user_preferences->custom_js); ?>
+</div>
 
 <div class="input text">
 <?php echo form_label('Threads Shown', 'threads_shown'); ?>
