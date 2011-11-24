@@ -69,6 +69,19 @@ class User_dal extends Model
     return TRUE;
   }
 
+  /**
+   * Check if yh invite is used
+   *
+   * @param  string
+   * @return  bool
+   */
+  function is_yh_invite_used($key)
+  {
+    $query = $this->db->query("SELECT 1 FROM yh_invites WHERE invite_id = ? AND used = 0", $key);
+
+    return $query->num_rows() == 0;
+  }
+
   function get_username_from_authkey($authkey)
   {
     $query = $this->db->query("SELECT yh_username FROM yh_invites WHERE invite_id=?",
