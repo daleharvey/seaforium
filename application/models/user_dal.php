@@ -61,6 +61,25 @@ class User_dal extends Model
     return NULL;
   }
 
+  function create_yh_invite($username, $invite_id)
+  {
+    $data = array($invite_id, $username, date("Y-m-d H:i:s", utc_time()));
+    $this->db->query("INSERT INTO yh_invites (invite_id, yh_username, created) " .
+                     "VALUES (?, ?, ?)", $data);
+    return TRUE;
+  }
+
+  function get_username_from_authkey($authkey)
+  {
+    $query = $this->db->query("SELECT yh_username FROM yh_invites WHERE invite_id=?",
+                              $authkey);
+
+    if ($query->num_rows() === 1) {
+      return $query->row()->yh_username;
+    }
+
+    return FALSE;
+  }
   /**
    * Get user record by username
    *
