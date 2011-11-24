@@ -115,7 +115,7 @@ class Ajax extends Controller
 
     $existing = $this->thread_dal->get_comment($comment_id)->row();
 
-    if ($existing->user_id === $this->user_id) {
+    if ((int)$existing->user_id === $this->user_id) {
 
       $content = $this->input->post('content');
       $processed = _process_post($content);
