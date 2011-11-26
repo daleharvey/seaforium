@@ -559,9 +559,9 @@ class User_dal extends Model
 
   function acquaintance_exists($key)
   {
-    $result = $this->db->query("SELECT type FROM acquaintances WHERE acq_id = ?", $key);
-//  var_dump($result);
-    return ($result->num_fields() === 1) ? (int) $result->row()->type : 0;
+    $sql = "SELECT type FROM acquaintances WHERE acq_id = ?";
+    $result = $this->db->query($sql, $key)->row();
+    return (count($result) > 1) ? (int) $result->type : 0;
   }
 
   function delete_acquaintance($key)
@@ -573,9 +573,9 @@ class User_dal extends Model
   function move_acquaintance($to_list, $key)
   {
     $this->db->query("UPDATE acquaintances SET type = ? WHERE acq_id = ?", array($to_list, $key));
-    
-    
-    
+
+
+
     return $this->db->affected_rows();
   }
 
