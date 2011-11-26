@@ -137,12 +137,13 @@ if ($logged_in) {
               <?php echo $latest_comment['meaningless']; ?></li>
           </ul>
           <ul id="special-threads">
+            <li><a href="/f/meaningful">All Forums</a></li>
             <li><a href="/f/meaningful">All But Meaningless</a></li>
 <?php if ($logged_in) { ?>
-            <li><a href="/f/participated">Participated Threads</a></li>
-            <li><a href="/f/favorites">Favourite Threads</a></li>
-            <li><a href="/f/hidden">Hidden Threads</a></li>
-            <li><a href="/started/<?php echo $username; ?>">Started Threads</a></li>
+            <li><a href="/f/participated">Participated</a></li>
+            <li><a href="/f/favorites">Favourite</a></li>
+            <li><a href="/f/hidden">Hidden</a></li>
+            <li><a href="/started/<?php echo $username; ?>">Started</a></li>
 <?php } ?>
           </ul>
 
