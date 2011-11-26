@@ -86,6 +86,7 @@ $route['users/(:num)/(:any)'] = "users/index/$1/$2";
 $route['message/(:num)'] = "message/load/$1";
 
 $route['buddies/remove/(:num)/(:any)'] = "buddies/remove/$1/$2";
+$route['buddies/move/(:any)/(:num)/(:any)'] = "buddies/move/$1/$2/$3";
 $route['buddies/error/(:num)'] = "buddies/error/$1";
 $route['buddies/(:any)'] = "buddies/index/$1";
 

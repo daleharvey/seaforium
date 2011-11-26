@@ -1209,8 +1209,12 @@ width: 100px;
 float: left;
 }
 
-.remove-acq {
+.remove-acq, .toggle-acq {
 font-size: 9px;
+}
+
+.toggle-acq {
+padding-left: 5px;
 }
 
 #command-pick-one {
