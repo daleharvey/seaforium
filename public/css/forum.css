@@ -203,6 +203,7 @@ hr {
 #special-threads a {
     color: #959595;
 }
+#special-threads li:first-child { display:none; }
 #search-title {
 
 }
