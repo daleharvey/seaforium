@@ -1843,3 +1843,15 @@ padding: 0px;
 }
 
 }
+
+#the-deck
+{
+border: solid 3px #F3F3F3;
+margin-bottom: 15px;
+text-align: center;
+font-size: 10px;
+padding: 10px 10px 5px 10px;
+}
+#deck-title, #deck-title a {
+font-size: 10px;
+}
