@@ -1532,6 +1532,7 @@ color: #494949;
 }
 
 @media screen and (max-width: 600px) {
+
 #ad-space { display:none; }
 #left-column { position:relative; width: 100%; top:0px; left: 0px;}
 #right-column { margin: 0; padding: 0px; }
@@ -1558,6 +1559,44 @@ color: #494949;
     background-repeat: no-repeat;
 }
 
+.lc-node {
+    padding: 0;
+    margin: 0;
+}
+
+#special-threads { border-bottom: 0; }
+#search-title { clear: both; }
+#search-box { margin: 0 5px 5px 5px;}
+#search-title strong, #search-title br { display: none; }
+hr { display: none; }
+
+#threads { border-bottom: 1px solid #DDD; }
+
+#thread-control,
+.user-information,
+#information-bio, #information-desc, #information-widget, #photostream,
+#reply-lc,
+#reply-rc p,
+#pinkies,
+#toggle-html,
+#messaging,
+#preferences,
+#thread-categories,
+.welcome > a,
+.welcome h4,
+div.five,
+div.category,
+#thread-headers,
+#buddy-list,
+#threads h3,
+#pobf {
+    display: none;
+}
+
+#thread-content-input {
+    width: 95%;
+    margin: 0px auto;
+}
 
 .login { margin-bottom: 0px; }
  * { margin: 0px; padding: 0px; }
@@ -1749,8 +1788,9 @@ a {
     /* border: 1px solid #AAA; */
     display: block;
     padding: 4px 6px;
-    margin:8px;
+    margin:0 4px;
     border-radius:5px;
+    font-size: 10px;
     -moz-border-radius:5px;
 }
 .main-pagination {
@@ -1851,17 +1891,6 @@ padding: 0px;
 
 .comment .content-block, .test-comment .content-block {
     margin: 0px;
-}
-
-#secluded-invite, #messaging, #buddy-list,
-#thread-headers, .thread .category, .fourr, .five,
-#special-threads, .user-information,
-#thread-control, #threads h3, .welcome h4, .welcome > a,
-.welcome ul li:first-child, .paging-text, #threads, #new-thread p:first-child,
-#post-shortcuts, #pinkies, #reply-lc, #reply-rc p, #this-is-you, #information, #stats h3,
-#information-bio, #information-desc, #information-widget, #photostream,
-#latest-posts, #latest-posts-withflickr, #show_mobile, #pobf {
-    display:none;
 }
 
 }
