@@ -43,7 +43,7 @@ class Welcome extends Controller {
       'base_url' => '/p/',
       'total_rows' => $thread_count,
       'uri_segment' => '2',
-      'num_links' => 3,
+      'num_links' => 1,
       'per_page' => $display,
       'suffix' => $filtering['url_suffix']
     ));
