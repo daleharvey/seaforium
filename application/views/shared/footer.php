@@ -19,7 +19,33 @@
 <?php if (strlen($this->session->userdata('custom_js')) > 0) { ?>
 	<script src="<?php echo $this->session->userdata('custom_js'); ?>"></script>
 <?php } ?>
+      <div id="ad-loader">
+<?php if ((int)$this->session->userdata('hide_ads') === 0) { ?>
+        <div id="the-deck">
+         <script type="text/javascript">
+				 //<![CDATA[
+				 (function(id) {
+					document.write('<script type="text/javascript" src="' +
+					 'http://www.northmay.com/deck/deck' + id + '_js.php?' +
+					 (new Date().getTime()) + '"></' + 'script>');
+         })("YH");
+				 //]]>
+         </script>
+				 <div id="deck-title">
+           <a href="http://www.coudal.com/deck">Ads Via The Deck</a> | <a id="hide-ads">Hide ads</a>
+         </div>
+        </div>
+<?php } else { ?>
 
+        <div id="hidden-ads">
+          <img src="/img/pinkies/jp.gif" align="absmiddle" /> <a id="unhide-ads">Help support YayHooray!</a>
+        </div>
+
+<?php } ?>
+      </div>
+      <script type="text/javascript">
+        $('#ad-loader').appendTo('#ad-space');
+      </script>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];

@@ -202,7 +202,19 @@ class Ajax extends Controller
 
 	echo 0;
   }
-
+  
+  function hide_ads($key)
+  {
+    if ($key == $this->session->userdata('session_id'))
+      echo $this->user_dal->hide_ads($this->session->userdata('user_id'));
+  }
+  
+  function show_ads($key)
+  {
+    if ($key == $this->session->userdata('session_id'))
+      echo $this->user_dal->show_ads($this->session->userdata('user_id'));
+  }
+  
   function toggle_html($key)
   {
     if ($key === $this->session->userdata('session_id')) {

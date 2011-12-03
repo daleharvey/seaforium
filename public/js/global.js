@@ -215,5 +215,30 @@ function isThread() {
     e.preventDefault();
     $('#login-box').html(defaultLoginBox);
   });
+  
+  $('#hide-ads').live('click', function(e){
+    e.preventDefault();
+    
+    $.ajax({
+      url: '/ajax/hide_ads/'+session_id,
+      success: function(data){
+        if (data == 1)
+          window.location.reload(false);
+      }
+    });
+  });
+  
+  $('#unhide-ads').live('click', function(e){
+    e.preventDefault();
+    
+    $.ajax({
+      url: '/ajax/show_ads/'+session_id,
+      success: function(data){
+        if (data == 1)
+        if (data == 1)
+          window.location.reload(false); 
+      }
+    });
+  });
 
 })();

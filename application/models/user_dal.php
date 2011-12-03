@@ -43,6 +43,32 @@ class User_dal extends Model
     return NULL;
   }
 
+  function hide_ads($user_id)
+  {
+    $query = $this->db->query("UPDATE users SET hide_ads = '1' WHERE id = ?", $user_id);
+    
+    if ($this->db->affected_rows() === 1)
+    {
+      $this->session->set_userdata(array('hide_ads' => 1));
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  function show_ads($user_id)
+  {
+    $query = $this->db->query("UPDATE users SET hide_ads = '0' WHERE id = ?", $user_id);
+    
+    if ($this->db->affected_rows() === 1)
+    {
+      $this->session->set_userdata(array('hide_ads' => 0));
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   /**
    * Get user record by email address
    *

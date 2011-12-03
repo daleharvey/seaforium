@@ -184,21 +184,7 @@ foreach($buddies as $user) { ?>
        </div>
 
 <?php } ?>
-        <div id="the-deck">
-         <script type="text/javascript">
-				 //<![CDATA[
-				 (function(id) {
-					document.write('<script type="text/javascript" src="' +
-					 'http://www.northmay.com/deck/deck' + id + '_js.php?' +
-					 (new Date().getTime()) + '"></' + 'script>');
-         })("YH");
-				 //]]>
-         </script>
-				 <div id="deck-title">
-           <a href="http://www.coudal.com/deck">Ads Via The Deck</a>
-         </div>
-        </div>
-        
+        <div id="ad-space"></div>
         <a href="http://patrickobrienfoundation.org/" id="pobf"><img src="/img/pobf.gif" /></a>
 
      </div>
