@@ -1539,6 +1539,8 @@ color: #494949;
 #logout_btn { padding: auto; border: auto; }
 .comment { clear: both; }
 #main-title { overflow: auto; height: auto; margin-bottom: 0px; }
+#main-title h3 { line-height: 1; font-size: 18px; }
+#main-title .favourite, #main-title .favourite.added, #main-title .hide-thread, #main-title .hide-thread.added { margin: 0 5px;}
 .two { display:none; float:none; }
 .thread .three { clear: left; width: auto; }
 .three .username, .three .time { float:none; display: inline; line-height: 16px; }
@@ -1548,6 +1550,15 @@ color: #494949;
 .welcome { padding: 5px; border: 0px;}
 .pagination .paging-text { display: none; }
 #post-thread, a#post-thread:hover { margin: 7px 2px 2px 2px; padding: 2px; }
+.thread.nsfw .one div { padding-left: 30px; }
+.thread.nsfw .three { padding-left: 30px; }
+.thread.nsfw {
+    background-image: url(../img/naughty.gif);
+    background-position: 6px center;
+    background-repeat: no-repeat;
+}
+
+
 .login { margin-bottom: 0px; }
  * { margin: 0px; padding: 0px; }
 
@@ -1711,8 +1722,8 @@ a {
     text-decoration: underline;
 }
 
-.pagination.bottom {
-    padding:10px 0 10px 10px;
+.pagination {
+    padding:10px 10px 10px 10px;
 }
 
 #header {
