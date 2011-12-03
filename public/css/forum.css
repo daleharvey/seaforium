@@ -1532,12 +1532,21 @@ color: #494949;
 }
 
 @media screen and (max-width: 600px) {
-
+#ad-space { display:none; }
 #left-column { position:relative; width: 100%; top:0px; left: 0px;}
-#right-column { margin: 10px 0px 0px 0px; padding: 0px; }
+#right-column { margin: 0; padding: 0px; }
 #header { width: auto; margin-bottom: 0px; }
 #logout_btn { padding: auto; border: auto; }
+.comment { clear: both; }
+#main-title { overflow: auto; height: auto; }
+.two { display:none; float:none; }
+.thread .three { clear: left; width: auto; }
+.three .username, .three .time { float:none; display: inline; line-height: 16px; }
+.thread .one { width: 90%; float:none; }
+.thread .subject { margin: 0px; white-space: nowrap; overflow:hidden; }
 .welcome { padding: 5px; border: 0px;}
+.pagination .paging-text { display: none; }
+#post-thread, a#post-thread:hover { margin: 7px 2px 2px 2px; padding: 2px; }
  * { margin: 0px; padding: 0px; }
 
 body {
