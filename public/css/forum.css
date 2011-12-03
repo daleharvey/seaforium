@@ -1543,10 +1543,12 @@ color: #494949;
 .thread .three { clear: left; width: auto; }
 .three .username, .three .time { float:none; display: inline; line-height: 16px; }
 .thread .one { width: 90%; float:none; }
-.thread .subject { margin: 0px; white-space: nowrap; overflow:hidden; }
+.thread .subject { margin: 0px; white-space: nowrap; overflow:hidden; text-overflow: ellipsis; }
+.thread .four { width: auto; overflow:hidden; }
 .welcome { padding: 5px; border: 0px;}
 .pagination .paging-text { display: none; }
 #post-thread, a#post-thread:hover { margin: 7px 2px 2px 2px; padding: 2px; }
+.login { margin-bottom: 0px; }
  * { margin: 0px; padding: 0px; }
 
 body {
