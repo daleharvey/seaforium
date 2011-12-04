@@ -1492,6 +1492,7 @@ color: #494949;
 .youtube_wrapper {
     position:relative;
     cursor: pointer;
+    background: black;
 }
 
 .youtube_placeholder {
