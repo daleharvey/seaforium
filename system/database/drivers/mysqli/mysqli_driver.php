@@ -640,10 +640,11 @@ class CI_DB_mysqli_driver extends CI_DB {
 	function _limit($sql, $limit, $offset)
 	{	
 		$sql .= "LIMIT ".$limit;
-	
+    
 		if ($offset > 0)
 		{
-			$sql .= " OFFSET ".$offset;
+			//$sql .= " OFFSET ".$offset;
+      $sql .= ", ".$offset;
 		}
 		
 		return $sql;

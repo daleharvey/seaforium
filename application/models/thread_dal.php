@@ -46,7 +46,22 @@ class Thread_dal extends Model
    */
   function get_threads($user_id, $limit, $span, $filtering = '', $ordering = '')
   {
-
+	
+	/*$this->db->select('
+		threads.subject,
+		threads.created,
+		threads.closed,
+		threads.nsfw,
+		threads.thread_id,
+		threads.user_id,
+		categories.name AS category,
+		authors.username AS author_name,
+		responders.username AS responder_name,
+		responses.created AS response_created,
+		IFNULL(acquaintances.type) AS acq,
+		
+		');*/
+	
     $sql = "SELECT
 	      threads.subject,
 	      threads.created,

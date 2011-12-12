@@ -18,159 +18,142 @@ class Welcome extends Controller {
       'user_id' => (int) $this->session->userdata('user_id'),
       'username' => $this->session->userdata('username'),
       'hide_enemy_posts' => $this->session->userdata('hide_enemy_posts'),
-      'threads_shown' => $this->session->userdata('threads_shown')
+      'threads_shown' => $this->session->userdata('threads_shown') === false ? 50 : $this->session->userdata('threads_shown')
     );
   }
 
   function index($pagination = 0, $filter = '', $ordering = '', $dir = 'desc', $whostarted = '')
   {
     // uncomment the following line you if broke something but you can't figure out what.
-    //$this->output->enable_profiler(TRUE);
-    if (strtolower($filter) == 'started' && $whostarted == '') {
-      $whostarted = $this->meta['username'];
-    }
-
-    $filtering = $this->_ready_filters($filter, $ordering, $dir, $whostarted);
-
-    // get a thread count from the database
-    $thread_count = $this->thread_dal->get_thread_count($filtering['filter']);
-
-    // how many threads per page
-    $display = $this->meta['threads_shown'] == false ? 50 : $this->meta['threads_shown'];
+    // $this->output->enable_profiler(TRUE);
+    
+    $args = (object)array(
+      'pagination' => (int) $pagination,
+      'filter' => strtolower($filter),
+      'ordering' => strtolower($ordering),
+      'dir' => strtolower($dir),
+      'whostarted' => strtolower($whostarted)
+    );
+    
+    if ($args->filter == 'started' && $args->whostarted == '')
+      $args->whostarted = strtolower($this->meta['username']);
+    
+    $this->load->model('threads');
+    
+    $this->threads->meta = $this->meta;
+    $this->threads->args = $args;
+    
+    // process thread information
+    $this->threads->get_threads();
 
     // init the pagination library
     $this->pagination->initialize(array(
       'base_url' => '/p/',
-      'total_rows' => $thread_count,
+      'total_rows' => $this->threads->thread_count,
       'uri_segment' => '2',
       'num_links' => 1,
-      'per_page' => $display,
-      'suffix' => $filtering['url_suffix']
+      'per_page' => $this->meta['threads_shown'],
+      'suffix' => $this->threads->url_suffix
     ));
 
     // load up the header
     $this->load->view('shared/header');
 
     // end of threads
-    $end = min(array($pagination + $display, $thread_count));
-
-    $thread_result = $this->thread_dal->get_threads($this->meta['user_id'], $pagination, $display,
-                                                    $filtering['filter'], $filtering['order']);
+    $end = min(array($args->pagination + $this->meta['threads_shown'], $this->threads->thread_count));
+    
     $pages = $this->pagination->create_links() . '<span class="paging-text">' .
-      ($pagination + 1) . ' - ' . $end . ' of ' . $thread_count . ' Threads</span>';
+      ($args->pagination + 1) . ' - ' . $end . ' of ' . $this->threads->thread_count . ' Threads</span>';
 
     $this->load->view('threads', array(
       'title' => $this->thread_dal->get_front_title(),
-      'thread_result' => $thread_result,
+      'thread_result' => $this->threads->thread_results,
       'pagination' => $pages,
-      'tab_links' => strlen($filter) > 0 ? '/f/'.$filter.'/' : '/o/',
+      'tab_links' => strlen($args->filter) > 0 ? '/f/'.$args->filter.'/' : '/o/',
       'tab_orders' => array(
-        'started' => $ordering == 'started' && $dir == 'desc' ? 'asc' : 'desc',
-        'latest' => $ordering == 'latest' && $dir == 'desc' ? 'asc' : 'desc',
-        'posts' => $ordering == 'posts' && $dir == 'desc' ? 'asc' : 'desc',
-        'startedby' => $whostarted
+        'started' => $args->ordering == 'started' && $args->dir == 'desc' ? 'asc' : 'desc',
+        'latest' => $args->ordering == 'latest' && $args->dir == 'desc' ? 'asc' : 'desc',
+        'posts' => $args->ordering == 'posts' && $args->dir == 'desc' ? 'asc' : 'desc',
+        'startedby' => $args->whostarted
       ),
       'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id'])),
       'hidden_threads' => explode(',', $this->thread_dal->get_hidden($this->meta['user_id']))
     ));
-
+    
     $this->load->view('shared/footer');
   }
-
-  function _ready_filters($filter, $ordering, $dir, $whostarted)
+  
+  public function find($search_terms = '', $pagination = 0, $filter = '', $ordering = '', $dir = 'desc', $whostarted = '')
   {
-    // switch through the filters
-    switch(strtolower($filter))
-    {
-      case 'discussions':
-        $sql = "WHERE threads.category = 1";
-        break;
-      case 'projects':
-        $sql = "WHERE threads.category = 2";
-        break;
-      case 'advice':
-        $sql = "WHERE threads.category = 3";
-        break;
-      case 'meaningless':
-        $sql = "WHERE threads.category = 4";
-        break;
-      case 'meaningful':
-        $sql = "WHERE threads.category != 4";
-        break;
-      case 'participated':
-        $sql = "WHERE threads.thread_id IN (SELECT DISTINCT comments.thread_id FROM "
-          ."comments, threads WHERE comments.user_id = {$this->meta['user_id']} AND comments.thread_id = "
-          ."threads.thread_id AND threads.deleted = 0) AND NOT EXISTS (SELECT "
-          ."hidden_threads.hidden_id FROM hidden_threads WHERE hidden_threads.user_id "
-          ."= {$this->meta['user_id']} AND hidden_threads.thread_id = threads.thread_id)";
-        break;
-      case 'favorites':
-        $sql = "WHERE threads.thread_id IN (SELECT DISTINCT threads.thread_id FROM "
-          ."favorites, threads WHERE favorites.user_id = {$this->meta['user_id']} AND "
-          ."favorites.thread_id = threads.thread_id AND threads.deleted = 0)";
-        break;
-      case 'hidden':
-        $sql = "WHERE threads.thread_id IN (SELECT hidden_threads.thread_id "
-          ."FROM hidden_threads,threads WHERE hidden_threads.user_id = {$this->meta['user_id']} "
-          ."AND hidden_threads.thread_id = threads.thread_id AND "
-          ."threads.deleted = 0)";
-        break;
-      case 'started':
-        if ($whostarted!='') {
-          $whostartedid = $this->user_dal->get_user_id_by_username($whostarted);
-          if ($whostartedid===FALSE) $whostartedid = $this->meta['user_id'];
-        }else{
-          $whostartedid = $this->meta['user_id'];
-        }
-        $sql = "WHERE threads.thread_id IN (SELECT DISTINCT thread_id " .
-          "FROM threads WHERE user_id = {$whostartedid} AND deleted = 0)";
-        break;
-      case 'all':
-      default:
-        $filter = $sql = '';
-    }
-
-    $sql .= $sql ? ' AND' : 'WHERE';
-
-    if (strtolower($filter) != 'hidden') {
-      $sql .= "  NOT EXISTS (SELECT hidden_threads.hidden_id FROM hidden_threads WHERE " .
-        "hidden_threads.user_id = ". $this->meta['user_id'] ." AND hidden_threads.thread_id " .
-        "= threads.thread_id) ";
-      $sql .= ' AND threads.deleted = 0';
-    } else {
-      $sql .= ' threads.deleted = 0';
-    }
-
-
-    // make sure the direction is one or the other
-    if (!in_array(strtolower($dir), array('desc', 'asc'))) {
-      $dir = 'desc';
-    }
-
-    switch(strtolower($ordering))
-      {
-      case 'started':
-        $sql_order = "ORDER BY threads.created ". $dir;
-        break;
-      case 'latest':
-        $sql_order = "ORDER BY response_created ". $dir;
-        break;
-      case 'posts':
-        $sql_order = "ORDER BY response_count ". $dir;
-        break;
-      default:
-        $sql_order = "ORDER BY response_created DESC";
-        $ordering = $dir = '';
-      }
-
-    return array(
-      'filter' => $sql,
-      'order' => $sql_order,
-      'url_suffix' => (strlen($filter) > 0 ? '/'.$filter : '')
-        . (strlen($ordering) > 0 ? '/'.$ordering : '')
-        . (strlen($dir) > 0 ? '/'.$dir : '')
-        . (strlen($whostarted) > 0 ? '/'.$whostarted : '')
+    // uncomment the following line you if broke something but you can't figure out what.
+    // $this->output->enable_profiler(TRUE);
+    
+    /*
+    $args = (object)array(
+      'pagination' => (int) $pagination,
+      'filter' => strtolower($filter),
+      'ordering' => strtolower($ordering),
+      'dir' => strtolower($dir),
+      'whostarted' => strtolower($whostarted),
+      'search_terms' => $search_terms
     );
+    */
+    
+    $args = (object)array(
+      'pagination' => 0,
+      'filter' => '',
+      'ordering' => '',
+      'dir' => '',
+      'whostarted' => '',
+      'search_terms' => $search_terms
+    );
+    
+    if ($args->filter == 'started' && $args->whostarted == '')
+      $args->whostarted = strtolower($this->meta['username']);
+    
+    $this->load->model('threads');
+    
+    $this->threads->meta = $this->meta;
+    $this->threads->args = $args;
+    
+    // process thread information
+    $this->threads->get_threads();
+
+    // init the pagination library
+    $this->pagination->initialize(array(
+      'base_url' => '/p/',
+      'total_rows' => $this->threads->thread_count,
+      'uri_segment' => '2',
+      'num_links' => 1,
+      'per_page' => $this->meta['threads_shown'],
+      'suffix' => $this->threads->url_suffix
+    ));
+
+    // load up the header
+    $this->load->view('shared/header');
+
+    // end of threads
+    $end = min(array($args->pagination + $this->meta['threads_shown'], $this->threads->thread_count));
+    
+    $pages = $this->pagination->create_links() . '<span class="paging-text">' .
+      ($args->pagination + 1) . ' - ' . $end . ' of ' . $this->threads->thread_count . ' Threads</span>';
+
+    $this->load->view('threads', array(
+      'title' => $this->thread_dal->get_front_title(),
+      'thread_result' => $this->threads->thread_results,
+      'pagination' => $pages,
+      'tab_links' => strlen($args->filter) > 0 ? '/f/'.$args->filter.'/' : '/o/',
+      'tab_orders' => array(
+        'started' => $args->ordering == 'started' && $args->dir == 'desc' ? 'asc' : 'desc',
+        'latest' => $args->ordering == 'latest' && $args->dir == 'desc' ? 'asc' : 'desc',
+        'posts' => $args->ordering == 'posts' && $args->dir == 'desc' ? 'asc' : 'desc',
+        'startedby' => $args->whostarted
+      ),
+      'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id'])),
+      'hidden_threads' => explode(',', $this->thread_dal->get_hidden($this->meta['user_id']))
+    ));
+    
+    $this->load->view('shared/footer');
   }
 }
 
