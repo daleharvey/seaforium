@@ -489,6 +489,7 @@ class User_dal extends Model
 				user_profiles.name,
 				user_profiles.location,
 				users.comments_shown,
+				users.threads_shown,
 				users.threads_count AS threads_count,
 				users.comments_count AS comments_count
 			FROM users

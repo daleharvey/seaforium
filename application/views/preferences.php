@@ -224,12 +224,12 @@
   <div class="error"><?php echo $error; ?></div>
 <?php } ?>
 
-<?php echo form_open_multipart('/preferences');?>
-<div style="float:right"><?php echo form_submit('submit', 'Save'); ?></div>
+<form action="http://yayhooray.dev/preferences" method="post" enctype="multipart/form-data">
+<div style="float:right"><input type="submit" name="submit" value="Save"  /></div>
 <h4 class="biglabel">Account Stuff</h4>
 
 <div class="input text">
-  <?php echo form_label('Email Address', 'email'); ?>
+  <label for="email">Email Address</label>
   <?php echo form_input('email', $user_preferences->email); ?>
 </div>
 
@@ -251,7 +251,7 @@
 <br />
 <div class="blueline"></div>
 
-<div style="float:right;margin-top:10px;"><?php echo form_submit('submit', 'Save'); ?></div>
+<div style="float:right;margin-top:10px;"><input type="submit" name="submit" value="Save"  /></div>
 <h4 class="biglabel">Personal Stuff</h4>
 
 <div class="input text">
@@ -293,7 +293,7 @@
 <br />
 <div class="blueline"></div>
 
-<div style="float:right;margin-top:10px;"><?php echo form_submit('submit', 'Save'); ?></div>
+<div style="float:right;margin-top:10px;"><input type="submit" name="submit" value="Save"  /></div>
 <h4 class="biglabel">Other Websites</h4>
 
 
@@ -303,8 +303,8 @@
 </div>
 <div class="input text">
 <?php echo form_label('Del.icio.us Username', 'delicious_username'); ?>
-							<?php echo form_input('delicious_username', $user_preferences->delicious_username); ?>
-						</div>
+<?php echo form_input('delicious_username', $user_preferences->delicious_username); ?>
+</div>
 <div class="input text">
 <?php echo form_label('Facebook', 'facebook'); ?>
 <?php echo form_input('facebook', $user_preferences->facebook); ?>
@@ -330,8 +330,10 @@
 <?php echo form_input('twitter', $user_preferences->twitter); ?>
 </div>
 <br />
+
 <div class="blueline"></div>
-<div style="float:right;margin-top:10px;"><?php echo form_submit('submit', 'Save'); ?></div>
+
+<div style="float:right;margin-top:10px;"><input type="submit" name="submit" value="Save" /></div>
 <h4 class="biglabel">YH Settings</h4>
 <div class="input text">
 <?php echo form_label('Show Random Titles', 'random_titles'); ?>
