@@ -60,6 +60,7 @@ class Preferences extends Controller {
       'hide_enemy_posts' => $user_data->hide_enemy_posts,
       'custom_css' => $user_data->custom_css,
       'custom_js' => $user_data->custom_js,
+      'chat_fixed_size' => $user_data->chat_fixed_size,
     );
     
     $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
@@ -70,6 +71,7 @@ class Preferences extends Controller {
     $this->form_validation->set_rules('random_titles', 'Show Random Titles', 'trim|xss_clean|integer');
     $this->form_validation->set_rules('new_post_notification', 'New Post Notification', 'trim|xss_clean|integer');
     $this->form_validation->set_rules('hide_enemy_posts', 'Hide Enemy Posts', 'trim|xss_clean|integer');
+    $this->form_validation->set_rules('chat_fixed_size', 'Chat Window Fixed Size', 'trim|xss_clean|integer');
     $this->form_validation->set_rules('website_1','Website 1', 'trim|xss_clean');
     $this->form_validation->set_rules('website_2','Website 2', 'trim|xss_clean');
     $this->form_validation->set_rules('website_3','Website 3', 'trim|xss_clean');
@@ -125,6 +127,7 @@ class Preferences extends Controller {
         'hide_enemy_posts' => $this->form_validation->set_value('hide_enemy_posts') ?: 0,
         'custom_css' => $this->form_validation->set_value('custom_css'),
         'custom_js' => $this->form_validation->set_value('custom_js'),
+        'chat_fixed_size' => $this->form_validation->set_value('chat_fixed_size') ?: 0,
       );
       
       // check for changes in profile

@@ -469,6 +469,7 @@ class User_dal extends Model
 				users.random_titles,
 				users.custom_css,
 				users.custom_js,
+				users.chat_fixed_size,
 				users.timezone,
 				user_profiles.country,
 				user_profiles.website_1,

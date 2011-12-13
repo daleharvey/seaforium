@@ -341,6 +341,7 @@ CREATE TABLE `users` (
   `threads_count` int(11) NOT NULL DEFAULT '0',
   `comments_count` int(11) NOT NULL DEFAULT '0',
   `hide_enemy_posts` tinyint(1) NOT NULL DEFAULT '1',
+  `chat_fixed_size` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
