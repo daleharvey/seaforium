@@ -224,7 +224,7 @@
   <div class="error"><?php echo $error; ?></div>
 <?php } ?>
 
-<form action="http://yayhooray.dev/preferences" method="post" enctype="multipart/form-data">
+<form action="/preferences" method="post" enctype="multipart/form-data">
 <div style="float:right"><input type="submit" name="submit" value="Save"  /></div>
 <h4 class="biglabel">Account Stuff</h4>
 
