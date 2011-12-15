@@ -83,21 +83,10 @@ class Welcome extends Controller {
     $this->load->view('shared/footer');
   }
   
-  public function find($search_terms = '', $pagination = 0, $filter = '', $ordering = '', $dir = 'desc', $whostarted = '')
+  public function find($search_terms = '')
   {
     // uncomment the following line you if broke something but you can't figure out what.
     // $this->output->enable_profiler(TRUE);
-    
-    /*
-    $args = (object)array(
-      'pagination' => (int) $pagination,
-      'filter' => strtolower($filter),
-      'ordering' => strtolower($ordering),
-      'dir' => strtolower($dir),
-      'whostarted' => strtolower($whostarted),
-      'search_terms' => $search_terms
-    );
-    */
     
     $args = (object)array(
       'pagination' => 0,
