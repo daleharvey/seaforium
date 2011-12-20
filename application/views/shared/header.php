@@ -189,11 +189,11 @@ foreach($buddies as $user) { ?>
         <div id="the-deck">
          <script type="text/javascript">
 	   //<![CDATA[
-           (function(id) {
-             document.write('<script type="text/javascript" src="' +
-                            'http://www.northmay.com/deck/deck' + id + '_js.php?' +
-                            (new Date().getTime()) + '"></' + 'script>');
-           })("YH");
+           //(function(id) {
+           //  document.write('<script type="text/javascript" src="' +
+           //                 'http://www.northmay.com/deck/deck' + id + '_js.php?' +
+           //                 (new Date().getTime()) + '"></' + 'script>');
+           //})("YH");
            //]]>
          </script>
          <div id="deck-title">

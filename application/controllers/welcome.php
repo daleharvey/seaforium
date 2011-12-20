@@ -1,5 +1,4 @@
 <?php
-
 class Welcome extends Controller {
 
   var $meta;
@@ -26,7 +25,7 @@ class Welcome extends Controller {
   {
     // uncomment the following line you if broke something but you can't figure out what.
     // $this->output->enable_profiler(TRUE);
-    
+
     $args = (object)array(
       'pagination' => (int) $pagination,
       'filter' => strtolower($filter),
@@ -83,13 +82,15 @@ class Welcome extends Controller {
     $this->load->view('shared/footer');
   }
   
-  public function find($search_terms = '')
+  public function find($search_terms = '', $pagination = 0, $filter = '', $ordering = '', $dir = 'desc', $whostarted = '')
   {
     // uncomment the following line you if broke something but you can't figure out what.
     // $this->output->enable_profiler(TRUE);
     
+    $this->load->library('SphinxClient');
+    
     $args = (object)array(
-      'pagination' => 0,
+      'pagination' => (int) $pagination,
       'filter' => '',
       'ordering' => '',
       'dir' => '',
@@ -97,22 +98,33 @@ class Welcome extends Controller {
       'search_terms' => $search_terms
     );
     
-    if ($args->filter == 'started' && $args->whostarted == '')
-      $args->whostarted = strtolower($this->meta['username']);
-    
     $this->load->model('threads');
     
     $this->threads->meta = $this->meta;
     $this->threads->args = $args;
     
+    $s = new SphinxClient();
+    
+    $s->SetServer("localhost", 3312);
+    $s->SetMatchMode(SPH_MATCH_EXTENDED2);
+    $s->SetMaxQueryTime(1);
+    
+    $s->SetLimits($args->pagination, ($this->meta['threads_shown'] + 1));
+    
+    $result = $s->query($search_terms);
+
+    $final = $result['total_found'] > 0 
+      ? implode(',', array_keys($result['matches'])) 
+      : 0;
+    
     // process thread information
-    $this->threads->get_threads();
+    $this->threads->get_threads($final);
 
     // init the pagination library
     $this->pagination->initialize(array(
-      'base_url' => '/p/',
-      'total_rows' => $this->threads->thread_count,
-      'uri_segment' => '2',
+      'base_url' => 'find/'. $search_terms .'/p/',
+      'total_rows' => $result['total_found'],
+      'uri_segment' => '4',
       'num_links' => 1,
       'per_page' => $this->meta['threads_shown'],
       'suffix' => $this->threads->url_suffix
@@ -122,10 +134,10 @@ class Welcome extends Controller {
     $this->load->view('shared/header');
 
     // end of threads
-    $end = min(array($args->pagination + $this->meta['threads_shown'], $this->threads->thread_count));
+    $end = min(array($args->pagination + $this->meta['threads_shown'], $result['total_found']));
     
     $pages = $this->pagination->create_links() . '<span class="paging-text">' .
-      ($args->pagination + 1) . ' - ' . $end . ' of ' . $this->threads->thread_count . ' Threads</span>';
+      ($args->pagination + 1) . ' - ' . $end . ' of ' . $result['total_found'] . ' Threads</span>';
 
     $this->load->view('threads', array(
       'title' => $this->thread_dal->get_front_title(),

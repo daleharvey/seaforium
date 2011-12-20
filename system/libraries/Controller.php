@@ -117,7 +117,6 @@ class Controller extends CI_Base {
     foreach ($classes as $var => $class) {
       $this->$var =& load_class($class);
     }
-
     $this->load =& load_class('Loader');
     $this->load->_ci_autoloader();
 

@@ -72,6 +72,7 @@ $route['thread/(:any)'] = "thread/load/$1";
 
 // new route for finding threads by title
 //$route['find/(:any)'] = "find";
+$route['find/(:any)/p/(:num)'] = "welcome/find/$1/$2";
 $route['find/(:any)'] = "welcome/find/$1";
 
 $route['user/(:any)/(:any)/p/(:num)'] = "user/check/$1/$2/$3";

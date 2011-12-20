@@ -76,6 +76,32 @@ In the above files replace the required values, replacements are marked by %REPL
 
 Now open http://yayhooray.dev in your browser and you should be good to go :)
 
+Installing Sphinx Search
+========================
+
+### Ubuntu (Oneiric Ocelot)
+
+    $ sudo apt-get install sphinxsearch
+    $ sudo cp seaforium/conf/sphinx.conf.default /etc/sphinxsearch/sphinx.conf
+    
+Edit sphinx.conf to set your paths correctly if anything was changed. (make sure sphinx can access log files and MySQL).
+
+    $ indexer --conf /etc/sphinxsearch/sphinx.conf --all
+    $ sudo start sphinxsearch
+
+### Windows
+
+Download and install the binaries from http://sphinxsearch.com/files/sphinx-2.0.2-beta-win32.zip
+I installed mine to C:\sphinx
+
+Copy seaforium\conf\sphinx.conf to C:\sphinx.
+Run 'cmd'
+
+    > cd C:\sphinx
+    > bin\indexer --config sphinx.conf --all
+    > bin\searchd --install --config sphinx.conf --servicename Sphinx
+
+Restart Apache
 
 Developing
 ==========

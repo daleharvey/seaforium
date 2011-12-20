@@ -16,8 +16,10 @@ class Threads extends Model
    * @param	int
    * @return	object
    */
-  function get_threads()
+  function get_threads($in = '')
   {
+    $searching = !!$in;
+    
     $this->db->select('
       SQL_CALC_FOUND_ROWS
       threads.subject,
@@ -56,50 +58,54 @@ class Threads extends Model
                     'acquaintances.acq_user_id = authors.id AND acquaintances.user_id = '. $this->meta['user_id']
                      , 'left');
     
-    switch(strtolower($this->args->filter))
+    if ($searching)
     {
-      case 'discussions':
-        $this->db->where('threads.category', 1);
-        break;
-      case 'projects':
-        $this->db->where('threads.category', 2);
-        break;
-      case 'advice':
-        $this->db->where('threads.category', 3);
-        break;
-      case 'meaningless':
-        $this->db->where('threads.category', 4);
-        break;
-      case 'meaningful':
-        $this->db->where('threads.category !=', 4);
-        break;
-      case 'participated':
-        $this->db->where('threads.thread_id IN (SELECT DISTINCT comments.thread_id FROM comments, threads WHERE comments.user_id = '. $this->meta['user_id'] 
-          .' AND comments.thread_id = threads.thread_id AND threads.deleted = 0) AND NOT EXISTS (SELECT hidden_threads.hidden_id FROM hidden_threads WHERE hidden_threads.user_id = '. $this->meta['user_id'] 
-          .' AND hidden_threads.thread_id = threads.thread_id)');
-        break;
-      case 'favorites':
-        $this->db->where('threads.thread_id IN (SELECT DISTINCT threads.thread_id FROM favorites, threads WHERE favorites.user_id = '. $this->meta['user_id']
-          .' AND favorites.thread_id = threads.thread_id AND threads.deleted = 0)');
-        break;
-      case 'hidden':
-        $this->db->where('threads.thread_id IN (SELECT hidden_threads.thread_id FROM hidden_threads,threads WHERE hidden_threads.user_id = '. $this->meta['user_id']
-          .' AND hidden_threads.thread_id = threads.thread_id AND threads.deleted = 0)');
-        break;
-      case 'started':
-        if ($this->args->whostarted != '') {
-          $whostartedid = $this->user_dal->get_user_id_by_username($this->args->whostarted);
-          if ($whostartedid === FALSE)
-            $whostartedid = $this->meta['user_id'];
-        }else{
-          $whostartedid = $this->meta['user_id'];
-        }
-        $this->db->where('threads.thread_id IN (SELECT DISTINCT thread_id FROM threads WHERE user_id = '. $whostartedid .' AND deleted = 0)');
-        break;
+      $this->db->where('threads.thread_id IN ('. $in .')');
     }
-    
-    if (isset($this->args->search_terms))
-      $this->db->like('threads.subject', $this->args->search_terms);
+    else
+    {
+      switch(strtolower($this->args->filter))
+      {
+        case 'discussions':
+          $this->db->where('threads.category', 1);
+          break;
+        case 'projects':
+          $this->db->where('threads.category', 2);
+          break;
+        case 'advice':
+          $this->db->where('threads.category', 3);
+          break;
+        case 'meaningless':
+          $this->db->where('threads.category', 4);
+          break;
+        case 'meaningful':
+          $this->db->where('threads.category !=', 4);
+          break;
+        case 'participated':
+          $this->db->where('threads.thread_id IN (SELECT DISTINCT comments.thread_id FROM comments, threads WHERE comments.user_id = '. $this->meta['user_id'] 
+            .' AND comments.thread_id = threads.thread_id AND threads.deleted = 0) AND NOT EXISTS (SELECT hidden_threads.hidden_id FROM hidden_threads WHERE hidden_threads.user_id = '. $this->meta['user_id'] 
+            .' AND hidden_threads.thread_id = threads.thread_id)');
+          break;
+        case 'favorites':
+          $this->db->where('threads.thread_id IN (SELECT DISTINCT threads.thread_id FROM favorites, threads WHERE favorites.user_id = '. $this->meta['user_id']
+            .' AND favorites.thread_id = threads.thread_id AND threads.deleted = 0)');
+          break;
+        case 'hidden':
+          $this->db->where('threads.thread_id IN (SELECT hidden_threads.thread_id FROM hidden_threads,threads WHERE hidden_threads.user_id = '. $this->meta['user_id']
+            .' AND hidden_threads.thread_id = threads.thread_id AND threads.deleted = 0)');
+          break;
+        case 'started':
+          if ($this->args->whostarted != '') {
+            $whostartedid = $this->user_dal->get_user_id_by_username($this->args->whostarted);
+            if ($whostartedid === FALSE)
+              $whostartedid = $this->meta['user_id'];
+          }else{
+            $whostartedid = $this->meta['user_id'];
+          }
+          $this->db->where('threads.thread_id IN (SELECT DISTINCT thread_id FROM threads WHERE user_id = '. $whostartedid .' AND deleted = 0)');
+          break;
+      }
+    }
     
     // dont show hidden threads
     // unless thats what we're trying to do
@@ -107,29 +113,33 @@ class Threads extends Model
       $this->db->where('NOT EXISTS (SELECT hidden_threads.hidden_id FROM hidden_threads WHERE hidden_threads.user_id = '. $this->meta['user_id']
         .' AND hidden_threads.thread_id = threads.thread_id)', null, false);
     
-    // dont want to show any deleted threads
+      // dont want to show any deleted threads
     $this->db->where('threads.deleted', 0);
     
-    // get ordering direction
-    if ($this->args->dir != 'desc' && $this->args->dir != 'asc')
-      $this->args->dir = 'desc';
+    if (!$searching)
+    {
+      // get ordering direction
+      if ($this->args->dir != 'desc' && $this->args->dir != 'asc')
+        $this->args->dir = 'desc';
     
-    // order the threads
-    if ($this->args->ordering == 'started') {
-      $this->db->order_by('threads.created', $this->args->dir);
-    }
-    elseif ($this->args->ordering == 'latest') {
-      $this->db->order_by('response_created', $this->args->dir);
-    }
-    elseif ($this->args->ordering == 'posts') {
-      $this->db->order_by('response_count', $this->args->dir);
-    }
-    else {
-      $this->db->order_by('response_created', 'DESC');
-    }
+      // order the threads
+      if ($this->args->ordering == 'started') {
+        $this->db->order_by('threads.created', $this->args->dir);
+      }
+      elseif ($this->args->ordering == 'latest') {
+        $this->db->order_by('response_created', $this->args->dir);
+      }
+      elseif ($this->args->ordering == 'posts') {
+        $this->db->order_by('response_count', $this->args->dir);
+      }
+      else {
+        $this->db->order_by('response_created', 'DESC');
+      }
     
-    // apply some limits to this thing
-    $this->db->limit($this->args->pagination, $this->meta['threads_shown']);
+      // apply some limits to this thing
+      $this->db->limit($this->args->pagination, $this->meta['threads_shown']);
+    }
+    //echo $this->db->_compile_select();
     
     // get the results
     $this->thread_results = $this->db->get();

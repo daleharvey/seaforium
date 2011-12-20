@@ -16,8 +16,7 @@ class Thread extends Controller {
       'user_id' => (int) $this->session->userdata('user_id'),
       'session_id' => $this->session->userdata('session_id'),
       'hide_enemy_posts' => $this->session->userdata('hide_enemy_posts'),
-      'comments_shown' => $this->session->userdata('comments_shown') == false
-        ? 50 : (int)$this->session->userdata('comments_shown')
+      'comments_shown' => (int) $this->session->userdata('comments_shown') ?: 50,
     );
   }
 
@@ -65,7 +64,7 @@ class Thread extends Controller {
       'thread_id' => $thread_id,
       'favorites' => $favourites,
       'hidden' => $hidden,
-	  'meta' => $this->meta
+      'meta' => $this->meta
     );
 
 

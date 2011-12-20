@@ -1,0 +1,80 @@
+source commentsource
+{
+  type = mysql
+
+  sql_host  = localhost
+  sql_user  = root
+  sql_pass  = password
+  sql_db    = database
+  sql_port  = 3306
+
+  sql_query = \
+    SELECT \
+    thread_id, \
+    content \
+    FROM comments
+
+  sql_query_info = SELECT * FROM comments WHERE thread_id = $id
+}
+
+index commentindex
+{
+  source      = commentsource
+  path        = /var/lib/sphinxsearch/data/comment
+  morphology  = none
+  
+  min_word_len    = 3
+  min_prefix_len  = 0
+  min_infix_len   = 3
+  enable_star     = 1
+}
+
+source threadsource
+{
+  type = mysql
+
+  sql_host  = localhost
+  sql_user  = root
+  sql_pass  = password
+  sql_db    = database
+  sql_port  = 3306
+
+  sql_query = \
+    SELECT \
+    thread_id, \
+    subject \
+    FROM threads
+
+  sql_query_info = SELECT * FROM threads WHERE thread_id = $id
+}
+
+index threadindex
+{
+  source      = threadsource
+  path        = /var/lib/sphinxsearch/data/thread
+  morphology  = none
+  
+  min_word_len    = 3
+  min_prefix_len  = 0
+  min_infix_len   = 3
+  enable_star     = 1
+}
+
+indexer
+{
+  mem_limit = 512M
+}
+
+searchd
+{
+  port            = 3312
+  log             = /var/log/sphinxsearch/searchd.log
+  query_log       = /var/log/sphinxsearch/query.log
+  read_timeout    = 5
+  max_children    = 30
+  pid_file        = /var/run/searchd.pid
+  max_matches     = 1000
+  seamless_rotate = 1
+  preopen_indexes = 0
+  unlink_old      = 1
+}
