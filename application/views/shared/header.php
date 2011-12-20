@@ -137,12 +137,13 @@ if ($logged_in) {
               <?php echo $latest_comment['meaningless']; ?></li>
           </ul>
           <ul id="special-threads">
+            <li><a href="/f/meaningful">All Forums</a></li>
             <li><a href="/f/meaningful">All But Meaningless</a></li>
 <?php if ($logged_in) { ?>
-            <li><a href="/f/participated">Participated Threads</a></li>
-            <li><a href="/f/favorites">Favourite Threads</a></li>
-            <li><a href="/f/hidden">Hidden Threads</a></li>
-            <li><a href="/started/<?php echo $username; ?>">Started Threads</a></li>
+            <li><a href="/f/participated">Participated</a></li>
+            <li><a href="/f/favorites">Favourite</a></li>
+            <li><a href="/f/hidden">Hidden</a></li>
+            <li><a href="/started/<?php echo $username; ?>">Started</a></li>
 <?php } ?>
           </ul>
 
@@ -150,7 +151,7 @@ if ($logged_in) {
              <li>
                <strong>Search Thread Titles</strong><br/>
                <form name="search-box" id="search-box" method="" action="">
-                 <input type="text" value="" name="search-phrase" id="search-phrase" />
+                 <input type="text" value="" name="search-phrase" id="search-phrase" placeholder="Search" />
                  <input type="submit" value="Go" />
                </form>
              </li>
@@ -183,7 +184,33 @@ foreach($buddies as $user) { ?>
        </div>
 
 <?php } ?>
-         <a href="http://patrickobrienfoundation.org/" id="pobf"><img src="/img/pobf.gif" /></a>
+        <div id="ad-space">
+<?php if ((int)$this->session->userdata('hide_ads') === 0) { ?>
+        <div id="the-deck">
+         <script type="text/javascript">
+	   //<![CDATA[
+           (function(id) {
+             document.write('<script type="text/javascript" src="' +
+                            'http://www.northmay.com/deck/deck' + id + '_js.php?' +
+                            (new Date().getTime()) + '"></' + 'script>');
+           })("YH");
+           //]]>
+         </script>
+         <div id="deck-title">
+           <a href="http://www.coudal.com/deck">Ads Via The Deck</a>
+           <?php if ($logged_in) { ?>| <a id="hide-ads">Hide ads</a> <?php } ?>
+         </div>
+        </div>
+<?php } else { ?>
+
+        <div id="hidden-ads">
+          <img src="/img/pinkies/jp.gif" align="absmiddle" /> <a id="unhide-ads">Help support YayHooray!</a>
+        </div>
+
+<?php } ?>
+
+        </div>
+        <a href="http://patrickobrienfoundation.org/" id="pobf"><img src="/img/pobf.gif" /></a>
 
      </div>
 

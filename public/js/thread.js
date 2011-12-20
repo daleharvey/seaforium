@@ -231,7 +231,7 @@ thread = {
       selected.comment_id = null;
 
       html = "<blockquote title=\"" + $.trim(thread.comments[comment_id].author) +
-        "\">\n" + content + "\n</blockquote>";
+        "\">" + content + "</blockquote>";
 
       $("#thread-content-input").val($("#thread-content-input").val() + html);
 

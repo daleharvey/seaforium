@@ -71,8 +71,8 @@ code {
     display:block;
     text-indent:-9999px;
     width:80px;
-    height:14px;
-    background:url(../img/logo.gif);
+    height:20px;
+    background:url(/img/logos/winter-11.gif);
     margin-bottom:15px;
 }
 
@@ -203,6 +203,7 @@ hr {
 #special-threads a {
     color: #959595;
 }
+#special-threads li:first-child { display:none; }
 #search-title {
 
 }
@@ -1491,6 +1492,7 @@ color: #494949;
 .youtube_wrapper {
     position:relative;
     cursor: pointer;
+    background: black;
 }
 
 .youtube_placeholder {
@@ -1532,11 +1534,72 @@ color: #494949;
 
 @media screen and (max-width: 600px) {
 
+#ad-space { display:none; }
 #left-column { position:relative; width: 100%; top:0px; left: 0px;}
-#right-column { margin: 10px 0px 0px 0px; padding: 0px; }
+#right-column { margin: 0; padding: 0px; }
 #header { width: auto; margin-bottom: 0px; }
 #logout_btn { padding: auto; border: auto; }
+.comment { clear: both; }
+#main-title { overflow: auto; height: auto; margin-bottom: 0px; }
+#main-title h3 { line-height: 1; font-size: 18px; }
+#main-title .favourite, #main-title .favourite.added, #main-title .hide-thread, #main-title .hide-thread.added { margin: 0 5px;}
+.two { display:none; float:none; }
+.thread .three { clear: left; width: auto; }
+.three .username, .three .time { float:none; display: inline; line-height: 16px; }
+.thread .one { width: 90%; float:none; }
+.thread .subject { margin: 0px; white-space: nowrap; overflow:hidden; text-overflow: ellipsis; }
+.thread .four { width: auto; overflow:hidden; }
 .welcome { padding: 5px; border: 0px;}
+.pagination .paging-text { display: none; }
+#post-thread, a#post-thread:hover { margin: 7px 2px 2px 2px; padding: 2px; }
+.thread.nsfw .one div { padding-left: 30px; }
+.thread.nsfw .three { padding-left: 30px; }
+.thread.nsfw {
+    background-image: url(../img/naughty.gif);
+    background-position: 6px center;
+    background-repeat: no-repeat;
+}
+
+.lc-node {
+    padding: 0;
+    margin: 0;
+}
+
+#special-threads { border-bottom: 0; }
+#search-title { clear: both; }
+#search-box { margin: 0 5px 5px 5px;}
+#search-title strong, #search-title br { display: none; }
+hr { display: none; }
+
+#threads { border-bottom: 1px solid #DDD; }
+
+#thread-control,
+.user-information,
+#information-bio, #information-desc, #information-widget, #photostream,
+#reply-lc,
+#reply-rc p,
+#pinkies,
+#toggle-html,
+#messaging,
+#preferences,
+#thread-categories,
+.welcome > a,
+.welcome h4,
+div.five,
+div.category,
+#thread-headers,
+#buddy-list,
+#threads h3,
+#pobf {
+    display: none;
+}
+
+#thread-content-input {
+    width: 95%;
+    margin: 0px auto;
+}
+
+.login { margin-bottom: 0px; }
  * { margin: 0px; padding: 0px; }
 
 body {
@@ -1699,12 +1762,12 @@ a {
     text-decoration: underline;
 }
 
-.pagination.bottom {
-    padding:10px 0 10px 10px;
+.pagination {
+    padding:10px 10px 10px 10px;
 }
 
 #header {
-    background:#EDF5E1 url(/img/logo.gif) no-repeat 10px center;
+    background:#EDF5E1 url(/img/logos/winter-11.gif) no-repeat 10px center;
     text-indent: -9999px;
     display:block;
     padding:10px;
@@ -1726,8 +1789,9 @@ a {
     /* border: 1px solid #AAA; */
     display: block;
     padding: 4px 6px;
-    margin:8px;
+    margin:0 4px;
     border-radius:5px;
+    font-size: 10px;
     -moz-border-radius:5px;
 }
 .main-pagination {
@@ -1830,15 +1894,31 @@ padding: 0px;
     margin: 0px;
 }
 
-#secluded-invite, #messaging, #buddy-list,
-#thread-headers, .thread .category, .fourr, .five,
-#special-threads, .user-information,
-#thread-control, #threads h3, .welcome h4, .welcome > a,
-.welcome ul li:first-child, .paging-text, #threads, #new-thread p:first-child,
-#post-shortcuts, #pinkies, #reply-lc, #reply-rc p, #this-is-you, #information, #stats h3,
-#information-bio, #information-desc, #information-widget, #photostream,
-#latest-posts, #latest-posts-withflickr, #show_mobile, #pobf {
-    display:none;
 }
 
+#the-deck
+{
+border: solid 3px #F3F3F3;
+margin-bottom: 15px;
+text-align: center;
+font-size: 10px;
+padding: 10px 10px 5px 10px;
+}
+#deck-title, #deck-title a {
+font-size: 10px;
+}
+
+#hidden-ads {
+background: #FAFAFA;
+text-align: center;
+padding: 10px;
+margin-bottom: 15px;
+}
+#hidden-ads img {
+margin-right: 5px;
+}
+
+#tinychat {
+text-align: center;
+line-height: 20px;
 }

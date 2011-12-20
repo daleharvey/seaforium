@@ -19,7 +19,6 @@
 <?php if (strlen($this->session->userdata('custom_js')) > 0) { ?>
 	<script src="<?php echo $this->session->userdata('custom_js'); ?>"></script>
 <?php } ?>
-
 <script type="text/javascript">
 
   var _gaq = _gaq || [];

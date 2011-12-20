@@ -62,7 +62,9 @@ class Sauth
       'view_html' => $user->view_html,
       'new_post_notification' => $user->new_post_notification,
       'random_titles' => $user->random_titles,
-      'emoticon' => $user->emoticon
+      'emoticon' => $user->emoticon,
+      'hide_ads' => $user->hide_ads,
+      'chat_fixed_size' => $user->chat_fixed_size
     );
 
     $this->ci->session->set_userdata($data);

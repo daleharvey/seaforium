@@ -43,6 +43,32 @@ class User_dal extends Model
     return NULL;
   }
 
+  function hide_ads($user_id)
+  {
+    $query = $this->db->query("UPDATE users SET hide_ads = '1' WHERE id = ?", $user_id);
+    
+    if ($this->db->affected_rows() === 1)
+    {
+      $this->session->set_userdata(array('hide_ads' => 1));
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  function show_ads($user_id)
+  {
+    $query = $this->db->query("UPDATE users SET hide_ads = '0' WHERE id = ?", $user_id);
+    
+    if ($this->db->affected_rows() === 1)
+    {
+      $this->session->set_userdata(array('hide_ads' => 0));
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   /**
    * Get user record by email address
    *
@@ -443,6 +469,7 @@ class User_dal extends Model
 				users.random_titles,
 				users.custom_css,
 				users.custom_js,
+				users.chat_fixed_size,
 				users.timezone,
 				user_profiles.country,
 				user_profiles.website_1,
@@ -463,6 +490,7 @@ class User_dal extends Model
 				user_profiles.name,
 				user_profiles.location,
 				users.comments_shown,
+				users.threads_shown,
 				users.threads_count AS threads_count,
 				users.comments_count AS comments_count
 			FROM users
@@ -559,9 +587,9 @@ class User_dal extends Model
 
   function acquaintance_exists($key)
   {
-    $result = $this->db->query("SELECT type FROM acquaintances WHERE acq_id = ?", $key);
-//  var_dump($result);
-    return ($result->num_fields() === 1) ? (int) $result->row()->type : 0;
+    $sql = "SELECT type FROM acquaintances WHERE acq_id = ?";
+    $result = $this->db->query($sql, $key)->row();
+    return (count($result) > 1) ? (int) $result->type : 0;
   }
 
   function delete_acquaintance($key)
@@ -573,9 +601,9 @@ class User_dal extends Model
   function move_acquaintance($to_list, $key)
   {
     $this->db->query("UPDATE acquaintances SET type = ? WHERE acq_id = ?", array($to_list, $key));
-    
-    
-    
+
+
+
     return $this->db->affected_rows();
   }
 
