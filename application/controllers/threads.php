@@ -1,17 +1,17 @@
 <?php
-class Welcome extends Controller {
+class Threads extends Controller {
 
   var $meta;
 
-  function Welcome()
+  function __construct()
   {
-    parent::Controller();
+    parent::__construct();
 
     // load up some external help
     $this->load->helper(array('date', 'url'));
     $this->load->library('pagination');
     $this->load->model('thread_dal');
-
+    
     // set all this so we dont have to continually call functions through session
     $this->meta = array(
       'user_id' => (int) $this->session->userdata('user_id'),
@@ -37,36 +37,36 @@ class Welcome extends Controller {
     if ($args->filter == 'started' && $args->whostarted == '')
       $args->whostarted = strtolower($this->meta['username']);
     
-    $this->load->model('threads');
+    $this->load->model('threadsmodel');
     
-    $this->threads->meta = $this->meta;
-    $this->threads->args = $args;
+    $this->threadsmodel->meta = $this->meta;
+    $this->threadsmodel->args = $args;
     
     // process thread information
-    $this->threads->get_threads();
+    $this->threadsmodel->get_threads();
 
     // init the pagination library
     $this->pagination->initialize(array(
       'base_url' => '/p/',
-      'total_rows' => $this->threads->thread_count,
+      'total_rows' => $this->threadsmodel->thread_count,
       'uri_segment' => '2',
       'num_links' => 1,
       'per_page' => $this->meta['threads_shown'],
-      'suffix' => $this->threads->url_suffix
+      'suffix' => $this->threadsmodel->url_suffix
     ));
 
     // load up the header
     $this->load->view('shared/header');
 
     // end of threads
-    $end = min(array($args->pagination + $this->meta['threads_shown'], $this->threads->thread_count));
+    $end = min(array($args->pagination + $this->meta['threads_shown'], $this->threadsmodel->thread_count));
     
     $pages = $this->pagination->create_links() . '<span class="paging-text">' .
-      ($args->pagination + 1) . ' - ' . $end . ' of ' . $this->threads->thread_count . ' Threads</span>';
+      ($args->pagination + 1) . ' - ' . $end . ' of ' . $this->threadsmodel->thread_count . ' Threads</span>';
 
     $this->load->view('threads', array(
       'title' => $this->thread_dal->get_front_title(),
-      'thread_result' => $this->threads->thread_results,
+      'thread_result' => $this->threadsmodel->thread_results,
       'pagination' => $pages,
       'tab_links' => strlen($args->filter) > 0 ? '/f/'.$args->filter.'/' : '/o/',
       'tab_orders' => array(
@@ -98,10 +98,10 @@ class Welcome extends Controller {
       'search_terms' => $search_terms
     );
     
-    $this->load->model('threads');
+    $this->load->model('threadsmodel');
     
-    $this->threads->meta = $this->meta;
-    $this->threads->args = $args;
+    $this->threadsmodel->meta = $this->meta;
+    $this->threadsmodel->args = $args;
     
     $s = new SphinxClient();
     
@@ -112,13 +112,15 @@ class Welcome extends Controller {
     $s->SetLimits($args->pagination, ($this->meta['threads_shown'] + 1));
     
     $result = $s->query($search_terms);
-
+    
+    //var_dump($result);
+    
     $final = $result['total_found'] > 0 
       ? implode(',', array_keys($result['matches'])) 
-      : 0;
+      : '';
     
     // process thread information
-    $this->threads->get_threads($final);
+    $this->threadsmodel->get_threads($final);
 
     // init the pagination library
     $this->pagination->initialize(array(
@@ -127,7 +129,7 @@ class Welcome extends Controller {
       'uri_segment' => '4',
       'num_links' => 1,
       'per_page' => $this->meta['threads_shown'],
-      'suffix' => $this->threads->url_suffix
+      'suffix' => $this->threadsmodel->url_suffix
     ));
 
     // load up the header
@@ -141,7 +143,7 @@ class Welcome extends Controller {
 
     $this->load->view('threads', array(
       'title' => $this->thread_dal->get_front_title(),
-      'thread_result' => $this->threads->thread_results,
+      'thread_result' => $this->threadsmodel->thread_results,
       'pagination' => $pages,
       'tab_links' => strlen($args->filter) > 0 ? '/f/'.$args->filter.'/' : '/o/',
       'tab_orders' => array(

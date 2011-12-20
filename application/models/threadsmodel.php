@@ -1,6 +1,6 @@
 <?php
 
-class Threads extends Model
+class Threadsmodel extends Model
 {
   var $args, $meta, $thread_count;
   
@@ -139,6 +139,7 @@ class Threads extends Model
       // apply some limits to this thing
       $this->db->limit($this->args->pagination, $this->meta['threads_shown']);
     }
+    
     //echo $this->db->_compile_select();
     
     // get the results

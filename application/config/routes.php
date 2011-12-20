@@ -41,22 +41,22 @@
 */
 
 // front page paging
-$route['p'] = "welcome/index/0"; // no page
-$route['p/(:num)'] = "welcome/index/$1"; // page
+$route['p'] = "threads/index/0"; // no page
+$route['p/(:num)'] = "threads/index/$1"; // page
 
-$route['f/(:any)'] = "welcome/index/0/$1"; // filter
-$route['f/(:any)/(:any)/(:any)'] = "welcome/index/0/$1/$2/$3"; // filter, order
+$route['f/(:any)'] = "threads/index/0/$1"; // filter
+$route['f/(:any)/(:any)/(:any)'] = "threads/index/0/$1/$2/$3"; // filter, order
 
-$route['o/(:any)/(:any)'] = "welcome/index/0/all/$1/$2"; // order
-$route['p/(:num)/(:any)'] = "welcome/index/$1/$2"; // page, filter
+$route['o/(:any)/(:any)'] = "threads/index/0/all/$1/$2"; // order
+$route['p/(:num)/(:any)'] = "threads/index/$1/$2"; // page, filter
 
-$route['p/(:num)/(:any)/(:any)'] = "welcome/index/$1/all/$2/$3"; // page, order
-$route['p/(:num)/(:any)/(:any)/(:any)'] = "welcome/index/$1/$2/$3/$4"; // page, filter, order
+$route['p/(:num)/(:any)/(:any)'] = "threads/index/$1/all/$2/$3"; // page, order
+$route['p/(:num)/(:any)/(:any)/(:any)'] = "threads/index/$1/$2/$3/$4"; // page, filter, order
 
-$route['started'] = "welcome/index/0/started/latest/desc"; // startedby no specific user
-$route['started/(:any)'] = "welcome/index/0/started/latest/desc/$1"; // startedby
-$route['p/(:num)/(:any)/(:any)/(:any)/(:any)'] = "welcome/index/$1/$2/$3/$4/$5"; // page, filter, order, startedby
-$route['f/(:any)/(:any)/(:any)/(:any)'] = "welcome/index/0/$1/$2/$3"; // filter, order, startedby
+$route['started'] = "threads/index/0/started/latest/desc"; // startedby no specific user
+$route['started/(:any)'] = "threads/index/0/started/latest/desc/$1"; // startedby
+$route['p/(:num)/(:any)/(:any)/(:any)/(:any)'] = "threads/index/$1/$2/$3/$4/$5"; // page, filter, order, startedby
+$route['f/(:any)/(:any)/(:any)/(:any)'] = "threads/index/0/$1/$2/$3"; // filter, order, startedby
 
 // subject | no paging
 $route['thread/(:num)/:any'] = "thread/load/$1/0";
@@ -71,9 +71,8 @@ $route['thread/(:num)/p/(:num)'] = "thread/load/$1/$2";
 $route['thread/(:any)'] = "thread/load/$1";
 
 // new route for finding threads by title
-//$route['find/(:any)'] = "find";
-$route['find/(:any)/p/(:num)'] = "welcome/find/$1/$2";
-$route['find/(:any)'] = "welcome/find/$1";
+$route['find/(:any)/p/(:num)'] = "threads/find/$1/$2";
+$route['find/(:any)'] = "threads/find/$1";
 
 $route['user/(:any)/(:any)/p/(:num)'] = "user/check/$1/$2/$3";
 $route['user/(:any)/(:any)'] = "user/check/$1/$2";
@@ -91,7 +90,7 @@ $route['buddies/error/(:num)'] = "buddies/error/$1";
 $route['buddies/(:any)'] = "buddies/index/$1";
 
 
-$route['default_controller'] = "welcome";
+$route['default_controller'] = "threads";
 $route['scaffolding_trigger'] = "";
 
 
