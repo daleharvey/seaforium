@@ -66,21 +66,22 @@ class Sauth
       'hide_ads' => $user->hide_ads,
       'chat_fixed_size' => $user->chat_fixed_size
     );
-
+		
     $this->ci->session->set_userdata($data);
     $this->ci->user_id = (int)$user->id;
 
     $this->create_autologin($user->id);
-
+		
+		$this->ci->user_dal->insert_ip_address($user->id, $this->ci->input->ip_address());
+		
     $this->clear_login_attempts($username);
 
     $ip = $this->ci->config->item('login_record_ip', 'auth');
     $time = $this->ci->config->item('login_record_time', 'auth');
     $this->ci->user_dal->update_login_info($user->id, $ip, $time);
-
+		
     return TRUE;
   }
-
 
   /**
    * Logout user from the site

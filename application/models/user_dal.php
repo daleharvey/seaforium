@@ -7,6 +7,21 @@ class User_dal extends Model
     parent::__construct();
   }
 
+	function insert_ip_address($user_id, $ip_address)
+	{
+		$sql = "
+			INSERT IGNORE INTO
+			ip_addresses (
+			address_id,
+			user_id,
+			ip_address
+			) VALUES (
+			?, ?, ?
+			)";
+		
+		return $this->db->query($sql, array(md5($user_id.$ip_address), (int)$user_id, $ip_address));
+	}
+	
   /**
    * Get user record by Id
    *
@@ -24,7 +39,7 @@ class User_dal extends Model
 
     return NULL;
   }
-
+	
   /**
    * Get user record by username
    *
