@@ -84,6 +84,8 @@ class Threads extends Controller {
   
   public function find($search_terms = '', $pagination = 0, $filter = '', $ordering = '', $dir = 'desc', $whostarted = '')
   {
+		redirect('/');
+		exit();
     // uncomment the following line you if broke something but you can't figure out what.
     // $this->output->enable_profiler(TRUE);
     
