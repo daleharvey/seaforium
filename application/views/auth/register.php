@@ -30,18 +30,6 @@ $form = array(
 ?><div id="main-title"><h3>OMG, you can Register?</h3></div>
 
 <div id="new-thread">
-<?php if ($this->config->item('yay_import')) { ?>
-   <p>If you register using an existing username on yayhooray.com you will have
-     to activate your account to use that username, the link will be sent to
-     <a href="http://www.yayhooray.com/messages">yayhooray.com/messages</a>.
-   </p>
-
-   <p>If the pm doesn't arrive within 10 minutes, pm
-     <a href="http://dh.yayhooray.com">dh</a> for access. Cheers</p>
-
-  <div class="dotted-bar"></div>
-<?php } ?>
-
   <form method="post" action="/auth/register" id="register-form">
     <div class="inp">
       <?php echo form_error('username'); ?>

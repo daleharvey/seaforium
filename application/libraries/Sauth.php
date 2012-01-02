@@ -66,20 +66,20 @@ class Sauth
       'hide_ads' => $user->hide_ads,
       'chat_fixed_size' => $user->chat_fixed_size
     );
-		
+
     $this->ci->session->set_userdata($data);
     $this->ci->user_id = (int)$user->id;
 
     $this->create_autologin($user->id);
-		
+
 		$this->ci->user_dal->insert_ip_address($user->id, $this->ci->input->ip_address());
-		
+
     $this->clear_login_attempts($username);
 
     $ip = $this->ci->config->item('login_record_ip', 'auth');
     $time = $this->ci->config->item('login_record_time', 'auth');
     $this->ci->user_dal->update_login_info($user->id, $ip, $time);
-		
+
     return TRUE;
   }
 
@@ -119,18 +119,13 @@ class Sauth
    */
   function create_user($username, $email, $password)
   {
-    $is_yay_name = false;
-    if ($this->ci->config->item('yay_import')) {
-      $is_yay_name = $this->ci->user_dal->is_yay_username($username);
-    }
-
     $hasher = new PasswordHash(8, FALSE);
     $user = array(
       'username' => $username,
       'password' => $hasher->HashPassword($password),
       'email' => $email,
       'last_ip' => $this->ci->input->ip_address(),
-      'activated' => $is_yay_name ? 0 : 1
+      'activated' => 1
     );
 
     // insert the user into the database

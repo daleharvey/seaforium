@@ -7,7 +7,7 @@ class Auth extends Controller
     parent::__construct();
 
     $this->load->helper(array('form', 'url', 'string', 'utils'));
-    $this->load->library(array('form_validation', 'sauth', 'yayhooray', 'email', 'recaptcha'));
+    $this->load->library(array('form_validation', 'sauth', 'email', 'recaptcha'));
     $this->load->model('user_dal');
   }
 
@@ -104,14 +104,8 @@ class Auth extends Controller
       $password = $this->form_validation->set_value('password');
 
       $this->sauth->create_user($username, $email, $password);
-
-      if ($this->config->item('yay_import') && $this->user_dal->is_yay_username($username)) {
-        $this->send_activate_link($username);
-        $view = "auth/registered";
-      } else {
-        $this->sauth->login($username, $password);
-        redirect('/');
-      }
+      $this->sauth->login($username, $password);
+      redirect('/');
     }
 
     $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
@@ -120,36 +114,6 @@ class Auth extends Controller
     $this->load->view('shared/footer');
   }
 
-  function send_activate_link($username)
-  {
-    $invite_id = random_string('alnum', 32);
-
-	if (!$this->config->item('yay_import')) {
-		return FALSE;
-	}
-    if (!$this->user_dal->create_yh_invite($username, $invite_id)) {
-      return FALSE;
-    }
-
-    $uri = 'http://' . $_SERVER['SERVER_NAME'] . '/auth/activate/' . $invite_id;
-
-    $message = <<<EOT
-      Hey {$username},
-
-      Click this link to activate your yay2.0 account
-
-      {$uri}
-
-     Love,
-     The guys at {$this->config->item('email_signature')}
-EOT;
-
-      $this->yayhooray->login($this->config->item('yay_username'),
-                              $this->config->item('yay_password'));
-      $this->yayhooray->send_message($username, 'Activation link', $message);
-
-    return TRUE;
-  }
 
   function forgot_password()
   {

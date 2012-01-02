@@ -12,11 +12,6 @@ $config['base_url']	= '%HOST%';
 // a hand written :( verion to cache bust static files when we update
 $version = '0';
 
-// these are needed to login to yay for registration, you can leave thease alone
-// if yay_import is false
-$config['yay_username'] = '';
-$config['yay_password'] = '';
-
 // these are needed to send forgot password emails
 $config['sendgrid_username'] = '';
 $config['sendgrid_password'] = '';
@@ -26,9 +21,6 @@ $config['site_name'] = 'YayHooray';
 
 // Require captchas during registration
 $config['use_captcha'] = FALSE;
-
-//Do you want to allow new users to register with their yH1 accounts
-$config['yay_import'] = FALSE;
 
 //name for emails and admin email address
 $config['email_signature'] = 'YayHooray.net';
