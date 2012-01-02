@@ -1,4 +1,4 @@
-<p><img src="<?php echo $this->config->item('base_url_pm'); ?>img/logo.gif" /></p>
+<p><img src="<?php echo $this->config->item('base_url_pm'); ?>img/logos/net.gif" /></p>
 
 <p>Hey dude, your new password is "<?php echo $password ?>"</p>
 
