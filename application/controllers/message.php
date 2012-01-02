@@ -185,10 +185,15 @@ class Message extends Controller {
     if ($message = $this->message_dal->get_message($user_id, $message_id)) {
 
       $message = $message->row();
+      $subject = $message->subject;
+
+      if (!preg_match('/^RE:/', $str)) {
+        $subject = "RE: " . $subject;
+      }
 
       $data['message'] = array(
         'recipients' => $message->username,
-        'subject' => 'RE: '. $message->subject,
+        'subject' => 'RE: '. $subject,
         'content' => "\n\n\n-----------------------------\n\n". $message->content
       );
     } else {
