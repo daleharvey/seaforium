@@ -17,6 +17,10 @@ $version = '0';
 $config['yay_username'] = '';
 $config['yay_password'] = '';
 
+// these are needed to send forgot password emails
+$config['sendgrid_username'] = '';
+$config['sendgrid_password'] = '';
+
 //name of site
 $config['site_name'] = 'YayHooray';
 

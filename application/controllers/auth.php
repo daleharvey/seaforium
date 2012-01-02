@@ -194,7 +194,18 @@ EOT;
     // reset it!
     $this->sauth->reset_password($data);
 
-    $this->email->from($this->config->item('email_addy'), $this->config->item('email_signature'));
+    $this->email->initialize(array(
+      'protocol' => 'smtp',
+      'smtp_host' => 'smtp.sendgrid.net',
+      'smtp_user' => $this->config->item('sendgrid_username'),
+      'smtp_pass' => $this->config->item('sendgrid_password'),
+      'smtp_port' => 587,
+      'crlf' => "\r\n",
+      'newline' => "\r\n"
+    ));
+
+    $this->email->from($this->config->item('email_addy'),
+                       $this->config->item('email_signature'));
     $this->email->to($email);
     $this->email->subject('Your new password!');
     $this->email->message($this->load->view('emails/forgot_password', $data, true));
