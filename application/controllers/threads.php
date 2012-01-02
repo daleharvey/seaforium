@@ -11,7 +11,7 @@ class Threads extends Controller {
     $this->load->helper(array('date', 'url'));
     $this->load->library('pagination');
     $this->load->model('thread_dal');
-    
+
     // set all this so we dont have to continually call functions through session
     $this->meta = array(
       'user_id' => (int) $this->session->userdata('user_id'),
@@ -33,15 +33,15 @@ class Threads extends Controller {
       'dir' => strtolower($dir),
       'whostarted' => strtolower($whostarted)
     );
-    
+
     if ($args->filter == 'started' && $args->whostarted == '')
       $args->whostarted = strtolower($this->meta['username']);
-    
+
     $this->load->model('threadsmodel');
-    
+
     $this->threadsmodel->meta = $this->meta;
     $this->threadsmodel->args = $args;
-    
+
     // process thread information
     $this->threadsmodel->get_threads();
 
@@ -60,7 +60,7 @@ class Threads extends Controller {
 
     // end of threads
     $end = min(array($args->pagination + $this->meta['threads_shown'], $this->threadsmodel->thread_count));
-    
+
     $pages = $this->pagination->create_links() . '<span class="paging-text">' .
       ($args->pagination + 1) . ' - ' . $end . ' of ' . $this->threadsmodel->thread_count . ' Threads</span>';
 
@@ -78,19 +78,19 @@ class Threads extends Controller {
       'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id'])),
       'hidden_threads' => explode(',', $this->thread_dal->get_hidden($this->meta['user_id']))
     ));
-    
+
     $this->load->view('shared/footer');
   }
-  
+
   public function find($search_terms = '', $pagination = 0, $filter = '', $ordering = '', $dir = 'desc', $whostarted = '')
   {
-		redirect('/');
-		exit();
+		/* redirect('/'); */
+		/* exit(); */
     // uncomment the following line you if broke something but you can't figure out what.
     // $this->output->enable_profiler(TRUE);
-    
+
     $this->load->library('SphinxClient');
-    
+
     $args = (object)array(
       'pagination' => (int) $pagination,
       'filter' => '',
@@ -99,28 +99,24 @@ class Threads extends Controller {
       'whostarted' => '',
       'search_terms' => $search_terms
     );
-    
+
     $this->load->model('threadsmodel');
-    
+
     $this->threadsmodel->meta = $this->meta;
     $this->threadsmodel->args = $args;
-    
+
     $s = new SphinxClient();
-    
     $s->SetServer("localhost", 3312);
     $s->SetMatchMode(SPH_MATCH_EXTENDED2);
     $s->SetMaxQueryTime(1);
-    
     $s->SetLimits($args->pagination, ($this->meta['threads_shown'] + 1));
-    
+
     $result = $s->query($search_terms);
-    
-    //var_dump($result);
-    
-    $final = $result['total_found'] > 0 
-      ? implode(',', array_keys($result['matches'])) 
+
+    $final = $result['total_found'] > 0
+      ? implode(',', array_keys($result['matches']))
       : '';
-    
+
     // process thread information
     $this->threadsmodel->get_threads($final);
 
@@ -139,12 +135,15 @@ class Threads extends Controller {
 
     // end of threads
     $end = min(array($args->pagination + $this->meta['threads_shown'], $result['total_found']));
-    
+
     $pages = $this->pagination->create_links() . '<span class="paging-text">' .
       ($args->pagination + 1) . ' - ' . $end . ' of ' . $result['total_found'] . ' Threads</span>';
 
     $this->load->view('threads', array(
-      'title' => $this->thread_dal->get_front_title(),
+      'title' => (object)array(
+        'username' => 'Yayhooray',
+        'title_text' => "Searching for: \"$search_terms\""
+       ),
       'thread_result' => $this->threadsmodel->thread_results,
       'pagination' => $pages,
       'tab_links' => strlen($args->filter) > 0 ? '/f/'.$args->filter.'/' : '/o/',
@@ -157,7 +156,7 @@ class Threads extends Controller {
       'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id'])),
       'hidden_threads' => explode(',', $this->thread_dal->get_hidden($this->meta['user_id']))
     ));
-    
+
     $this->load->view('shared/footer');
   }
 }
