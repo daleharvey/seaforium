@@ -29,10 +29,18 @@ class TestBasicFunctions(unittest.TestCase):
         self.assertFalse(YayClient.is_logged_in(self.opts, r.cookies))
         r = YayClient.register(self.opts, 'my\'name', 'c@a.com', 'a', 'a')
         self.assertFalse(YayClient.is_logged_in(self.opts, r.cookies))
+        r = YayClient.register(self.opts, 'a  b', 'd@a.com', 'a', 'a')
+        self.assertFalse(YayClient.is_logged_in(self.opts, r.cookies))
+        r = YayClient.register(self.opts, 'a_b', 'e@a.com', 'a', 'a')
+        self.assertFalse(YayClient.is_logged_in(self.opts, r.cookies))
+        r = YayClient.register(self.opts, 'a-b', 'f@a.com', 'a', 'a')
+        self.assertFalse(YayClient.is_logged_in(self.opts, r.cookies))
 
 
     def test_new_register(self):
         r = YayClient.register(self.opts, 'neudjcshfo', 'a@a.com', 'a', 'a')
+        self.assertTrue(YayClient.is_logged_in(self.opts, r.cookies))
+        r = YayClient.register(self.opts, 'a b', 'a@b.com', 'a', 'a')
         self.assertTrue(YayClient.is_logged_in(self.opts, r.cookies))
 
 
