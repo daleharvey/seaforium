@@ -187,7 +187,7 @@ class Message extends Controller {
       $message = $message->row();
       $subject = $message->subject;
 
-      if (!preg_match('/^RE:/', $str)) {
+      if (!preg_match('/^RE:/', $subject)) {
         $subject = "RE: " . $subject;
       }
 
