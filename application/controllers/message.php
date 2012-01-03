@@ -193,7 +193,7 @@ class Message extends Controller {
 
       $data['message'] = array(
         'recipients' => $message->username,
-        'subject' => 'RE: '. $subject,
+        'subject' => $subject,
         'content' => "\n\n\n-----------------------------\n\n". $message->content
       );
     } else {
