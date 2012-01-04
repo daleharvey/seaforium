@@ -26,15 +26,15 @@ class Preferences extends Controller {
   {
     $user_id = $this->session->userdata('user_id');
     $user = $this->user_dal->get_user_by_id($user_id);
-    
+
     $query = $this->user_dal->get_profile_information_by_id($user_id);
     $user_data = $query->row();
     $data['user_preferences'] = $user_data;
-    
+
     $old_profile_data = array(
       'name' => $user_data->name,
       'location' => $user_data->location,
-      'about' => $user_data->about_blurb,
+      'about_blurb' => $user_data->about_blurb,
       'website_1' => $user_data->website_1,
       'website_2' => $user_data->website_2,
       'website_3' => $user_data->website_3,
@@ -50,7 +50,7 @@ class Preferences extends Controller {
       'msn' => $user_data->msn,
       'twitter' => $user_data->twitter,
     );
-    
+
     $old_user_data = array(
       'email' => $user_data->email,
       'threads_shown' => $user_data->threads_shown,
@@ -62,7 +62,7 @@ class Preferences extends Controller {
       'custom_js' => $user_data->custom_js,
       'chat_fixed_size' => $user_data->chat_fixed_size,
     );
-    
+
     $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
     $this->form_validation->set_rules('threads_shown', 'Threads Shown', 'trim|required|is_natural|xss_clean');
@@ -94,14 +94,14 @@ class Preferences extends Controller {
     $this->form_validation->set_rules('password', 'Change Password', 'trim|xss_clean');
     $this->form_validation->set_rules('password2', 'Verify Password', 'trim|xss_clean');
     $this->form_validation->set_rules('old_password', 'Old Password', 'trim|xss_clean');
-    
+
     $error = false;
-    
+
     if ($this->form_validation->run()) {
       $new_profile_data = array(
         'name' => $this->form_validation->set_value('real_name'),
         'location' => $this->form_validation->set_value('location'),
-        'about' => $this->form_validation->set_value('about_blurb'),
+        'about_blurb' => $this->form_validation->set_value('about_blurb'),
         'website_1' => make_link($this->form_validation->set_value('website_1')),
         'website_2' => make_link($this->form_validation->set_value('website_2')),
         'website_3' => make_link($this->form_validation->set_value('website_3')),
@@ -117,7 +117,7 @@ class Preferences extends Controller {
         'msn' => $this->form_validation->set_value('msn'),
         'twitter' => $this->form_validation->set_value('twitter'),
       );
-      
+
       $new_user_data = array(
         'email' => $this->form_validation->set_value('email'),
         'threads_shown' => $this->form_validation->set_value('threads_shown'),
@@ -129,7 +129,7 @@ class Preferences extends Controller {
         'custom_js' => $this->form_validation->set_value('custom_js'),
         'chat_fixed_size' => $this->form_validation->set_value('chat_fixed_size') ?: 0,
       );
-      
+
       // check for changes in profile
       $profile_changes = array_diff_assoc($new_profile_data, $old_profile_data);
       if (count($profile_changes) > 0)
@@ -137,26 +137,26 @@ class Preferences extends Controller {
         $this->db->where('user_id', (int) $user_id);
         $this->db->update('user_profiles', $profile_changes);
       }
-      
+
       // check for changes to user
       $user_changes = array_diff_assoc($new_user_data, $old_user_data);
       if (count($user_changes) > 0)
       {
         $this->db->where('id', (int) $user_id);
         $this->db->update('users', $user_changes);
-        
+
         unset($user_changes['email']);
-        
+
         // reset password data
         $this->session->set_userdata($user_changes);
       }
-      
+
       $password_information = array(
         'old_password' => $this->form_validation->set_value('old_password'),
         'new_password' => $this->form_validation->set_value('password'),
         'confirm_password' => $this->form_validation->set_value('password2')
       );
-      
+
       // change password
       if (isset($password_information['old_password'])
         || isset($password_information['new_password'])
@@ -179,7 +179,7 @@ class Preferences extends Controller {
           }
         }
       }
-      
+
       // uploading a new avatar
       if (isset($_FILES['emot_upload']) &&
           strlen($_FILES['emot_upload']['name']) > 0) {
@@ -202,7 +202,7 @@ class Preferences extends Controller {
           $error = $this->upload->display_errors();
         }
       }
-      
+
       // refresh user preferences data from database
       $query = $this->user_dal->get_profile_information_by_id($user_id);
       $data['user_preferences'] = $query->row();
