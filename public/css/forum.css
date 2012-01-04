@@ -70,9 +70,9 @@ code {
 #header {
     display:block;
     text-indent:-9999px;
-    width:80px;
-    height:20px;
-    background:url(/img/logos/winter-11.gif);
+    width:87px;
+    height:23px;
+    background:url(/img/logos/mayan-12.gif);
     margin-bottom:15px;
 }
 
@@ -1767,7 +1767,7 @@ a {
 }
 
 #header {
-    background:#EDF5E1 url(/img/logos/winter-11.gif) no-repeat 10px center;
+    background:#EDF5E1 url(/img/logos/mayan-12.gif) no-repeat 10px center;
     text-indent: -9999px;
     display:block;
     padding:10px;
