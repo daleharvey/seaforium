@@ -152,6 +152,7 @@ if ($logged_in) {
                <strong>Search Thread Titles</strong><br/>
                <form name="search-box" id="search-box" method="" action="">
                  <input type="text" value="" name="search-phrase" id="search-phrase" placeholder="Search" />
+                 <!-- <br /><input type="checkbox" /> Titles -->
                  <input type="submit" value="Go" />
                </form>
              </li>

@@ -257,6 +257,7 @@ a:hover#post-thread {
     overflow:auto;
     background:transparent;
     border-bottom: 1px solid #BBBBBB;
+    margin: 0;
 }
 #thread-headers div {
     padding:0px;
@@ -1926,4 +1927,15 @@ line-height: 20px;
 #the-deck iframe {
     width: 100%;
     height: 140px;
+}
+#search-box {
+    overflow: auto;
+}
+#search-box input[type=submit] {
+    float:right;
+}
+
+#search-phrase {
+    width: 100%;
+    box-sizing: border-box;
 }

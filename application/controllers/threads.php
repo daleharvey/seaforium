@@ -82,15 +82,16 @@ class Threads extends Controller {
     $this->load->view('shared/footer');
   }
 
-  public function find($search_terms = '', $pagination = 0, $filter = '', $ordering = '', $dir = 'desc', $whostarted = '')
+  public function find($search_terms = '',
+                       $pagination = 0,
+                       $filter = '',
+                       $ordering = '',
+                       $dir = 'desc',
+                       $whostarted = '')
   {
-		/* redirect('/'); */
-		/* exit(); */
-    // uncomment the following line you if broke something but you can't figure out what.
-    // $this->output->enable_profiler(TRUE);
-
     $this->load->library('SphinxClient');
 
+    $user_id = $this->meta['user_id'];
     $args = (object)array(
       'pagination' => (int) $pagination,
       'filter' => '',
@@ -117,6 +118,27 @@ class Threads extends Controller {
       ? implode(',', array_keys($result['matches']))
       : '';
 
+    $title = (object) array(
+        'username' => 'Yayhooray',
+        'title_text' => "Searching for: \"$search_terms\""
+    );
+
+    // load up the header
+    $this->load->view('shared/header');
+
+    if ($result['total_found'] == 0) {
+      $this->load->view('threads', array(
+        'title' => $title,
+        'no_results' => TRUE,
+        'pagination' => '',
+        'sort_disabled' => TRUE,
+        'search_enabled' => TRUE
+      ));
+      $this->load->view('shared/footer');
+      return;
+    }
+
+
     // process thread information
     $this->threadsmodel->get_threads($final);
 
@@ -130,31 +152,30 @@ class Threads extends Controller {
       'suffix' => $this->threadsmodel->url_suffix
     ));
 
-    // load up the header
-    $this->load->view('shared/header');
-
     // end of threads
-    $end = min(array($args->pagination + $this->meta['threads_shown'], $result['total_found']));
+    $end = min(array($args->pagination + $this->meta['threads_shown'],
+                     $result['total_found']));
 
     $pages = $this->pagination->create_links() . '<span class="paging-text">' .
-      ($args->pagination + 1) . ' - ' . $end . ' of ' . $result['total_found'] . ' Threads</span>';
+      ($args->pagination + 1) . ' - ' . $end . ' of ' . $result['total_found'] .
+      ' Threads</span>';
 
     $this->load->view('threads', array(
-      'title' => (object)array(
-        'username' => 'Yayhooray',
-        'title_text' => "Searching for: \"$search_terms\""
-       ),
+      'title' => $title,
       'thread_result' => $this->threadsmodel->thread_results,
       'pagination' => $pages,
       'tab_links' => strlen($args->filter) > 0 ? '/f/'.$args->filter.'/' : '/o/',
       'tab_orders' => array(
-        'started' => $args->ordering == 'started' && $args->dir == 'desc' ? 'asc' : 'desc',
-        'latest' => $args->ordering == 'latest' && $args->dir == 'desc' ? 'asc' : 'desc',
-        'posts' => $args->ordering == 'posts' && $args->dir == 'desc' ? 'asc' : 'desc',
+        'started' => $args->ordering == 'started' && $args->dir == 'desc' ?
+          'asc' : 'desc',
+        'latest' => $args->ordering == 'latest' && $args->dir == 'desc' ?
+          'asc' : 'desc',
+        'posts' => $args->ordering == 'posts' && $args->dir == 'desc' ?
+          'asc' : 'desc',
         'startedby' => $args->whostarted
       ),
-      'favorites' => explode(',', $this->thread_dal->get_favorites($this->meta['user_id'])),
-      'hidden_threads' => explode(',', $this->thread_dal->get_hidden($this->meta['user_id']))
+      'favorites' => explode(',', $this->thread_dal->get_favorites($user_id)),
+      'hidden_threads' => explode(',', $this->thread_dal->get_hidden($user_id))
     ));
 
     $this->load->view('shared/footer');
