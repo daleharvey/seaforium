@@ -1922,3 +1922,8 @@ margin-right: 5px;
 text-align: center;
 line-height: 20px;
 }
+
+iframe {
+    width: 100%;
+    height: 140px;
+}
