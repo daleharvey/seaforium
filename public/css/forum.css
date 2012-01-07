@@ -1938,4 +1938,9 @@ line-height: 20px;
 #search-phrase {
     width: 100%;
     box-sizing: border-box;
+    margin-bottom: 5px;
+}
+
+#seach-titles {
+    line-height: 20px;
 }

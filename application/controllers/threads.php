@@ -83,6 +83,7 @@ class Threads extends Controller {
   }
 
   public function find($search_terms = '',
+                       $wtf,
                        $pagination = 0,
                        $filter = '',
                        $ordering = '',
@@ -106,18 +107,6 @@ class Threads extends Controller {
     $this->threadsmodel->meta = $this->meta;
     $this->threadsmodel->args = $args;
 
-    $s = new SphinxClient();
-    $s->SetServer("localhost", 3312);
-    $s->SetMatchMode(SPH_MATCH_EXTENDED2);
-    $s->SetMaxQueryTime(1);
-    $s->SetLimits($args->pagination, ($this->meta['threads_shown'] + 1));
-
-    $result = $s->query($search_terms);
-
-    $final = $result['total_found'] > 0
-      ? implode(',', array_keys($result['matches']))
-      : '';
-
     $title = (object) array(
         'username' => 'Yayhooray',
         'title_text' => "Searching for: \"$search_terms\""
@@ -126,26 +115,13 @@ class Threads extends Controller {
     // load up the header
     $this->load->view('shared/header');
 
-    if ($result['total_found'] == 0) {
-      $this->load->view('threads', array(
-        'title' => $title,
-        'no_results' => TRUE,
-        'pagination' => '',
-        'sort_disabled' => TRUE,
-        'search_enabled' => TRUE
-      ));
-      $this->load->view('shared/footer');
-      return;
-    }
-
-
     // process thread information
-    $this->threadsmodel->get_threads($final);
+    $this->threadsmodel->get_threads();
 
     // init the pagination library
     $this->pagination->initialize(array(
+      'total_rows' => $this->threadsmodel->thread_count,
       'base_url' => 'find/'. $search_terms .'/p/',
-      'total_rows' => $result['total_found'],
       'uri_segment' => '4',
       'num_links' => 1,
       'per_page' => $this->meta['threads_shown'],
@@ -154,14 +130,15 @@ class Threads extends Controller {
 
     // end of threads
     $end = min(array($args->pagination + $this->meta['threads_shown'],
-                     $result['total_found']));
+                     $this->threadsmodel->thread_count));
 
     $pages = $this->pagination->create_links() . '<span class="paging-text">' .
-      ($args->pagination + 1) . ' - ' . $end . ' of ' . $result['total_found'] .
-      ' Threads</span>';
+      ($args->pagination + 1) . ' - ' . $end . ' of ' .
+      $this->threadsmodel->thread_count . ' Threads</span>';
 
     $this->load->view('threads', array(
       'title' => $title,
+      'sort_disabled' => TRUE,
       'thread_result' => $this->threadsmodel->thread_results,
       'pagination' => $pages,
       'tab_links' => strlen($args->filter) > 0 ? '/f/'.$args->filter.'/' : '/o/',

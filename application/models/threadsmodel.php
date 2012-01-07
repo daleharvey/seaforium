@@ -58,9 +58,8 @@ class Threadsmodel extends Model
                     'acquaintances.acq_user_id = authors.id AND acquaintances.user_id = '. $this->meta['user_id']
                      , 'left');
 
-    if ($searching)
-    {
-      $this->db->where('threads.thread_id IN ('. $in .')');
+    if (isset($this->args->search_terms)) {
+      $this->db->like('threads.subject', $this->args->search_terms);
     }
     else
     {
