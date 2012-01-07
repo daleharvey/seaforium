@@ -83,7 +83,7 @@ class Threads extends Controller {
   }
 
   public function find($search_terms = '',
-                       $wtf,
+                       $wtf = null,
                        $pagination = 0,
                        $filter = '',
                        $ordering = '',
