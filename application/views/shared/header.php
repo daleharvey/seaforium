@@ -39,14 +39,12 @@ $view_html = $this->session->userdata('view_html') == '1';
 ?>
 <!DOCTYPE html>
 <html>
-
   <head>
+    <meta charset="utf-8">
     <title><?php if (isset($page_title)) { echo $page_title . ' | '; } echo $this->config->item('site_name'); ?></title>
 
     <link rel="shortcut icon" href="/favicon.ico" />
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <link href="/css/prettify.css" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="<?php echo $css; ?>?v=<?php echo $this->config->item('version'); ?>" />
@@ -76,12 +74,12 @@ $login_txt = $button_texts[array_rand($button_texts)];
 	  <p class="error"></p>
           <form action="/auth/login" method="post" id="login-form">
 	    <div>
-	      <label>U:</label>
+	      <label for="username">U:</label>
               <input type="text" name="username" tabindex="1" id="username" />
               <button tabindex="3" type="submit"><?php echo $login_txt ?></button>
 	    </div>
 	    <div>
-	      <label>P:</label>
+	      <label for="password">P:</label>
               <input type="password" name="password" tabindex="2" id="password" />
               <a href="#" id="forgot-password">Forgot it?</a>
             </div>
