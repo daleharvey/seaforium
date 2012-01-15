@@ -196,8 +196,10 @@ class Preferences extends Controller {
         if ($this->upload->do_upload('emot_upload')) {
           $uploaded = $this->upload->data();
           if (rename($uploaded['full_path'],
-                     $uploaded['file_path'] . $user_id . $uploaded['file_ext']))
-            $data['emoticon'] = 1;
+                     $uploaded['file_path'] . $user_id . $uploaded['file_ext'])) {
+            $this->db->where('id', (int) $user_id);
+            $this->db->update('users', array('emoticon' => 1));
+          }
         } else {
           $error = $this->upload->display_errors();
         }
