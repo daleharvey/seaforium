@@ -135,7 +135,7 @@ if ($logged_in) {
               <?php echo $latest_comment['meaningless']; ?></li>
           </ul>
           <ul id="special-threads">
-            <li><a href="/f/meaningful">All Forums</a></li>
+            <li><a href="/">All Forums</a></li>
             <li><a href="/f/meaningful">All But Meaningless</a></li>
 <?php if ($logged_in) { ?>
             <li><a href="/f/participated">Participated</a></li>
