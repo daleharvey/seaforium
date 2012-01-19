@@ -56,6 +56,11 @@ class Buddies extends Controller {
           // if the user does not exist, go ahead and set it
           $this->user_dal->add_acquaintance($key, $this->meta['user_id'], $acq_id, $command);
         }
+
+        // if we set him as a buddy, shout it from the mountains
+        if ($command === 1) {
+          $this->send_buddy_message($acq_id);
+        }
       }
     }
 
@@ -96,6 +101,10 @@ class Buddies extends Controller {
       echo $this->user_dal->move_acquaintance($to_list,
         md5($this->session->userdata('username').$user_id));
 
+      if ($to_list === 1) {
+        $this->send_buddy_message($user_id);
+      }
+
       return;
     }
   }
@@ -118,7 +127,29 @@ class Buddies extends Controller {
     ));
     $this->load->view('shared/footer');
   }
-  }
+
+  function send_buddy_message($user_id)
+  {
+    $profile = $this->config->item('base_url_pm') .'user/' .
+      url_title($this->meta['username'], 'dash', TRUE);
+    $buddy_link = $this->config->item('base_url_pm') . 'buddies/' .
+      url_title($this->meta['username'], 'dash', TRUE);
+
+    $message = array(
+      'sender' => $this->meta['user_id'],
+      'recipient' => $user_id,
+      'subject' => $this->meta['username'] .
+        " just added you as a buddy",
+      'content' => "Wow, what a momentous occasion! Now go return the favour" .
+        "...\n\nProfile: <a href=\"" . $profile . "\">" . $profile .
+        "</a>\nAdd as buddy: <a href=\"" . $buddy_link."\">".$buddy_link."</a>"
+    );
+
+    $message['id'] = $this->message_dal->new_message($message);
+
+    $this->message_dal->new_inbox($message['recipient'], $message, '');
+   }
+}
 
 /* End of file buddies.php */
 /* Location: ./application/controllers/buddies.php */
