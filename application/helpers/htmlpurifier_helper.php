@@ -46,6 +46,7 @@ function purify($dirty_html)
   $config = HTMLPurifier_Config::createDefault();
   $config->set('HTML.Doctype', 'XHTML 1.0 Strict');
   $config->set('AutoFormat.Linkify', true);
+  $config->set('CSS.Trusted', true);
   $config->set('CSS.AllowTricky', true);
   $config->set('Filter.YouTube', true);
   $config->set('HTML.SafeObject', true);
