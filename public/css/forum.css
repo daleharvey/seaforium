@@ -1946,3 +1946,7 @@ line-height: 20px;
 #seach-titles {
     line-height: 20px;
 }
+
+.tquote img {
+    max-width: 250px !important;
+}
