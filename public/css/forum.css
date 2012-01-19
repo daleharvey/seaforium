@@ -1950,3 +1950,7 @@ line-height: 20px;
 .tquote img {
     max-width: 250px !important;
 }
+
+#post-shortcuts p {
+    margin-bottom: 0px;
+}
