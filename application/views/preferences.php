@@ -236,12 +236,12 @@
 
 <div class="input text">
   <label for="old_password">Original Password</label>
-  <input type="password" name="old_password" id="old_password" value="" />
+  <input type="password" name="old_password" id="old_password" value="" autocomplete="off" />
 </div>
 
 <div class="input text">
   <label for="password">New Password</label>
-  <input type="password" name="password" id="password" value="" />
+  <input type="password" name="password" id="password" value="" autocomplete="off" />
 </div>
 
 <div class="input text">
@@ -361,7 +361,7 @@
       'id' => 'random_titles',
       'value' => '1',
       'checked' => $user_preferences->random_titles
-    )); ?> 
+    )); ?>
 </div>
 
 <div class="input text">
@@ -371,7 +371,7 @@
       'id' => 'new_post_notification',
       'value' => '1',
       'checked' => $user_preferences->new_post_notification
-    )); ?> 
+    )); ?>
 </div>
 
 <div class="input text">
@@ -381,7 +381,7 @@
       'id' => 'chat_fixed_size',
       'value' => '1',
       'checked' => $user_preferences->chat_fixed_size
-    )); ?> 
+    )); ?>
 </div>
 
 <div class="input text">
@@ -391,7 +391,7 @@
       'id' => 'hide_enemy_posts',
       'value' => '1',
       'checked' => $user_preferences->hide_enemy_posts
-    )); ?> 
+    )); ?>
 </div>
 
 <div class="input text">
