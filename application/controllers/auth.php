@@ -99,7 +99,7 @@ class Auth extends Controller
     }
 
     if ($this->form_validation->run()) {
-      $username = $this->form_validation->set_value('username');
+	  $username = preg_replace('/\s+/', ' ', $this->form_validation->set_value('username'));
       $email = $this->form_validation->set_value('email');
       $password = $this->form_validation->set_value('password');
 
