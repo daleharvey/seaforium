@@ -67,7 +67,7 @@ class Auth extends Controller
   {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $this->sauth->logout();
-      redirect('/');
+      return redirect('/');
     }
   }
 
@@ -186,7 +186,7 @@ class Auth extends Controller
   // callback for username validation rules
   function valid_username($str)
   {
-    if (!valid_username($str)) {
+    if (!valid_username($str) || $str != preg_replace('/\s+/', ' ', $str)) {
       $this->form_validation->set_message('valid_username',
                                           "Username contains invalid characters");
       return FALSE;
