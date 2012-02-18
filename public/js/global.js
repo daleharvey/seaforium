@@ -222,8 +222,9 @@ function isThread() {
     $.ajax({
       url: '/ajax/hide_ads/'+session_id,
       success: function(data){
-        if (data == 1)
+        if (data == 1) {
           window.location.reload(false);
+        }
       }
     });
   });
@@ -234,9 +235,9 @@ function isThread() {
     $.ajax({
       url: '/ajax/show_ads/'+session_id,
       success: function(data){
-        if (data == 1)
-        if (data == 1)
+        if (data == 1) {
           window.location.reload(false);
+        }
       }
     });
   });
