@@ -190,7 +190,7 @@ class CI_Pagination {
 		}
 
 		// Render the "previous" link
-		if  ($this->cur_page > 4)
+		if  ($this->cur_page > ($this->num_links + 2))
 		{
 			$i = $uri_page_number - $this->per_page;
 			//if ($i == 0) $i = '0';
@@ -218,10 +218,10 @@ class CI_Pagination {
 		}
 
 		// Render the "next" link
-		if ($this->cur_page < ($num_pages - 3))
+		if ($this->cur_page < ($num_pages - $this->num_links - 1))
 		{
-			//$output .= $this->next_tag_open.'<a href="'.$this->base_url.($this->cur_page * $this->per_page).$this->suffix.'">'.$this->next_link.'</a>'.$this->next_tag_close;
-			$output .= '<span class="ellipsis">...</span>';
+                  //$output .= $this->next_tag_open.'<a href="'.$this->base_url.($this->cur_page * $this->per_page).$this->suffix.'">'.$this->next_link.'</a>'.$this->next_tag_close;
+                  $output .= '<span class="ellipsis">...</span>';
 		}
 
 		// Render the "Last" link
