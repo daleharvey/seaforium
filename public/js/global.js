@@ -4,7 +4,7 @@
 
   $("#main-title.changeling").bind("click", function () {
     if ($(this).is(":not(.editing)")) {
-      title = $('h3', this).text();
+      title = $.trim($('h3', this).text());
       $(this).addClass("editing");
       $('h3', this).empty().append(tpl);
       var input = $(this).find("#title-input");
@@ -32,7 +32,7 @@
 
   $("#save-title").live("click", function () {
     var newTitle = $("#title-input").val();
-    var data = "title=" + newTitle;
+    var data = "title=" + encodeURIComponent(newTitle);
     data += isThread() ? "&thread_id=" + thread.id() : '';
 
     $.ajax({
@@ -215,10 +215,10 @@ function isThread() {
     e.preventDefault();
     $('#login-box').html(defaultLoginBox);
   });
-  
+
   $('#hide-ads').live('click', function(e){
     e.preventDefault();
-    
+
     $.ajax({
       url: '/ajax/hide_ads/'+session_id,
       success: function(data){
@@ -227,16 +227,16 @@ function isThread() {
       }
     });
   });
-  
+
   $('#unhide-ads').live('click', function(e){
     e.preventDefault();
-    
+
     $.ajax({
       url: '/ajax/show_ads/'+session_id,
       success: function(data){
         if (data == 1)
         if (data == 1)
-          window.location.reload(false); 
+          window.location.reload(false);
       }
     });
   });
