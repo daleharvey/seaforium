@@ -249,7 +249,7 @@ class Sauth
           $this->ci->load->model('auth/user_autologin');
           $user = $this->ci->user_dal->get_user_by_id($data['user_id']);
 
-          if ($user) {
+          if ($user && !$user->banned) {
             $data = array(
               'user_id' => $user->id,
               'username' => $user->username,
