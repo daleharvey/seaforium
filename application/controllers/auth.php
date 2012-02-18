@@ -99,7 +99,7 @@ class Auth extends Controller
     }
 
     if ($this->form_validation->run()) {
-      $username = $this->form_validation->set_value('username');
+	  $username = preg_replace('/\s+/', ' ', $this->form_validation->set_value('username'));
       $email = $this->form_validation->set_value('email');
       $password = $this->form_validation->set_value('password');
 
@@ -186,7 +186,7 @@ class Auth extends Controller
   // callback for username validation rules
   function valid_username($str)
   {
-    if (!valid_username($str)) {
+    if (!valid_username($str) || $str != preg_replace('/\s+/', ' ', $str)) {
       $this->form_validation->set_message('valid_username',
                                           "Username contains invalid characters");
       return FALSE;
