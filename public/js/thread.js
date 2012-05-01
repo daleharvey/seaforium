@@ -191,6 +191,10 @@ $('.content').click(function() {
   }
 });
 
+$('.content .censor').click(function() {
+  $(this).children('.content').toggle();
+});
+
 thread = {
   status_text: {'nsfw': ['Unmark Naughty', 'Mark Naughty'],
                 'closed': ['Open Thread', 'Close Thread']},

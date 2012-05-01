@@ -143,7 +143,19 @@ foreach($comments as $row) {
 
       <div class="content-block">
         <div class="content">
-          <?=$row->content ?> 
+          <?php
+            if (!$row->author_banned) {
+              echo $row->content;
+            } else {
+              ?>
+          <div class="censor">user has been banned, click here to see original content
+            <div class="content" style="display: none; text-align: left; background: #FFFFFF;">
+                <?=$row->content; ?>
+            </div>
+          </div>
+              <?php
+            }
+          ?>
         </div>
       </div>
       <div style="clear: both;"></div>
