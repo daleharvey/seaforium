@@ -16,6 +16,14 @@ class Sauth
 
     $this->ci->user_id = NULL;
 
+    //var_dump($this->ci->session->is_self_destruct());
+    if ($this->ci->session->is_self_destruct())
+    {
+      $this->delete_autologin();
+      $this->logout();
+      $this->ci->session->sess_destroy();
+    }
+
     // try to autologin
     $this->autologin();
   }

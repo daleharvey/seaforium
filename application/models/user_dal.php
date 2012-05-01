@@ -696,4 +696,11 @@ class User_dal extends Model
     $this->db->query("UPDATE users SET view_html = ? WHERE id = ?", $data);
     return $this->db->affected_rows();
   }
+
+  function ban_user($user_id, $reason = "")
+  {
+    // set the users session to self destruct
+    $this->db->query("UPDATE sessions SET self_destruct = 1 WHERE user_id = ?", array($user_id)); 
+    $this->db->query("UPDATE users SET banned = 1, ban_reason = ? WHERE id = ?", array($reason, $user_id));
+  }
 }

@@ -37,6 +37,7 @@ class CI_Session {
 	var $cookie_path				= '';
 	var $cookie_domain				= '';
 	var $sess_time_to_update		= 300;
+	var $self_destruct 				= FALSE;
 	var $encryption_key				= '';
 	var $flashdata_key 				= 'flash';
 	var $time_reference				= 'time';
@@ -118,6 +119,11 @@ class CI_Session {
 	}
 
 	// --------------------------------------------------------------------
+
+  function is_self_destruct()
+	{
+		return $this->self_destruct;
+	}
 
 	/**
 	 * Fetch the current session data if it exists
@@ -214,6 +220,9 @@ class CI_Session {
 
 			// Is there custom data?  If so, add it to the main session array
 			$row = $query->row();
+
+			$this->self_destruct = (bool) $row->self_destruct;
+
 			if (isset($row->user_data) AND $row->user_data != '')
 			{
 				$custom_data = $this->_unserialize($row->user_data);
