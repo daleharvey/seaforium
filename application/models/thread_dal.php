@@ -73,6 +73,7 @@ class Thread_dal extends Model
 	      authors.username AS author_name,
 	      responders.username AS responder_name,
 	      responses.created AS response_created,
+        responses.banned AS responder_banned,
 	      IFNULL(acquaintances.type, 0) AS acq,
 	      (
 	        SELECT
