@@ -34,7 +34,7 @@ $logged_in = $this->sauth->is_logged_in();
 
     <?php if ($information->enemies > 0) { ?>
       <div class="toggle-enemy">
-        <?=$information->enemies ?> ENEMY POST<?=($information->enemies == 1 ? '' : 'S') ?> IGNORED
+        <?=$information->enemies ?> POST<?=($information->enemies == 1 ? '' : 'S') ?> IGNORED
       </div>
     <?php } ?>
   </div>
@@ -80,7 +80,7 @@ foreach($comments as $row) {
   <?php
   } ?>
 
-  <div id="comment-<?=$row->comment_id ?>" class="comment userid-<?=$row->author_id, $row->author_acquaintance_name, ($row->owner ? ' mycomment' : '') ?>">
+  <div id="comment-<?=$row->comment_id ?>" class="comment userid-<?=$row->author_id;?> <?=$row->author_acquaintance_name; ?> <?=($row->owner ? ' mycomment' : ''); ?>">
     <div id="comment-container-<?=$row->comment_id; ?>" class="comment-container">
       <div class="cmd-bar">
         <span>
@@ -104,7 +104,7 @@ foreach($comments as $row) {
         <div class="user-information" style="background: url(/img/emoticons/<?=$row->emoticon ? $row->author_id : '0'; ?>.gif);">
           <ul>
           <?php if ($logged_in) { ?>
-            <li><a href="/buddies/<?=$row->url_safe_author_name ?>"><?php echo ($row->author_acquaintance_name)? "Your $row->author_acquaintance_name!" : 'BUDDY? ENEMY?'; ?></a></li>
+            <li><a href="/buddies/<?=$row->url_safe_author_name ?>"><?php echo ($row->author_acquaintance_name === 'buddy')? "Your $row->author_acquaintance_name!" : 'BUDDY? IGNORE?'; ?></a></li>
             <li><a href="/message/send/<?=$row->url_safe_author_name ?>">SEND A MESSAGE</a></li>
           <?php } else { ?>
             <li>&nbsp;</li>

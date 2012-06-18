@@ -28,14 +28,14 @@ $commands = array(
 
 				<div id="new-thread">
 
-					<p>We'll highlight your buddies posts and show you when they are online. Remember to use your enemies so that you can ignore all those YH users you just can't tolerate.</p>
+					<p>We'll highlight your buddies posts and show you when they are online and you can ignore all those YH users you just can't tolerate.</p>
 
 					<div class="dotted-bar"></div>
 
           <form action="/buddies" method="post">
 
-						<div class="biglabel">Add a Buddy / Enemy</div>
-						
+						<div class="biglabel">Add a Buddy / Ignore</div>
+
 						<?php if ($error_alert!='') { ?><div class="error_alert"><?php echo $error_alert; ?></div><?php } ?>
 
 						<div id="buddy-input">
@@ -53,7 +53,7 @@ $commands = array(
 								<?php echo form_label('Buddy', $commands['buddy']['id']); ?>
 
 								<?php echo form_radio($commands['enemy']); ?>
-								<?php echo form_label('Enemy', $commands['enemy']['id']); ?>
+								<?php echo form_label('Ignore', $commands['enemy']['id']); ?>
 							</div>
 						</div>
 
@@ -79,7 +79,7 @@ $commands = array(
 							</div>
 							<div class="online-status <?php echo $online_status; ?>"><?php echo $online_status; ?></div>
 							<a class="remove-acq" rel="<?php echo $buddy->id; ?>">remove</a>
-							<a class="toggle-acq" rel="<?php echo $buddy->id; ?>">enemize</a>
+							<a class="toggle-acq" rel="<?php echo $buddy->id; ?>">ignore</a>
 						</div>
 
 					<?php }} ?>
@@ -88,7 +88,7 @@ $commands = array(
 
 					<div class="blueline"></div>
 
-					<div class="biglabel">Enemies</div>
+					<div class="biglabel">Ignores</div>
 
           <div id="enemy-listings">
 
@@ -126,7 +126,7 @@ $commands = array(
 								}
 							);
 						});
-						
+
 						var b2e = function(){
 						  link = $(this);
 						  master = $(this).parent();
@@ -140,7 +140,7 @@ $commands = array(
     						}
 						  );
 						};
-						
+
 						var e2b = function(){
 						  link = $(this);
 						  master = $(this).parent();
@@ -150,11 +150,11 @@ $commands = array(
 						    function (data) {
 						      if (data == 1)
     						    master.appendTo('#buddy-listings').attr('class', 'buddy-listing');
-    						    link.html('enemize');
+    						    link.html('ignore');
     						}
 						  );
 						};
-						
+
 						$('.enemy-listing .toggle-acq').bind('click', e2b);
 						$('.buddy-listing .toggle-acq').bind('click', b2e);
 					</script>
