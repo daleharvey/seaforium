@@ -1014,7 +1014,7 @@ h3.recent-thread-title {
 	text-transforum: uppercase;
 }
 .small_profile_caps .buddy, .small_profile_caps .online {color: #00AEEF;}
-.small_profile_caps .enemy {color: #ED135A;}
+.small_profile_caps .ignored {color: #ED135A;}
 
 .standard_profile_info_box h3 {
 	border-bottom: dotted 1px #545454;

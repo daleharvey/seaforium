@@ -114,9 +114,9 @@ class Buddies extends Controller {
     $error_id = (int) $error_id;
     $error_alert = '';
     if ($error_id === 1) {
-      $error_alert = 'That user is already your buddy/enemy.';
+      $error_alert = 'That user is already your buddy/ignored.';
     } elseif ($error_id === 2) {
-      $error_alert = 'Please don\'t buddy/enemy yourself.';
+      $error_alert = 'Please don\'t buddy/ignore yourself.';
     }
     $this->load->view('shared/header');
     $this->load->view('buddies', array(
