@@ -32,7 +32,7 @@ $logged_in = $this->sauth->is_logged_in();
       &gt; <?=$pagination->thread ?>
     </span>
 
-    <?php if ($information->enemies > 0) { ?>
+    <?php if ($information->enemies > 0 && $this->meta['hide_enemy_posts'] !== '1') { ?>
       <div class="toggle-enemy">
         <?=$information->enemies ?> POST<?=($information->enemies == 1 ? '' : 'S') ?> IGNORED
       </div>
@@ -95,7 +95,7 @@ foreach($comments as $row) {
       <?php } ?>
       </div>
       <div class="user-block">
-        <div class="username<?=$row->author_acquaintance_name; ?>">
+        <div class="username <?=$row->author_acquaintance_name; ?>">
           <a href="/user/<?=$row->url_safe_author_name; ?>">
             <?=$row->author_name;?>
           </a>
