@@ -66,7 +66,9 @@ class Thread extends Controller {
                            $this->meta['comments_shown'])
                       * $this->meta['comments_shown']) - $this->meta['comments_shown'];
 
-        $redirection = $uri .'/p/'. $last_page .'#bottom';
+        // Append some unique junk to make sure the page path is different,
+        // otherwise wont redirecr
+        $redirection = $uri .'/p/'. $last_page .'/'. '#bottom';
 
         if ($ajax) {
           return send_json($this->output, 201, array('ok' => true, 'url' =>  $redirection));

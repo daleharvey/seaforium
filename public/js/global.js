@@ -159,7 +159,11 @@ function isThread() {
       if (hasStorage) {
         localStorage.removeItem(key);
       }
-      document.location.href = data.url;
+      if (document.location.pathname + document.location.hash === data.url) {
+        document.location.reload();
+      } else {
+        document.location.href = data.url;
+      }
     }).fail(function(data) {
       data = JSON.parse(data.responseText);
       $form.find('[type=submit]').removeAttr('disabled');
