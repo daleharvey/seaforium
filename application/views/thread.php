@@ -7,7 +7,7 @@ $logged_in = $this->sauth->is_logged_in();
 <div id="thread">
   <div id="main-title"<?=$information->owner && $information->editable ? ' class="changeling"' : '' ?>>
     <h3><?=htmlspecialchars($information->subject) ?></h3>
-    
+
     <?php if ($logged_in) { ?>
       <a class="favourite<?=$information->favorite ? ' added' : '' ?>" rel="<?=$information->thread_id ?>"></a>
       <a class="hide-thread<?=$information->hidden ? ' added' : '' ?>" rel="<?=$information->thread_id ?>"></a>
@@ -24,14 +24,14 @@ $logged_in = $this->sauth->is_logged_in();
 
   <div class="pagination top">
     <?=$pagination->links ?>
-    
+
     <span class="paging-text">
       <?=$pagination->lower_limit ?> - <?=$pagination->upper_limit ?> of <?=$information->comment_count ?>
       in <a href="/">Threads</a>
       &gt; <?=$pagination->category ?>
       &gt; <?=$pagination->thread ?>
     </span>
-    
+
     <?php if ($information->enemies > 0) { ?>
       <div class="toggle-enemy">
         <?=$information->enemies ?> ENEMY POST<?=($information->enemies == 1 ? '' : 'S') ?> IGNORED
@@ -74,10 +74,10 @@ foreach($comments as $row) {
   {
     if ($this->meta['hide_enemy_posts'] === '1')
       continue;
-    
+
   ?>
   <div id="ignore-for-<?=$row->comment_id ?>" class="ignore-container" onclick="$('#comment-container-<?=$row->comment_id ?>').toggle();"></div>
-  <?php 
+  <?php
   } ?>
 
   <div id="comment-<?=$row->comment_id ?>" class="comment userid-<?=$row->author_id, $row->author_acquaintance_name, ($row->owner ? ' mycomment' : '') ?>">
@@ -165,7 +165,7 @@ foreach($comments as $row) {
 
   <div class="pagination bottom">
     <?=$pagination->links ?>
-    
+
     <span class="paging-text">
       <?=$pagination->lower_limit ?> - <?=$pagination->upper_limit ?> of <?=$information->comment_count ?>
       in <a href="/">Threads</a>
@@ -186,7 +186,7 @@ foreach($comments as $row) {
 
 <div class="dotted-bar replypad"></div>
 <?php
-if (!$logged_in || $information->closed === '1' || $information->author_acquaintance_type === 2) 
+if (!$logged_in || $information->closed === '1' || $information->author_acquaintance_type === 2)
 {
   if ($information->closed === '1')
   {
@@ -217,7 +217,6 @@ else
 </div>
 <div id="reply-rc">
 <div id="pinkies">
-  <?php /*
   <a href="javascript:insertAtCaret('thread-content-input', '[:)]');">
     <img src="/img/pinkies/11.gif" /></a>
   <a href="javascript:insertAtCaret('thread-content-input', '[:(]');">
@@ -260,7 +259,6 @@ else
     <img src="/img/pinkies/26.gif" /></a>
   <a href="javascript:insertAtCaret('thread-content-input', '[fbm]');">
     <img src="/img/pinkies/21.gif" /></a>
-    */?>
  </div>
 
 <form method="post" action="<?=uri_string() ?>" id="comment-form">
@@ -270,7 +268,7 @@ else
       'name'  => 'content',
       'id'  => 'thread-content-input',
       'value' => set_value('content')
-    )); ?> 
+    )); ?>
   </div>
   <p>I, <?=$this->meta['username'] ?>, do solemnly swear that in posting this comment I promise to be nice.</p>
   <button type="submit" id="submit-button" tabindex="2">Agree &amp; Post</button>
@@ -299,6 +297,43 @@ else
 </div>
 </div>
 <?php } ?>
+
+  <div id="notifications">
+    <a id="closenotify"></a>
+  </div>
+
+  <script type="text/javascript">
+    var originalTitle = document.title,
+      currentNotification;
+
+    function thread_notifier() {
+      $.ajax({
+        url: '/ajax/thread_notifier/<?php echo $information->thread_id; ?>/<?php echo $information->comment_count; ?>',
+        success: function(data)
+        {
+          if (data)
+          {
+            var text = $(data).text();
+            document.title = text.replace(" added", "") + " | " + originalTitle;
+            if (text !== currentNotification)
+            {
+              $("#notifier").remove();
+              currentNotification = text;
+              $('#notifications').append(data).show();
+            }
+          }
+        }
+      });
+    }
+
+    $("#closenotify").live("click", function() {
+      $('#notifications').remove();
+      clearTimeout(notification);
+      document.title = originalTitle;
+    });
+
+    var notification = setInterval(thread_notifier, 10000);
+  </script>
 
   <script type="text/javascript" src="/js/thread.js?v=<?php echo $this->config->item('version'); ?>"></script>
 </div>
