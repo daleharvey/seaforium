@@ -22,8 +22,15 @@ class Thread extends Controller {
   {
     $segments = $this->uri->segment_array();
 
-    while($seg = next($segments))
-      $page = $seg == 'p' ? (int) next($segments) : 0;
+    while($seg = next($segments)) {
+      if ($seg == 'p') {
+        $page = (int) next($segments);
+      }
+    }
+
+    if (!$page) {
+      $page = 0;
+    }
 
     $thread = $this->thread_model->get_thread($thread_id, $this->meta, $page);
 
