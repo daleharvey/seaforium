@@ -28,7 +28,7 @@ class Thread extends Controller {
       }
     }
 
-    if (!$page) {
+    if (!isset($page)) {
       $page = 0;
     }
 
