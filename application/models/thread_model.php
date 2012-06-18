@@ -3,36 +3,36 @@
 class Thread_model extends Model
 {
 	var $meta, $return, $page;
-	
+
 	public function get_thread($thread_id, $meta, $page)
 	{
 		if (!is_numeric($thread_id))
 			return NULL;
-		
+
 		$this->page = $page;
-		
+
 		// set the internal happiness
 		$this->meta = $meta;
-		
+
 		// get thread information from the database
 		$this->return = (object) array(
 			'information' => $this->get_information($thread_id)
 		);
-		
+
 		// if the thread info is null, no need to continue
 		if ($this->return->information == NULL)
 			return NULL;
-		
+
 		// get the comments from the database
 		$this->return->comments = $this->get_comments($thread_id);
-		
+
 		// has to be called DIRECTLY AFTER $this->get_comments()
 		$this->return->information->comment_count = (int) $this->db->query('SELECT FOUND_ROWS() AS thread_count')->row()->thread_count;
-		
+
 		// send it back
 		return $this->return;
 	}
-	
+
 	/*
    * Gets basic header information for a given thread
    *
@@ -60,17 +60,17 @@ class Thread_model extends Model
 				ON favorites.user_id = ?
 				AND favorites.thread_id = threads.thread_id
 			LEFT JOIN hidden_threads
-				ON hidden_threads.user_id = ? 
+				ON hidden_threads.user_id = ?
 				AND hidden_threads.thread_id = threads.thread_id
 			WHERE threads.thread_id = ? AND threads.deleted != 1";
-		
+
 		$result = $this->db->query($sql, array(
 				$this->meta['user_id'],
 				$this->meta['user_id'],
 				$this->meta['user_id'],
 				$thread_id)
 			)->row();
-		
+
 		if (count($result))
 		{
 			return (object) array(
@@ -92,7 +92,7 @@ class Thread_model extends Model
 			return NULL;
 		}
 	}
-	
+
   /**
    * Get a count of all the comments for a given thread id
    *
@@ -124,23 +124,23 @@ class Thread_model extends Model
 	    LIMIT ?, ?";
 
 		$result = $this->db->query($sql, array(
-			$this->meta['user_id'], 
+			$this->meta['user_id'],
 			$thread_id,
 			$this->page,
 			$this->meta['comments_shown']
 			));
-		
+
 		if (!$result->num_rows())
 		{
 			return NULL;
 		} else {
 			$return = array();
-			
+
 			$i = 0;
 			foreach($result->result() as $row)
 			{
 				if ($row->deleted == '0')
-				{					
+				{
 					$return[$i] = (object) array(
 						'comment_id' => $row->comment_id,
 						'content' => $row->content,
@@ -154,10 +154,10 @@ class Thread_model extends Model
 						'author_acquaintance_type' => (int) $row->author_acquaintance_type,
 						'author_acquaintance_name' => $row->author_acquaintance_type == 1 ? 'buddy' : ($row->author_acquaintance_type == 2 ? 'enemy' : NULL),
 						'owner' => $this->meta['user_id'] == $row->author_id,
-						'editable' => ($this->meta['user_id'] == $row->author_id) && ($row->created > time() - (60 * 60 * 24)),
+						'editable' => ($this->meta['user_id'] == $row->author_id) && ($row->created < time() - (60 * 60 * 24)),
 						'show_controls' => $this->page == 0 && ($this->meta['user_id'] == $row->author_id) && !$i
 					);
-					
+
 					// update comments if the content doesnt match original
 					if ($row->content === '' && $row->content == _process_post($row->original_content))
 					{
@@ -165,7 +165,7 @@ class Thread_model extends Model
 						$this->db->query("UPDATE comments SET content = ? WHERE comment_id = ?",
                      array($return[$i]->content, $row->comment_id));
 					}
-					
+
 					if ($return[$i]->author_acquaintance_type == 2)
 						++$this->return->information->enemies;
 				} else {
@@ -175,14 +175,14 @@ class Thread_model extends Model
 						'deleted' => 1
 					);
 				}
-				
+
 				++$i;
 			}
-			
+
 			return $return;
 		}
   }
-	
+
   /**
    * Insert a new comment into the database
    *
@@ -191,7 +191,7 @@ class Thread_model extends Model
   function new_comment($comment)
   {
     $created = date("Y-m-d H:i:s", utc_time());
-		
+
     $sql = "INSERT
 				INTO comments (
 					thread_id,
@@ -201,7 +201,7 @@ class Thread_model extends Model
 					created
 				) VALUES (?, ?, ?, ?, ?)";
 
-    $this->db->query($sql, 
+    $this->db->query($sql,
 			array(
 				$comment->thread_id,
 				$comment->user_id,
@@ -227,7 +227,7 @@ class Thread_model extends Model
 		);
 
     $sql = "UPDATE
-				categories 
+				categories
 			SET
 				last_comment_created = ?
 			WHERE category_id = (
