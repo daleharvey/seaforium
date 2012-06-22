@@ -67,7 +67,7 @@
       <h3>Stats</h3>
        <?php echo $user_data->username ?> is the <?php echo make_ordinal($user_data->id); ?> member of this place and has been here since <?php echo date('F jS Y', strtotime($user_data->created)); ?>.
        Since then, <?php echo $user_data->username ?> has posted <?php echo $user_data->threads_count ?> threads and <?php echo $user_data->comments_count ?> comments.
-      That's a total of <?php echo $user_data->average_posts ?> posts per day. <?php echo $user_data->username . $user_data->last_login_text ?> Currently, <?php echo $user_data->username ?> is a friend of <?php echo $buddy_count ?> users, and is an enemy of <?php echo $enemy_count ?> users.
+      That's a total of <?php echo $user_data->average_posts ?> posts per day. <?php echo $user_data->username . $user_data->last_login_text ?> Currently, <?php echo $user_data->username ?> is a friend of <?php echo $buddy_count ?> users.
    </div>
    <div id="information-bio" class="standard_profile_info_box">
      <h3>Info</h3>
