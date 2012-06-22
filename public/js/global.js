@@ -160,7 +160,7 @@ function isThread() {
         localStorage.removeItem(key);
       }
       if (document.location.pathname + document.location.hash === data.url) {
-        document.location.reload();
+        document.location.reload(true);
       } else {
         document.location.href = data.url;
       }
