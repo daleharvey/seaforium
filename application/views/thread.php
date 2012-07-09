@@ -144,7 +144,7 @@ foreach($comments as $row) {
       <div class="content-block">
         <div class="content">
           <?php
-            if (!$row->author_banned) {
+            if (!$row->author_banned || $row->author_ban_reason === 'selfban') {
               echo $row->content;
             } else {
               ?>

@@ -111,6 +111,7 @@ class Thread_model extends Model
 	      comments.user_id AS author_id,
 	      users.username AS author_name,
 	      users.banned AS author_banned,
+	      users.ban_reason AS author_ban_reason,
 	      users.emoticon,
 	      IFNULL(acquaintances.type, 0) AS author_acquaintance_type
 	    FROM comments
@@ -148,6 +149,7 @@ class Thread_model extends Model
 						'deleted' => 0,
 						'author_id' => (int) $row->author_id,
 						'author_name' => $row->author_name,
+						'author_ban_reason' => $row->author_ban_reason,
 						'author_banned' => (bool) $row->author_banned,
 						'url_safe_author_name' => url_title($row->author_name, 'dash'),
 						'emoticon' => (bool) $row->emoticon,
