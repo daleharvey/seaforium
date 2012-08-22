@@ -41,40 +41,37 @@ class Thread_dal extends Model
 	  }
   }
   /**
-   * Are you spamming threads?
+   * check if user has posted $threads_per in the last $minutes;
    *
    * @return	bool
    */
   function are_you_posting_too_fast($user_id)
   {
-	  $sql = "SELECT created FROM threads WHERE user_id = ? ORDER BY created DESC LIMIT 1"; // how long ago did you post your last thread,  If less then 1 minute ago, return true
-	  
-	  
-	  $results = $this->db->query($sql, $user_id);
-	  
-	  if($results->num_rows() > 0) {
-		  $res_arr = $results->result_array();
-		  
-		  $last_posted_time = strtotime($res_arr[0]['created']);
+  	
+  	// check if user has posted $threads_per in the last $minutes;
+  	$threads_per = 2;
+  	$minutes = 1;
 
-		  $difference = ((int)utc_time() - (int)$last_posted_time);
-		  if($difference > 30 ) //30 seconds
-		  {
-		  	// go ahead and post
-			  return false;
-		  }
-		  else
-		  {
-		  	// go away
-			  return true;
-		  }
-	  }
-	  else
-	  {
-		  return false;
-	  }
+  	$timestamp_minutes_ago = date("Y-m-d H:i:s", (utc_time() - ($minutes*60))); 
+
+  	$sql = "SELECT * FROM threads WHERE user_id = ? AND created > ?";
+  	$results = $this->db->query($sql, Array($user_id, $timestamp_minutes_ago));
+
+  	$posted_threads = $results->num_rows();
 	  
-  }
+	if($posted_threads < $threads_per) 
+	{
+	   // go ahead and post
+	  return false;
+	}
+	else
+	{
+		// go away
+	  return true;
+	}
+	  
+	 
+	}
   /**
    * Get some threads from the database
    *
