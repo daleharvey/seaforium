@@ -23,7 +23,58 @@ class Thread_dal extends Model
 
     return $this->db->insert_id();
   }
+   /**
+   * Are you posting the same thread twice in a row
+   *
+   * @return	bool
+   */
+  function has_thread_just_been_posted($subject, $user_id)
+  {
+	  $sql = "SELECT * FROM threads WHERE subject = ? AND user_id = ? ORDER BY created desc LIMIT 1";
+	  
+	  $results = $this->db->query($sql, Array($subject,$user_id) );
+	  
+	  if($results->num_rows() > 0 ) { 
+		  return true;
+	  } else { 
+		  return false;
+	  }
+  }
+  /**
+   * Are you spamming threads?
+   *
+   * @return	bool
+   */
+  function are_you_posting_too_fast($user_id)
+  {
+	  $sql = "SELECT created FROM threads WHERE user_id = ? ORDER BY created DESC LIMIT 1"; // how long ago did you post your last thread,  If less then 1 minute ago, return true
+	  
+	  
+	  $results = $this->db->query($sql, $user_id);
+	  
+	  if($results->num_rows() > 0) {
+		  $res_arr = $results->result_array();
+		  
+		  $last_posted_time = strtotime($res_arr[0]['created']);
 
+		  $difference = ((int)utc_time() - (int)$last_posted_time);
+		  if($difference > 30 ) //30 seconds
+		  {
+		  	// go ahead and post
+			  return false;
+		  }
+		  else
+		  {
+		  	// go away
+			  return true;
+		  }
+	  }
+	  else
+	  {
+		  return false;
+	  }
+	  
+  }
   /**
    * Get some threads from the database
    *
