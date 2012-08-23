@@ -24,13 +24,15 @@ class Newthread extends Controller {
     $this->form_validation->set_rules('category[]', 'Category',
                                       'required|exact_length[1]|integer');
     $this->form_validation->set_rules('content', 'Content', 'trim|required');
-
+    
+    $this->form_validation->set_rules('content', 'Content', 'trim|required');
+ 
     if ($this->form_validation->run()) {
 
       $subject = $this->form_validation->set_value('subject');
       $content = $this->form_validation->set_value('content');
       $category = $this->form_validation->set_value('category[]');
-
+      
       $comment = array(
         'user_id' => $this->session->userdata('user_id'),
         'category' => (int)$category[0],
@@ -38,7 +40,14 @@ class Newthread extends Controller {
         'content' => _process_post($content),
         'original_content' => $content
       );
-
+      /*
+      !$this->thread_dal->are_you_posting_too_fast($this->session->userdata('user_id') ) ||
+      */
+      if( $this->thread_dal->has_thread_just_been_posted($subject, $this->session->userdata('user_id')) || $this->thread_dal->are_you_posting_too_fast($this->session->userdata('user_id') == TRUE ))
+      {
+	   	return send_json($this->output, 400, array('error' => true,
+                                                   'reason' =>  "<div class=\"error\">Your are posting too fast or this thread has just been posted.</div>"));   
+      }
       $comment['thread_id'] = $this->thread_dal->new_thread($comment);
       $this->user_dal->update_thread_count($comment['user_id']);
 
@@ -60,6 +69,7 @@ class Newthread extends Controller {
     $this->load->view('newthread');
     $this->load->view('shared/footer');
   }
+  
 }
 
 /* End of file newthread.php */
