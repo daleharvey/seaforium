@@ -13,7 +13,7 @@ if ((int) $this->session->userdata('chat_fixed_size'))
 
 <script type="text/javascript">
 var tinychat = {
-  room: "yh",
+  room: "yaytwo",
   colorbk: "0x000000",
   join: "auto",
   api: "list"

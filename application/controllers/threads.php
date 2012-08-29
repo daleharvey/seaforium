@@ -25,7 +25,8 @@ class Threads extends Controller {
   {
     // uncomment the following line you if broke something but you can't figure out what.
     // $this->output->enable_profiler(TRUE);
-
+    
+    
     $args = (object)array(
       'pagination' => (int) $pagination,
       'filter' => strtolower($filter),
