@@ -51,12 +51,10 @@ class Thread_dal extends Model
   	// check if user has posted $threads_per in the last $minutes;
   	$threads_per = 2;
   	$minutes = 1;
-
-  	$timestamp_minutes_ago = date("Y-m-d H:i:s", (utc_time() - ($minutes*60))); 
-
-  	$sql = "SELECT * FROM threads WHERE user_id = ? AND created > ?";
-  	$results = $this->db->query($sql, Array($user_id, $timestamp_minutes_ago));
-
+  	
+  	$sql = "SELECT * FROM threads WHERE user_id = ? AND created > (now() - INTERVAL ? MINUTE)";
+  	$results = $this->db->query($sql, Array($user_id, $minutes));
+  	
   	$posted_threads = $results->num_rows();
 	  
 	if($posted_threads < $threads_per) 
