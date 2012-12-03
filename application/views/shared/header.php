@@ -58,6 +58,7 @@ $view_html = $this->session->userdata('view_html') == '1';
   <a name="top"></a>
 
   <div id="wrapper">
+    <a href="/thread/19216/rip-n8-aka-nathan-michael-martin" style="width:100%;display:block;height:5px;background:#ff9898;"></a>
     <div id="middle">
       <div id="left-column">
         <a href="/" id="header">New Yay</a>
